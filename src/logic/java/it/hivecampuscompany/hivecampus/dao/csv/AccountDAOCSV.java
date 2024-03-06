@@ -3,6 +3,7 @@ package it.hivecampuscompany.hivecampus.dao.csv;
 import com.opencsv.CSVWriter;
 import it.hivecampuscompany.hivecampus.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
+import it.hivecampuscompany.hivecampus.model.Account;
 
 import java.io.*;
 import java.util.Properties;
@@ -23,13 +24,13 @@ public class AccountDAOCSV implements AccountDAO {
         }
     }
     @Override
-    public void saveAccount(AccountBean accountBean) {
+    public void saveAccount(Account account) {
         try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
             String[] accountRecord = new String[4];
-            accountRecord[AccountAttributesOrder.GET_INDEX_EMAIL] = accountBean.getEmail();
-            accountRecord[AccountAttributesOrder.GET_INDEX_NAME] = accountBean.getName();
-            accountRecord[AccountAttributesOrder.GET_INDEX_SURNAME] = accountBean.getSurname();
-            accountRecord[AccountAttributesOrder.GET_INDEX_PHONE_NUMBER] = accountBean.getPhoneNumber();
+            accountRecord[AccountAttributesOrder.GET_INDEX_EMAIL] = account.getEmail();
+            accountRecord[AccountAttributesOrder.GET_INDEX_NAME] = account.getName();
+            accountRecord[AccountAttributesOrder.GET_INDEX_SURNAME] = account.getSurname();
+            accountRecord[AccountAttributesOrder.GET_INDEX_PHONE_NUMBER] = account.getPhoneNumber();
             writer.writeNext(accountRecord);
             // Account created successfully
         } catch (IOException e) {

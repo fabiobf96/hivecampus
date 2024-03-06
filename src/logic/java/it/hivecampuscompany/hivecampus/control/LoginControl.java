@@ -7,6 +7,7 @@ import it.hivecampuscompany.hivecampus.dao.UserDAO;
 import it.hivecampuscompany.hivecampus.dao.csv.AccountDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.csv.UserDAOCSV;
 import it.hivecampuscompany.hivecampus.exception.DuplicateRowException;
+import it.hivecampuscompany.hivecampus.model.Account;
 import it.hivecampuscompany.hivecampus.model.User;
 import it.hivecampuscompany.hivecampus.utility.EncryptionPassword;
 
@@ -27,7 +28,8 @@ public class LoginControl {
         }
         User user = new User(userBean);
         user.saveUser();
-        accountDAO.saveAccount(accountBean);
+        Account account = new Account(accountBean);
+        account.saveAccount();
     }
     
 }
