@@ -61,7 +61,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                it.hivecampuscompany.hivecampus/it.hivecampuscompany.hivecampus.HelloApplication
+                                it.hivecampuscompany.hivecampus/it.hivecampuscompany.hivecampus.graphic.javafx.HelloApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
