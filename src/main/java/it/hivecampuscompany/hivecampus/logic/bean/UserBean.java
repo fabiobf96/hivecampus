@@ -15,7 +15,6 @@ public class UserBean {
     static {
         EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
     }
-
     public String getEmail() {
         return email;
     }

@@ -2,8 +2,11 @@ package it.hivecampuscompany.hivecampus.logic.utility;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class EncryptionPassword {
+    private static final Logger LOGGER = Logger.getLogger(EncryptionPassword.class.getName());
     private EncryptionPassword(){
 
     }
@@ -17,9 +20,15 @@ public class EncryptionPassword {
      * @param password The plaintext password to hash.
      * @return The hashed password in hexadecimal format, or null if MD5 algorithm is not supported.
      */
-    public static String hashPasswordMD5(String password) throws NoSuchAlgorithmException{
+    public static String hashPasswordMD5(String password) {
 
-        MessageDigest md = MessageDigest.getInstance("MD5");
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            LOGGER.log(Level.SEVERE,e.getMessage(), e);
+            System.exit(2);
+        }
         byte[] hashedBytes = md.digest(password.getBytes());
 
         StringBuilder sb = new StringBuilder();

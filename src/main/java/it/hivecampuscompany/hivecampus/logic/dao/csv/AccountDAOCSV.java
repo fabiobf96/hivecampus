@@ -10,7 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AccountDAOCSV implements AccountDAO {
-    File fd;
+    private File fd;
     private static final Logger LOGGER = Logger.getLogger(AccountDAOCSV.class.getName());
     public AccountDAOCSV(){
         try (InputStream input = new FileInputStream("properties/csv.properties")){

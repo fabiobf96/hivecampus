@@ -9,7 +9,7 @@ public class Account {
     private String name;
     private String surname;
     private String phoneNumber;
-    private AccountDAO accountDAO;
+    private final AccountDAO accountDAO;
     public Account (){
         accountDAO = new AccountDAOCSV();
     }
@@ -22,7 +22,7 @@ public class Account {
         phoneNumber = accountBean.getPhoneNumber();
     }
 
-    public void saveAccount(){
+    public void createAccount(){
         accountDAO.saveAccount(this);
     }
 

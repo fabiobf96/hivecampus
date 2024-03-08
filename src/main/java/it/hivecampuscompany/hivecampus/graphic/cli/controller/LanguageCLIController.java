@@ -15,11 +15,13 @@ public class LanguageCLIController extends CLIController{
         view.displayMessage("Seleziona 1 per l'italiano");
         try {
             int choice = view.getIntUserInput(properties.getProperty("CHOICE_MSG"));
-            if (choice > 1 && choice < -1){
-                invalidChoice();
-                homePage();
+            if (choice > -1 && choice < 2){
+                LanguageLoader.loadLanguage(choice);
             }
-            LanguageLoader.loadLanguage(choice);
+            else {
+                invalidChoice();
+            }
+
         } catch (InputMismatchException e) {
             view.displayMessage(e.getMessage());
             new LanguageCLIController();
