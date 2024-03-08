@@ -6,6 +6,9 @@ import it.hivecampuscompany.hivecampus.logic.dao.csv.UserDAOCSV;
 import it.hivecampuscompany.hivecampus.logic.exception.DuplicateRowException;
 import it.hivecampuscompany.hivecampus.logic.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.logic.exception.PasswordMismatchException;
+import it.hivecampuscompany.hivecampus.logic.utility.EncryptionPassword;
+
+import java.security.NoSuchAlgorithmException;
 
 public class User {
     private final String email;
@@ -20,7 +23,11 @@ public class User {
     }
     public User(UserBean userBean){
         email = userBean.getEmail();
-        password = userBean.getPassword();
+        try {
+            password = EncryptionPassword.hashPasswordMD5(userBean.getPassword());
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
         role = userBean.getRole();
         userDAO = new UserDAOCSV();
     }
