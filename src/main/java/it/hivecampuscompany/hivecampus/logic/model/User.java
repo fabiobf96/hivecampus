@@ -6,8 +6,8 @@ import it.hivecampuscompany.hivecampus.logic.dao.csv.UserDAOCSV;
 import it.hivecampuscompany.hivecampus.logic.exception.DuplicateRowException;
 import it.hivecampuscompany.hivecampus.logic.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.logic.exception.PasswordMismatchException;
-import it.hivecampuscompany.hivecampus.logic.utility.EncryptionPassword;
 
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class User {
@@ -24,7 +24,7 @@ public class User {
     public User(UserBean userBean){
         email = userBean.getEmail();
         try {
-            password = EncryptionPassword.hashPasswordMD5(userBean.getPassword());
+            password = hashPasswordMD5(userBean.getPassword());
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
@@ -56,5 +56,16 @@ public class User {
         else {
             throw new PasswordMismatchException("");
         }
+    }
+
+    private String hashPasswordMD5(String password) throws NoSuchAlgorithmException{
+        StringBuilder sb = new StringBuilder();
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] hashedBytes = md.digest(password.getBytes());
+
+        for (byte b : hashedBytes) {
+            sb.append(String.format("%02x", b));
+        }
+        return sb.toString();
     }
 }
