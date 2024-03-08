@@ -13,6 +13,7 @@ import java.security.NoSuchAlgorithmException;
 public class User {
     private final String email;
     private final String password;
+    private static final String ALGORITHM = "MD5";
     private String role;
     private UserDAO userDAO;
 
@@ -24,7 +25,7 @@ public class User {
     public User(UserBean userBean){
         email = userBean.getEmail();
         try {
-            password = hashPasswordMD5(userBean.getPassword());
+            password = hashPassword(userBean.getPassword());
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
@@ -58,9 +59,9 @@ public class User {
         }
     }
 
-    private String hashPasswordMD5(String password) throws NoSuchAlgorithmException{
+    private String hashPassword(String password) throws NoSuchAlgorithmException{
         StringBuilder sb = new StringBuilder();
-        MessageDigest md = MessageDigest.getInstance("MD5");
+        MessageDigest md = MessageDigest.getInstance(ALGORITHM);
         byte[] hashedBytes = md.digest(password.getBytes());
 
         for (byte b : hashedBytes) {
