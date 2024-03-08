@@ -21,21 +21,19 @@ public class EncryptionPassword {
      * @return The hashed password in hexadecimal format, or null if MD5 algorithm is not supported.
      */
     public static String hashPasswordMD5(String password) {
-
-        MessageDigest md = null;
+        StringBuilder sb = new StringBuilder();
         try {
-            md = MessageDigest.getInstance("MD5");
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] hashedBytes = md.digest(password.getBytes());
+
+            for (byte b : hashedBytes) {
+                sb.append(String.format("%02x", b));
+            }
+
         } catch (NoSuchAlgorithmException e) {
             LOGGER.log(Level.SEVERE,e.getMessage(), e);
             System.exit(2);
         }
-        byte[] hashedBytes = md.digest(password.getBytes());
-
-        StringBuilder sb = new StringBuilder();
-        for (byte b : hashedBytes) {
-            sb.append(String.format("%02x", b));
-        }
-
         return sb.toString();
     }
 
