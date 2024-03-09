@@ -1,7 +1,6 @@
 package it.hivecampuscompany.hivecampus.graphic.cli.controller;
 
 import it.hivecampuscompany.hivecampus.graphic.cli.view.CLIView;
-import it.hivecampuscompany.hivecampus.graphic.utility.LanguageLoader;
 
 public class AccountSettingsCLIController extends CLIController {
     public AccountSettingsCLIController(){
@@ -27,7 +26,8 @@ public class AccountSettingsCLIController extends CLIController {
                 homePage();
             }
 
-            case 3 -> {  }
+            case 3 -> view.clean();
+
 
             default -> invalidChoice();
         }

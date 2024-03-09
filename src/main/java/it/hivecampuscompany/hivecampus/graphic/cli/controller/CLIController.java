@@ -17,6 +17,9 @@ public abstract class CLIController {
     }
     protected void invalidChoice() {
         view.displayMessage(properties.getProperty("INVALID_OPTION_MSG"));
+        // ricordati di mettorlo dentro al file properties
+        view.getStringUserInput("press any key to continue");
+        view.clean();
         homePage();
     }
     protected String getField(String nameField){

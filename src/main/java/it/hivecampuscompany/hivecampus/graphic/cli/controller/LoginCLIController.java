@@ -23,6 +23,7 @@ public class LoginCLIController extends CLIController{
             view.displayMessage(e.getMessage());
             getCredentials();
         }
+        view.clean();
         return userBean;
     }
 }

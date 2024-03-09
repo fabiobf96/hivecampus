@@ -31,6 +31,10 @@ public class CLIView {
         printMessage(prompt + ": ");
         return scanner.nextInt();
     }
+
+    public void clean(){
+        for(int i = 0; i < 50; i++) displayMessage("");
+    }
     public void displayMessage(String message) {
         System.out.println(message);
     }

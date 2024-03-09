@@ -62,6 +62,7 @@ public class SignupCLIController extends CLIController{
         accountBean.setName(getField(properties.getProperty("NAME_MSG")));
         accountBean.setSurname(getField(properties.getProperty("SURNAME_MSG")));
         accountBean.setPhoneNumber(getField(properties.getProperty("PHONE_N_MSG")));
+        view.clean();
         return accountBean;
     }
 }

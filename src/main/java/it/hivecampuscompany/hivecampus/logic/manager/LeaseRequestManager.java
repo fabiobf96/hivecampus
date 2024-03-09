@@ -17,7 +17,6 @@ public class LeaseRequestManager {
         leaseRequest.save();
     }
 
-    public List<LeaseRequestBean> searchLeaseRequestsByRoomID (RoomBean roomBean){
-
+    public List<LeaseRequestBean> searchLeaseRequestsByRoomID (RoomBean roomBean){return null;
     }
 }

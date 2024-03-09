@@ -17,6 +17,7 @@ public class LanguageCLIController extends CLIController{
             int choice = view.getIntUserInput(properties.getProperty("CHOICE_MSG"));
             if (choice > -1 && choice < 2){
                 LanguageLoader.loadLanguage(choice);
+                view.clean();
             }
             else {
                 invalidChoice();

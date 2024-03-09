@@ -1,7 +1,6 @@
 package it.hivecampuscompany.hivecampus.graphic.cli.controller;
 
 import it.hivecampuscompany.hivecampus.logic.bean.AccountBean;
-import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.logic.bean.UserBean;
 import it.hivecampuscompany.hivecampus.logic.manager.LoginManager;
 import it.hivecampuscompany.hivecampus.logic.exception.DuplicateRowException;
@@ -27,27 +26,26 @@ public class ApplicationCLIController extends CLIController{
         view.displayMessage("2. " + properties.getProperty("LOGIN_MSG"));
         view.displayMessage("3. " + properties.getProperty("SIGN_UP_MSG"));
         view.displayMessage("4. " + properties.getProperty("EXIT_MSG"));
-
         try {
-            switch (view.getIntUserInput(properties.getProperty("CHOICE_MSG"))){
+
+            switch (view.getIntUserInput(properties.getProperty("CHOICE_MSG"))) {
                 case 1 -> {
+                    view.clean();
                     new LanguageCLIController();
                     this.properties = LanguageLoader.getLanguageProperties();
                     homePage();
                 }
                 case 2 -> {
-                    SessionBean sessionBean;
+                    view.clean();
                     LoginCLIController loginCLIController = new LoginCLIController();
                     UserBean userBean = loginCLIController.getCredentials();
-
                     sessionBean = control.login(userBean);
-                    switch (sessionBean.getRole()) {
-                        case "owner" -> new OwnerHomeCLIController(); // sessionBean
-                        case "tenant" -> new TenantHomeCLIController(sessionBean);
-                        default -> homePage();
+                    if (sessionBean.getRole().equals("owner")) {
+                        new OwnerHomeCLIController(sessionBean);
                     }
                 }
                 case 3 -> {
+                    view.clean();
                     SignupCLIController signupCLIController = new SignupCLIController();
                     UserBean userBean = signupCLIController.createUserInformation();
                     AccountBean accountBean = signupCLIController.createAccountInformation(userBean);
@@ -55,10 +53,7 @@ public class ApplicationCLIController extends CLIController{
                     homePage();
                 }
                 case 4 -> exit();
-                default -> {
-                    invalidChoice();
-                    homePage();
-                }
+                default -> invalidChoice();
             }
         } catch (InputMismatchException e){
             invalidChoice();
