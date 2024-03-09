@@ -3,6 +3,7 @@ package it.hivecampuscompany.hivecampus.logic.model;
 import it.hivecampuscompany.hivecampus.logic.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.logic.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.logic.dao.csv.AccountDAOCSV;
+import it.hivecampuscompany.hivecampus.logic.dao.mysql.AccountDAOMySql;
 
 public class Account {
     private String email;
@@ -12,6 +13,7 @@ public class Account {
     private final AccountDAO accountDAO;
     public Account (){
         accountDAO = new AccountDAOCSV();
+        //accountDAO = new AccountDAOMySql();
     }
 
     public Account(AccountBean accountBean){

@@ -3,6 +3,7 @@ package it.hivecampuscompany.hivecampus.logic.model;
 import it.hivecampuscompany.hivecampus.logic.bean.UserBean;
 import it.hivecampuscompany.hivecampus.logic.dao.UserDAO;
 import it.hivecampuscompany.hivecampus.logic.dao.csv.UserDAOCSV;
+import it.hivecampuscompany.hivecampus.logic.dao.mysql.UserDAOMySql;
 import it.hivecampuscompany.hivecampus.logic.exception.DuplicateRowException;
 import it.hivecampuscompany.hivecampus.logic.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.logic.exception.PasswordMismatchException;
@@ -31,6 +32,7 @@ public class User {
         }
         role = userBean.getRole();
         userDAO = new UserDAOCSV();
+        //userDAO = new UserDAOMySql();
     }
 
     public void createUser() throws DuplicateRowException {
@@ -55,7 +57,7 @@ public class User {
             role = storedUser.getRole();
         }
         else {
-            throw new PasswordMismatchException("");
+            throw new PasswordMismatchException("WRONG_PSW");
         }
     }
 

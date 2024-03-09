@@ -3,6 +3,7 @@ module it.hivecampuscompany.hivecampus {
     requires javafx.fxml;
     requires java.logging;
     requires com.opencsv;
+    requires java.sql;
 
 
     opens it.hivecampuscompany.hivecampus to javafx.fxml;

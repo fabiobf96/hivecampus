@@ -27,43 +27,44 @@ public class ApplicationCLIController extends CLIController{
         view.displayMessage("2. " + properties.getProperty("LOGIN_MSG"));
         view.displayMessage("3. " + properties.getProperty("SIGN_UP_MSG"));
         view.displayMessage("4. " + properties.getProperty("EXIT_MSG"));
-        try {
 
-            switch (view.getIntUserInput(properties.getProperty("CHOICE_MSG"))) {
+        try {
+            switch (view.getIntUserInput(properties.getProperty("CHOICE_MSG"))){
                 case 1 -> {
                     new LanguageCLIController();
                     this.properties = LanguageLoader.getLanguageProperties();
                     homePage();
                 }
                 case 2 -> {
+                    SessionBean sessionBean;
                     LoginCLIController loginCLIController = new LoginCLIController();
                     UserBean userBean = loginCLIController.getCredentials();
-                    try {
-                        sessionBean = control.login(userBean);
-                        if (sessionBean.getRole().equals("owner")) {
-                            new OwnerHomeCLIController(sessionBean);
-                        }
-                    } catch (InvalidEmailException | PasswordMismatchException e) {
-                        view.displayMessage(e.getMessage());
-                        homePage();
+
+                    sessionBean = control.login(userBean);
+                    switch (sessionBean.getRole()) {
+                        case "owner" -> new OwnerHomeCLIController(); // sessionBean
+                        case "tenant" -> new TenantHomeCLIController(sessionBean);
+                        default -> homePage();
                     }
                 }
                 case 3 -> {
                     SignupCLIController signupCLIController = new SignupCLIController();
                     UserBean userBean = signupCLIController.createUserInformation();
                     AccountBean accountBean = signupCLIController.createAccountInformation(userBean);
-                    try {
-                        control.signup(userBean, accountBean);
-                    } catch (DuplicateRowException e) {
-                        view.displayMessage(properties.getProperty(e.getMessage()));
-                    }
+                    control.signup(userBean, accountBean);
                     homePage();
                 }
                 case 4 -> exit();
-                default -> invalidChoice();
+                default -> {
+                    invalidChoice();
+                    homePage();
+                }
             }
         } catch (InputMismatchException e){
-            view.displayMessage(properties.getProperty("INPUT_MISMATCH"));
+            invalidChoice();
+        } catch (DuplicateRowException | InvalidEmailException | PasswordMismatchException e){
+            view.displayMessage(properties.getProperty(e.getMessage()));
+            homePage();
         }
     }
 }

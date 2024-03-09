@@ -43,7 +43,7 @@ public class UserDAOCSV implements UserDAO {
             }
         }
         else {
-            throw new DuplicateRowException("");
+            throw new DuplicateRowException("ACCOUNT_EXIST");
         }
     }
     @Override
@@ -62,7 +62,7 @@ public class UserDAOCSV implements UserDAO {
             }
         }
         else {
-            throw new InvalidEmailException("");
+            throw new InvalidEmailException("ACCOUNT_NOT_EXIST");
         }
         return null;
     }
