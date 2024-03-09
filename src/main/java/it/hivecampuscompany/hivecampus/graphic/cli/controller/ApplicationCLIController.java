@@ -54,8 +54,8 @@ public class ApplicationCLIController extends CLIController{
                     control.signup(userBean, accountBean);
                 } catch (DuplicateRowException e) {
                     view.displayMessage(properties.getProperty(e.getMessage()));
-                    homePage();
                 }
+                homePage();
             }
             case 4 -> exit();
             default -> {
