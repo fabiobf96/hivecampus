@@ -53,9 +53,8 @@ public class TenantHomeCLIController extends CLIController{
                 System.out.println("MANAGE RENT RATES");
                 homePage();
             }
-            case 6 -> {
-                exit();
-            }
+            case 6 -> exit();
+
             default -> invalidChoice();
         }
 
