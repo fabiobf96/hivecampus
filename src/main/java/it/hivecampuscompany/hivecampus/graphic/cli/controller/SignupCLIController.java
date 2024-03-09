@@ -50,7 +50,7 @@ public class SignupCLIController extends CLIController{
                     typeAccount = "tenant";
                     incorrect = false;
                 }
-                default -> invalidChoice();
+                default -> view.displayMessage(properties.getProperty("INVALID_OPTION_MSG"));
             }
         }
         userBean.setRole(typeAccount);

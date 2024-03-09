@@ -2,18 +2,22 @@ package it.hivecampuscompany.hivecampus.graphic.cli.controller;
 
 import it.hivecampuscompany.hivecampus.graphic.utility.LanguageLoader;
 import it.hivecampuscompany.hivecampus.graphic.cli.view.CLIView;
+import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
+import it.hivecampuscompany.hivecampus.logic.manager.SessionManager;
 
 import java.util.Properties;
 
 public abstract class CLIController {
     protected CLIView view;
     protected Properties properties;
+    protected SessionBean sessionBean;
 
     protected CLIController(){
         properties = LanguageLoader.getLanguageProperties();
     }
     protected void invalidChoice() {
         view.displayMessage(properties.getProperty("INVALID_OPTION_MSG"));
+        homePage();
     }
     protected String getField(String nameField){
         String field;
@@ -29,6 +33,10 @@ public abstract class CLIController {
     }
 
     protected void exit(){
+        if (sessionBean != null){
+            SessionManager sessionManager = SessionManager.getInstance();
+            sessionManager.deleteSession(sessionBean);
+        }
         view.displayMessage(properties.getProperty("GOODBYE_MSG"));
         System.exit(0);
     }

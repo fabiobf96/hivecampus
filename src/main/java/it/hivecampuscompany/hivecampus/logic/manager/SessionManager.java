@@ -45,4 +45,8 @@ public class SessionManager {
     public boolean validSession(SessionBean sessionBean){
         return sessionHashMap.get(sessionBean.getId()).isValid();
     }
+
+    public void deleteSession(SessionBean sessionBean){
+        sessionHashMap.remove(sessionBean.getId());
+    }
 }

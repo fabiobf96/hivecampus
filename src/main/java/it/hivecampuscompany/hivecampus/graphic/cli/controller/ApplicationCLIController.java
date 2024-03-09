@@ -10,6 +10,8 @@ import it.hivecampuscompany.hivecampus.graphic.cli.view.CLIView;
 import it.hivecampuscompany.hivecampus.logic.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.logic.exception.PasswordMismatchException;
 
+import java.util.InputMismatchException;
+
 public class ApplicationCLIController extends CLIController{
     LoginManager control;
     public ApplicationCLIController(){
@@ -25,43 +27,43 @@ public class ApplicationCLIController extends CLIController{
         view.displayMessage("2. " + properties.getProperty("LOGIN_MSG"));
         view.displayMessage("3. " + properties.getProperty("SIGN_UP_MSG"));
         view.displayMessage("4. " + properties.getProperty("EXIT_MSG"));
+        try {
 
-        switch (view.getIntUserInput(properties.getProperty("CHOICE_MSG"))){
-            case 1 -> {
-                new LanguageCLIController();
-                this.properties = LanguageLoader.getLanguageProperties();
-                homePage();
-            }
-            case 2 -> {
-                SessionBean sessionBean;
-                LoginCLIController loginCLIController = new LoginCLIController();
-                UserBean userBean = loginCLIController.getCredentials();
-                try {
-                    sessionBean = control.login(userBean);
-                    if(sessionBean.getRole().equals("owner")){
-                        new OwnerHomeCLIController();
-                    }
-                } catch (InvalidEmailException | PasswordMismatchException e) {
-                    view.displayMessage(e.getMessage());
+            switch (view.getIntUserInput(properties.getProperty("CHOICE_MSG"))) {
+                case 1 -> {
+                    new LanguageCLIController();
+                    this.properties = LanguageLoader.getLanguageProperties();
                     homePage();
                 }
-            }
-            case 3 -> {
-                SignupCLIController signupCLIController = new SignupCLIController();
-                UserBean userBean = signupCLIController.createUserInformation();
-                AccountBean accountBean = signupCLIController.createAccountInformation(userBean);
-                try {
-                    control.signup(userBean, accountBean);
-                } catch (DuplicateRowException e) {
-                    view.displayMessage(properties.getProperty(e.getMessage()));
+                case 2 -> {
+                    LoginCLIController loginCLIController = new LoginCLIController();
+                    UserBean userBean = loginCLIController.getCredentials();
+                    try {
+                        sessionBean = control.login(userBean);
+                        if (sessionBean.getRole().equals("owner")) {
+                            new OwnerHomeCLIController(sessionBean);
+                        }
+                    } catch (InvalidEmailException | PasswordMismatchException e) {
+                        view.displayMessage(e.getMessage());
+                        homePage();
+                    }
                 }
-                homePage();
+                case 3 -> {
+                    SignupCLIController signupCLIController = new SignupCLIController();
+                    UserBean userBean = signupCLIController.createUserInformation();
+                    AccountBean accountBean = signupCLIController.createAccountInformation(userBean);
+                    try {
+                        control.signup(userBean, accountBean);
+                    } catch (DuplicateRowException e) {
+                        view.displayMessage(properties.getProperty(e.getMessage()));
+                    }
+                    homePage();
+                }
+                case 4 -> exit();
+                default -> invalidChoice();
             }
-            case 4 -> exit();
-            default -> {
-                invalidChoice();
-                homePage();
-            }
+        } catch (InputMismatchException e){
+            view.displayMessage(properties.getProperty("INPUT_MISMATCH"));
         }
     }
 }
