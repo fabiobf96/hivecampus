@@ -5,7 +5,6 @@ import it.hivecampuscompany.hivecampus.graphic.utility.LanguageLoader;
 
 public class AccountSettingsCLIController extends CLIController {
     public AccountSettingsCLIController(){
-        properties = LanguageLoader.getLanguageProperties();
         view = new CLIView();
         homePage();
 
@@ -20,18 +19,15 @@ public class AccountSettingsCLIController extends CLIController {
         view.displayMessage("3. " + properties.getProperty("GO_BACK_MSG"));
 
         switch (view.getIntUserInput(properties.getProperty("CHOICE_MSG"))){
-            case 1 -> {
-                new LanguageCLIController();
-                this.properties = LanguageLoader.getLanguageProperties();
-                homePage();
-            }
+            case 1 -> new LanguageCLIController();
+
 
             case 2 -> {
                 view.displayMessage(properties.getProperty("NOT_IMPLEMENTED_MSG"));
                 homePage();
             }
 
-            case 3 -> { }
+            case 3 -> {  }
 
             default -> invalidChoice();
         }

@@ -1,10 +1,17 @@
 package it.hivecampuscompany.hivecampus.graphic.cli.controller;
 
 import it.hivecampuscompany.hivecampus.graphic.cli.view.CLIView;
+import it.hivecampuscompany.hivecampus.graphic.utility.LanguageLoader;
 import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
 
 public class TenantHomeCLIController extends CLIController{
-    private final SessionBean sessionBean;
+
+    public TenantHomeCLIController(){
+        properties = LanguageLoader.getLanguageProperties();
+        view = new CLIView();
+        homePage();
+
+    }
     public TenantHomeCLIController(SessionBean sessionBean){
         this.sessionBean = sessionBean;
         view = new CLIView();
@@ -18,19 +25,20 @@ public class TenantHomeCLIController extends CLIController{
         view.displayWelcomeMessage(properties.getProperty("HOME_PAGE_MSG"));
         view.displayMessage("1. " + properties.getProperty("ACCOUNT_SETTINGS_MSG"));
         view.displayMessage("2. " + properties.getProperty("SEARCH_ROOM_MSG"));
-        view.displayMessage("3. " + properties.getProperty("MANAGE_REQUESTS_MSG"));
+        view.displayMessage("3. " + properties.getProperty("MANAGE_REQUEST_MSG"));
         view.displayMessage("4. " + properties.getProperty("MANAGE_CONTRACT_MSG"));
-        view.displayMessage("5. " + properties.getProperty("MANAGE_RENT_RATES_MSG"));
+        view.displayMessage("5. " + properties.getProperty("MANAGE_RENT_MSG"));
         view.displayMessage("6. " + properties.getProperty("EXIT_MSG"));
 
         switch (view.getIntUserInput(properties.getProperty("CHOICE_MSG"))){
             case 1 -> {
                 new AccountSettingsCLIController();
+                this.properties = LanguageLoader.getLanguageProperties();
                 homePage();
             }
             case 2 -> {
                 //RoomSearchCLIController roomSearchCLIController = new RoomSearchCLIController(sessionBean);
-                System.out.println("SEARCH ROOM");
+                view.displayMessage(properties.getProperty("SEARCH ROOM"));
                 homePage();
             }
             case 3 -> {
@@ -54,6 +62,8 @@ public class TenantHomeCLIController extends CLIController{
 
     }
 
-
+    public static void main (String[] args) {
+        new TenantHomeCLIController();
+    }
 
 }
