@@ -7,7 +7,6 @@ import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
 import java.util.InputMismatchException;
 
 public class OwnerHomeCLIController extends CLIController{
-    private SessionBean sessionBean;
     public OwnerHomeCLIController(SessionBean sessionBean) {
         this();
         this.sessionBean = sessionBean;
