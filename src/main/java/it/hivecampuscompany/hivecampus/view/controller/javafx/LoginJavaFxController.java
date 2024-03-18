@@ -50,7 +50,6 @@ public class LoginJavaFxController extends JavaFxController {
             clearFields();
             // Shows the correct homepage based on the account type
             showHomePage(sessionBean, userBean);
-            System.out.println("Login successful.");
         }
         catch (InvalidEmailException | PasswordMismatchException e) {
             showErrorAlert(e.getMessage());
@@ -74,12 +73,11 @@ public class LoginJavaFxController extends JavaFxController {
     }
 
     private void showHomePage(SessionBean sessionBean, UserBean userBean) {
-        Stage stage = (Stage) btnLogin.getScene().getWindow();
+        //Stage stage = (Stage) btnLogin.getScene().getWindow();
         try {
             switch (userBean.getRole()){
                 case ("owner"):
                     System.out.println("Owner homepage.");
-
                     break;
 
                 case ("tenant"):

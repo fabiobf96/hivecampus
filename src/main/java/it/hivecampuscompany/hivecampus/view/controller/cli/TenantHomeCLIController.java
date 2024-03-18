@@ -41,15 +41,15 @@ public class TenantHomeCLIController extends CLIController{
                 homePage();
             }
             case 3 -> {
-                System.out.println("MANAGE REQUESTS");
+                view.displayMessage("MANAGE REQUESTS");
                 homePage();
             }
             case 4 -> {
-                System.out.println("MANAGE CONTRACT");
+                view.displayMessage("MANAGE CONTRACT");
                 homePage();
             }
             case 5 -> {
-                System.out.println("MANAGE RENT RATES");
+                view.displayMessage("MANAGE RENT RATES");
                 homePage();
             }
             case 6 -> exit();
