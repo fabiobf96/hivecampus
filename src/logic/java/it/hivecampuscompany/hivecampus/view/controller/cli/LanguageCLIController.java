@@ -1,13 +1,13 @@
 package it.hivecampuscompany.hivecampus.view.controller.cli;
 
-import it.hivecampuscompany.hivecampus.view.gui.cli.CLIView;
+import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 
 import java.util.InputMismatchException;
 
 public class LanguageCLIController extends CLIController {
     public LanguageCLIController(){
-        view = new CLIView();
+        view = new CliGUI();
         homePage();
     }
     public void homePage(){

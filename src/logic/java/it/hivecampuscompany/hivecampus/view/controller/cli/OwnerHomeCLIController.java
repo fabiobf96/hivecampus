@@ -1,6 +1,6 @@
 package it.hivecampuscompany.hivecampus.view.controller.cli;
 
-import it.hivecampuscompany.hivecampus.view.gui.cli.CLIView;
+import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 
@@ -13,7 +13,7 @@ public class OwnerHomeCLIController extends CLIController {
         homePage();
     }
     public OwnerHomeCLIController(){
-        view = new CLIView();
+        view = new CliGUI();
     }
     @Override
     public void homePage() {

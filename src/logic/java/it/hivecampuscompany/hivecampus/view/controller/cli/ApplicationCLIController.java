@@ -4,8 +4,8 @@ import it.hivecampuscompany.hivecampus.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.manager.LoginManager;
 import it.hivecampuscompany.hivecampus.exception.DuplicateRowException;
+import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
-import it.hivecampuscompany.hivecampus.view.gui.cli.CLIView;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
 
@@ -15,7 +15,7 @@ public class ApplicationCLIController extends CLIController {
     LoginManager control;
     public ApplicationCLIController(){
         properties = LanguageLoader.getLanguageProperties();
-        view = new CLIView();
+        view = new CliGUI();
         control = new LoginManager();
         homePage();
     }

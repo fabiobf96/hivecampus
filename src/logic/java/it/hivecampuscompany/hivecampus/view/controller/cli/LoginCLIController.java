@@ -1,12 +1,12 @@
 package it.hivecampuscompany.hivecampus.view.controller.cli;
 
 import it.hivecampuscompany.hivecampus.bean.UserBean;
-import it.hivecampuscompany.hivecampus.view.gui.cli.CLIView;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
+import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
 
 public class LoginCLIController extends CLIController {
     public LoginCLIController(){
-        view = new CLIView();
+        view = new CliGUI();
         homePage();
     }
     @Override
@@ -17,8 +17,8 @@ public class LoginCLIController extends CLIController {
     public UserBean getCredentials(){
         UserBean userBean = new UserBean();
         try {
-            userBean.setEmail(getField(properties.getProperty("EMAIL_MSG")));
-            userBean.setPassword(getField(properties.getProperty("PASSWORD_MSG")));
+            userBean.setEmail(getField(properties.getProperty("EMAIL_MSG"),false));
+            userBean.setPassword(getField(properties.getProperty("PASSWORD_MSG"),false));
         } catch (InvalidEmailException e) {
             view.displayMessage(e.getMessage());
             getCredentials();

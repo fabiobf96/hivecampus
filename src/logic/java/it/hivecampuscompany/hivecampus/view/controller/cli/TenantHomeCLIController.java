@@ -1,19 +1,19 @@
 package it.hivecampuscompany.hivecampus.view.controller.cli;
 
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
-import it.hivecampuscompany.hivecampus.view.gui.cli.CLIView;
+import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 
 public class TenantHomeCLIController extends CLIController{
     public TenantHomeCLIController(){
         properties = LanguageLoader.getLanguageProperties();
-        view = new CLIView();
+        view = new CliGUI();
         homePage();
 
     }
     public TenantHomeCLIController(SessionBean sessionBean){
         this.sessionBean = sessionBean;
-        view = new CLIView();
+        view = new CliGUI();
         homePage();
 
     }
