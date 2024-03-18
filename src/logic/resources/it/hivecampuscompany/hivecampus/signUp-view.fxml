@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.view.controller.javafx.SignUpJavaFxController">
+   <VBox alignment="CENTER" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
+      <children>
+           <ImageView fx:id="imvLogo" fitHeight="166.0" fitWidth="293.0" pickOnBounds="true" preserveRatio="true">
+               <Image url="@images/hiveCampusLogo.jpg" />
+           </ImageView>
+      </children>
+      <padding>
+         <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+      </padding>
+   </VBox>
+   <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #595959;" HBox.hgrow="ALWAYS">
+      <children>
+           <Label fx:id="lblSignUp" text="Sign Up" textFill="WHITE">
+               <font>
+                   <Font name="Arial" size="20.0" />
+               </font>
+           </Label>
+         <HBox alignment="CENTER">
+            <children>
+                 <TextField fx:id="txfFirstName" prefHeight="26.0" prefWidth="127.0" promptText="First Name" HBox.hgrow="ALWAYS">
+                     <font>
+                         <Font name="Arial" size="12.0" />
+                     </font>
+                  <HBox.margin>
+                     <Insets right="5.0" />
+                  </HBox.margin>
+                 </TextField>
+               <TextField fx:id="txfLastName" prefHeight="25.0" prefWidth="127.0" promptText="Last Name" HBox.hgrow="ALWAYS">
+                  <font>
+                     <Font name="Arial" size="12.0" />
+                  </font>
+                  <HBox.margin>
+                     <Insets left="5.0" />
+                  </HBox.margin>
+               </TextField>
+            </children>
+         </HBox>
+         <TextField fx:id="txfEmail" prefHeight="25.0" prefWidth="260.0" promptText="Email">
+            <font>
+               <Font name="Arial" size="12.0" />
+            </font>
+         </TextField>
+           <PasswordField fx:id="txfPassword" prefHeight="25.0" prefWidth="250.0" promptText="Password" />
+         <PasswordField fx:id="txfConfPassword" prefHeight="25.0" prefWidth="260.0" promptText="Confirm Password" />
+         <TextField fx:id="txfTelephone" prefHeight="25.0" prefWidth="260.0" promptText="Telephone Number">
+            <font>
+               <Font name="Arial" size="12.0" />
+            </font>
+         </TextField>
+         <Pane>
+            <children>
+                 <Label fx:id="lblChoose" text="Choose account type" textFill="WHITE">
+                     <font>
+                         <Font name="Arial" size="12.0" />
+                     </font>
+               </Label>
+            </children>
+         </Pane>
+         <HBox spacing="10.0">
+            <children>
+               <CheckBox fx:id="ckbOwner" mnemonicParsing="false" text="Owner" textFill="WHITE" />
+               <CheckBox fx:id="ckbTenant" mnemonicParsing="false" text="Tenant" textFill="WHITE" />
+            </children>
+         </HBox>
+           <Button fx:id="btnSignUp" onAction="#handleSignUpButtonClick" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Sign Up" />
+         <HBox alignment="CENTER">
+            <children>
+               <Label fx:id="lblAccount" text="Already have an Account?" textFill="WHITE">
+                  <font>
+                     <Font name="Arial" size="12.0" />
+                  </font>
+               </Label>
+                 <Button fx:id="btnLogHere" onAction="#handleLogHereButtonClick" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" style="-fx-background-color: transparent;" text="Login here" textFill="#0bb7ed" underline="true" />
+            </children>
+         </HBox>
+      </children>
+      <padding>
+         <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+      </padding>
+   </VBox>
+</HBox>

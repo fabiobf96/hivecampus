@@ -1,9 +1,10 @@
 package it.hivecampuscompany.hivecampus.logic.manager;
 
-import it.hivecampuscompany.hivecampus.logic.bean.SessionBean;
-import it.hivecampuscompany.hivecampus.logic.bean.UserBean;
-import it.hivecampuscompany.hivecampus.logic.exception.InvalidEmailException;
-import it.hivecampuscompany.hivecampus.logic.exception.PasswordMismatchException;
+import it.hivecampuscompany.hivecampus.bean.SessionBean;
+import it.hivecampuscompany.hivecampus.bean.UserBean;
+import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
+import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
+import it.hivecampuscompany.hivecampus.manager.LoginManager;
 import org.junit.jupiter.api.Test;
 
 import java.util.Objects;
