@@ -27,5 +27,4 @@ public class LoginManager {
         Session session = sessionManager.createSession(user);
         return new SessionBean(session);
     }
-
 }

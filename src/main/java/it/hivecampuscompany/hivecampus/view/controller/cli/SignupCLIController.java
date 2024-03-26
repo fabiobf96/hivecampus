@@ -2,6 +2,7 @@ package it.hivecampuscompany.hivecampus.view.controller.cli;
 
 import it.hivecampuscompany.hivecampus.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.bean.UserBean;
+import it.hivecampuscompany.hivecampus.exception.EmptyFieldsException;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
 import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
@@ -53,7 +54,11 @@ public class SignupCLIController extends CLIController {
                 default -> view.displayMessage(properties.getProperty("INVALID_OPTION_MSG"));
             }
         }
-        userBean.setRole(typeAccount);
+        try {           /// devo essere gestito poi diversamente (ho aggiunto il try-catch)
+            userBean.setRole(typeAccount);
+        } catch (EmptyFieldsException e) {
+            throw new RuntimeException(e);
+        }
         return userBean;
     }
     public AccountBean createAccountInformation(UserBean userBean){

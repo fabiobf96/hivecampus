@@ -1,15 +1,17 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
 
+import it.hivecampuscompany.hivecampus.view.gui.javafx.OwnerHomePageJavaFxGUI;
 import it.hivecampuscompany.hivecampus.view.gui.javafx.SignUpJavaFxGUI;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
 import it.hivecampuscompany.hivecampus.manager.LoginManager;
+import it.hivecampuscompany.hivecampus.view.gui.javafx.TenantHomePageJavaFxGUI;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -18,6 +20,9 @@ import javafx.stage.Stage;
 public class LoginJavaFxController extends JavaFxController {
 
     private final LoginManager manager;
+
+    @FXML
+    private Label lblLogin;
 
     @FXML
     private TextField txfEmail;
@@ -29,11 +34,35 @@ public class LoginJavaFxController extends JavaFxController {
     private Button btnLogin;
 
     @FXML
+    private Label lblOr;
+
+    @FXML
+    private Button btnGoogle;
+
+    @FXML
+    private Label lblAccount;
+
+    @FXML
     private Button btnSignUp;
+
+    private static final String ERROR_TITLE_MSG = "ERROR_TITLE_MSG";
+    private static final String ERROR = "ERROR";
 
 
     public LoginJavaFxController(){
         this.manager = new LoginManager();
+
+    }
+
+    public void initialize(){
+        lblLogin.setText(properties.getProperty("LOGIN_MSG"));
+        txfEmail.setPromptText(properties.getProperty("EMAIL_MSG"));
+        txfPassword.setPromptText(properties.getProperty("PASSWORD_MSG"));
+        btnLogin.setText(properties.getProperty("LOGIN_MSG"));
+        lblOr.setText(properties.getProperty("OR_MSG"));
+        btnGoogle.setText(properties.getProperty("LOGIN_WITH_GOOGLE_MSG"));
+        lblAccount.setText(properties.getProperty("DON_T_HAVE_ACCOUNT_MSG"));
+        btnSignUp.setText(properties.getProperty("SIGN_UP_MSG"));
     }
 
     @FXML
@@ -49,10 +78,10 @@ public class LoginJavaFxController extends JavaFxController {
             // Login successfully and empty the fields
             clearFields();
             // Shows the correct homepage based on the account type
-            showHomePage(sessionBean, userBean);
+            showHomePage(sessionBean);
         }
         catch (InvalidEmailException | PasswordMismatchException e) {
-            showErrorAlert(e.getMessage());
+            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty(e.getMessage()));
         }
     }
 
@@ -63,46 +92,36 @@ public class LoginJavaFxController extends JavaFxController {
         try {
             signUp.start(stage);
         } catch (Exception e) {
-            showErrorAlert("Error loading signup window.");
+            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("ERROR_SIGNUP_WINDOW_MSG"));
         }
     }
 
     public void handleGoogleButtonClick() {
-        String msg = "Sorry, this function is not available yet";
-        showErrorAlert(msg);
+        showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("NOT_IMPLEMENTED_MSG"));
     }
 
-    private void showHomePage(SessionBean sessionBean, UserBean userBean) {
-        //Stage stage = (Stage) btnLogin.getScene().getWindow();
+    private void showHomePage(SessionBean sessionBean) {
+        Stage stage = (Stage) btnLogin.getScene().getWindow();
         try {
-            switch (userBean.getRole()){
+            switch (sessionBean.getRole()){
                 case ("owner"):
-                    System.out.println("Owner homepage.");
+                    new OwnerHomePageJavaFxGUI().startWithSession(stage, sessionBean);
                     break;
 
                 case ("tenant"):
-                    System.out.println("Tenant homepage.");
+                    new TenantHomePageJavaFxGUI().startWithSession(stage, sessionBean);
                     break;
 
                 default : System.exit(3);
             }
         } catch (Exception e) {
-            showErrorAlert("Error loading homepage window.");
+            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("ERROR_HOMEPAGE_WINDOW_MSG"));
             System.exit(1);
         }
     }
 
-
     private void clearFields() {
         txfEmail.clear();
         txfPassword.clear();
-    }
-
-    private void showErrorAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 }

@@ -1,5 +1,6 @@
 package it.hivecampuscompany.hivecampus.bean;
 
+import it.hivecampuscompany.hivecampus.exception.EmptyFieldsException;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
 
@@ -31,7 +32,7 @@ public class UserBean {
         Pattern pattern = Pattern.compile(EMAIL_REGEX);
         Matcher matcher = pattern.matcher(email);
         if (!matcher.matches()) {
-            throw new InvalidEmailException("Indirizzo email non valido: " + email);
+            throw new InvalidEmailException("INVALID_EMAIL");
         }
         this.email = email;
     }
@@ -47,7 +48,11 @@ public class UserBean {
         this.password = password;
     }
 
-    public void setRole(String role) {
+    public void setRole(String role) throws EmptyFieldsException {
+        if (role == null || role.isEmpty()) {
+            throw new EmptyFieldsException("EMPTY_ROLE");
+        }
+
         this.role = role;
     }
 }

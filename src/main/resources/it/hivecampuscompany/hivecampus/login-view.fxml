@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-radius: 20;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.view.controller.javafx.LoginJavaFxController">
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-radius: 20;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.view.controller.javafx.LoginJavaFxController">
    <VBox alignment="CENTER" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
       <children>
            <ImageView fx:id="imvLogo" fitHeight="166.0" fitWidth="293.0" pickOnBounds="true" preserveRatio="true">
@@ -19,24 +24,24 @@
    </VBox>
    <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #595959;" HBox.hgrow="ALWAYS">
       <children>
-           <Label fx:id="lblLogin" text="Login" textFill="WHITE">
+           <Label fx:id="lblLogin" text="Label" textFill="WHITE">
                <font>
                    <Font name="Arial" size="20.0" />
                </font>
            </Label>
-           <TextField fx:id="txfEmail" prefHeight="25.0" prefWidth="260.0" promptText="Email" style="-fx-background-radius: 7;">
+           <TextField fx:id="txfEmail" prefHeight="25.0" prefWidth="260.0" promptText="Label" style="-fx-background-radius: 7;">
                <font>
                    <Font name="Arial" size="12.0" />
                </font>
            </TextField>
-           <PasswordField fx:id="txfPassword" prefHeight="25.0" prefWidth="200.0" promptText="Password" style="-fx-background-radius: 7;" />
-           <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#handleLoginButtonClick" prefHeight="25.0" prefWidth="200.0" text="Login" />
-           <Label fx:id="lblOr" text="Or" textFill="WHITE">
+           <PasswordField fx:id="txfPassword" prefHeight="25.0" prefWidth="200.0" promptText="Label" style="-fx-background-radius: 7;" />
+           <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#handleLoginButtonClick" prefHeight="25.0" prefWidth="200.0" text="Label" />
+           <Label fx:id="lblOr" text="Label" textFill="WHITE">
                <font>
                    <Font size="14.0" />
                </font>
            </Label>
-           <Button fx:id="btnGoogle" onAction="#handleGoogleButtonClick" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Continue with Google">
+           <Button fx:id="btnGoogle" mnemonicParsing="false" onAction="#handleGoogleButtonClick" prefHeight="25.0" prefWidth="200.0" text="Label">
                <graphic>
                    <ImageView fx:id="imvGoogle" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" translateX="-10.0">
                        <image>
@@ -47,12 +52,12 @@
          </Button>
          <HBox alignment="CENTER">
             <children>
-                 <Label fx:id="lblAccount" text="Don't have an Account?" textFill="WHITE">
+                 <Label fx:id="lblAccount" text="Label" textFill="WHITE">
                      <font>
                          <Font name="Arial" size="12.0" />
                      </font>
                </Label>
-                 <Button fx:id="btnSignUp" mnemonicParsing="false" onAction="#handleSignUpButtonClick" prefHeight="20.0" prefWidth="59.0" style="-fx-background-color: transparent;" text="Sign Up" textFill="#0bb7ed" underline="true" />
+                 <Button fx:id="btnSignUp" mnemonicParsing="false" onAction="#handleSignUpButtonClick" prefHeight="20.0" prefWidth="59.0" style="-fx-background-color: transparent;" text="Label" textFill="#0bb7ed" underline="true" />
             </children>
          </HBox>
       </children>

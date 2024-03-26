@@ -1,0 +1,18 @@
+  .list-cell:selected {
+    -fx-background-color: transparent;
+}
+
+.list-view:hover {
+    -fx-border-color: transparent;
+}
+
+.list-cell:hover {
+    -fx-border-color: lightblue; /* Cambia il colore del bordo quando il mouse è sopra la cella */
+    -fx-border-width: 3px;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.list-cell:selected .label {
+    -fx-text-fill: black; /* Imposta il colore del testo a nero quando l'elemento è selezionato */
+}

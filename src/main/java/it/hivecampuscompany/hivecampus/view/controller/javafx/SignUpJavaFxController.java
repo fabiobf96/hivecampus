@@ -1,5 +1,6 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
+import it.hivecampuscompany.hivecampus.exception.EmptyFieldsException;
 import it.hivecampuscompany.hivecampus.view.gui.javafx.LoginJavaFxGUI;
 import it.hivecampuscompany.hivecampus.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.bean.UserBean;
@@ -42,9 +43,13 @@ public class SignUpJavaFxController extends JavaFxController {
     @FXML
     private Button btnLogHere;
 
+    private static final String ERROR_TITLE_MSG = "ERROR_TITLE_MSG";
+    private static final String ERROR = "ERROR";
+
     public SignUpJavaFxController(){
         this.manager = new LoginManager();
     }
+
     @FXML
     private void initialize() {
         // Aggiungi un listener alle CheckBox per gestire il controllo
@@ -76,18 +81,9 @@ public class SignUpJavaFxController extends JavaFxController {
         boolean isOwner = ckbOwner.isSelected();
         boolean isTenant = ckbTenant.isSelected();
 
-        // Controllo che entrambe le checkbox non siano selezionate contemporaneamente
-        if (isOwner || isTenant) {
-            if(isOwner) {
-                typeAccount = "owner";
-            } else {
-                typeAccount = "tenant";
-            }
-        } else {
-            // Messaggio di errore o azioni da intraprendere quando entrambe le checkbox sono deselezionate
-            String ckbMessage = "Selezionare un tipo utente.";
-            showErrorAlert(ckbMessage);
-        }
+        if(isOwner) typeAccount = "owner";
+        if (isTenant) typeAccount = "tenant";
+
 
         UserBean userBean = new UserBean();
         AccountBean accountBean = new AccountBean();
@@ -106,12 +102,12 @@ public class SignUpJavaFxController extends JavaFxController {
             manager.signup(userBean, accountBean);
             //Account creato con successo
             //mostro il messaggio di successo e svuoto i campi.
-            showSuccessAlert();
+            showAlert("INFORMATION", properties.getProperty("SUCCESS_TITLE_MSG"), properties.getProperty("ACCOUNT_CREATED_MSG"));
             clearFields();
             handleLogHereButtonClick();
 
-        } catch (InvalidEmailException | PasswordMismatchException | DuplicateRowException e) {
-            showErrorAlert(e.getMessage());
+        } catch (InvalidEmailException | PasswordMismatchException | DuplicateRowException | EmptyFieldsException e) {
+            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty(e.getMessage()));
         }
     }
 
@@ -122,7 +118,7 @@ public class SignUpJavaFxController extends JavaFxController {
         try {
             login.start(stage);
         } catch (Exception e) {
-            showErrorAlert("Error loading login window.");
+            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("ERROR_LOGIN_WINDOW_MSG"));
         }
 
     }
@@ -140,23 +136,4 @@ public class SignUpJavaFxController extends JavaFxController {
         ckbOwner.setSelected(false);
         ckbTenant.setSelected(false);
     }
-
-    private void showSuccessAlert() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Successo");
-        alert.setHeaderText(null);
-        alert.setContentText("Account creato con successo!");
-        alert.showAndWait();
-    }
-
-
-    private void showErrorAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Errore");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-
 }
