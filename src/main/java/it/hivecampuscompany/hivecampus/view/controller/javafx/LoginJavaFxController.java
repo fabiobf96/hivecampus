@@ -48,9 +48,6 @@ public class LoginJavaFxController extends JavaFxController {
     private Button btnSignUp;
 
     @FXML
-    private MenuButton mbtnLanguage;
-
-    @FXML
     private MenuItem mibtnLangChange;
 
     @FXML
@@ -80,16 +77,18 @@ public class LoginJavaFxController extends JavaFxController {
         lblAccount.setText(properties.getProperty("DON_T_HAVE_ACCOUNT_MSG"));
         btnSignUp.setText(properties.getProperty("SIGN_UP_MSG"));
 
-        //setLanguageImage();
+        setLanguageImage();
 
         mibtnLangChange.setOnAction(event -> handleLanguageChange());
+        btnLogin.setOnAction(event -> handleLogin());
+        btnSignUp.setOnAction(event -> handleSignUp());
+        btnGoogle.setOnAction(event -> handleGoogleLogin());
 
     }
-    // devo mantenere un flag che mi dice se la lingua è italiana o inglese
-    /*
+
     private void setLanguageImage() {
 
-        if (properties == null) {
+        if (LanguageLoader.getCurrentLanguage() == 0) { // Se la lingua corrente è l'inglese
             imvLang.setImage(new Image(ENGLISH_PNG_URL));
             imvLangChange.setImage(new Image(ITALIAN_PNG_URL));
         }
@@ -99,29 +98,21 @@ public class LoginJavaFxController extends JavaFxController {
         }
     }
 
-     */
-
     private void handleLanguageChange() {
         // Recupera l'URL della lingua selezionata
         String currentImageUrl = imvLangChange.getImage().getUrl();
         // Se la lingua selezionata è l'italiano
         if (currentImageUrl.equals(Objects.requireNonNull(getClass().getResource(ITALIAN_PNG_URL)).toString())) {
             LanguageLoader.loadLanguage(1);
-            properties = LanguageLoader.getLanguageProperties();
-            imvLang.setImage(new Image(ITALIAN_PNG_URL));
-            imvLangChange.setImage(new Image(ENGLISH_PNG_URL));
-            initialize();
+
         } else { // Se la lingua selezionata è l'inglese
             LanguageLoader.loadLanguage(0);
-            properties = LanguageLoader.getLanguageProperties();
-            imvLang.setImage(new Image(ENGLISH_PNG_URL));
-            imvLangChange.setImage(new Image(ITALIAN_PNG_URL));
-            initialize();
         }
+        properties = LanguageLoader.getLanguageProperties();
+        initialize();
     }
 
-    @FXML
-    private void handleLoginButtonClick() {
+    private void handleLogin() {
         String email = txfEmail.getText();
         String password = txfPassword.getText();
         UserBean userBean = new UserBean();
@@ -140,7 +131,7 @@ public class LoginJavaFxController extends JavaFxController {
         }
     }
 
-    public void handleSignUpButtonClick() {
+    public void handleSignUp() {
         Stage stage = (Stage) btnSignUp.getScene().getWindow();
 
         SignUpJavaFxGUI signUp = new SignUpJavaFxGUI();
@@ -151,7 +142,7 @@ public class LoginJavaFxController extends JavaFxController {
         }
     }
 
-    public void handleGoogleButtonClick() {
+    public void handleGoogleLogin() {
         showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("NOT_IMPLEMENTED_MSG"));
     }
 

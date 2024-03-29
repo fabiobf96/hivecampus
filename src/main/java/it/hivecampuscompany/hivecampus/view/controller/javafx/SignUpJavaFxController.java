@@ -8,9 +8,14 @@ import it.hivecampuscompany.hivecampus.exception.DuplicateRowException;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
 import it.hivecampuscompany.hivecampus.manager.LoginManager;
+import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+
+import java.util.Objects;
 
 public class SignUpJavaFxController extends JavaFxController {
 
@@ -55,6 +60,15 @@ public class SignUpJavaFxController extends JavaFxController {
     @FXML
     private Button btnLogHere;
 
+    @FXML
+    private MenuItem mibtnLangChange;
+
+    @FXML
+    private ImageView imvLang;
+
+    @FXML
+    private ImageView imvLangChange;
+
     private static final String ERROR_TITLE_MSG = "ERROR_TITLE_MSG";
     private static final String ERROR = "ERROR";
 
@@ -77,8 +91,11 @@ public class SignUpJavaFxController extends JavaFxController {
         lblAccount.setText(properties.getProperty("ALREADY_ACCOUNT_MSG"));
         btnLogHere.setText(properties.getProperty("LOGIN_HERE_MSG"));
 
-        btnSignUp.setOnAction(event -> handleSignUpButtonClick());
-        btnLogHere.setOnAction(event -> handleLogHereButtonClick());
+        setLanguageImage();
+        mibtnLangChange.setOnAction(event -> handleLanguageChange());
+
+        btnSignUp.setOnAction(event -> handleSignUp());
+        btnLogHere.setOnAction(event -> handleLogHere());
     }
 
     @FXML
@@ -99,8 +116,33 @@ public class SignUpJavaFxController extends JavaFxController {
         });
     }
 
-    @FXML
-    private void handleSignUpButtonClick() {
+    private void setLanguageImage() {
+
+        if (LanguageLoader.getCurrentLanguage() == 0) { // Se la lingua corrente è l'inglese
+            imvLang.setImage(new Image(ENGLISH_PNG_URL));
+            imvLangChange.setImage(new Image(ITALIAN_PNG_URL));
+        }
+        else {
+            imvLang.setImage((new Image(ITALIAN_PNG_URL)));
+            imvLangChange.setImage(new Image(ENGLISH_PNG_URL));
+        }
+    }
+
+    private void handleLanguageChange() {
+        // Recupera l'URL della lingua selezionata
+        String currentImageUrl = imvLangChange.getImage().getUrl();
+        // Se la lingua selezionata è l'italiano
+        if (currentImageUrl.equals(Objects.requireNonNull(getClass().getResource(ITALIAN_PNG_URL)).toString())) {
+            LanguageLoader.loadLanguage(1);
+
+        } else { // Se la lingua selezionata è l'inglese
+            LanguageLoader.loadLanguage(0);
+        }
+        properties = LanguageLoader.getLanguageProperties();
+        initializeSignUpView();
+    }
+
+    private void handleSignUp() {
         String firstName = txfFirstName.getText();
         String lastName = txfLastName.getText();
         String email = txfEmail.getText();
@@ -134,14 +176,14 @@ public class SignUpJavaFxController extends JavaFxController {
             //mostro il messaggio di successo e svuoto i campi.
             showAlert("INFORMATION", properties.getProperty("SUCCESS_TITLE_MSG"), properties.getProperty("ACCOUNT_CREATED_MSG"));
             clearFields();
-            handleLogHereButtonClick();
+            handleLogHere();
 
         } catch (InvalidEmailException | PasswordMismatchException | DuplicateRowException | EmptyFieldsException e) {
             showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty(e.getMessage()));
         }
     }
 
-    public void handleLogHereButtonClick() {
+    public void handleLogHere() {
         Stage stage = (Stage) btnLogHere.getScene().getWindow();
 
         LoginJavaFxGUI login = new LoginJavaFxGUI();

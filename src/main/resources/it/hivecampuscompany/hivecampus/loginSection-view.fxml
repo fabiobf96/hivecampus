@@ -10,7 +10,7 @@
    <children>
       <VBox alignment="TOP_RIGHT">
          <children>
-            <MenuButton fx:id="mbtnLanguage" mnemonicParsing="false">
+            <MenuButton mnemonicParsing="false">
                <graphic>
                   <ImageView fx:id="imvLang" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" />
                </graphic>
@@ -35,13 +35,13 @@
          </font>
       </TextField>
       <PasswordField fx:id="txfPassword" prefHeight="25.0" prefWidth="200.0" promptText="Label" style="-fx-background-radius: 7;" />
-      <Button fx:id="btnLogin" mnemonicParsing="false" onAction="#handleLoginButtonClick" prefHeight="25.0" prefWidth="200.0" text="Label" />
+      <Button fx:id="btnLogin" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Label" />
       <Label fx:id="lblOr" text="Label" textFill="WHITE">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="btnGoogle" mnemonicParsing="false" onAction="#handleGoogleButtonClick" prefHeight="25.0" prefWidth="200.0" text="Label">
+      <Button fx:id="btnGoogle" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Label">
          <graphic>
             <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" translateX="-10.0">
                <image>
@@ -57,7 +57,7 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </Label>
-            <Button fx:id="btnSignUp" mnemonicParsing="false" onAction="#handleSignUpButtonClick" style="-fx-background-color: transparent;" text="Label" textFill="#0bb7ed" underline="true" />
+            <Button fx:id="btnSignUp" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Label" textFill="#0bb7ed" underline="true" />
          </children>
       </HBox>
    </children>
