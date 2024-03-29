@@ -12,18 +12,12 @@
          <children>
             <MenuButton fx:id="mbtnLanguage" mnemonicParsing="false">
                <graphic>
-                  <ImageView fx:id="imvLang" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true">
-                     <image>
-                        <Image url="@images/english_flag.png" />
-                     </image></ImageView>
+                  <ImageView fx:id="imvLang" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" />
                </graphic>
                <items>
                   <MenuItem fx:id="mibtnLangChange" mnemonicParsing="false">
                      <graphic>
-                        <ImageView fx:id="imvLangChange" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/italian_flag.png" />
-                           </image></ImageView>
+                        <ImageView fx:id="imvLangChange" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
                      </graphic>
                   </MenuItem>
                </items>

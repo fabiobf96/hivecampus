@@ -80,12 +80,15 @@ public class LoginJavaFxController extends JavaFxController {
         lblAccount.setText(properties.getProperty("DON_T_HAVE_ACCOUNT_MSG"));
         btnSignUp.setText(properties.getProperty("SIGN_UP_MSG"));
 
+        //setLanguageImage();
+
         mibtnLangChange.setOnAction(event -> handleLanguageChange());
 
     }
     // devo mantenere un flag che mi dice se la lingua è italiana o inglese
     /*
     private void setLanguageImage() {
+
         if (properties == null) {
             imvLang.setImage(new Image(ENGLISH_PNG_URL));
             imvLangChange.setImage(new Image(ITALIAN_PNG_URL));
@@ -95,7 +98,8 @@ public class LoginJavaFxController extends JavaFxController {
             imvLangChange.setImage(new Image(ENGLISH_PNG_URL));
         }
     }
-    */
+
+     */
 
     private void handleLanguageChange() {
         // Recupera l'URL della lingua selezionata
