@@ -18,6 +18,7 @@ public class LanguageLoader {
     private static Properties properties;
     // Logger per registrare messaggi di errore o informazioni
     private static final Logger LOGGER = Logger.getLogger(LanguageLoader.class.getName());
+    private static int currentLanguage = 0;
 
     /**
      * Carica il file di properties in base alla lingua selezionata.
@@ -28,8 +29,14 @@ public class LanguageLoader {
         // Inizializza il percorso del file di properties in base alla lingua
         String languagePath;
         switch (language) {
-            case 0 -> languagePath = "properties/language_EN.properties";
-            case 1 -> languagePath = "properties/language_IT.properties";
+            case 0 -> {
+                languagePath = "properties/language_EN.properties";
+                currentLanguage = 0;
+            }
+            case 1 -> {
+                languagePath = "properties/language_IT.properties";
+                currentLanguage = 1;
+            }
             default -> throw new InputMismatchException("Invalid language selection");
         }
 
@@ -52,8 +59,12 @@ public class LanguageLoader {
      */
     public static Properties getLanguageProperties() {
         if (properties == null) {
-            loadLanguage(0); // Carica inglese per default
+            loadLanguage(currentLanguage); // Carica inglese per default
         }
         return properties;
+    }
+
+    public static int getCurrentLanguage() {
+        return currentLanguage;
     }
 }
