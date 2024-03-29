@@ -26,7 +26,7 @@ public class SignUpJavaFxGUI extends Application {
     @Override
     public void start(Stage stage) {
         startSignUpSection();
-        HBoxDecorator hBoxDecorator = new HBoxDecorator(new SignUpJavaFxGUI().startSignUpSection());
+        HBoxDecorator hBoxDecorator = new HBoxDecorator(startSignUpSection());
 
         Scene scene = new Scene((Parent) hBoxDecorator.setup());
         stage.setScene(scene);

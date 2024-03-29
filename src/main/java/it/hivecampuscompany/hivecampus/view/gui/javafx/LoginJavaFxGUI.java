@@ -2,8 +2,6 @@ package it.hivecampuscompany.hivecampus.view.gui.javafx;
 
 import it.hivecampuscompany.hivecampus.view.controller.javafx.LoginJavaFxController;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.CompositeVBox;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.HBoxDecorator;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.application.Application;
@@ -27,7 +25,7 @@ public class LoginJavaFxGUI extends Application {
     @Override
     public void start(Stage stage) {
         startLoginSection();
-        HBoxDecorator hBoxDecorator = new HBoxDecorator(new LoginJavaFxGUI().startLoginSection());
+        HBoxDecorator hBoxDecorator = new HBoxDecorator(startLoginSection());
 
         Scene scene = new Scene((Parent) hBoxDecorator.setup());
         stage.setScene(scene);
