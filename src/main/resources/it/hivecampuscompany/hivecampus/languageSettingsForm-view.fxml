@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="500.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.view.controller.javafx.HomePageJavaFxController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="500.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.view.controller.javafx.LanguageJavaFxController">
    <children>
       <BorderPane VBox.vgrow="ALWAYS">
          <top>
@@ -34,29 +34,34 @@
                   <VBox alignment="CENTER" fillWidth="false" spacing="15.0">
                      <children>
                         <Label fx:id="lblEnglish" text="Label" />
-                        <VBox style="-fx-border-color: grey; -fx-border-radius: 25;">
-                           <children>
-                              <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true">
+                        <Button fx:id="btnEnglish" mnemonicParsing="false" style="-fx-background-radius: 26; -fx-border-color: grey; -fx-border-radius: 26;">
+                           <graphic>
+                              <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/english_flag.png" />
-                                 </image></ImageView>
-                           </children>
-                        </VBox>
-                        <Button fx:id="btnEnglish" mnemonicParsing="false" text="Button" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <padding>
+                              <Insets bottom="0.5" left="0.5" right="0.5" top="0.5" />
+                           </padding></Button>
                      </children>
                   </VBox>
                   <VBox alignment="CENTER" fillWidth="false" spacing="15.0">
                      <children>
                         <Label fx:id="lblItalian" text="Label" />
-                        <VBox fillWidth="false" style="-fx-border-color: grey; -fx-border-radius: 25;">
-                           <children>
+                        <Button fx:id="btnItalian" mnemonicParsing="false" style="-fx-background-radius: 26; -fx-border-color: grey; -fx-border-radius: 26;">
+                           <graphic>
                               <ImageView fitHeight="110.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/italian_flag.png" />
-                                 </image></ImageView>
-                           </children>
-                        </VBox>
-                        <Button fx:id="btnItalian" mnemonicParsing="false" text="Button" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <padding>
+                              <Insets bottom="0.5" left="0.5" right="0.5" top="0.5" />
+                           </padding>
+                        </Button>
                      </children>
                   </VBox>
                   <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />

@@ -21,10 +21,10 @@ public class TenantHomePageJavaFxGUI  extends HomePageJavaFxGUI {
     }
     public void startWithSession(Stage stage, SessionBean sessionBean){
         CompositeTabPane tabPane = new CompositeTabPane();
-        tabPane.setTabName("Search Room");
+        tabPane.setTabName(properties.getProperty("SEARCH_ROOM_MSG"));
         tabPane.addChildren(addDynamicTab("/it/hivecampuscompany/hivecampus/tabRoomSearch-view.fxml", sessionBean));
 
-        tabPane.setTabName("Manage Requests");
+        tabPane.setTabName(properties.getProperty("MANAGE_REQUEST_MSG"));
         tabPane.addChildren(addDynamicTab("/it/hivecampuscompany/hivecampus/tabRoomSearch-view.fxml", sessionBean));
 
         BarDecorator barDecorator = new BarDecorator(tabPane, sessionBean);

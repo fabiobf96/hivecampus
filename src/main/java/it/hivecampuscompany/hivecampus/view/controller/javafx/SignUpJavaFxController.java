@@ -17,6 +17,9 @@ public class SignUpJavaFxController extends JavaFxController {
     private final LoginManager manager;
 
     @FXML
+    private Label lblSignUp;
+
+    @FXML
     private TextField txfFirstName;
 
     @FXML
@@ -35,10 +38,19 @@ public class SignUpJavaFxController extends JavaFxController {
     private TextField txfTelephone;
 
     @FXML
+    private Label lblChoose;
+
+    @FXML
     private CheckBox ckbOwner;
 
     @FXML
     private CheckBox ckbTenant;
+
+    @FXML
+    private Button btnSignUp;
+
+    @FXML
+    private Label lblAccount;
 
     @FXML
     private Button btnLogHere;
@@ -48,6 +60,25 @@ public class SignUpJavaFxController extends JavaFxController {
 
     public SignUpJavaFxController(){
         this.manager = new LoginManager();
+    }
+
+    public void initializeSignUpView() {
+        lblSignUp.setText(properties.getProperty("SIGN_UP_MSG"));
+        txfFirstName.setPromptText(properties.getProperty("NAME_MSG"));
+        txfLastName.setPromptText(properties.getProperty("SURNAME_MSG"));
+        txfEmail.setPromptText(properties.getProperty("EMAIL_MSG"));
+        txfPassword.setPromptText(properties.getProperty("PASSWORD_MSG"));
+        txfConfPassword.setPromptText(properties.getProperty("CONFIRM_PASSWORD_MSG"));
+        txfTelephone.setPromptText(properties.getProperty("PHONE_N_MSG"));
+        lblChoose.setText(properties.getProperty("CHOOSE_ROLE_MSG"));
+        ckbOwner.setText(properties.getProperty("OWNER_MSG"));
+        ckbTenant.setText(properties.getProperty("TENANT_MSG"));
+        btnSignUp.setText(properties.getProperty("SIGN_UP_MSG"));
+        lblAccount.setText(properties.getProperty("ALREADY_ACCOUNT_MSG"));
+        btnLogHere.setText(properties.getProperty("LOGIN_HERE_MSG"));
+
+        btnSignUp.setOnAction(event -> handleSignUpButtonClick());
+        btnLogHere.setOnAction(event -> handleLogHereButtonClick());
     }
 
     @FXML
@@ -83,7 +114,6 @@ public class SignUpJavaFxController extends JavaFxController {
 
         if(isOwner) typeAccount = "owner";
         if (isTenant) typeAccount = "tenant";
-
 
         UserBean userBean = new UserBean();
         AccountBean accountBean = new AccountBean();

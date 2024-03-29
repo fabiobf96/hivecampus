@@ -4,18 +4,25 @@ import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.TabInitializerController;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
+import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public abstract class HomePageJavaFxGUI extends Application {
 
     protected Logger logger = Logger.getLogger(HomePageJavaFxGUI.class.getName());
+    protected Properties properties;
+
+    protected HomePageJavaFxGUI(){
+        properties = LanguageLoader.getLanguageProperties();
+    }
 
     public abstract void startWithSession(Stage stage, SessionBean sessionBean);
     protected Component addDynamicTab(String contentFXML, SessionBean sessionBean){

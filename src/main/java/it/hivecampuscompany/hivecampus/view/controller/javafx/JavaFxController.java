@@ -9,6 +9,9 @@ public abstract class JavaFxController {
     protected Properties properties;
     protected SessionBean sessionBean;
 
+    protected static final String ITALIAN_PNG_URL = "/it/hivecampuscompany/hivecampus/images/italian_flag.png";
+    protected static final String ENGLISH_PNG_URL = "/it/hivecampuscompany/hivecampus/images/english_flag.png";
+
     protected JavaFxController(){
         properties = LanguageLoader.getLanguageProperties();
     }

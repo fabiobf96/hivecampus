@@ -1,13 +1,12 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
-import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.view.gui.javafx.LoginJavaFxGUI;
+import it.hivecampuscompany.hivecampus.view.gui.javafx.TenantHomePageJavaFxGUI;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
@@ -40,46 +39,12 @@ public class HomePageJavaFxController extends JavaFxController{
     @FXML
     private Label lblLogout;
 
-    @FXML
-    private Label lblSettingsTitle;
-    @FXML
-    private Label lblName;
-    @FXML
-    private Label lblSurname;
-    @FXML
-    private Label lblEmail;
-    @FXML
-    private Label lblPassword;
-    @FXML
-    private Label lblRole;
-    @FXML
-    private Label lblPhone;
-    @FXML
-    private Button btnPic;
-    @FXML
-    private Button btnPsw;
-
-    @FXML
-    private Label lblLanguageTitle;
-    @FXML
-    private Label lblEnglish;
-    @FXML
-    private Label lblItalian;
-    @FXML
-    private Button btnEnglish;
-    @FXML
-    private Button btnItalian;
-
-    private static final String ERROR_TITLE_MSG = "ERROR_TITLE_MSG";
-    private static final String ERROR = "ERROR";
-
-
     public HomePageJavaFxController() {
         // Default constructor
     }
 
     public void initializeHomeView() {
-        //this.sessionBean = sessionBean;
+        //sessionBean
         mbtnNotifications.setText(properties.getProperty("NOTIFICATIONS_MSG"));
         mbtnMenuAccount.setText(properties.getProperty("ACCOUNT_MSG"));
 
@@ -93,33 +58,6 @@ public class HomePageJavaFxController extends JavaFxController{
         mibtnLogout.setOnAction(event -> handleLogout());
     }
 
-    public void initializeAccountSettingsView() {
-        lblSettingsTitle.setText(properties.getProperty("ACCOUNT_SETTINGS_MSG"));
-        lblName.setText(properties.getProperty("NAME_MSG"));
-        lblSurname.setText(properties.getProperty("SURNAME_MSG"));
-        lblEmail.setText(properties.getProperty("EMAIL_MSG"));
-        lblPassword.setText(properties.getProperty("PASSWORD_MSG"));
-        lblRole.setText(properties.getProperty("ROLE_MSG"));
-        lblPhone.setText(properties.getProperty("PHONE_N_MSG"));
-
-        btnPic.setText(properties.getProperty("CHANGE_PIC_MSG"));
-        btnPsw.setText(properties.getProperty("CHANGE_PSW_MSG"));
-
-        btnPic.setOnAction(event -> handlePictureChange());
-        btnPsw.setOnAction(event -> handlePasswordChange());
-    }
-
-    public void initializeLanguageSettingsView() {
-        lblLanguageTitle.setText(properties.getProperty("LANGUAGE_SETTINGS_MSG"));
-        lblEnglish.setText(properties.getProperty("ENGLISH_MSG"));
-        lblItalian.setText(properties.getProperty("ITALIAN_MSG"));
-        btnEnglish.setText(properties.getProperty("CHANGE_ENGLISH_MSG"));
-        btnItalian.setText(properties.getProperty("CHANGE_ITALIAN_MSG"));
-
-        btnEnglish.setOnAction(event -> handleChangeLanguage(0));
-        btnItalian.setOnAction(event -> handleChangeLanguage(1));
-    }
-
     private void handleAccountSettings() {
         try {
             // Carica il file FXML per la finestra modale
@@ -127,7 +65,7 @@ public class HomePageJavaFxController extends JavaFxController{
             Parent root = loader.load();
 
             // Ottieni il controller dalla finestra modale
-            HomePageJavaFxController controller = loader.getController();
+            AccountSettingsJavaFxController controller = loader.getController();
             controller.initializeAccountSettingsView();
 
             // Crea e visualizza la finestra modale con il form per le impostazioni dell'account
@@ -141,18 +79,20 @@ public class HomePageJavaFxController extends JavaFxController{
             popUpStage.showAndWait();
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error loading account settings form.", e);
+            logger.log(Level.SEVERE, properties.getProperty("ERROR_ACCOUNT_SETTINGS_WINDOW_MSG"), e);
         }
     }
 
     private void handleLanguageSettings() {
         try {
+            Stage stage = (Stage) mbtnMenuAccount.getScene().getWindow();
+
             // Carica il file FXML per la finestra modale
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/languageSettingsForm-view.fxml"));
             Parent root = loader.load();
 
             // Ottieni il controller dalla finestra modale
-            HomePageJavaFxController controller = loader.getController();
+            LanguageJavaFxController controller = loader.getController();
             controller.initializeLanguageSettingsView();
 
             // Crea e visualizza la finestra modale con il form per le impostazioni della lingua
@@ -162,27 +102,21 @@ public class HomePageJavaFxController extends JavaFxController{
 
             // Impostare la finestra come non ridimensionabile
             popUpStage.setResizable(false);
+
+            // Aggiungi un listener per l'evento di chiusura della finestra modale
+            popUpStage.setOnCloseRequest(event -> {
+                // Aggiorna le proprietà della lingua
+                properties = LanguageLoader.getLanguageProperties();
+                // Dopo che la finestra modale è stata chiusa, esegue il codice per aggiornare la home page e i tab
+                new TenantHomePageJavaFxGUI().startWithSession(stage, sessionBean);
+            });
+
             popUpStage.setScene(scene);
             popUpStage.showAndWait();
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error loading language settings form.", e);
+            logger.log(Level.SEVERE, properties.getProperty("ERROR_LANGUAGE_SETTINGS_WINDOW_MSG"), e);
         }
-    }
-
-    private void handlePictureChange() {
-        showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("NOT_IMPLEMENTED_MSG"));
-    }
-
-    private void handlePasswordChange() {
-        showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("NOT_IMPLEMENTED_MSG"));
-    }
-
-    private void handleChangeLanguage(int choice) {
-        LanguageLoader.loadLanguage(choice);
-        properties = LanguageLoader.getLanguageProperties();
-        //initializeHomeView();
-        initializeLanguageSettingsView();
     }
 
     @FXML
@@ -193,7 +127,7 @@ public class HomePageJavaFxController extends JavaFxController{
         try {
             login.start(stage);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error logging out.", e);
+            logger.log(Level.SEVERE, properties.getProperty("ERROR_LOGOUT_MSG"), e);
         }
     }
 }

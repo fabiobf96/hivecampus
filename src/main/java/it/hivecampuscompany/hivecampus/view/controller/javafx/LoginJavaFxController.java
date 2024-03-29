@@ -9,12 +9,14 @@ import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
 import it.hivecampuscompany.hivecampus.manager.LoginManager;
 import it.hivecampuscompany.hivecampus.view.gui.javafx.TenantHomePageJavaFxGUI;
+import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+
+import java.util.Objects;
 
 
 public class LoginJavaFxController extends JavaFxController {
@@ -45,6 +47,20 @@ public class LoginJavaFxController extends JavaFxController {
     @FXML
     private Button btnSignUp;
 
+    @FXML
+    private MenuButton mbtnLanguage;
+
+    @FXML
+    private MenuItem mibtnLangChange;
+
+    @FXML
+    private ImageView imvLang;
+
+    @FXML
+    private ImageView imvLangChange;
+
+
+
     private static final String ERROR_TITLE_MSG = "ERROR_TITLE_MSG";
     private static final String ERROR = "ERROR";
 
@@ -63,6 +79,41 @@ public class LoginJavaFxController extends JavaFxController {
         btnGoogle.setText(properties.getProperty("LOGIN_WITH_GOOGLE_MSG"));
         lblAccount.setText(properties.getProperty("DON_T_HAVE_ACCOUNT_MSG"));
         btnSignUp.setText(properties.getProperty("SIGN_UP_MSG"));
+
+        mibtnLangChange.setOnAction(event -> handleLanguageChange());
+
+    }
+    // devo mantenere un flag che mi dice se la lingua è italiana o inglese
+    /*
+    private void setLanguageImage() {
+        if (properties == null) {
+            imvLang.setImage(new Image(ENGLISH_PNG_URL));
+            imvLangChange.setImage(new Image(ITALIAN_PNG_URL));
+        }
+        else {
+            imvLang.setImage((new Image(ITALIAN_PNG_URL)));
+            imvLangChange.setImage(new Image(ENGLISH_PNG_URL));
+        }
+    }
+    */
+
+    private void handleLanguageChange() {
+        // Recupera l'URL della lingua selezionata
+        String currentImageUrl = imvLangChange.getImage().getUrl();
+        // Se la lingua selezionata è l'italiano
+        if (currentImageUrl.equals(Objects.requireNonNull(getClass().getResource(ITALIAN_PNG_URL)).toString())) {
+            LanguageLoader.loadLanguage(1);
+            properties = LanguageLoader.getLanguageProperties();
+            imvLang.setImage(new Image(ITALIAN_PNG_URL));
+            imvLangChange.setImage(new Image(ENGLISH_PNG_URL));
+            initialize();
+        } else { // Se la lingua selezionata è l'inglese
+            LanguageLoader.loadLanguage(0);
+            properties = LanguageLoader.getLanguageProperties();
+            imvLang.setImage(new Image(ENGLISH_PNG_URL));
+            imvLangChange.setImage(new Image(ITALIAN_PNG_URL));
+            initialize();
+        }
     }
 
     @FXML

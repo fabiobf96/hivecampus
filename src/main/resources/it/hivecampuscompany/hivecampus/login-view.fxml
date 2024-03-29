@@ -57,7 +57,7 @@
                          <Font name="Arial" size="12.0" />
                      </font>
                </Label>
-                 <Button fx:id="btnSignUp" mnemonicParsing="false" onAction="#handleSignUpButtonClick" prefHeight="20.0" prefWidth="59.0" style="-fx-background-color: transparent;" text="Label" textFill="#0bb7ed" underline="true" />
+                 <Button fx:id="btnSignUp" mnemonicParsing="false" onAction="#handleSignUpButtonClick" style="-fx-background-color: transparent;" text="Label" textFill="#0bb7ed" underline="true" />
             </children>
          </HBox>
       </children>

@@ -16,7 +16,7 @@
 <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.view.controller.javafx.SignUpJavaFxController">
    <VBox alignment="CENTER" style="-fx-background-color: white;" HBox.hgrow="ALWAYS">
       <children>
-           <ImageView fx:id="imvLogo" fitHeight="166.0" fitWidth="293.0" pickOnBounds="true" preserveRatio="true">
+           <ImageView fitHeight="166.0" fitWidth="293.0" pickOnBounds="true" preserveRatio="true">
                <Image url="@images/hiveCampusLogo.jpg" />
            </ImageView>
       </children>
@@ -26,14 +26,14 @@
    </VBox>
    <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #595959;" HBox.hgrow="ALWAYS">
       <children>
-           <Label fx:id="lblSignUp" text="Sign Up" textFill="WHITE">
+           <Label fx:id="lblSignUp" text="Label" textFill="WHITE">
                <font>
                    <Font name="Arial" size="20.0" />
                </font>
            </Label>
          <HBox alignment="CENTER">
             <children>
-                 <TextField fx:id="txfFirstName" prefHeight="26.0" prefWidth="127.0" promptText="First Name" HBox.hgrow="ALWAYS">
+                 <TextField fx:id="txfFirstName" prefHeight="26.0" prefWidth="127.0" promptText="Label" HBox.hgrow="ALWAYS">
                      <font>
                          <Font name="Arial" size="12.0" />
                      </font>
@@ -41,7 +41,7 @@
                      <Insets right="5.0" />
                   </HBox.margin>
                  </TextField>
-               <TextField fx:id="txfLastName" prefHeight="25.0" prefWidth="127.0" promptText="Last Name" HBox.hgrow="ALWAYS">
+               <TextField fx:id="txfLastName" prefHeight="25.0" prefWidth="127.0" promptText="Label" HBox.hgrow="ALWAYS">
                   <font>
                      <Font name="Arial" size="12.0" />
                   </font>
@@ -51,21 +51,21 @@
                </TextField>
             </children>
          </HBox>
-         <TextField fx:id="txfEmail" prefHeight="25.0" prefWidth="260.0" promptText="Email">
+         <TextField fx:id="txfEmail" prefHeight="25.0" prefWidth="260.0" promptText="Label">
             <font>
                <Font name="Arial" size="12.0" />
             </font>
          </TextField>
-           <PasswordField fx:id="txfPassword" prefHeight="25.0" prefWidth="250.0" promptText="Password" />
-         <PasswordField fx:id="txfConfPassword" prefHeight="25.0" prefWidth="260.0" promptText="Confirm Password" />
-         <TextField fx:id="txfTelephone" prefHeight="25.0" prefWidth="260.0" promptText="Telephone Number">
+           <PasswordField fx:id="txfPassword" prefHeight="25.0" prefWidth="250.0" promptText="Label" />
+         <PasswordField fx:id="txfConfPassword" prefHeight="25.0" prefWidth="260.0" promptText="Label" />
+         <TextField fx:id="txfTelephone" prefHeight="25.0" prefWidth="260.0" promptText="Label">
             <font>
                <Font name="Arial" size="12.0" />
             </font>
          </TextField>
          <Pane>
             <children>
-                 <Label fx:id="lblChoose" text="Choose account type" textFill="WHITE">
+                 <Label fx:id="lblChoose" text="Label" textFill="WHITE">
                      <font>
                          <Font name="Arial" size="12.0" />
                      </font>
@@ -74,19 +74,19 @@
          </Pane>
          <HBox spacing="10.0">
             <children>
-               <CheckBox fx:id="ckbOwner" mnemonicParsing="false" text="Owner" textFill="WHITE" />
-               <CheckBox fx:id="ckbTenant" mnemonicParsing="false" text="Tenant" textFill="WHITE" />
+               <CheckBox fx:id="ckbOwner" mnemonicParsing="false" text="Label" textFill="WHITE" />
+               <CheckBox fx:id="ckbTenant" mnemonicParsing="false" text="Label" textFill="WHITE" />
             </children>
          </HBox>
-           <Button fx:id="btnSignUp" onAction="#handleSignUpButtonClick" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Sign Up" />
+           <Button fx:id="btnSignUp" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Label" />
          <HBox alignment="CENTER">
             <children>
-               <Label fx:id="lblAccount" text="Already have an Account?" textFill="WHITE">
+               <Label fx:id="lblAccount" text="Label" textFill="WHITE">
                   <font>
                      <Font name="Arial" size="12.0" />
                   </font>
                </Label>
-                 <Button fx:id="btnLogHere" onAction="#handleLogHereButtonClick" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" style="-fx-background-color: transparent;" text="Login here" textFill="#0bb7ed" underline="true" />
+                 <Button fx:id="btnLogHere" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Label" textFill="#0bb7ed" underline="true" />
             </children>
          </HBox>
       </children>

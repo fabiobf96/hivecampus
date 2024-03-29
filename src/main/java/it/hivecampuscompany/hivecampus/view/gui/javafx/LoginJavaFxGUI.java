@@ -1,25 +1,55 @@
 package it.hivecampuscompany.hivecampus.view.gui.javafx;
 
+import it.hivecampuscompany.hivecampus.view.controller.javafx.LoginJavaFxController;
+import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
+import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
+import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.CompositeVBox;
+import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.HBoxDecorator;
+import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Properties;
+import java.util.logging.Logger;
+
 public class LoginJavaFxGUI extends Application {
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/login-view.fxml"));
-        Parent root = loader.load();
 
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Log On");
-        primaryStage.show();
+    private final Logger logger = Logger.getLogger(LoginJavaFxGUI.class.getName());
+    protected Properties properties;
+
+    public LoginJavaFxGUI(){
+        properties = LanguageLoader.getLanguageProperties();
     }
+    @Override
+    public void start(Stage stage) {
+        startLoginSection();
+        HBoxDecorator hBoxDecorator = new HBoxDecorator(new LoginJavaFxGUI().startLoginSection());
 
+        Scene scene = new Scene((Parent) hBoxDecorator.setup());
+        stage.setScene(scene);
+        stage.setTitle("Login");
+        stage.show();
+    }
+    public BasicComponent startLoginSection() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/loginSection-view.fxml"));
+            Node loginComponent = loader.load();
+
+            LoginJavaFxController controller = loader.getController();
+            controller.initialize();
+
+            return new BasicComponent(loginComponent);
+        } catch (Exception e) {
+            logger.severe(properties.getProperty("ERROR_LOADING_MSG"));
+            System.exit(1);
+        }
+        return null;
+    }
     public static void main(String[] args) {
         launch(args);
     }
-
 }
