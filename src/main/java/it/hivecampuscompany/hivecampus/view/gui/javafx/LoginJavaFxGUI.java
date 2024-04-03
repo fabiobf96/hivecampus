@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class LoginJavaFxGUI extends Application {
 
-    private final Logger logger = Logger.getLogger(LoginJavaFxGUI.class.getName());
+    private final Logger LOGGER = Logger.getLogger(LoginJavaFxGUI.class.getName());
     protected Properties properties;
 
     public LoginJavaFxGUI(){
@@ -42,7 +42,7 @@ public class LoginJavaFxGUI extends Application {
 
             return new BasicComponent(loginComponent);
         } catch (Exception e) {
-            logger.severe(properties.getProperty("ERROR_LOADING_MSG"));
+            LOGGER.severe(properties.getProperty("ERROR_LOADING_MSG"));
             System.exit(1);
         }
         return null;

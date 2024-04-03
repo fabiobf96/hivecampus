@@ -5,6 +5,7 @@ module it.hivecampuscompany.hivecampus {
     requires java.logging;
     requires com.opencsv;
     requires java.sql;
+    requires java.desktop;
 
     opens it.hivecampuscompany.hivecampus.images;
 

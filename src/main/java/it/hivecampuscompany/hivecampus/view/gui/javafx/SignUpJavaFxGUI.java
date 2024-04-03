@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class SignUpJavaFxGUI extends Application {
 
-    private final Logger logger = Logger.getLogger(SignUpJavaFxGUI.class.getName());
+    private final Logger LOGGER = Logger.getLogger(SignUpJavaFxGUI.class.getName());
     protected Properties properties;
 
     public SignUpJavaFxGUI(){
@@ -44,7 +44,7 @@ public class SignUpJavaFxGUI extends Application {
 
             return new BasicComponent(signUpComponent);
         } catch (Exception e) {
-            logger.severe(properties.getProperty("ERROR_LOADING_MSG"));
+            LOGGER.severe(properties.getProperty("ERROR_LOADING_MSG"));
             System.exit(1);
         }
         return null;

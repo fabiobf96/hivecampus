@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.view.controller.javafx.PreviewRoomJavaFxController">
    <children>
       <BorderPane>
          <top>
@@ -34,32 +32,32 @@
                         </VBox>
                         <VBox spacing="15.0">
                            <children>
-                              <Label text="Room features" />
+                              <Label fx:id="lblFeatures" text="Room features" />
                               <HBox spacing="45.0" style="-fx-border-color: grey; -fx-border-radius: 5; -fx-background-color: white;">
                                  <children>
                                     <VBox alignment="CENTER_LEFT" spacing="5.0">
                                        <children>
-                                          <Label text="Surface:">
+                                          <Label fx:id="lblSurface" text="Surface:">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
                                           </Label>
-                                          <Label text="Private Bathroom:">
+                                          <Label fx:id="lblPrivateBath" text="Private Bathroom:">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
                                           </Label>
-                                          <Label text="Balcony">
+                                          <Label fx:id="lblBalcony" text="Balcony">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
                                           </Label>
-                                          <Label text="Conditioner:">
+                                          <Label fx:id="lblConditioner" text="Conditioner:">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
                                           </Label>
-                                          <Label text="TV Connection:">
+                                          <Label fx:id="lblTVConnection" text="TV Connection:">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
@@ -71,7 +69,7 @@
                                     </VBox>
                                     <VBox alignment="CENTER_LEFT" spacing="5.0">
                                        <children>
-                                          <Label fx:id="lblSurface" text="Label">
+                                          <Label fx:id="lblArea" text="Label">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
@@ -81,12 +79,12 @@
                                                 <Insets />
                                              </VBox.margin>
                                           </Label>
-                                          <Label fx:id="lblBalcony" text="Label">
+                                          <Label fx:id="lblBalc" text="Label">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>
                                           </Label>
-                                          <Label fx:id="lblConditioner" text="Label">
+                                          <Label fx:id="lblAirCond" text="Label">
                                              <VBox.margin>
                                                 <Insets />
                                              </VBox.margin>

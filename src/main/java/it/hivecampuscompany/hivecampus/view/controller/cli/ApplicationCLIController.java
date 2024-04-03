@@ -2,13 +2,13 @@ package it.hivecampuscompany.hivecampus.view.controller.cli;
 
 import it.hivecampuscompany.hivecampus.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.bean.UserBean;
+import it.hivecampuscompany.hivecampus.exception.AuthenticateException;
 import it.hivecampuscompany.hivecampus.manager.LoginManager;
 import it.hivecampuscompany.hivecampus.exception.DuplicateRowException;
 import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
-import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
-import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.InputMismatchException;
 
 public class ApplicationCLIController extends CLIController {
@@ -58,7 +58,7 @@ public class ApplicationCLIController extends CLIController {
             }
         } catch (InputMismatchException e){
             invalidChoice();
-        } catch (DuplicateRowException | InvalidEmailException | PasswordMismatchException e){
+        } catch (DuplicateRowException | AuthenticateException | NoSuchAlgorithmException e){
             view.displayMessage(properties.getProperty(e.getMessage()));
             homePage();
         }

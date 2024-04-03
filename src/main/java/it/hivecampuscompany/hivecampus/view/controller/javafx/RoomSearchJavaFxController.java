@@ -6,12 +6,12 @@ import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decora
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 
 import java.io.IOException;
 
 public class RoomSearchJavaFxController extends JavaFxController implements TabInitializerController {
-    //private static final Logger logger = Logger.getLogger(RoomSearchJavaFxController.class.getName());
 
     @FXML
     private Label lblFilters;
@@ -44,7 +44,7 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
     private Button btnSearch;
 
     @FXML
-    protected ListView<Node> lvRooms;
+    private ListView<Node> lvRooms;
 
     public RoomSearchJavaFxController() {
         // Default constructor
@@ -66,12 +66,16 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
         btnSearch.setOnAction(event -> handleSearch());
     }
 
-    private void handleSearch() {
-        System.out.println("Search");
+    private void handleSearch() {  // devo gestire la ricerca con i filtri
         try {
             for (int i = 0; i < 4; i++) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/previewRoomInfo-card.fxml"));
-                BasicComponent basicComponent = new BasicComponent(loader.load());
+                Parent root = loader.load(); // Carica il file FXML e restituisce il nodo radice
+
+                PreviewRoomJavaFxController previewRoomJavaFxController = loader.getController();
+                previewRoomJavaFxController.initializePreviewDistance(); // Inizializza il controller dopo aver caricato il file FXML
+
+                BasicComponent basicComponent = new BasicComponent(root);
                 PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(basicComponent);
                 lvRooms.getItems().add(previewRoomDecorator.setup());
             }

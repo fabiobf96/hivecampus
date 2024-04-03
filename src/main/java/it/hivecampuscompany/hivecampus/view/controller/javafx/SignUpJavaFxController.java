@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 public class SignUpJavaFxController extends JavaFxController {
@@ -178,7 +179,7 @@ public class SignUpJavaFxController extends JavaFxController {
             clearFields();
             handleLogHere();
 
-        } catch (InvalidEmailException | PasswordMismatchException | DuplicateRowException | EmptyFieldsException e) {
+        } catch (InvalidEmailException | PasswordMismatchException | DuplicateRowException | EmptyFieldsException | NoSuchAlgorithmException e) {
             showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty(e.getMessage()));
         }
     }

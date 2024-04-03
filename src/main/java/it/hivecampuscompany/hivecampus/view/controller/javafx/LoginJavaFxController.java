@@ -1,12 +1,12 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
 
+import it.hivecampuscompany.hivecampus.exception.AuthenticateException;
 import it.hivecampuscompany.hivecampus.view.gui.javafx.OwnerHomePageJavaFxGUI;
 import it.hivecampuscompany.hivecampus.view.gui.javafx.SignUpJavaFxGUI;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
-import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
 import it.hivecampuscompany.hivecampus.manager.LoginManager;
 import it.hivecampuscompany.hivecampus.view.gui.javafx.TenantHomePageJavaFxGUI;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
@@ -16,6 +16,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.security.NoSuchAlgorithmException;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 
@@ -55,7 +57,6 @@ public class LoginJavaFxController extends JavaFxController {
 
     @FXML
     private ImageView imvLangChange;
-
 
 
     private static final String ERROR_TITLE_MSG = "ERROR_TITLE_MSG";
@@ -126,7 +127,7 @@ public class LoginJavaFxController extends JavaFxController {
             // Shows the correct homepage based on the account type
             showHomePage(sessionBean);
         }
-        catch (InvalidEmailException | PasswordMismatchException e) {
+        catch (InvalidEmailException | AuthenticateException | NoSuchAlgorithmException e) {
             showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty(e.getMessage()));
         }
     }

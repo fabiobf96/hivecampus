@@ -25,7 +25,7 @@ public class AccountDAOMySql implements AccountDAO {
             cstmt.executeUpdate();
 
         } catch (SQLException e) {
-            LOGGER.severe("Error while saving account.");
+            LOGGER.severe("FAILED_SAVE_ACCOUNT");
         }
     }
 }

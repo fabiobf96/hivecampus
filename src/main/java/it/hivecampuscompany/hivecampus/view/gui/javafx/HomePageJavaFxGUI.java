@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 public abstract class HomePageJavaFxGUI extends Application {
 
-    protected Logger logger = Logger.getLogger(HomePageJavaFxGUI.class.getName());
+    protected Logger LOGGER = Logger.getLogger(HomePageJavaFxGUI.class.getName());
     protected Properties properties;
 
     protected HomePageJavaFxGUI(){
@@ -37,7 +37,7 @@ public abstract class HomePageJavaFxGUI extends Application {
 
             return new BasicComponent(tabContent);
         } catch (IOException | RuntimeException e) {
-            logger.log(Level.SEVERE, "Error while loading.", e);
+            LOGGER.log(Level.SEVERE, "Error while loading.", e);
             System.exit(1);
         }
         return null;

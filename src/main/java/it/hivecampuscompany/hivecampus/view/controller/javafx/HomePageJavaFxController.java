@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 public class HomePageJavaFxController extends JavaFxController{
 
-    private static final Logger logger = Logger.getLogger(HomePageJavaFxController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(HomePageJavaFxController.class.getName());
 
     @FXML
     private MenuButton mbtnNotifications;
@@ -79,7 +79,7 @@ public class HomePageJavaFxController extends JavaFxController{
             popUpStage.showAndWait();
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, properties.getProperty("ERROR_ACCOUNT_SETTINGS_WINDOW_MSG"), e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("ERROR_ACCOUNT_SETTINGS_WINDOW_MSG"), e);
         }
     }
 
@@ -115,7 +115,7 @@ public class HomePageJavaFxController extends JavaFxController{
             popUpStage.showAndWait();
 
         } catch (Exception e) {
-            logger.log(Level.SEVERE, properties.getProperty("ERROR_LANGUAGE_SETTINGS_WINDOW_MSG"), e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("ERROR_LANGUAGE_SETTINGS_WINDOW_MSG"), e);
         }
     }
 
@@ -127,7 +127,7 @@ public class HomePageJavaFxController extends JavaFxController{
         try {
             login.start(stage);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, properties.getProperty("ERROR_LOGOUT_MSG"), e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("ERROR_LOGOUT_MSG"), e);
         }
     }
 }

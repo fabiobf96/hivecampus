@@ -2,11 +2,13 @@ package it.hivecampuscompany.hivecampus.logic.manager;
 
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.bean.UserBean;
+import it.hivecampuscompany.hivecampus.exception.AuthenticateException;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
 import it.hivecampuscompany.hivecampus.manager.LoginManager;
 import org.junit.jupiter.api.Test;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -61,7 +63,7 @@ class LoginTest {
         try {
             SessionBean sessionBean = control.login(userBean);
             assertEquals(hashEmail, sessionBean.getId());
-        } catch (InvalidEmailException | PasswordMismatchException e) {
+        } catch (AuthenticateException | NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
     }

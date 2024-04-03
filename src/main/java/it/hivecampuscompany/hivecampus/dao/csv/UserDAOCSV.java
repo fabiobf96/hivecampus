@@ -1,12 +1,13 @@
 package it.hivecampuscompany.hivecampus.dao.csv;
 
+import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.dao.UserDAO;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
+import it.hivecampuscompany.hivecampus.exception.AuthenticateException;
 import it.hivecampuscompany.hivecampus.exception.DuplicateRowException;
-import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.model.User;
 
 import java.io.*;
@@ -23,7 +24,7 @@ public class UserDAOCSV implements UserDAO {
             properties.load(input);
             fd = new File(properties.getProperty("USER_PATH"));
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
+            LOGGER.log(Level.SEVERE, "FAILED_LOADING_CSV_PROPERTIES", e);
             System.exit(1);
         }
     }
@@ -38,7 +39,7 @@ public class UserDAOCSV implements UserDAO {
                 writer.writeNext(userRecord);
                 // User created successfully
             } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, "Failed to save user", e);
+                LOGGER.log(Level.SEVERE, "FAILED_SAVE_USER", e); // Failed to save user
                 System.exit(2);
             }
         }
@@ -46,26 +47,26 @@ public class UserDAOCSV implements UserDAO {
             throw new DuplicateRowException("ACCOUNT_EXIST");
         }
     }
+
     @Override
-    public User retrieveUserByEmail(String email) throws InvalidEmailException {
-        if(checkUserExist(email)){
-            try (CSVReader reader = new CSVReader(new FileReader(fd))) {
-                String[] nextRecord;
-                while ((nextRecord = reader.readNext()) != null) {
-                    String storedEmail = nextRecord[UserAttributesOrder.GET_INDEX_EMAIL].trim();
-                    if (email.equals(storedEmail)) {
-                        return new User(storedEmail, nextRecord[UserAttributesOrder.GET_INDEX_PASSWORD], nextRecord[UserAttributesOrder.GET_INDEX_ROLE]);
-                    }
+    public User verifyCredentials(User user) throws AuthenticateException {
+        String email = user.getEmail();
+        String psw = user.getPassword();
+        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
+            String[] nextRecord;
+            while ((nextRecord = reader.readNext()) != null) {
+                String storedEmail = nextRecord[UserAttributesOrder.GET_INDEX_EMAIL].trim();
+                String storedPassword = nextRecord[UserAttributesOrder.GET_INDEX_PASSWORD].trim();
+                if (email.equals(storedEmail) && psw.equals(storedPassword)) {
+                    return new User(storedEmail, storedPassword, nextRecord[UserAttributesOrder.GET_INDEX_ROLE]);
                 }
-            } catch (IOException | CsvValidationException e) {
-                LOGGER.log(Level.SEVERE, "Failed to check if user exists", e);
             }
+        } catch (IOException | CsvValidationException e) {
+            LOGGER.log(Level.SEVERE, "FAILED_CHECK_USER", e); // Failed to check if user exists
         }
-        else {
-            throw new InvalidEmailException("ACCOUNT_NOT_EXIST");
-        }
-        return null;
+        throw new AuthenticateException("INCORRECT_CREDENTIALS"); // Email and/or password incorrect
     }
+
     private boolean checkUserExist(String email) {
         try (CSVReader reader = new CSVReader(new FileReader(fd))) {
             String[] nextRecord;
@@ -76,7 +77,7 @@ public class UserDAOCSV implements UserDAO {
                 }
             }
         } catch (IOException | CsvValidationException e) {
-            LOGGER.log(Level.SEVERE, "Failed to check if user exists", e);
+            LOGGER.log(Level.SEVERE, "FAILED_CHECK_USER", e);
         }
         return false;
     }
