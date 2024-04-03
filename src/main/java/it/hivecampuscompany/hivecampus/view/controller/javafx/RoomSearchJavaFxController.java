@@ -8,41 +8,34 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-
 import java.io.IOException;
 
 public class RoomSearchJavaFxController extends JavaFxController implements TabInitializerController {
 
     @FXML
     private Label lblFilters;
-
     @FXML
     private Label lblServices;
-
     @FXML
     private CheckBox ckbPrivateBath;
-
     @FXML
     private CheckBox ckbBalcony;
-
     @FXML
     private CheckBox ckbConditioner;
-
     @FXML
     private CheckBox ckbTvConnection;
-
     @FXML
     private Label lblRentalPrice;
-
     @FXML
     private Label lblDistance;
-
     @FXML
     private TextField searchField;
-
+    @FXML
+    private TextField txfMaxPrice;
+    @FXML
+    private TextField txfDistance;
     @FXML
     private Button btnSearch;
-
     @FXML
     private ListView<Node> lvRooms;
 

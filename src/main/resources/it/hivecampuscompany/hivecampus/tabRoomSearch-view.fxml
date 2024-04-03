@@ -15,89 +15,78 @@
 <BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.view.controller.javafx.RoomSearchJavaFxController">
    <left>
       <VBox>
-         <children>
-            <VBox spacing="10.0" style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 5;">
-               <children>
-                  <Label fx:id="lblFilters" text="Label">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="lblServices" text="Label" />
-                  <VBox spacing="10.0" style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 5;">
-                     <children>
-                        <CheckBox fx:id="ckbPrivateBath" mnemonicParsing="false" text="Label">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </CheckBox>
-                        <CheckBox fx:id="ckbBalcony" mnemonicParsing="false" text="Label">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </CheckBox>
-                        <CheckBox fx:id="ckbConditioner" mnemonicParsing="false" text="Label">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                         </CheckBox>
-                        <CheckBox fx:id="ckbTvConnection" mnemonicParsing="false" text="Label">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </CheckBox>
-                     </children>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </VBox>
-                  <Label fx:id="lblRentalPrice" text="Label" />
-                  <HBox alignment="CENTER" spacing="10.0">
-                     <children>
-                        <Label text="Max" />
-                        <TextField fx:id="txfMaxPrice" style="-fx-border-color: grey; -fx-border-radius: 5;" />
-                     </children>
-                  </HBox>
-                  <Label fx:id="lblDistance" text="Label" />
-                  <HBox alignment="CENTER" spacing="10.0">
-                     <children>
-                        <Label text="Km" />
-                        <TextField fx:id="txfDistance" style="-fx-border-color: grey; -fx-border-radius: 5;" />
-                     </children>
-                  </HBox>
-               </children>
-               <padding>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-               </padding>
-            </VBox>
-         </children>
          <padding>
-            <Insets bottom="10.0" left="20.0" right="10.0" top="20.0" />
+            <Insets bottom="10.0" left="20.0" right="10.0" top="20.0"/>
          </padding>
+         <VBox spacing="10.0" style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 5;">
+            <padding>
+               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+            </padding>
+            <Label fx:id="lblFilters" text="Label">
+               <font>
+                  <Font name="System Bold" size="12.0"/>
+               </font>
+            </Label>
+            <Label fx:id="lblServices" text="Label"/>
+            <VBox spacing="10.0" style="-fx-border-color: grey; -fx-background-color: white; -fx-border-radius: 5;">
+               <VBox.margin>
+                  <Insets/>
+               </VBox.margin>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+               </padding>
+               <CheckBox fx:id="ckbPrivateBath" mnemonicParsing="false" text="Label">
+                  <VBox.margin>
+                     <Insets/>
+                  </VBox.margin>
+               </CheckBox>
+               <CheckBox fx:id="ckbBalcony" mnemonicParsing="false" text="Label">
+                  <VBox.margin>
+                     <Insets/>
+                  </VBox.margin>
+               </CheckBox>
+               <CheckBox fx:id="ckbConditioner" mnemonicParsing="false" text="Label">
+                  <VBox.margin>
+                     <Insets/>
+                  </VBox.margin>
+               </CheckBox>
+               <CheckBox fx:id="ckbTvConnection" mnemonicParsing="false" text="Label">
+                  <VBox.margin>
+                     <Insets/>
+                  </VBox.margin>
+               </CheckBox>
+            </VBox>
+            <Label fx:id="lblRentalPrice" text="Label"/>
+            <HBox alignment="CENTER" spacing="10.0">
+               <Label text="Max"/>
+               <TextField fx:id="txfMaxPrice" style="-fx-border-color: grey; -fx-border-radius: 5;"/>
+            </HBox>
+            <Label fx:id="lblDistance" text="Label"/>
+            <HBox alignment="CENTER" spacing="10.0">
+               <Label text="Km"/>
+               <TextField fx:id="txfDistance" style="-fx-border-color: grey; -fx-border-radius: 5;"/>
+            </HBox>
+         </VBox>
       </VBox>
    </left>
    <center>
       <VBox spacing="15.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox>
-               <children>
-                  <TextField fx:id="searchField" promptText="Label..." style="-fx-border-color: grey; -fx-border-radius: 3;" HBox.hgrow="ALWAYS" />
-                  <Button fx:id="btnSearch" text="Label" />
-               </children>
-            </HBox>
-            <ListView fx:id="lvRooms" style="-fx-border-color: grey; -fx-border-radius: 5;" stylesheets="@listViewStyle.css" VBox.vgrow="ALWAYS">
-               <styleClass>
-                  <String fx:value="list-cell" />
-                  <String fx:value="list-view" />
-                  <String fx:value="label" />
-               </styleClass></ListView>
-         </children>
          <padding>
-            <Insets bottom="20.0" left="10.0" right="20.0" top="20.0" />
+            <Insets bottom="20.0" left="10.0" right="20.0" top="20.0"/>
          </padding>
+         <HBox>
+            <TextField fx:id="searchField" promptText="Label..."
+                       style="-fx-border-color: grey; -fx-border-radius: 3;" HBox.hgrow="ALWAYS"/>
+            <Button fx:id="btnSearch" text="Label"/>
+         </HBox>
+         <ListView fx:id="lvRooms" style="-fx-border-color: grey; -fx-border-radius: 5;"
+                   stylesheets="@listViewStyle.css" VBox.vgrow="ALWAYS">
+            <styleClass>
+               <String fx:value="list-cell"/>
+               <String fx:value="list-view"/>
+               <String fx:value="label"/>
+            </styleClass>
+         </ListView>
       </VBox>
    </center>
 </BorderPane>

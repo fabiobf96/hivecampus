@@ -6,62 +6,59 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #595959;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.view.controller.javafx.LoginJavaFxController">
-   <children>
-      <VBox alignment="TOP_RIGHT">
-         <children>
-            <MenuButton mnemonicParsing="false">
-               <graphic>
-                  <ImageView fx:id="imvLang" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" />
-               </graphic>
-               <items>
-                  <MenuItem fx:id="mibtnLangChange" mnemonicParsing="false">
-                     <graphic>
-                        <ImageView fx:id="imvLangChange" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
-                     </graphic>
-                  </MenuItem>
-               </items>
-            </MenuButton>
-         </children>
-      </VBox>
-      <Label fx:id="lblLogin" text="Label" textFill="WHITE">
-         <font>
-            <Font name="Arial" size="20.0" />
-         </font>
-      </Label>
-      <TextField fx:id="txfEmail" prefHeight="25.0" prefWidth="260.0" promptText="Label" style="-fx-background-radius: 7;">
-         <font>
-            <Font name="Arial" size="12.0" />
-         </font>
-      </TextField>
-      <PasswordField fx:id="txfPassword" prefHeight="25.0" prefWidth="200.0" promptText="Label" style="-fx-background-radius: 7;" />
-      <Button fx:id="btnLogin" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Label" />
-      <Label fx:id="lblOr" text="Label" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Button fx:id="btnGoogle" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Label">
-         <graphic>
-            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" translateX="-10.0">
-               <image>
-                  <Image url="@images/google.png" />
-               </image>
-            </ImageView>
-         </graphic>
-      </Button>
-      <HBox alignment="CENTER">
-         <children>
-            <Label fx:id="lblAccount" text="Label" textFill="WHITE">
-               <font>
-                  <Font name="Arial" size="12.0" />
-               </font>
-            </Label>
-            <Button fx:id="btnSignUp" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Label" textFill="#0bb7ed" underline="true" />
-         </children>
-      </HBox>
-   </children>
+<VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #595959;"
+      xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.hivecampuscompany.hivecampus.view.controller.javafx.LoginJavaFxController">
    <padding>
-      <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+      <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
    </padding>
+   <VBox alignment="TOP_RIGHT">
+      <MenuButton mnemonicParsing="false">
+         <graphic>
+            <ImageView fx:id="imvLang" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true"/>
+         </graphic>
+         <items>
+            <MenuItem fx:id="mibtnLangChange" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fx:id="imvLangChange" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true"
+                             preserveRatio="true"/>
+               </graphic>
+            </MenuItem>
+         </items>
+      </MenuButton>
+   </VBox>
+   <Label fx:id="lblLogin" text="Label" textFill="WHITE">
+      <font>
+         <Font name="Arial" size="20.0"/>
+      </font>
+   </Label>
+   <TextField fx:id="txfEmail" prefHeight="25.0" prefWidth="260.0" promptText="Label" style="-fx-background-radius: 7;">
+      <font>
+         <Font name="Arial" size="12.0"/>
+      </font>
+   </TextField>
+   <PasswordField fx:id="txfPassword" prefHeight="25.0" prefWidth="200.0" promptText="Label"
+                  style="-fx-background-radius: 7;"/>
+   <Button fx:id="btnLogin" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Label"/>
+   <Label fx:id="lblOr" text="Label" textFill="WHITE">
+      <font>
+         <Font size="14.0"/>
+      </font>
+   </Label>
+   <Button fx:id="btnGoogle" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Label">
+      <graphic>
+         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" translateX="-10.0">
+            <Image url="@images/google.png"/>
+         </ImageView>
+      </graphic>
+   </Button>
+   <HBox alignment="CENTER">
+      <Label fx:id="lblAccount" text="Label" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="12.0"/>
+         </font>
+      </Label>
+      <Button fx:id="btnSignUp" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Label"
+              textFill="#0bb7ed" underline="true"/>
+   </HBox>
 </VBox>

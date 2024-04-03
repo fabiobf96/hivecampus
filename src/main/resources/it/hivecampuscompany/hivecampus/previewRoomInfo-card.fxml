@@ -4,36 +4,28 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="15.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.view.controller.javafx.PreviewRoomJavaFxController">
-   <children>
-      <HBox spacing="10.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 5;">
-         <children>
-            <HBox spacing="5.0">
-               <children>
-                  <Label fx:id="lblDist" text="Distance from" />
-                  <Label fx:id="lblUniversity" text="Label" />
-                  <Label fx:id="lblDistUni" text="University:" />
-               </children>
-            </HBox>
-            <HBox spacing="5.0">
-               <children>
-                  <Label fx:id="lblDistance" text="Label" />
-                  <Label text="Km" />
-               </children>
-            </HBox>
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      spacing="15.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="it.hivecampuscompany.hivecampus.view.controller.javafx.PreviewRoomJavaFxController">
+   <HBox spacing="10.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 5;">
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </padding>
+      <HBox spacing="5.0">
+         <Label fx:id="lblDist" text="Distance from"/>
+         <Label fx:id="lblUniversity" text="Label"/>
+         <Label fx:id="lblDistUni" text="University:"/>
       </HBox>
-      <HBox spacing="10.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 5;">
-         <children>
-            <Label fx:id="lblAvl" text="Availability:" />
-            <Label fx:id="lblAvailability" text="Label" />
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
+      <HBox spacing="5.0">
+         <Label fx:id="lblDistance" text="Label"/>
+         <Label text="Km"/>
       </HBox>
-   </children>
+   </HBox>
+   <HBox spacing="10.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 5;">
+      <padding>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+      </padding>
+      <Label fx:id="lblAvl" text="Availability:"/>
+      <Label fx:id="lblAvailability" text="Label"/>
+   </HBox>
 </HBox>
