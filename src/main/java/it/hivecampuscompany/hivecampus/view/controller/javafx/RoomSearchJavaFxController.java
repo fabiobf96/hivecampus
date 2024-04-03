@@ -1,14 +1,10 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
+import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.PreviewRoomDecorator;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
-import java.io.IOException;
 
 public class RoomSearchJavaFxController extends JavaFxController implements TabInitializerController {
 
@@ -59,23 +55,51 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
         btnSearch.setOnAction(event -> handleSearch());
     }
 
-    private void handleSearch() {  // devo gestire la ricerca con i filtri
-        try {
-            for (int i = 0; i < 4; i++) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/previewRoomInfo-card.fxml"));
-                Parent root = loader.load(); // Carica il file FXML e restituisce il nodo radice
+    private void handleSearch() {
+        // Manage the search button click event
+        String university = searchField.getText().trim();
+        Float maxDistance = validateNumericInput(txfDistance.getText(), 15F); // Check distance
+        Integer maxPrice = (validateNumericInput(txfMaxPrice.getText(), 1000)).intValue(); // Check price
+        Boolean privateBath = ckbPrivateBath.isSelected();
+        Boolean balcony = ckbBalcony.isSelected();
+        Boolean conditioner = ckbConditioner.isSelected();
+        Boolean tvConnection = ckbTvConnection.isSelected();
 
-                PreviewRoomJavaFxController previewRoomJavaFxController = loader.getController();
-                previewRoomJavaFxController.initializePreviewDistance(); // Inizializza il controller dopo aver caricato il file FXML
+        if (university.isEmpty()) {
+            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("START_SEARCH_MSG"));
+            return;
+        }
 
-                BasicComponent basicComponent = new BasicComponent(root);
-                PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(basicComponent);
-                lvRooms.getItems().add(previewRoomDecorator.setup());
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        FiltersBean filtersBean;
+
+        try{
+            filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
+            System.out.println(filtersBean);
+
+
+
+        } catch (Exception e) {
+            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("ERROR_SEARCH_MSG"));
         }
     }
 
+    private Float validateNumericInput(String input, float defaultValue) {
+        // Verify if the input is empty
+        if (input.isEmpty()){
+            return defaultValue;
+        }
+        else {
+            // Verifica se il valore supera il limite o non rappresenta un numero
+            try {
+                float floatValue = Float.parseFloat(input);
+                if (floatValue > defaultValue) {
+                    return defaultValue;
+                }
+            } catch (NumberFormatException e) {
+                showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("INVALID_FILTER_MSG"));
+            }
+        }
+        return Float.parseFloat(input);
+    }
 
 }

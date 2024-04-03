@@ -25,9 +25,6 @@ public class AccountSettingsJavaFxController extends JavaFxController {
     @FXML
     private Button btnPsw;
 
-    private static final String ERROR_TITLE_MSG = "ERROR_TITLE_MSG";
-    private static final String ERROR = "ERROR";
-
     public AccountSettingsJavaFxController() {
         // Default constructor
     }

@@ -100,15 +100,13 @@ public class ImageChooser extends Application {
     }
 
     private void insertImageIntoDatabase(byte[] byteArray, String imageName, String imageType) {
-        int idRoom = 2;
         int idHome = 3;
-        String sql = "INSERT INTO hivecampus2.room_images (name, type, image, room, home) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO hivecampus2.home_images (name, type, image, home) VALUES (?, ?, ?, ?)";
         try (java.sql.PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, imageName);
             pstmt.setString(2, imageType);
             pstmt.setBytes(3, byteArray);
-            pstmt.setInt(4, idRoom);
-            pstmt.setInt(5, idHome);
+            pstmt.setInt(4, idHome);
             pstmt.executeUpdate();
         } catch (Exception e) {
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
