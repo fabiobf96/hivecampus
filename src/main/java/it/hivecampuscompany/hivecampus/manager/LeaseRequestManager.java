@@ -15,11 +15,4 @@ public class LeaseRequestManager {
         return adBeanList;
     }
 
-    public void sendLeaseRequest(LeaseRequestBean leaseRequestBean){
-        LeaseRequest leaseRequest = new LeaseRequest(leaseRequestBean);
-        leaseRequest.save();
-    }
-
-    public List<LeaseRequestBean> searchLeaseRequestsByRoomID (RoomBean roomBean){return null;
-    }
 }

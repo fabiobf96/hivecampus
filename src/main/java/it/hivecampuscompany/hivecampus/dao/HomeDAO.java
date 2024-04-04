@@ -2,9 +2,17 @@ package it.hivecampuscompany.hivecampus.dao;
 
 import it.hivecampuscompany.hivecampus.model.Home;
 
-import java.util.List;
-
+/**
+ * HomeDAO interface for managing home data.
+ * Provides an operation for retrieving a home by its ID.
+ */
 public interface HomeDAO {
-    List<Home> retrieveHomesByEmail(String email);
-    List<Home> retrieveHomesByUniversity(String universityName);
+
+    /**
+     * Retrieves a home by its ID.
+     *
+     * @param id The unique identifier of the home to retrieve.
+     * @return The {@link Home} object if found, otherwise null.
+     */
+    Home retrieveHomeByID(int id);
 }

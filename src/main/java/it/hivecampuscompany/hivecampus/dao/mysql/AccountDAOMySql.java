@@ -28,4 +28,9 @@ public class AccountDAOMySql implements AccountDAO {
             LOGGER.severe("FAILED_SAVE_ACCOUNT");
         }
     }
+
+    @Override
+    public Account retrieveAccountInformationByEmail(String email) {
+        return null;
+    }
 }

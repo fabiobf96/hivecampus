@@ -1,19 +1,22 @@
 package it.hivecampuscompany.hivecampus.model;
 
-import java.util.List;
-
 public class Room {
-    private int idHome;
-    private int idRoom;
-    private float price;
+    private int id;
     private int surface;
-    private String type;
-    private boolean bathroom;
-    private boolean balcony;
-    private boolean conditioner;
-    private boolean tv;
-    private boolean available;
-    private String start;
+    private String typeRoom;
+    private boolean[] services;
     private String description;
-    private List<LeaseRequest> leaseRequestList;
+
+    public Room(int id, int surface, String typeRoom, boolean[] services, String description) {
+        this.id = id;
+        this.surface = surface;
+        this.typeRoom = typeRoom;
+        this.services = services;
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return typeRoom;
+    }
 }

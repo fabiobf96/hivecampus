@@ -9,7 +9,7 @@ public class Session {
     private final User user;
     private Instant timestamp;
     public Session(User user){
-        id = Objects.hash(user.getEmail());
+        id = Objects.hash(user.getEmail()); //aggiungi timestamp
         this.user = user;
         timestamp = Instant.now();
     }

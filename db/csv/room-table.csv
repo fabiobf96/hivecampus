@@ -1,0 +1,6 @@
+id,home,surface,typeRoom,bathroom,balcony,conditioner,tv,description
+1,1,25,DOUBLE,1,1,1,1,"Camera doppia con bagno privato e balcone"
+2,1,20,SINGLE,0,1,0,1,"Camera singola con balcone condiviso"
+3,2,30,DOUBLE,1,0,1,1,"Ampia camera doppia con aria condizionata"
+4,2,15,SINGLE,1,0,0,0,"Camera singola accogliente con bagno"
+5,3,40,STUDIO,1,1,1,1,"Monolocale spazioso con tutti i comfort"

@@ -14,6 +14,12 @@ public class Account {
         surname = accountBean.getSurname();
         phoneNumber = accountBean.getPhoneNumber();
     }
+    public Account(String email, String name, String surname, String phoneNumber) {
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+        this.phoneNumber = phoneNumber;
+    }
 
     public String getEmail() {
         return email;

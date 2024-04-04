@@ -1,0 +1,4 @@
+id,owner,latitude,longitude,address,homeType,surface,description
+1,user1,45.4654219,9.1859243,"Via Roma, Milano",APARTMENT,85,"Appartamento luminoso vicino al centro"
+2,user2,41.9027835,12.4963655,"Via Napoli, Roma",HOUSE,120,"Casa con giardino nel cuore di Roma"
+3,user1,40.851775,14.268124,"Via Vesuvio, Napoli",STUDIO,40,"Monolocale moderno con vista"
