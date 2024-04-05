@@ -1,6 +1,7 @@
-id,home,surface,typeRoom,bathroom,balcony,conditioner,tv,description
-1,1,25,DOUBLE,1,1,1,1,"Camera doppia con bagno privato e balcone"
-2,1,20,SINGLE,0,1,0,1,"Camera singola con balcone condiviso"
-3,2,30,DOUBLE,1,0,1,1,"Ampia camera doppia con aria condizionata"
-4,2,15,SINGLE,1,0,0,0,"Camera singola accogliente con bagno"
-5,3,40,STUDIO,1,1,1,1,"Monolocale spazioso con tutti i comfort"
+id,home,typeRoom,surface,bathroom,balcony,conditioner,tv,description
+1,1,"matrimoniale",30,1,1,0,0,"La stanza, originariamente concepita per una coppia, è abbastanza spaziosa da offrire sia uno spazio per il riposo che un'area per lo studio. Contro la parete opposta al letto, c'è una scrivania con una sedia ergonomica. La scrivania è dotata di scaffali e cassetti per riporre libri, appunti e materiali di studio."
+2,1,"singola",20,0,1,0,1,"La stanza è di forma rettangolare e ha dimensioni approssimative di 4 x 5 metri. Le pareti sono dipinte di un colore bianco panna, che conferisce alla stanza un'atmosfera rilassante e luminosa grazie alla finestra scorrevole posizionata sul lato opposto alla porta di ingresso. Inoltre, la stanza dispone di un sistema di illuminazione a faretti. Completamente ammobiliata con mobili moderni e funzionali."
+3,1,"singola",20,0,1,1,1,"La stanza è rettangolare, le pareti sono dipinte di caldo color avorio. Una finestra scorrevole sul lato opposto all'ingresso garantisce una luminosità naturale, mentre faretti sul soffitto offrono illuminazione aggiuntiva. La stanza è arredata con mobili moderni e funzionali, creando un ambiente luminoso e accogliente."
+1,2,"matrimoniale",25,0,0,1,1,"La camera offre ampio spazio per il riposo e lo studio. Una scrivania è posizionata contro la parete opposta al letto, dotata di scaffali e cassetti per organizzare libri e materiali di studio, creando un ambiente versatile e funzionale."
+1,3,"matrimoniale",25,1,1,1,1,"La camera matrimoniale è accogliente e ben arredata, con pareti dipinte in un tono neutro di beige che conferisce un'atmosfera rilassante. Un ampio letto matrimoniale al centro della stanza è abbinato a comodini in legno scuro e una cassettiera coordinata. Completa l'ambiente una comoda poltrona e un piccolo tavolino, ideale per rilassarsi con una buona lettura."
+2,3,"singola",20,0,0,1,1,"La camera singola ha pareti dipinte di un verde chiaro. Il letto singolo è situato sotto una finestra scorrevole. Accanto al letto, una piccola scrivania con una sedia con scrivania offre uno spazio dedicato allo studio o al lavoro creativo. Completa l'arredamento un armadio."

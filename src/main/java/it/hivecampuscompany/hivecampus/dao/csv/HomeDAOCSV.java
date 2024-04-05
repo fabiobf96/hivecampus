@@ -50,8 +50,10 @@ public class HomeDAOCSV implements HomeDAO {
         private static final int INDEX_ADDRESS = 4;
         private static final int INDEX_TYPE = 5;
         private static final int INDEX_SURFACE = 6;
-        private static final int INDEX_DESCRIPTION = 7;
-
+        private static final int INDEX_NROOMS = 7;
+        private static final int INDEX_NBATHROOMS = 8;
+        private static final int INDEX_FLOOR = 9;
+        private static final int INDEX_ELEVATOR = 10;
+        private static final int INDEX_DESCRIPTION = 11;
     }
-
 }
