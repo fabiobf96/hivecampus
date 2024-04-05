@@ -2,6 +2,7 @@ package it.hivecampuscompany.hivecampus.view.utility;
 
 import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import javafx.application.Application;
+import javafx.scene.shape.Path;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -16,6 +17,8 @@ import java.io.ByteArrayOutputStream;
 
 import java.io.IOException;
 import java.awt.image.BufferedImage;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -38,34 +41,26 @@ public class ImageChooser extends Application {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Seleziona un'immagine");
             fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Immagini", "*.jpg", "*.jpeg", "*.png")
+                    new FileChooser.ExtensionFilter("Immagini", "*.jpg", "*.jpeg", "*.png" , "*.pdf")
             );
             File selectedFile = fileChooser.showOpenDialog(primaryStage);
 
             if (selectedFile != null) {
                 try {
-                    // Leggi l'immagine dal file selezionato
-                    Image image = new Image(new FileInputStream(selectedFile));
-
-                    // Converti l'immagine in BufferedImage
-                    BufferedImage bufferedImage = convertToBufferedImage(image);
-
-                    // Converti BufferedImage in array di byte
-                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    // Leggi l'immagine come array di byte
+                    byte[] imageArray = Files.readAllBytes(selectedFile.toPath());  // <-- funziona per entrambi
 
                     // Ottieni il formato dell'immagine
-                    String imageFormat = getImageFormat(selectedFile);
-                    
-                    ImageIO.write(bufferedImage, imageFormat, byteArrayOutputStream);
-                    byte[] byteArray = byteArrayOutputStream.toByteArray();
-                    byteArrayOutputStream.close();
+                    //String imageFormat = getImageFormat(selectedFile);
 
                     // Ottieni il nome e l'estensione del file selezionato
                     String imageName = selectedFile.getName();
                     String imageType = imageName.substring(imageName.lastIndexOf('.') + 1);
 
                     // Inserisci l'array di byte nel database insieme al nome e all'estensione dell'immagine
-                    insertImageIntoDatabase(byteArray, imageName, imageType);
+
+                    insertImageIntoDatabase(imageArray);  // <-- lato database
+                    //new SaveRoomIntoCSV().saveRoom(imageArray, imageName, imageType);
 
                     // Ora puoi utilizzare byteArray come desideri
                 } catch (IOException ex) {
@@ -99,35 +94,16 @@ public class ImageChooser extends Application {
         return name.substring(lastIndexOfDot + 1);
     }
 
-    private void insertImageIntoDatabase(byte[] byteArray, String imageName, String imageType) {
-        int idHome = 3;
-        String sql = "INSERT INTO hivecampus2.home_images (name, type, image, home) VALUES (?, ?, ?, ?)";
+    private void insertImageIntoDatabase(byte[] byteArray) { // byte[] byteArray, String imageName, String imageType nella version hivecampus
+        int idImage = 3;
+        String sql = "INSERT INTO hivecampus_db.room (idRoom, image) VALUES (?, ?)";
         try (java.sql.PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setString(1, imageName);
-            pstmt.setString(2, imageType);
-            pstmt.setBytes(3, byteArray);
-            pstmt.setInt(4, idHome);
+            pstmt.setInt(1, idImage);
+            pstmt.setBytes(2, byteArray);
             pstmt.executeUpdate();
         } catch (Exception e) {
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
         }
-    }
-
-
-    // Metodo per convertire un'immagine JavaFX in BufferedImage
-    private BufferedImage convertToBufferedImage(Image image) {
-        int width = (int) image.getWidth();
-        int height = (int) image.getHeight();
-
-        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-        javafx.scene.image.PixelReader pixelReader = image.getPixelReader();
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                bufferedImage.setRGB(x, y, pixelReader.getArgb(x, y));
-            }
-        }
-
-        return bufferedImage;
     }
 
     public static void main(String[] args) {

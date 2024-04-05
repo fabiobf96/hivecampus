@@ -36,6 +36,12 @@ public class HomeDAOCSV implements HomeDAO {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<Home> retrieveHomesByDistance(String university, double distance) {
+        return null;
+    }
+
     private static class HomeAttributes{
         private static final int INDEX_ID = 0;
         private static final int INDEX_OWNER = 1;

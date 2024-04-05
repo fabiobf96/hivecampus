@@ -9,7 +9,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -17,7 +16,7 @@ import java.util.logging.Logger;
 
 public abstract class HomePageJavaFxGUI extends Application {
 
-    protected Logger LOGGER = Logger.getLogger(HomePageJavaFxGUI.class.getName());
+    protected Logger logger = Logger.getLogger(HomePageJavaFxGUI.class.getName());
     protected Properties properties;
 
     protected HomePageJavaFxGUI(){
@@ -37,7 +36,7 @@ public abstract class HomePageJavaFxGUI extends Application {
 
             return new BasicComponent(tabContent);
         } catch (IOException | RuntimeException e) {
-            LOGGER.log(Level.SEVERE, "Error while loading.", e);
+            logger.log(Level.SEVERE, "Error while loading.", e);
             System.exit(1);
         }
         return null;

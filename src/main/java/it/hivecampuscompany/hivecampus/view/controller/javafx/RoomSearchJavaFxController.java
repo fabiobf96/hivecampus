@@ -1,12 +1,22 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
+import it.hivecampuscompany.hivecampus.bean.HomeBean;
+import it.hivecampuscompany.hivecampus.bean.RoomBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
+import it.hivecampuscompany.hivecampus.dao.HomeDAO;
+import it.hivecampuscompany.hivecampus.dao.csv.HomeDAOCSV;
+import it.hivecampuscompany.hivecampus.manager.RoomSearchManager;
+import it.hivecampuscompany.hivecampus.model.Home;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 
+import java.util.List;
+
 public class RoomSearchJavaFxController extends JavaFxController implements TabInitializerController {
+
+    private RoomSearchManager roomSearchManager;
 
     @FXML
     private Label lblFilters;
@@ -40,7 +50,9 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
     }
 
     public void initialize(SessionBean sessionBean) {
-        this.sessionBean = sessionBean;
+        this.sessionBean = sessionBean; // non sto considerando la sessione
+        this.roomSearchManager = new RoomSearchManager();
+
         lblFilters.setText(properties.getProperty("FILTERS_MSG"));
         lblServices.setText(properties.getProperty("SERVICES_MSG"));
         ckbPrivateBath.setText(properties.getProperty("PRIVATE_BATH_MSG"));
@@ -72,14 +84,24 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
 
         FiltersBean filtersBean;
 
-        try{
-            filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
-            System.out.println(filtersBean);
 
+        filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
+        System.out.println(filtersBean);
 
+        // Retrieve the homes that match the distance filter
+        List<HomeBean> homeBeans = roomSearchManager.searchHomesByFilters(filtersBean);
 
-        } catch (Exception e) {
-            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("ERROR_SEARCH_MSG"));
+        if (homeBeans.isEmpty()) {
+            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), "No homes found.");
+            return;
+        }
+
+        // Retrieve the rooms in the homes that match the filters
+        for (HomeBean homeBean: homeBeans) {
+            System.out.println("\n" + homeBean);
+            List<RoomBean> roomBeans = roomSearchManager.searchRoomsByFilters(homeBean, filtersBean);
+            System.out.println("\n"+ roomBeans);
+
         }
     }
 
