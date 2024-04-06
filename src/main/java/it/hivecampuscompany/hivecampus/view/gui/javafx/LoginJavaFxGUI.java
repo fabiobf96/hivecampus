@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class LoginJavaFxGUI extends Application {
 
-    private final Logger LOGGER = Logger.getLogger(LoginJavaFxGUI.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(LoginJavaFxGUI.class.getName());
     protected Properties properties;
 
     public LoginJavaFxGUI(){

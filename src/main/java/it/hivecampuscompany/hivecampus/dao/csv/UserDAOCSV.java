@@ -1,6 +1,5 @@
 package it.hivecampuscompany.hivecampus.dao.csv;
 
-import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.dao.UserDAO;
 
 import com.opencsv.CSVReader;

@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class SignUpJavaFxGUI extends Application {
 
-    private final Logger LOGGER = Logger.getLogger(SignUpJavaFxGUI.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(SignUpJavaFxGUI.class.getName());
     protected Properties properties;
 
     public SignUpJavaFxGUI(){

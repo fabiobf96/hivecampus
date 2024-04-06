@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 public abstract class HomePageJavaFxGUI extends Application {
 
-    protected Logger LOGGER = Logger.getLogger(HomePageJavaFxGUI.class.getName());
+    protected static final Logger LOGGER = Logger.getLogger(HomePageJavaFxGUI.class.getName());
     protected Properties properties;
 
     protected HomePageJavaFxGUI(){
