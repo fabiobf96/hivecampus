@@ -1,5 +1,7 @@
 package it.hivecampuscompany.hivecampus.model;
 
+import it.hivecampuscompany.hivecampus.bean.AdBean;
+
 public class Ad {
     private int id;
     private Account owner;
@@ -19,6 +21,10 @@ public class Ad {
         this.home = home;
         this.room = room;
         this.price = price;
+    }
+
+    public AdBean toBasicBean() {
+        return new AdBean(id, home.toBasicBean(), room.toBasicBean(), adStatus != null ? adStatus : null, price);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package it.hivecampuscompany.hivecampus.model;
 
+import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
+
 public class LeaseRequest {
     private final int id;
     private Ad ad;
@@ -8,7 +10,13 @@ public class LeaseRequest {
     private final String duration;
     private final String message;
     private LeaseRequestStatus status;
-
+    public LeaseRequest(int id, Account tenant, String month, String duration, String message) {
+        this.id = id;
+        this.tenant = tenant;
+        this.month = month;
+        this.duration = duration;
+        this.message = message;
+    }
     public LeaseRequest(int id, Account tenant, String month, String duration, int status, String message) {
         this.id = id;
         this.tenant = tenant;
@@ -24,31 +32,12 @@ public class LeaseRequest {
     }
 
     public String[] toCSVString() {
-        return new String[] {String.valueOf(id), String.valueOf(ad.getId()), tenant.getEmail(), String.valueOf(status.getId()), month, duration, message};
+        return new String[]{String.valueOf(id), String.valueOf(ad.getId()), tenant.getEmail(), String.valueOf(status.getId()), month, duration, message};
     }
-
-    @Override
-    public String toString() {
-        return "LeaseRequest{" +
-                "id=" + id +
-                ", ad=" + (ad != null ? ad.toString() : "null") +
-                ", tenant=" + tenant.toString() +
-                ", month='" + month + '\'' +
-                ", duration='" + duration + '\'' +
-                ", message='" + message + '\'' +
-                ", status=" + status +
-                '}';
+    public LeaseRequestBean toBasicBean() {
+        return new LeaseRequestBean(id, ad != null ? ad.toBasicBean() : null, tenant != null ? tenant.toBasicBean() : null, month, duration, message, status);
     }
-
     public int getID() {
         return id;
-    }
-
-    public Ad getAd() {
-        return ad;
-    }
-
-    public void setStatus(LeaseRequestStatus status) {
-        this.status = status;
     }
 }

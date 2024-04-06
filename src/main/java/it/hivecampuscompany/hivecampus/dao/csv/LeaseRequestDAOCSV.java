@@ -40,7 +40,6 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
                             accountDAO.retrieveAccountInformationByEmail(leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT]),
                             leaseRequestRecord[LeaseRequestAttributes.INDEX_START],
                             leaseRequestRecord[LeaseRequestAttributes.INDEX_DURATION],
-                            Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_STATUS]),
                             leaseRequestRecord[LeaseRequestAttributes.INDEX_MESSAGE]
                     ))
                     .toList();

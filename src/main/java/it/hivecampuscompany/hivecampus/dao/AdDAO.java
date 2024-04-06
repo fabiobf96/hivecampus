@@ -3,6 +3,7 @@ package it.hivecampuscompany.hivecampus.dao;
 
 
 import it.hivecampuscompany.hivecampus.bean.AccountBean;
+import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.model.Ad;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
 
@@ -17,7 +18,7 @@ public interface AdDAO {
     /**
      * Retrieves a list of ads based on the owner's account and the advertisement status.
      *
-     * @param accountBean The account of the owner of the advertisements.
+     * @param sessionBean The session of the owner of the advertisements.
      * @param adStatus The status of the advertisements to retrieve. This operation
      *                 differentiates between two types of {@link AdStatus}:
      *                 - {@link AdStatus#AVAILABLE}: Returns all ads belonging to an owner for which
@@ -27,7 +28,7 @@ public interface AdDAO {
      * @return A list of {@link Ad} objects matching the criteria. If no ads match the criteria,
      *         an empty list is returned.
      */
-    List<Ad> retrieveAdsByOwner(AccountBean accountBean, AdStatus adStatus);
+    List<Ad> retrieveAdsByOwner(SessionBean sessionBean, AdStatus adStatus);
 
     /**
      * Retrieves an advertisement by its ID.

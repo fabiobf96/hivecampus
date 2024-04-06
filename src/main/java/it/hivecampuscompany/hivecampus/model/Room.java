@@ -1,5 +1,7 @@
 package it.hivecampuscompany.hivecampus.model;
 
+import it.hivecampuscompany.hivecampus.bean.RoomBean;
+
 public class Room {
     private int id;
     private int surface;
@@ -15,8 +17,7 @@ public class Room {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return typeRoom;
+    public RoomBean toBasicBean() {
+        return new RoomBean(id, typeRoom);
     }
 }

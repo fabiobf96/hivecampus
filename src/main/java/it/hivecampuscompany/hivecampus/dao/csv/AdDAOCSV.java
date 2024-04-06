@@ -4,6 +4,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import it.hivecampuscompany.hivecampus.bean.AccountBean;
+import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.dao.RoomDAO;
@@ -26,7 +27,7 @@ public class AdDAOCSV implements AdDAO {
     }
 
     @Override
-    public List<Ad> retrieveAdsByOwner(AccountBean accountBean, AdStatus adStatus) {
+    public List<Ad> retrieveAdsByOwner(SessionBean sessionBean, AdStatus adStatus) {
         HomeDAO homeDAO = new HomeDAOCSV();
         RoomDAO roomDAO = new RoomDAOCSV();
         try (CSVReader reader = new CSVReader(new FileReader(fd))) {
@@ -34,7 +35,7 @@ public class AdDAOCSV implements AdDAO {
             adTable.removeFirst();
             return adTable.stream()
                     // Ensure to separate the conditions correctly and parse the status value appropriately
-                    .filter(adRecord -> adRecord[AdAttributes.INDEX_OWNER].equals(accountBean.getEmail()) && AdStatus.fromInt(Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS])) == adStatus)
+                    .filter(adRecord -> adRecord[AdAttributes.INDEX_OWNER].equals(sessionBean.getEmail()) && AdStatus.fromInt(Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS])) == adStatus)
                     .map(adRecord ->
                             // Pass the actual values from adRecord to retrieveHomeByID and retrieveRoomByID
                             new Ad(

@@ -38,8 +38,8 @@ public class RoomDAOCSV implements RoomDAO {
     private static class RoomAttributes{
         private static final int INDEX_ID_ROOM = 0;
         private static final int INDEX_ID_HOME = 1;
-        private static final int INDEX_SURFACE = 2;
-        private static final int INDEX_TYPE = 3;
+        private static final int INDEX_SURFACE = 3;
+        private static final int INDEX_TYPE = 2;
         private static final int INDEX_BATHROOM = 4;
         private static final int INDEX_BALCONY = 5;
         private static final int INDEX_CONDITIONER = 6;

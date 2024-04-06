@@ -73,8 +73,8 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
         FiltersBean filtersBean;
 
         try{
-            filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
-            System.out.println(filtersBean);
+            //filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
+            //System.out.println(filtersBean);
 
 
 

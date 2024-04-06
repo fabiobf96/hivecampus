@@ -19,8 +19,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class LoginManager {
     public void signup(UserBean userBean, AccountBean accountBean) throws DuplicateRowException, NoSuchAlgorithmException {
-        AccountDAO accountDAO = new AccountDAOMySql(); // AccountDAOMySql() or AccountDAOCSV()
-        UserDAO userDAO = new UserDAOMySql(); // UserDAOMySql() or UserDAOCSV()
+        AccountDAO accountDAO = new AccountDAOCSV(); // AccountDAOMySql() or AccountDAOCSV()
+        UserDAO userDAO = new UserDAOCSV(); // UserDAOMySql() or UserDAOCSV()
 
         User user = new User(userBean);
         userDAO.saveUser(user);
@@ -30,7 +30,7 @@ public class LoginManager {
     }
 
     public SessionBean login(UserBean userBean) throws AuthenticateException, NoSuchAlgorithmException {
-        UserDAO userDAO = new UserDAOMySql(); // UserDAOMySql() or UserDAOCSV()
+        UserDAO userDAO = new UserDAOCSV(); // UserDAOMySql() or UserDAOCSV()
 
         User user = userDAO.verifyCredentials(new User(userBean));
 

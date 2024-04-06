@@ -9,9 +9,9 @@ public class Session {
     private final User user;
     private Instant timestamp;
     public Session(User user){
-        id = Objects.hash(user.getEmail()); //aggiungi timestamp
-        this.user = user;
         timestamp = Instant.now();
+        id = Objects.hash(user.getEmail()) + Objects.hash(timestamp);
+        this.user = user;
     }
     public boolean isValid(){
         Instant currentTime = Instant.now();

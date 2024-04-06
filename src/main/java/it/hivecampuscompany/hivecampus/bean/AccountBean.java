@@ -6,6 +6,16 @@ public class AccountBean {
     private String surname;
     private String phoneNumber;
 
+    public AccountBean() {
+    }
+
+    public AccountBean(String email, String name, String surname, String phoneNumber) {
+        this.email = email;
+        this.name = name;
+        this.surname = surname;
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -36,5 +46,9 @@ public class AccountBean {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+    @Override
+    public String toString() {
+        return email + ", " + name + ", " + surname + ", " + phoneNumber;
     }
 }

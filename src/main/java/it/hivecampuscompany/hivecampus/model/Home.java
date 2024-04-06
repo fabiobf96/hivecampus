@@ -1,5 +1,7 @@
 package it.hivecampuscompany.hivecampus.model;
 
+import it.hivecampuscompany.hivecampus.bean.HomeBean;
+
 import java.awt.geom.Point2D;
 
 public class Home {
@@ -33,5 +35,9 @@ public class Home {
     @Override
     public String toString() {
         return address;
+    }
+
+    public HomeBean toBasicBean() {
+        return new HomeBean(id, address);
     }
 }
