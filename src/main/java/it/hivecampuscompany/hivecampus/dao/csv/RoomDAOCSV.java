@@ -37,6 +37,14 @@ public class RoomDAOCSV implements RoomDAO {
         }
     }
 
+    /*
+    Nello stream, l'espressione filter è una condizione che determina se includere o meno un elemento nello stream risultante.
+    Quando viene applicato un filtro, gli elementi dello stream vengono confrontati con la condizione del filtro e solo quelli che soddisfano la condizione vengono inclusi nello stream di output.
+
+    Nel nostro caso, filter è una variabile booleana che rappresenta se vogliamo applicare un filtro o meno.
+    Se filter è true, il filtro viene applicato, altrimenti viene ignorato.
+     */
+
     @Override
     public List<Room> retrieveRoomsByFilters(int homeID, FiltersBean filtersBean) {
         try (CSVReader reader = new CSVReader(new FileReader(fd))) {
@@ -44,16 +52,16 @@ public class RoomDAOCSV implements RoomDAO {
             roomTable.removeFirst();
             return roomTable.stream()
                     .filter(roomRecord -> Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]) == homeID)
-                    .filter(roomRecord -> filtersBean.getPrivateBathroom() == (Integer.parseInt(roomRecord[RoomAttributes.INDEX_BATHROOM]) == 1))
-                    .filter(roomRecord -> filtersBean.getBalcony() == (Integer.parseInt(roomRecord[RoomAttributes.INDEX_BALCONY]) == 1))
-                    .filter(roomRecord -> filtersBean.getConditioner() == (Integer.parseInt(roomRecord[RoomAttributes.INDEX_CONDITIONER]) == 1))
-                    .filter(roomRecord -> filtersBean.getTvConnection() == (Integer.parseInt(roomRecord[RoomAttributes.INDEX_TV]) == 1))
+                    .filter(roomRecord -> !filtersBean.getPrivateBathroom() || Integer.parseInt(roomRecord[RoomAttributes.INDEX_BATHROOM]) == 1) // ritorna true se non è stato specificato il filtro o se il valore del campo è 1
+                    .filter(roomRecord -> !filtersBean.getBalcony() || Integer.parseInt(roomRecord[RoomAttributes.INDEX_BALCONY]) == 1)
+                    .filter(roomRecord -> !filtersBean.getConditioner() || Integer.parseInt(roomRecord[RoomAttributes.INDEX_CONDITIONER]) == 1)
+                    .filter(roomRecord -> !filtersBean.getTvConnection() || Integer.parseInt(roomRecord[RoomAttributes.INDEX_TV]) == 1)
                     .map(roomRecord -> new Room(
                             Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]),
                             Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]),
                             Integer.parseInt(roomRecord[RoomAttributes.INDEX_SURFACE]),
                             roomRecord[RoomAttributes.INDEX_TYPE],
-                            new boolean[]{Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_BATHROOM]), Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_BALCONY]), Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_CONDITIONER]), Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_TV])},
+                            new boolean[]{Integer.parseInt(roomRecord[RoomAttributes.INDEX_BATHROOM])== 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_BALCONY])== 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_CONDITIONER])== 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_TV])== 1},
                             roomRecord[RoomAttributes.INDEX_DESCRIPTION]
                     ))
                     .toList();

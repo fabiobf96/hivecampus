@@ -21,6 +21,8 @@ public class RoomSearchManager {
 
     public List<HomeBean> searchHomesByFilters(FiltersBean filtersBean){
         List<HomeBean> homeBeanList = new ArrayList<>();
+        //qui devo chiedere le coordinate dell'università
+        //beanCoordinate
         List<Home> homes = homeDAOCSV.retrieveHomesByDistance(filtersBean.getUniversity(), filtersBean.getDistance());
         for (Home home : homes) {
             HomeBean homeBean = new HomeBean(home);

@@ -61,7 +61,8 @@ public class RoomBean {
 
     @Override
     public String toString() {
-        return "Room: " + type + "\n" +
+        return "Room: " + getIdRoom() + "\n" +
+                "Type: " + type + "\n" +
                 "Surface: " + surface + "\n" +
                 "Private Bathroom: " + (services[0] ? "Yes" : "No") + "\n" +
                 "Balcony: " + (services[1] ? "Yes" : "No") + "\n" +

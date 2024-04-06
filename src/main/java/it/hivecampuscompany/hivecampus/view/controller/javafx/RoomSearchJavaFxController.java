@@ -8,10 +8,15 @@ import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.dao.csv.HomeDAOCSV;
 import it.hivecampuscompany.hivecampus.manager.RoomSearchManager;
 import it.hivecampuscompany.hivecampus.model.Home;
+import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
+import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.PreviewRoomDecorator;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 
+import java.io.IOException;
 import java.util.List;
 
 public class RoomSearchJavaFxController extends JavaFxController implements TabInitializerController {
@@ -86,13 +91,13 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
 
 
         filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
-        System.out.println(filtersBean);
+        System.out.println("\n________________________________\n" + filtersBean);
 
         // Retrieve the homes that match the distance filter
         List<HomeBean> homeBeans = roomSearchManager.searchHomesByFilters(filtersBean);
 
         if (homeBeans.isEmpty()) {
-            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), "No homes found.");
+            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), "No homes found."); // ERROR_SEARCH_MSG
             return;
         }
 
