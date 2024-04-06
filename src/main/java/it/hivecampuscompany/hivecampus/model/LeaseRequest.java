@@ -31,6 +31,14 @@ public class LeaseRequest {
         this.ad = ad;
     }
 
+    public Ad getAd() {
+        return ad;
+    }
+
+    public void setStatus(LeaseRequestStatus status) {
+        this.status = status;
+    }
+
     public String[] toCSVString() {
         return new String[]{String.valueOf(id), String.valueOf(ad.getId()), tenant.getEmail(), String.valueOf(status.getId()), month, duration, message};
     }

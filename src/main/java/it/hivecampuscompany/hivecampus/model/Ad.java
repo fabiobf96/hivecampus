@@ -3,12 +3,12 @@ package it.hivecampuscompany.hivecampus.model;
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 
 public class Ad {
-    private int id;
+    private final int id;
     private Account owner;
     private Home home;
     private Room room;
     private AdStatus adStatus;
-    private int price;
+    private final int price;
 
     public Ad(int id, int adStatus, int price) {
         this.id = id;
@@ -24,19 +24,7 @@ public class Ad {
     }
 
     public AdBean toBasicBean() {
-        return new AdBean(id, home.toBasicBean(), room.toBasicBean(), adStatus != null ? adStatus : null, price);
-    }
-
-    @Override
-    public String toString() {
-        return "Ad{" +
-                "id=" + id +
-                ", owner=" + (owner != null ? owner.toString() : "null") + // Gestisce owner null
-                ", home=" + (home != null ? home.toString() : "null") + // Gestisce home null
-                ", room=" + (room != null ? room : "null") + // Gestisce room null
-                ", adStatus=" + (adStatus != null ? adStatus : "null") + // Gestisce adStatus null
-                ", price=" + price +
-                '}';
+        return new AdBean(id, home.toBasicBean(), room.toBasicBean(), price);
     }
 
     public int getId() {

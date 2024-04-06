@@ -9,7 +9,7 @@ public class LeaseRequestBean {
     private final String month;
     private final String duration;
     private final String message;
-    private final LeaseRequestStatus status;
+    private LeaseRequestStatus status;
 
     public LeaseRequestBean(int id, AdBean adBean, AccountBean tenant, String month, String duration, String message, LeaseRequestStatus status) {
         this.id = id;
@@ -23,6 +23,33 @@ public class LeaseRequestBean {
 
     public int getId() {
         return id;
+    }
+
+    public AdBean getAdBean() {
+        return adBean;
+    }
+
+    public AccountBean getTenant() {
+        return tenant;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public LeaseRequestStatus getStatus() {
+        return status;
+    }
+    public void setStatus (LeaseRequestStatus status) {
+        this.status = status;
     }
 
     @Override

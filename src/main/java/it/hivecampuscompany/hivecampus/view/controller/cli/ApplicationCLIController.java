@@ -38,15 +38,22 @@ public class ApplicationCLIController extends CLIController {
                     LoginCLIController loginCLIController = new LoginCLIController();
                     loginCLIController.homePage();
                     boolean invalid = true;
-                    while (invalid){
-                        UserBean userBean = loginCLIController.getCredentials();
+                    UserBean userBean = null;
+                    while (invalid) {
+                    try {
+
+                        userBean = loginCLIController.getCredentials();
                         invalid = false;
+                    } catch (InvalidEmailException e) {
+                        view.displayMessage(properties.getProperty(e.getMessage()));
+                    }
+                    }
                         sessionBean = manager.login(userBean);
                         if (sessionBean.getRole().equals("owner")) {
                             controller = new OwnerHomeCLIController(sessionBean);
                         }
                         else controller = new TenantHomeCLIController(sessionBean);
-                    }
+
                 }
                 case 3 -> {
                     view.clean();
@@ -64,9 +71,6 @@ public class ApplicationCLIController extends CLIController {
         } catch (DuplicateRowException | AuthenticateException | NoSuchAlgorithmException e){
             view.displayMessage(properties.getProperty(e.getMessage()));
             homePage();
-        } catch (InvalidEmailException e) {
-            view.displayMessage(properties.getProperty(e.getMessage()));
-            view.clean();
         }
         assert controller != null;
         controller.homePage();

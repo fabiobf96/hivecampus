@@ -1,5 +1,6 @@
 package it.hivecampuscompany.hivecampus.view.controller.cli;
 
+import it.hivecampuscompany.hivecampus.view.controller.cli.state.LeaseRequestContext;
 import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
@@ -28,7 +29,14 @@ public class OwnerHomeCLIController extends CLIController {
         try {
             switch (view.getIntUserInput(properties.getProperty("CHOICE_MSG"))) {
                 case 1 -> controller = new AccountSettingsCLIController();
-                case 3 -> controller = new ManageLeaseRequestOwner(sessionBean);
+                case 3 -> {
+                    ManageLeaseRequestCLIController requestCLIController = new ManageLeaseRequestCLIController(sessionBean);
+                    LeaseRequestContext context = new LeaseRequestContext(requestCLIController);
+                    while (!context.isExitRequested()) { // Controlla se l'uscita è stata richiesta
+                        context.request();
+                    }
+                    homePage();
+                }
                 case 6 -> exit();
                 default -> invalidChoice();
             }

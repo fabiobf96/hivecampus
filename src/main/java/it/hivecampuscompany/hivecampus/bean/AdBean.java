@@ -9,24 +9,11 @@ public class AdBean {
     private RoomBean room;
     private AdStatus adStatus;
     private int price;
-    public AdBean (int id){
-        this.id = id;
-    }
 
-    public AdBean(AdStatus adStatus) {
-        this.adStatus = adStatus;
-    }
-
-    public AdBean(int id, AdStatus adStatus){
-        this.id = id;
-        this.adStatus = adStatus;
-    }
-
-    public AdBean(int id, HomeBean home, RoomBean room, AdStatus adStatus, int price) {
+    public AdBean(int id, HomeBean home, RoomBean room, int price) {
         this.id = id;
         this.home = home;
         this.room = room;
-        this.adStatus = adStatus;
         this.price = price;
     }
 
