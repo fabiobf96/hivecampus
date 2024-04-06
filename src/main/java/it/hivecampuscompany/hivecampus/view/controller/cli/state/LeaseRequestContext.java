@@ -2,6 +2,7 @@ package it.hivecampuscompany.hivecampus.view.controller.cli.state;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
+import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.view.controller.cli.ManageLeaseRequestCLIController;
 
 public class LeaseRequestContext {
@@ -28,8 +29,12 @@ public class LeaseRequestContext {
         this.state = state;
     }
 
-    public void request() {
-        state.handle(this);
+    public void request() throws InvalidSessionException {
+        try {
+            state.handle(this);
+        } catch (InvalidSessionException e) {
+            throw new InvalidSessionException();
+        }
     }
 
     public ManageLeaseRequestCLIController getController() {
@@ -51,6 +56,6 @@ public class LeaseRequestContext {
     public void setLeaseRequestBean(LeaseRequestBean leaseRequestBean) {
         this.leaseRequestBean = leaseRequestBean;
     }
-// Metodi getter e setter per adBean, leaseRequestBean e view
+
 }
 

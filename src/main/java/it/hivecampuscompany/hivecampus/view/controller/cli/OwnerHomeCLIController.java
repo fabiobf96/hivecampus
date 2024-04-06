@@ -1,5 +1,6 @@
 package it.hivecampuscompany.hivecampus.view.controller.cli;
 
+import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.view.controller.cli.state.LeaseRequestContext;
 import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
@@ -43,6 +44,9 @@ public class OwnerHomeCLIController extends CLIController {
         } catch (InputMismatchException e){
             invalidChoice();
             homePage();
+        } catch (InvalidSessionException e){
+            view.displayMessage(e.getMessage());
+            return;
         }
         assert controller != null;
         view.clean();
