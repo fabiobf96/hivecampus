@@ -13,19 +13,32 @@ import it.hivecampuscompany.hivecampus.model.LeaseRequest;
 import it.hivecampuscompany.hivecampus.model.LeaseRequestStatus;
 
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.Collections;
 import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LeaseRequestDAOCSV implements LeaseRequestDAO {
-    private final File fd;
+    private File fd;
+    private static final Logger LOGGER = Logger.getLogger(LeaseRequestDAOCSV.class.getName());
+    private Properties properties;
+    private static final String ERR_ACCESS = "ERR_ACCESS";
+    private static final String ERR_PARSER = "ERR_PARSER";
     public LeaseRequestDAOCSV() {
-        fd = new File("db/csv/lease_request-table.csv");
+        try (InputStream input = new FileInputStream("properties/csv.properties")) {
+            properties = new Properties();
+            properties.load(input);
+            fd = new File(properties.getProperty("LEASE_REQUEST_PATH"));
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
+            System.exit(1);
+        }
     }
+
     @Override
     public List<LeaseRequest> retrieveLeaseRequestsByAdID(AdBean adBean) {
         AccountDAO accountDAO = new AccountDAOCSV();
@@ -43,9 +56,14 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
                             leaseRequestRecord[LeaseRequestAttributes.INDEX_MESSAGE]
                     ))
                     .toList();
-        } catch (IOException | CsvException e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_ACCESS), fd), e);
+            System.exit(3);
+        } catch (CsvException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_PARSER), fd), e);
+            System.exit(3);
         }
+        return Collections.emptyList();
     }
 
     @Override
@@ -68,9 +86,14 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
                             Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_STATUS])
                     ))
                     .orElse(null);
-        } catch (IOException | CsvException e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_ACCESS), fd), e);
+            System.exit(3);
+        } catch (CsvException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_PARSER), fd), e);
+            System.exit(3);
         }
+        return null;
     }
 
     @Override
@@ -84,15 +107,19 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
             leaseRequestTable.replaceAll(leaseRequestRecord -> Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]) == leaseRequest.getID() ? leaseRequest.toCSVString() : leaseRequestRecord);
             leaseRequestTable.addFirst(header);
             writer.writeAll(leaseRequestTable);
-        } catch (IOException | CsvException e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_ACCESS), fd), e);
+            System.exit(3);
+        } catch (CsvException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_PARSER), fd), e);
+            System.exit(3);
         }
-
         // Sostituisci il file originale con il file temporaneo aggiornato
         try {
             Files.move(fdTmp.toPath(), fd.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.SEVERE, String.format("Failed to move file from %s to %s", fdTmp, fd), e);
+            System.exit(4);
         }
     }
 

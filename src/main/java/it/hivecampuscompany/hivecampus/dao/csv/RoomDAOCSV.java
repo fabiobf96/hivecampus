@@ -5,16 +5,28 @@ import com.opencsv.exceptions.CsvException;
 import it.hivecampuscompany.hivecampus.dao.RoomDAO;
 import it.hivecampuscompany.hivecampus.model.Room;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RoomDAOCSV implements RoomDAO {
     private File fd;
-    public RoomDAOCSV(){
-        fd = new File("db/csv/room-table.csv");
+    private Properties properties;
+    private static final Logger LOGGER = Logger.getLogger(RoomDAOCSV.class.getName());
+
+    public RoomDAOCSV() {
+        try (InputStream input = new FileInputStream("properties/csv.properties")) {
+            properties = new Properties();
+            properties.load(input);
+            fd = new File(properties.getProperty("ROOM_PATH"));
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
+            System.exit(1);
+        }
     }
+
     @Override
     public Room retrieveRoomByID(int homeID, int roomID) {
         try (CSVReader reader = new CSVReader(new FileReader(fd))) {
@@ -31,11 +43,17 @@ public class RoomDAOCSV implements RoomDAO {
                             roomRecord[RoomAttributes.INDEX_DESCRIPTION]
                     ))
                     .orElse(null);
-        }catch (IOException | CsvException e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_ACCESS"), fd), e);
+            System.exit(3);
+        } catch (CsvException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_PARSER"), fd), e);
+            System.exit(3);
         }
+        return null;
     }
-    private static class RoomAttributes{
+
+    private static class RoomAttributes {
         private static final int INDEX_ID_ROOM = 0;
         private static final int INDEX_ID_HOME = 1;
         private static final int INDEX_SURFACE = 3;

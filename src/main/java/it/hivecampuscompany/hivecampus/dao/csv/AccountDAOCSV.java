@@ -15,9 +15,10 @@ import java.util.logging.Logger;
 public class AccountDAOCSV implements AccountDAO {
     private File fd;
     private static final Logger LOGGER = Logger.getLogger(AccountDAOCSV.class.getName());
-    public AccountDAOCSV(){
+    private Properties properties;
+    public AccountDAOCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")){
-            Properties properties = new Properties();
+            properties = new Properties();
             properties.load(input);
             fd = new File(properties.getProperty("ACCOUNT_PATH"));
         } catch (IOException e) {
@@ -56,9 +57,14 @@ public class AccountDAOCSV implements AccountDAO {
                             accountRecord[AccountAttributes.GET_INDEX_PHONE_NUMBER]
                     ))
                     .orElse(null);
-        } catch (IOException | CsvException e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_ACCESS"), fd), e);
+            System.exit(3);
+        } catch (CsvException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_PARSER"), fd), e);
+            System.exit(3);
         }
+        return null;
     }
 
     private static class AccountAttributes{

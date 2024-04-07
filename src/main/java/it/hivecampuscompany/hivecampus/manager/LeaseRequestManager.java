@@ -15,10 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LeaseRequestManager {
-    public List<AdBean> searchAdsByFilters(FiltersBean filtersBean){
-        List<AdBean> adBeanList = new ArrayList<>();
-        return adBeanList;
-    }
+
     public List<LeaseRequestBean> searchLeaseRequestsByAd (SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
         if(sessionManager.validSession(sessionBean)) {

@@ -6,15 +6,25 @@ import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.model.Home;
 
 import java.awt.geom.Point2D;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class HomeDAOCSV implements HomeDAO {
     private File fd;
+    private  Properties properties;
+    private static final Logger LOGGER = Logger.getLogger(HomeDAOCSV.class.getName());
     public HomeDAOCSV() {
-        fd = new File("db/csv/home-table.csv");
+        try (InputStream input = new FileInputStream("properties/csv.properties")){
+            properties = new Properties();
+            properties.load(input);
+            fd = new File(properties.getProperty("HOME_PATH"));
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
+            System.exit(1);
+        }
     }
     @Override
     public Home retrieveHomeByID(int id) {
@@ -32,9 +42,14 @@ public class HomeDAOCSV implements HomeDAO {
                             Integer.parseInt(homeRecord[HomeAttributes.INDEX_SURFACE]),
                             homeRecord[HomeAttributes.INDEX_DESCRIPTION]))
                     .orElse(null);
-        } catch (IOException | CsvException e) {
-            throw new RuntimeException(e);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_ACCESS"), fd), e);
+            System.exit(3);
+        } catch (CsvException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_PARSER"), fd), e);
+            System.exit(3);
         }
+        return null;
     }
     private static class HomeAttributes{
         private static final int INDEX_ID = 0;

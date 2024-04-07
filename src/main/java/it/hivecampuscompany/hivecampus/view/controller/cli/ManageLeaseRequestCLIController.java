@@ -15,6 +15,7 @@ import java.util.List;
 public class ManageLeaseRequestCLIController extends CLIController {
     private AdManager adManager;
     LeaseRequestManager leaseRequestManager;
+    private static final String INVALID_CHOICE = "Invalid choice, please try again.";
 
     public ManageLeaseRequestCLIController(SessionBean sessionBean) {
         view = new CliGUI();
@@ -48,7 +49,7 @@ public class ManageLeaseRequestCLIController extends CLIController {
             } else if (choice == adBeanList.size() - 1) {
                 return null; // Se l'utente sceglie "go back", ritorna null
             } else {
-                view.displayMessage("Invalid choice, please try again.");
+                view.displayMessage(INVALID_CHOICE);
             }
         }
     }
@@ -74,7 +75,7 @@ public class ManageLeaseRequestCLIController extends CLIController {
             } else if (choice == leaseRequestBeanList.size() - 1) {
                 return null; // Permette all'utente di tornare indietro
             } else {
-                view.displayMessage("Invalid choice, please try again.");
+                view.displayMessage(INVALID_CHOICE);
             }
         }
     }
@@ -97,7 +98,7 @@ public class ManageLeaseRequestCLIController extends CLIController {
                 }
 
                 default -> {
-                    view.displayMessage("Invalid choice, please try again.");
+                    view.displayMessage(INVALID_CHOICE);
                     continue;
                 }
             }
