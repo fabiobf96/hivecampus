@@ -31,13 +31,14 @@ public class ManageLeaseRequestOwnerJavaFxGUI extends Application {
         List<AdBean> adBeanList = adManager.searchAvailableAds(sessionBean);
         CompositeVBox vBox = new CompositeVBox();
         for (AdBean adBean : adBeanList) {
-            adBean.setAdStatus(AdStatus.AVAILABLE);
-            List<LeaseRequestBean> leaseRequestBeanList = leaseRequestManager.searchLeaseRequestsByAd(sessionBean, adBean);
             CompositeVBox vBox1 = new CompositeVBox();
+            vBox.addChildren(new BasicAdDecorator(adBean, vBox1));
+            AdBean searchLease = new AdBean(adBean.getId(), null, null, 0);
+            searchLease.setAdStatus(AdStatus.AVAILABLE);
+            List<LeaseRequestBean> leaseRequestBeanList = leaseRequestManager.searchLeaseRequestsByAd(sessionBean, searchLease);
             for (LeaseRequestBean leaseRequestBean : leaseRequestBeanList) {
                 vBox1.addChildren(new LeaseRequestBasicComponent(leaseRequestBean));
             }
-            vBox.addChildren(new BasicAdDecorator(adBean, vBox1));
         }
         Scene scene = new Scene((Parent) vBox.setup());
         stage.setScene(scene);

@@ -44,8 +44,8 @@ public class ManageLeaseRequestJavaFxController extends JavaFxController{
     // Method to initialize anything you need when the UI first loads
     @FXML
     public void initialize(LeaseRequestBean leaseRequestBean) {
-        txtName.setText(properties.getProperty("NAME_MSG") + ": " + leaseRequestBean.getTenant().getName());
-        txtSurname.setText(properties.getProperty("SURNAME_MSG") + ": " + leaseRequestBean.getTenant().getSurname());
+        txtName.setText(leaseRequestBean.getTenant().getName());
+        txtSurname.setText(leaseRequestBean.getTenant().getSurname());
         txtStart.setText(properties.getProperty("STR_MONTH_MSG") + ": " + leaseRequestBean.getMonth());
         txtDuration.setText(properties.getProperty("DURATION_MSG") + ": " + leaseRequestBean.getDuration());
         txtEmail.setText(properties.getProperty("EMAIL_MSG") + ": " + leaseRequestBean.getTenant().getEmail());
@@ -53,7 +53,7 @@ public class ManageLeaseRequestJavaFxController extends JavaFxController{
         txtMessage.setText(properties.getProperty("MESSAGE_MSG"));
         lblMsgContent.setText(leaseRequestBean.getMessage());
         btnAccept.setText(properties.getProperty("ACCEPT_MSG"));
-        btnReject.setText(properties.getProperty("ACCEPT_MSG"));
+        btnReject.setText(properties.getProperty("REJECT_MSG"));
     }
 
 }

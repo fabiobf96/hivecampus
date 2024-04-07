@@ -1,18 +1,13 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.HomePageJavaFxController;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
-import java.io.IOException;
 
 public class BasicAdDecorator extends Decorator{
     private AdBean adBean;
