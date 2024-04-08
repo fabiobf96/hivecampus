@@ -25,6 +25,7 @@ public class AdDAOCSV implements AdDAO {
     private Properties properties;
     private static final String ERR_ACCESS = "ERR_ACCESS";
     private static final String ERR_PARSER = "ERR_PARSER";
+
     public AdDAOCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")) {
             properties = new Properties();
@@ -41,56 +42,49 @@ public class AdDAOCSV implements AdDAO {
         HomeDAO homeDAO = new HomeDAOCSV();
         RoomDAO roomDAO = new RoomDAOCSV();
         List<String[]> adTable = readAdTable();
-            return adTable.stream()
-                    // Ensure to separate the conditions correctly and parse the status value appropriately
-                    .filter(adRecord -> adRecord[AdAttributes.INDEX_OWNER].equals(sessionBean.getEmail()) && AdStatus.fromInt(Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS])) == adStatus)
-                    .map(adRecord ->
-                            // Pass the actual values from adRecord to retrieveHomeByID and retrieveRoomByID
-                            new Ad(
-                                    Integer.parseInt(adRecord[AdAttributes.INDEX_ID]),
-                                    homeDAO.retrieveHomeByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME])),
-                                    roomDAO.retrieveRoomByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME]), Integer.parseInt(adRecord[AdAttributes.INDEX_ROOM])),
-                                    Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE])
-                            )
-                    ).toList();
+        adTable.removeFirst(); // Rimuove l'header
+        return adTable.stream()
+                // Ensure to separate the conditions correctly and parse the status value appropriately
+                .filter(adRecord -> adRecord[AdAttributes.INDEX_OWNER].equals(sessionBean.getEmail()) && AdStatus.fromInt(Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS])) == adStatus)
+                .map(adRecord ->
+                        // Pass the actual values from adRecord to retrieveHomeByID and retrieveRoomByID
+                        new Ad(
+                                Integer.parseInt(adRecord[AdAttributes.INDEX_ID]),
+                                homeDAO.retrieveHomeByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME])),
+                                roomDAO.retrieveRoomByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME]), Integer.parseInt(adRecord[AdAttributes.INDEX_ROOM])),
+                                Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE])
+                        )
+                ).toList();
 
     }
 
     @Override
     public Ad retrieveAdByID(int id) {
         List<String[]> adTable = readAdTable();
-            return adTable.stream()
-                    .filter(adRecord -> Integer.parseInt(adRecord[AdAttributes.INDEX_ID]) == id)
-                    .findFirst()
-                    .map(adRecord -> new Ad(
-                            Integer.parseInt(adRecord[AdAttributes.INDEX_ID]),
-                            Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS]),
-                            Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE])
-                    ))
-                    .orElse(null);
+        adTable.removeFirst(); // Rimuove l'header
+        return adTable.stream()
+                .filter(adRecord -> Integer.parseInt(adRecord[AdAttributes.INDEX_ID]) == id)
+                .findFirst()
+                .map(adRecord -> new Ad(
+                        Integer.parseInt(adRecord[AdAttributes.INDEX_ID]),
+                        Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS]),
+                        Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE])
+                ))
+                .orElse(null);
 
     }
 
     @Override
     public void updateAd(Ad ad) {
         File fdTmp = new File(fd.getAbsolutePath() + ".tmp");
-        try (CSVReader reader = new CSVReader(new FileReader(fd));
-             CSVWriter writer = new CSVWriter(new FileWriter(fdTmp))) {
-            List<String[]> adTable = reader.readAll();
-            String[] header = adTable.getFirst();
-            adTable.removeFirst();
-            adTable.replaceAll(adRecord -> Integer.parseInt(adRecord[AdAttributes.INDEX_ID]) == ad.getId() ? updateAdRecord(adRecord, ad) : adRecord);
-            adTable.addFirst(header);
-            writer.writeAll(adTable);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_ACCESS), fd), e);
-            System.exit(3);
-        } catch (CsvException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_PARSER), fd), e);
-            System.exit(3);
-        }
+        List<String[]> adTable = readAdTable();
+        String[] header = adTable.getFirst();
+        adTable.removeFirst();
+        adTable.replaceAll(adRecord -> Integer.parseInt(adRecord[AdAttributes.INDEX_ID]) == ad.getId() ? updateAdRecord(adRecord, ad) : adRecord);
+        adTable.addFirst(header);
         // Sostituisci il file originale con il file temporaneo aggiornato
-        try {
+        try (CSVWriter writer = new CSVWriter(new FileWriter(fdTmp))) {
+            writer.writeAll(adTable);
             Files.move(fdTmp.toPath(), fd.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, String.format("Failed to move file from %s to %s", fdTmp, fd), e);
@@ -106,9 +100,7 @@ public class AdDAOCSV implements AdDAO {
 
     private List<String[]> readAdTable() {
         try (CSVReader reader = new CSVReader(new FileReader(fd))) {
-            List<String[]> adTable = reader.readAll();
-            adTable.removeFirst(); // Rimuove l'header
-            return adTable;
+            return reader.readAll();
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_ACCESS), fd), e);
             System.exit(3);
