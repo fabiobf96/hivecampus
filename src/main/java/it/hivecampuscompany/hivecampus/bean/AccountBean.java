@@ -10,10 +10,10 @@ public class AccountBean {
     }
 
     public AccountBean(String email, String name, String surname, String phoneNumber) {
-        this.email = email;
-        this.name = name;
-        this.surname = surname;
-        this.phoneNumber = phoneNumber;
+        setEmail(email);
+        setName(name);
+        setSurname(surname);
+        setPhoneNumber(phoneNumber);
     }
 
     public String getEmail() {

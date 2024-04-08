@@ -9,10 +9,7 @@ public class Account {
     private final String phoneNumber;
 
     public Account(AccountBean accountBean){
-        email = accountBean.getEmail();
-        name = accountBean.getName();
-        surname = accountBean.getSurname();
-        phoneNumber = accountBean.getPhoneNumber();
+        this(accountBean.getEmail(), accountBean.getName(), accountBean.getSurname(), accountBean.getPhoneNumber());
     }
     public Account(String email, String name, String surname, String phoneNumber) {
         this.email = email;
