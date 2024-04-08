@@ -1,10 +1,11 @@
 package it.hivecampuscompany.hivecampus.view.controller.cli;
 
-import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.manager.SessionManager;
+import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
+import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 
+import java.util.List;
 import java.util.Properties;
 
 /**
@@ -21,6 +22,7 @@ public abstract class CLIController {
     protected CliGUI view;
     protected Properties properties;
     protected SessionBean sessionBean;
+    private static final String INVALID_CHOICE = "Invalid choice, please try again.";
 
     /**
      * Constructor for CLIController. It initializes the properties object with
@@ -83,6 +85,48 @@ public abstract class CLIController {
         }
         view.displayMessage(properties.getProperty("GOODBYE_MSG"));
         System.exit(0);
+    }
+
+    /**
+     * Presents a list of options to the user and allows them to select one.
+     * <p>
+     * This method displays a given message followed by a numbered list of options
+     * based on the {@code itemList} provided. The user is prompted to make a selection
+     * by entering the number corresponding to their choice. If the selected item is
+     * {@code null}, or the user selects the last item in the list, it signifies a
+     * command to "Go Back", returning {@code null}. This allows the user to optionally
+     * exit the selection process.
+     * <p>
+     * The method continuously prompts the user until a valid choice is made. Invalid
+     * selections result in the display of an "invalid choice" message.
+     *
+     * @param <T> the type of elements in the itemList
+     * @param itemList a List of items of type {@code T} from which the user can choose.
+     *                 The list must not be {@code null} and should include at least one item.
+     * @param message a String to display to the user before presenting the options.
+     *                This message should instruct the user on how to make a selection.
+     * @return the item of type {@code T} selected by the user, or {@code null} if the user
+     *         chooses to "Go Back" by selecting the last option or if the selected item is {@code null}.
+     */
+    protected <T> T selectFromList(List<T> itemList, String message) {
+        view.displayMessage(message);
+        while (true) {
+            for (int i = 0; i < itemList.size(); i++) {
+                if (itemList.get(i) == null) {
+                    view.displayMessage(i + ") Go back");
+                } else {
+                    view.displayMessage(i + ") " + itemList.get(i).toString());
+                }
+            }
+            int choice = view.getIntUserInput("choice");
+            if (choice >= 0 && choice < itemList.size() - 1) {
+                return itemList.get(choice);
+            } else if (choice == itemList.size() - 1) {
+                return null; // Permette all'utente di tornare indietro
+            } else {
+                view.displayMessage(INVALID_CHOICE);
+            }
+        }
     }
 
     /**

@@ -6,7 +6,7 @@ import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 // Stato per la selezione dell'annuncio
 class AdSelectionState implements ManageLeaseRequestState {
     public void handle(LeaseRequestContext context) throws InvalidSessionException {
-        AdBean adBean = context.getController().selectAd();
+        AdBean adBean = context.getController().manageAdSelection();
         if (adBean != null) {
             context.setAdBean(adBean);
             context.setState(new LeaseRequestViewState()); // Passa allo stato successivo

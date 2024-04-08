@@ -14,7 +14,7 @@ import java.util.List;
 
 public class ManageLeaseRequestCLIController extends CLIController {
     private AdManager adManager;
-    LeaseRequestManager leaseRequestManager;
+    private LeaseRequestManager leaseRequestManager;
     private static final String INVALID_CHOICE = "Invalid choice, please try again.";
 
     public ManageLeaseRequestCLIController(SessionBean sessionBean) {
@@ -26,63 +26,27 @@ public class ManageLeaseRequestCLIController extends CLIController {
 
     @Override
     public void homePage() {
+        view.clean();
         view.displayWelcomeMessage("manage lease request".toUpperCase());
     }
 
-    public AdBean selectAd() throws InvalidSessionException {
-        while (true) { // Ciclo per permettere all'utente di tornare indietro
+    public AdBean manageAdSelection() throws InvalidSessionException {
             List<AdBean> adBeanList = adManager.searchAvailableAds(sessionBean);
             adBeanList.add(null); // Aggiunge un'opzione null per rappresentare "go back"
-            view.clean();
             homePage();
-            view.displayMessage("Select an ad for manage lease request (or last option to go back): ");
-            for (int i = 0; i < adBeanList.size(); i++) {
-                if (adBeanList.get(i) == null) {
-                    view.displayMessage(i + ") Go back");
-                } else {
-                    view.displayMessage(i + ") " + adBeanList.get(i).toString());
-                }
-            }
-            int choice = view.getIntUserInput("choice");
-            if (choice >= 0 && choice < adBeanList.size() - 1) {
-                return adBeanList.get(choice);
-            } else if (choice == adBeanList.size() - 1) {
-                return null; // Se l'utente sceglie "go back", ritorna null
-            } else {
-                view.displayMessage(INVALID_CHOICE);
-            }
-        }
+            return selectFromList(adBeanList, "Select an ad for manage lease request (or last option to go back): ");
     }
 
-    public LeaseRequestBean selectLeaseRequest(AdBean adBean) throws InvalidSessionException {
-        while (true) {
+    public LeaseRequestBean manageLeaseRequestSelection(AdBean adBean) throws InvalidSessionException {
             adBean.setAdStatus(AdStatus.AVAILABLE);
             List<LeaseRequestBean> leaseRequestBeanList = leaseRequestManager.searchLeaseRequestsByAd(sessionBean, adBean);
-            leaseRequestBeanList.add(null); // Opzione per tornare indietro
-            view.clean();
+            leaseRequestBeanList.add(null); // Aggiunge un'opzione null per rappresentare "go back"
             homePage();
-            view.displayMessage("Select a lease request (or last option to go back): ");
-            for (int i = 0; i < leaseRequestBeanList.size(); i++) {
-                if (leaseRequestBeanList.get(i) == null) {
-                    view.displayMessage(i + ") Go back");
-                } else {
-                    view.displayMessage(i + ") " + leaseRequestBeanList.get(i).toString());
-                }
-            }
-            int choice = view.getIntUserInput("choice");
-            if (choice >= 0 && choice < leaseRequestBeanList.size() - 1) {
-                return leaseRequestBeanList.get(choice);
-            } else if (choice == leaseRequestBeanList.size() - 1) {
-                return null; // Permette all'utente di tornare indietro
-            } else {
-                view.displayMessage(INVALID_CHOICE);
-            }
-        }
+            return selectFromList(leaseRequestBeanList, "Select a lease request (or last option to go back): ");
     }
 
     public int makeDecision(LeaseRequestBean leaseRequestBean) throws InvalidSessionException {
         while (true) {
-            view.clean();
             homePage();
             view.displayMessage("Select an option (or last option to go back): ");
             view.displayMessage(leaseRequestBean.toString());
