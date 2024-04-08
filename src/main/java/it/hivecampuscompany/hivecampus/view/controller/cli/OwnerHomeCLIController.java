@@ -38,20 +38,21 @@ public class OwnerHomeCLIController extends CLIController {
                     }
                     homePage();
                 }
+                case 4 -> controller = new ManageLeaseRoom(sessionBean);
                 case 6 -> exit();
                 default -> invalidChoice();
             }
+            if (controller != null) {
+                view.clean();
+                controller.homePage();
+            }
+            homePage();
         } catch (InputMismatchException e){
             invalidChoice();
             homePage();
         } catch (InvalidSessionException e){
             view.displayMessage(e.getMessage());
-            return;
         }
-        assert controller != null;
-        view.clean();
-        controller.homePage();
-        homePage();
     }
     public static void main (String[] args){
         OwnerHomeCLIController ownerHomeCLIController = new OwnerHomeCLIController();
