@@ -40,9 +40,7 @@ public class AdDAOCSV implements AdDAO {
     public List<Ad> retrieveAdsByOwner(SessionBean sessionBean, AdStatus adStatus) {
         HomeDAO homeDAO = new HomeDAOCSV();
         RoomDAO roomDAO = new RoomDAOCSV();
-        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
-            List<String[]> adTable = reader.readAll();
-            adTable.removeFirst();
+        List<String[]> adTable = readAdTable();
             return adTable.stream()
                     // Ensure to separate the conditions correctly and parse the status value appropriately
                     .filter(adRecord -> adRecord[AdAttributes.INDEX_OWNER].equals(sessionBean.getEmail()) && AdStatus.fromInt(Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS])) == adStatus)
@@ -55,21 +53,12 @@ public class AdDAOCSV implements AdDAO {
                                     Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE])
                             )
                     ).toList();
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_ACCESS), fd), e);
-            System.exit(3);
-        } catch (CsvException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_PARSER), fd), e);
-            System.exit(3);
-        }
-        return Collections.emptyList();
+
     }
 
     @Override
     public Ad retrieveAdByID(int id) {
-        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
-            List<String[]> adTable = reader.readAll();
-            adTable.removeFirst();
+        List<String[]> adTable = readAdTable();
             return adTable.stream()
                     .filter(adRecord -> Integer.parseInt(adRecord[AdAttributes.INDEX_ID]) == id)
                     .findFirst()
@@ -79,14 +68,7 @@ public class AdDAOCSV implements AdDAO {
                             Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE])
                     ))
                     .orElse(null);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_ACCESS), fd), e);
-            System.exit(3);
-        } catch (CsvException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_PARSER), fd), e);
-            System.exit(3);
-        }
-        return null;
+
     }
 
     @Override
@@ -120,6 +102,21 @@ public class AdDAOCSV implements AdDAO {
         adRecord[AdAttributes.INDEX_STATUS] = String.valueOf(ad.getAdStatus().getId());
         adRecord[AdAttributes.INDEX_PRICE] = String.valueOf(ad.getPrice());
         return adRecord;
+    }
+
+    private List<String[]> readAdTable() {
+        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
+            List<String[]> adTable = reader.readAll();
+            adTable.removeFirst(); // Rimuove l'header
+            return adTable;
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_ACCESS), fd), e);
+            System.exit(3);
+        } catch (CsvException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_PARSER), fd), e);
+            System.exit(3);
+        }
+        return Collections.emptyList();
     }
 
     private static class AdAttributes {
