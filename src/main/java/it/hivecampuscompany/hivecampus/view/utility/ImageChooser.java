@@ -9,11 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import java.io.File;
 import javafx.scene.image.Image;
-
 import javax.imageio.ImageIO;
 import java.io.FileInputStream;
 import java.io.ByteArrayOutputStream;
-
 import java.io.IOException;
 import java.awt.image.BufferedImage;
 import java.sql.Connection;
@@ -69,7 +67,7 @@ public class ImageChooser extends Application {
 
                     // Ora puoi utilizzare byteArray come desideri
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    LOGGER.severe(Arrays.toString(ex.getStackTrace()));
                 }
             }
         });
@@ -85,7 +83,7 @@ public class ImageChooser extends Application {
         try {
             format = ImageIO.getImageReadersBySuffix(getExtension(file)).next().getFormatName();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
         }
         return format;
     }
