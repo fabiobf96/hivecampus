@@ -4,25 +4,32 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import it.hivecampuscompany.hivecampus.bean.AccountBean;
+import it.hivecampuscompany.hivecampus.bean.FiltersBean;
+import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.dao.RoomDAO;
 import it.hivecampuscompany.hivecampus.model.Ad;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
-
+import it.hivecampuscompany.hivecampus.model.Home;
+import it.hivecampuscompany.hivecampus.model.Room;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdDAOCSV implements AdDAO {
     private final File fd;
+    private final File uni;
 
     public AdDAOCSV() {
         fd = new File("db/csv/ad-table.csv");
+        uni = new File("db/csv/university-table.csv");
     }
 
     @Override
@@ -96,6 +103,70 @@ public class AdDAOCSV implements AdDAO {
         adRecord[AdAttributes.INDEX_PRICE] = String.valueOf(ad.getPrice());
         return adRecord;
     }
+    @Override
+    public List<Ad> retrieveAdsByFilters(FiltersBean filtersBean) {
+        AccountDAO accountDAO = new AccountDAOCSV();
+        HomeDAO homeDAO = new HomeDAOCSV();
+        RoomDAO roomDAO = new RoomDAOCSV();
+
+        // Ottengo le coordinate dell'università
+        Point2D uniCoordinates = getUniversityCoordinates(filtersBean.getUniversity());
+        if (uniCoordinates == null) {
+            System.out.println("University not found");
+            System.exit(1);
+        }
+
+        List<Ad> ads = new ArrayList<>(); // Lista per accumulare gli annunci
+
+        List<Home> homes = homeDAO.retrieveHomesByDistance(uniCoordinates, filtersBean.getDistance());
+        for (Home home : homes) {
+            List<Room> rooms = roomDAO.retrieveRoomsByFilters(home.getId(), filtersBean);
+            for (Room room : rooms) {
+                try (CSVReader reader = new CSVReader(new FileReader(fd))) {
+                    List<String[]> adTable = reader.readAll();
+                    adTable.removeFirst();
+                    List<Ad> adsForRoom = adTable.stream()
+                            .filter(adRecord -> Integer.parseInt(adRecord[AdAttributes.INDEX_HOME]) == home.getId() && Integer.parseInt(adRecord[AdAttributes.INDEX_ROOM]) == room.getIdRoom())
+                            .map(adRecord -> new Ad(
+                                    Integer.parseInt(adRecord[AdAttributes.INDEX_ID]),
+                                    accountDAO.retrieveAccountInformationByEmail(adRecord[AdAttributes.INDEX_OWNER]),
+                                    home,
+                                    room,
+                                    Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS]),
+                                    Integer.parseInt(adRecord[AdAttributes.INDEX_MONTH_AVAILABILITY]),
+                                    Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE]),
+                                    filtersBean.getUniversity(),
+                                    home.calculateDistance(uniCoordinates)
+                            )).toList();
+                    ads.addAll(adsForRoom); // Aggiungi gli annunci trovati alla lista principale
+                } catch (IOException | CsvException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return ads; // Restituisci tutti gli annunci accumulati
+    }
+
+    public Point2D getUniversityCoordinates(String universityName){
+        try (CSVReader reader = new CSVReader(new FileReader(uni))) {
+            List<String[]> universityTable = reader.readAll();
+            universityTable.removeFirst();
+            return universityTable.stream()
+                    .filter(universityRecord -> universityRecord[UniversityAttributes.INDEX_NAME].equals(universityName))
+                    .findFirst()
+                    .map(universityRecord -> new Point2D.Double(Double.parseDouble(universityRecord[UniversityAttributes.INDEX_LONGITUDE]), Double.parseDouble(universityRecord[UniversityAttributes.INDEX_LATITUDE])))
+                    .orElse(null);
+        } catch (IOException | CsvException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static class UniversityAttributes{
+        private static final int INDEX_NAME = 0;
+        private static final int INDEX_LATITUDE = 2;
+        private static final int INDEX_LONGITUDE = 3;
+    }
+
 
     private static class AdAttributes {
         private static final int INDEX_ID = 0;
@@ -103,6 +174,7 @@ public class AdDAOCSV implements AdDAO {
         private static final int INDEX_HOME = 2;
         private static final int INDEX_ROOM = 3;
         private static final int INDEX_STATUS = 4;
-        private static final int INDEX_PRICE = 5;
+        private static final int INDEX_MONTH_AVAILABILITY = 5;
+        private static final int INDEX_PRICE = 6;
     }
 }

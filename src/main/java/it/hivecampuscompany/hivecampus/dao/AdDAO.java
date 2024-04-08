@@ -3,6 +3,7 @@ package it.hivecampuscompany.hivecampus.dao;
 
 
 import it.hivecampuscompany.hivecampus.bean.AccountBean;
+import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.model.Ad;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
 
@@ -43,4 +44,6 @@ public interface AdDAO {
      * @param ad The advertisement object to be updated.
      */
     void updateAd(Ad ad);
+
+    List<Ad> retrieveAdsByFilters(FiltersBean filtersBean);
 }

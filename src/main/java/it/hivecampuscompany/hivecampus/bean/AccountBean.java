@@ -1,10 +1,23 @@
 package it.hivecampuscompany.hivecampus.bean;
 
+import it.hivecampuscompany.hivecampus.model.Account;
+
 public class AccountBean {
     private String email;
     private String name;
     private String surname;
     private String phoneNumber;
+
+    public AccountBean(){
+        // Default constructor
+    }
+
+    public AccountBean(Account account){
+        this.email = account.getEmail();
+        this.name = account.getName();
+        this.surname = account.getSurname();
+        this.phoneNumber = account.getPhoneNumber();
+    }
 
     public String getEmail() {
         return email;
@@ -36,5 +49,15 @@ public class AccountBean {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "AccountBean{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
     }
 }

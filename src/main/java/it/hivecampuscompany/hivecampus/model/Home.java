@@ -74,8 +74,27 @@ public class Home {
         return features[3];
     }
 
+    public double calculateDistance(Point2D uniCoordinates) {
+        return Point2D.distance(coordinates.getX(), coordinates.getY(), uniCoordinates.getX(), uniCoordinates.getY());
+    }
+
+    /*
     @Override
     public String toString() {
         return address;
+    }
+     */
+
+    @Override
+    public String toString() {
+        return "Home: " + id + "\n" +
+                "Type: " + homeType + "\n" +
+                "Address: " + address + "\n" +
+                "Surface: " + surface + "\n" +
+                "Rooms: " + features[0] + "\n" +
+                "Bathrooms: " + features[1] + "\n" +
+                "Floor: " + features[2] + "\n" +
+                "Elevator: " + features[3] + "\n" +
+                "Description: " + description + "\n";
     }
 }

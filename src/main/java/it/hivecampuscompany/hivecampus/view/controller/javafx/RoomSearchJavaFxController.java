@@ -1,13 +1,7 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
-import it.hivecampuscompany.hivecampus.bean.FiltersBean;
-import it.hivecampuscompany.hivecampus.bean.HomeBean;
-import it.hivecampuscompany.hivecampus.bean.RoomBean;
-import it.hivecampuscompany.hivecampus.bean.SessionBean;
-import it.hivecampuscompany.hivecampus.dao.HomeDAO;
-import it.hivecampuscompany.hivecampus.dao.csv.HomeDAOCSV;
+import it.hivecampuscompany.hivecampus.bean.*;
 import it.hivecampuscompany.hivecampus.manager.RoomSearchManager;
-import it.hivecampuscompany.hivecampus.model.Home;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.PreviewRoomDecorator;
 import javafx.fxml.FXML;
@@ -15,12 +9,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-
 import java.io.IOException;
 import java.util.List;
 
 public class RoomSearchJavaFxController extends JavaFxController implements TabInitializerController {
-
     private RoomSearchManager roomSearchManager;
 
     @FXML
@@ -87,26 +79,26 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
             return;
         }
 
-        FiltersBean filtersBean;
+        FiltersBean filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
 
+        // Retrieve the ads that match the filters
+        List <AdBean> adBeans = roomSearchManager.searchAdsByFilters(filtersBean);
 
-        filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
-        System.out.println("\n________________________________\n" + filtersBean);
+        for (AdBean adBean: adBeans) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/previewRoomInfo-card.fxml"));
+                Parent root = loader.load(); // Carica il file FXML e restituisce il nodo radice
 
-        // Retrieve the homes that match the distance filter
-        List<HomeBean> homeBeans = roomSearchManager.searchHomesByFilters(filtersBean);
+                PreviewRoomJavaFxController previewRoomJavaFxController = loader.getController();
+                previewRoomJavaFxController.setAdBean(adBean);
+                previewRoomJavaFxController.initializePreviewDistance(); // Inizializza il controller dopo aver caricato il file FXML
 
-        if (homeBeans.isEmpty()) {
-            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), "No homes found."); // ERROR_SEARCH_MSG
-            return;
-        }
-
-        // Retrieve the rooms in the homes that match the filters
-        for (HomeBean homeBean: homeBeans) {
-            System.out.println("\n" + homeBean);
-            List<RoomBean> roomBeans = roomSearchManager.searchRoomsByFilters(homeBean, filtersBean);
-            System.out.println("\n"+ roomBeans);
-
+                BasicComponent basicComponent = new BasicComponent(root);
+                PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(basicComponent, adBean);
+                lvRooms.getItems().add(previewRoomDecorator.setup());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

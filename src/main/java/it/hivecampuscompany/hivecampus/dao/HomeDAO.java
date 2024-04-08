@@ -2,6 +2,7 @@ package it.hivecampuscompany.hivecampus.dao;
 
 import it.hivecampuscompany.hivecampus.model.Home;
 
+import java.awt.geom.Point2D;
 import java.util.List;
 
 /**
@@ -18,5 +19,7 @@ public interface HomeDAO {
      */
     Home retrieveHomeByID(int id);
 
-    List<Home> retrieveHomesByDistance(String university, double distance);
+    List<Home> retrieveHomesByDistance(Point2D unicoordinates, double distance);
+
+    Home retrieveHome(int id);
 }
