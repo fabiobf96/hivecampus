@@ -19,11 +19,7 @@ public abstract class JavaFxController {
         properties = LanguageLoader.getLanguageProperties();
     }
 
-    /*
-    protected static SessionBean getSessionBean(){
-        return sessionBean;
-    }
-    */
+    // SessionBean get method
 
     protected void showAlert(String typeAlert, String title, String message) {
         Alert alert = new Alert(Alert.AlertType.valueOf(typeAlert.toUpperCase()));

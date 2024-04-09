@@ -3,16 +3,17 @@ package it.hivecampuscompany.hivecampus.view.controller.javafx;
 import it.hivecampuscompany.hivecampus.view.gui.javafx.LoginJavaFxGUI;
 import it.hivecampuscompany.hivecampus.view.gui.javafx.TenantHomePageJavaFxGUI;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,13 +32,15 @@ public class HomePageJavaFxController extends JavaFxController{
     @FXML
     private Label lblSettings;
     @FXML
-    private MenuItem mibtmLanguage;
+    private MenuItem mibtnLanguage;
     @FXML
     private Label lblLanguage;
     @FXML
     private MenuItem mibtnLogout;
     @FXML
     private Label lblLogout;
+    @FXML
+    private ListView<String> lvNotifications;
 
     public HomePageJavaFxController() {
         // Default constructor
@@ -54,8 +57,38 @@ public class HomePageJavaFxController extends JavaFxController{
         lblLogout.setText(properties.getProperty("LOGOUT_MSG"));
 
         mibtnSettings.setOnAction(event -> handleAccountSettings());
-        mibtmLanguage.setOnAction(event -> handleLanguageSettings());
+        mibtnLanguage.setOnAction(event -> handleLanguageSettings());
         mibtnLogout.setOnAction(event -> handleLogout());
+    }
+
+    @FXML
+    public void initialize() {
+        // Listener per il cambiamento nell'elenco di elementi della ListView
+        lvNotifications.getItems().addListener((ListChangeListener<String>) change -> {
+            while (change.next()) {
+                // Verifica se sono stati aggiunti nuovi elementi
+                if (change.wasAdded()) {
+                    // Modifica il colore del pulsante delle notifiche
+                    mbtnNotifications.setStyle("-fx-background-color: #ff9933");
+                }
+            }
+        });
+
+        // Listener per il click sul pulsante delle notifiche per rimuovere il colore arancione
+        lvNotifications.setOnMouseClicked(event -> {
+            // Verifica se il colore attuale del pulsante è arancione
+            if (mbtnNotifications.getStyle().contains("-fx-background-color: #ff9933")) {
+                // Rimuovi il colore arancione dal pulsante delle notifiche
+                mbtnNotifications.setStyle(""); // Rimuove lo stile impostato e ripristina lo stile predefinito
+            }
+        });
+
+    }
+
+    // Metodo di prova
+    public void addNotifications() {
+        // Aggiungere nuove notifiche alla lista
+        lvNotifications.getItems().addAll("Notifica 1", "Notifica 2", "Notifica 3");
     }
 
     private void handleAccountSettings() {
@@ -81,6 +114,8 @@ public class HomePageJavaFxController extends JavaFxController{
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, properties.getProperty("ERROR_ACCOUNT_SETTINGS_WINDOW_MSG"), e);
         }
+
+        addNotifications();
     }
 
     private void handleLanguageSettings() {

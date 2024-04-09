@@ -1,5 +1,7 @@
 package it.hivecampuscompany.hivecampus.bean;
 
+import it.hivecampuscompany.hivecampus.model.Account;
+
 public class AccountBean {
     private String email;
     private String name;
@@ -7,6 +9,7 @@ public class AccountBean {
     private String phoneNumber;
 
     public AccountBean() {
+        // Default constructor
     }
 
     public AccountBean(String email, String name, String surname, String phoneNumber) {
@@ -14,6 +17,13 @@ public class AccountBean {
         setName(name);
         setSurname(surname);
         setPhoneNumber(phoneNumber);
+    }
+
+    public AccountBean(Account account){
+        setEmail(account.getEmail());
+        setName(account.getName());
+        setSurname(account.getSurname());
+        setPhoneNumber(account.getPhoneNumber());
     }
 
     public String getEmail() {
@@ -47,8 +57,16 @@ public class AccountBean {
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
     @Override
     public String toString() {
         return email + ", " + name + ", " + surname + ", " + phoneNumber;
+    }
+
+    public String getDetails() {
+        return  " - Name: " + name + '\n' +
+                " - Surname: " + surname + '\n' +
+                " - Email: " + email +  '\n' +
+                " - Telephone: " + phoneNumber;
     }
 }

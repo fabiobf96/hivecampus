@@ -11,6 +11,8 @@ public class LanguageCLIController extends CLIController {
         homePage();
     }
     public void homePage(){
+
+        view.displayWelcomeMessage(properties.getProperty("LANGUAGE_SETTINGS_MSG"));
         view.displayMessage("Select 0 for english");
         view.displayMessage("Seleziona 1 per l'italiano");
         try {

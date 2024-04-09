@@ -1,12 +1,21 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
-import it.hivecampuscompany.hivecampus.bean.FiltersBean;
-import it.hivecampuscompany.hivecampus.bean.SessionBean;
+import it.hivecampuscompany.hivecampus.bean.*;
+import it.hivecampuscompany.hivecampus.manager.RoomSearchManager;
+import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
+import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.PreviewRoomDecorator;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Logger;
 
 public class RoomSearchJavaFxController extends JavaFxController implements TabInitializerController {
+    private RoomSearchManager roomSearchManager;
+    private static final Logger LOGGER = Logger.getLogger(RoomSearchJavaFxController.class.getName());
 
     @FXML
     private Label lblFilters;
@@ -40,7 +49,9 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
     }
 
     public void initialize(SessionBean sessionBean) {
-        this.sessionBean = sessionBean;
+        this.sessionBean = sessionBean; // non sto considerando la sessione
+        this.roomSearchManager = new RoomSearchManager();
+
         lblFilters.setText(properties.getProperty("FILTERS_MSG"));
         lblServices.setText(properties.getProperty("SERVICES_MSG"));
         ckbPrivateBath.setText(properties.getProperty("PRIVATE_BATH_MSG"));
@@ -70,16 +81,26 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
             return;
         }
 
-        FiltersBean filtersBean;
+        FiltersBean filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
 
-        try{
-            //filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
-            //System.out.println(filtersBean);
+        // Retrieve the ads that match the filters
+        List <AdBean> adBeans = roomSearchManager.searchAdsByFilters(filtersBean);
 
+        for (AdBean adBean: adBeans) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/previewRoomInfo-card.fxml"));
+                Parent root = loader.load(); // Carica il file FXML e restituisce il nodo radice
 
+                PreviewRoomJavaFxController previewRoomJavaFxController = loader.getController();
+                previewRoomJavaFxController.setAdBean(adBean);
+                previewRoomJavaFxController.initializePreviewDistance(); // Inizializza il controller dopo aver caricato il file FXML
 
-        } catch (Exception e) {
-            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("ERROR_SEARCH_MSG"));
+                BasicComponent basicComponent = new BasicComponent(root);
+                PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(basicComponent, adBean);
+                lvRooms.getItems().add(previewRoomDecorator.setup());
+            } catch (IOException e) {
+                LOGGER.severe("Error loading the preview room card");
+            }
         }
     }
 

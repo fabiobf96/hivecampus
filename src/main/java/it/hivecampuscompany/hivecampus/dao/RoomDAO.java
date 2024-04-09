@@ -1,7 +1,9 @@
 package it.hivecampuscompany.hivecampus.dao;
 
-
+import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.model.Room;
+
+import java.util.List;
 
 /**
  * RoomDAO interface for managing room data within homes.
@@ -18,4 +20,6 @@ public interface RoomDAO {
      *         that the room is uniquely identified within the context of its home.
      */
     Room retrieveRoomByID(int homeID, int roomID);
+
+    List<Room> retrieveRoomsByFilters(int homeID, FiltersBean filtersBean);
 }

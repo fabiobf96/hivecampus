@@ -1,5 +1,6 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
+import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -56,12 +57,19 @@ public class PreviewRoomJavaFxController extends JavaFxController {
     @FXML
     private Label lblAvailability;
 
+    private AdBean adBean;
+
     public PreviewRoomJavaFxController() {
         // Default constructor
     }
 
+    public void setAdBean(AdBean bean){
+        // set the bean
+        this.adBean = bean;
+    }
+
     public void initializePreviewFeatures() {
-        lblTitle.setText("ROOM_TITLE");  // bean
+        lblTitle.setText(properties.getProperty("ROOM_TYPE_MSG") + adBean.adTitle() + properties.getProperty("MONTHLY_PRICE_MSG"));
         lblFeatures.setText(properties.getProperty("ROOM_FEATURES_MSG"));
         lblSurface.setText(properties.getProperty("SURFACE_MSG"));
         lblPrivateBath.setText(properties.getProperty("PRIVATE_BATH_MSG"));
@@ -69,21 +77,11 @@ public class PreviewRoomJavaFxController extends JavaFxController {
         lblConditioner.setText(properties.getProperty("CONDITIONER_MSG"));
         lblTVConnection.setText(properties.getProperty("TV_CONNECTION_MSG"));
 
-        lblArea.setText("AREA"); // bean
-        lblBath.setText("BATH"); // bean
-        lblBalc.setText("BALCONY"); // bean
-        lblAirCond.setText("AIR CONDITIONER"); // bean
-        lblTV.setText("TV"); // bean
-
-        // Recupera l'array di byte dell'immagine dal database
-        byte[] imageBytes = getImageBytesFromDatabase(1);
-        if (imageBytes != null) {
-            // Crea un'istanza di Image da bytearray
-            Image image = new Image(new ByteArrayInputStream(imageBytes));
-            // Imposta l'imageview per visualizzare l'immagine
-            imgRoom.setImage(image);
-            imgRoom.setPreserveRatio(false);
-        }
+        lblArea.setText(String.valueOf(adBean.getRoomBean().getSurface()));
+        lblBath.setText(String.valueOf(adBean.getRoomBean().getBathroom()));
+        lblBalc.setText(String.valueOf(adBean.getRoomBean().getBalcony()));
+        lblAirCond.setText(String.valueOf(adBean.getRoomBean().getConditioner()));
+        lblTV.setText(String.valueOf(adBean.getRoomBean().getTV()));
     }
 
     public void initializePreviewDistance() {
@@ -91,9 +89,9 @@ public class PreviewRoomJavaFxController extends JavaFxController {
         lblDistUni.setText(properties.getProperty("UNIVERSITY_MSG"));
         lblAvl.setText(properties.getProperty("AVAILABILITY_MSG"));
 
-        lblUniversity.setText("UNIVERSITY"); // bean
-        lblDistance.setText("DISTANCE"); // bean
-        lblAvailability.setText("AVAILABILITY"); // bean
+        lblUniversity.setText(adBean.getUniversity());
+        lblDistance.setText(String.valueOf(adBean.getDistance()));
+        lblAvailability.setText(String.valueOf(adBean.getAdStart()));
     }
 
     // Recupera l'array di byte dell'immagine dal database (metodo di prova)

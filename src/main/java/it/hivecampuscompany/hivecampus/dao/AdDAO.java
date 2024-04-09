@@ -1,9 +1,10 @@
 package it.hivecampuscompany.hivecampus.dao;
 
+import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.model.Ad;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
-
+import java.awt.geom.Point2D;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public interface AdDAO {
     /**
      * Retrieves a list of ads based on the owner's account and the advertisement status.
      *
-     * @param sessionBean The session of the owner of the advertisements.
+     * @param sessionBean The session bean containing the owner's account information.
      * @param adStatus The status of the advertisements to retrieve. This operation
      *                 differentiates between two types of {@link AdStatus}:
      *                 - {@link AdStatus#AVAILABLE}: Returns all ads belonging to an owner for which
@@ -41,4 +42,6 @@ public interface AdDAO {
      * @param ad The advertisement object to be updated.
      */
     void updateAd(Ad ad);
+
+    List<Ad> retrieveAdsByFilters(FiltersBean filtersBean, Point2D uniCoordinates);
 }

@@ -6,8 +6,12 @@ import it.hivecampuscompany.hivecampus.exception.EmptyFieldsException;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
 import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
+import java.util.logging.Logger;
 
 public class SignupCLIController extends CLIController {
+
+    private static final Logger LOGGER = Logger.getLogger(SignupCLIController.class.getName());
+
     public SignupCLIController() {
         view = new CliGUI();
         homePage();
@@ -57,7 +61,8 @@ public class SignupCLIController extends CLIController {
         try {           /// devo essere gestito poi diversamente (ho aggiunto il try-catch)
             userBean.setRole(typeAccount);
         } catch (EmptyFieldsException e) {
-            throw new RuntimeException(e);
+            LOGGER.severe(e.getMessage());
+            System.exit(1);
         }
         return userBean;
     }

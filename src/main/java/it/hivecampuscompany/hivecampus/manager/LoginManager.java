@@ -7,8 +7,6 @@ import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.UserDAO;
 import it.hivecampuscompany.hivecampus.dao.csv.AccountDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.csv.UserDAOCSV;
-import it.hivecampuscompany.hivecampus.dao.mysql.AccountDAOMySql;
-import it.hivecampuscompany.hivecampus.dao.mysql.UserDAOMySql;
 import it.hivecampuscompany.hivecampus.exception.AuthenticateException;
 import it.hivecampuscompany.hivecampus.exception.DuplicateRowException;
 import it.hivecampuscompany.hivecampus.model.Account;

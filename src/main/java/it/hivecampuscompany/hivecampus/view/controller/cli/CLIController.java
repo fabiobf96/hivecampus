@@ -87,6 +87,12 @@ public abstract class CLIController {
         System.exit(0);
     }
 
+    protected Boolean getBooleanInput(String message) {
+        return view.getStringUserInput(message).equalsIgnoreCase("y");
+    }
+
+
+
     /**
      * Presents a list of options to the user and allows them to select one.
      * <p>

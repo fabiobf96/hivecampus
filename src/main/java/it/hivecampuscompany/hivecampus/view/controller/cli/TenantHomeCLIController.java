@@ -31,13 +31,14 @@ public class TenantHomeCLIController extends CLIController{
 
         switch (view.getIntUserInput(properties.getProperty("CHOICE_MSG"))){
             case 1 -> {
+                view.clean();
                 new AccountSettingsCLIController();
                 this.properties = LanguageLoader.getLanguageProperties();
                 homePage();
             }
             case 2 -> {
-                // roomSearchCLIController
-                view.displayMessage(properties.getProperty("SEARCH ROOM"));
+                view.clean();
+                new AdSearchCLIController();
                 homePage();
             }
             case 3 -> {

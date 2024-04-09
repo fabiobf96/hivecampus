@@ -1,17 +1,20 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration;
 
+import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.PreviewRoomJavaFxController;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
 public class PreviewRoomDecorator extends Decorator{
-    public PreviewRoomDecorator(Component component) {
+    private final AdBean adBean;
+
+    public PreviewRoomDecorator(Component component, AdBean adBean) {
         super(component);
+        this.adBean = adBean;
     }
 
     protected Node applyPreviewRoomDecoration(Node child) {
@@ -25,6 +28,7 @@ public class PreviewRoomDecorator extends Decorator{
             Node root = loader.load();
 
             PreviewRoomJavaFxController controller = loader.getController();
+            controller.setAdBean(adBean);
             controller.initializePreviewFeatures();
 
             //se devo passare un sessionBean devo ottenere il controller e chiamare initialize(sessionBean)
