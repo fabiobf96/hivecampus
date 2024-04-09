@@ -60,8 +60,16 @@ public class RoomBean {
         return description;
     }
 
-    @Override
-    public String toString() {
+    public String getPreview() {
+        return  " - Type: " + type + "\n" +
+                " - Surface: " + surface + "\n" +
+                " - Private Bathroom: " + (services[0] ? "Yes" : "No") + "\n" +
+                " - Balcony: " + (services[1] ? "Yes" : "No") + "\n" +
+                " - Conditioner: " + (services[2] ? "Yes" : "No") + "\n" +
+                " - TV: " + (services[3] ? "Yes" : "No");
+    }
+
+    public String getDetails() {
         return  " - Type: " + type + "\n" +
                 " - Surface: " + surface + "\n" +
                 " - Private Bathroom: " + (services[0] ? "Yes" : "No") + "\n" +

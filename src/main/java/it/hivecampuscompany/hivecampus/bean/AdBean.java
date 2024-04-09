@@ -80,12 +80,19 @@ public class AdBean {
         return " " + homeBean.getType() + " - " + homeBean.getAddress() + " - €" + price;
     }
 
-    @Override
-    public String toString() {
+    public String getPreview() {
         return  adTitle() + "\n\n" +
-                "Home Features: " + "\n" + homeBean + "\n\n" +
-                "Room Features: " + "\n" + roomBean + "\n\n" +
+                "Room Features: " + "\n" + roomBean.getPreview() + "\n\n" +
+                "Distance from university: " + distance + " km" + "\n"
+                + "____________________________________________________________\n";
+    }
+
+    public String getDetails() {
+        return  adTitle() + "\n\n" +
+                "Home Features: " + "\n" + homeBean.getDetails() + "\n\n" +
+                "Room Features: " + "\n" + roomBean.getDetails() + "\n\n" +
                 "Month Availability: " + adStart + "\n\n" +
-                "Owner information: " + "\n" + ownerBean + "\n\n";
+                "Owner information: " + "\n" + ownerBean.getDetails() + "\n"
+                + "____________________________________________________________\n";
     }
 }

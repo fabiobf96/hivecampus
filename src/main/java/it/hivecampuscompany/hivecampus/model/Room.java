@@ -53,22 +53,9 @@ public class Room {
         return description;
     }
 
-    /*
-    @Override
-    public String toString() {
-        return typeRoom;
-    }
-     */
 
     @Override
     public String toString() {
-        return "Room: " + getIdRoom() + "\n" +
-                "Type: " + typeRoom + "\n" +
-                "Surface: " + surface + "\n" +
-                "Private Bathroom: " + (services[0] ? "Yes" : "No") + "\n" +
-                "Balcony: " + (services[1] ? "Yes" : "No") + "\n" +
-                "Conditioner: " + (services[2] ? "Yes" : "No") + "\n" +
-                "TV: " + (services[3] ? "Yes" : "No") + "\n" +
-                "Description: " + description + "\n;";
+        return typeRoom;
     }
 }

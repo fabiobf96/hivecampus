@@ -38,7 +38,7 @@ public class TenantHomeCLIController extends CLIController{
             }
             case 2 -> {
                 view.clean();
-                new RoomSearchCLIController();
+                new AdSearchCLIController();
                 homePage();
             }
             case 3 -> {

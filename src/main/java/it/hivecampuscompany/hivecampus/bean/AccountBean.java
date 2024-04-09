@@ -51,8 +51,7 @@ public class AccountBean {
         this.phoneNumber = phoneNumber;
     }
 
-    @Override
-    public String toString() {
+    public String getDetails() {
         return  " - Name: " + name + '\n' +
                 " - Surname: " + surname + '\n' +
                 " - Email: " + email +  '\n' +

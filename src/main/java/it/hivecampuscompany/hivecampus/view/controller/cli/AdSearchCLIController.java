@@ -4,13 +4,12 @@ import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.manager.RoomSearchManager;
 import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
-
 import java.util.List;
 
-public class RoomSearchCLIController  extends CLIController{
+public class AdSearchCLIController extends CLIController {
     private final RoomSearchManager roomSearchManager;
 
-public RoomSearchCLIController() {
+public AdSearchCLIController() {
         view = new CliGUI();
         roomSearchManager = new RoomSearchManager();
         homePage();
@@ -36,14 +35,17 @@ public RoomSearchCLIController() {
         // Retrieve the ads that match the filters
         List<AdBean> adBeans = roomSearchManager.searchAdsByFilters(filtersBean);
 
-        for (int i = 1; i <= adBeans.size(); i++) {
-            System.out.println(i + ") " + adBeans.get(i - 1).toString());
-        }
+        // Display the preview of the ads
+        showAdsPreview(adBeans);
 
+        // Call the controller to display the details of the selected ad
+        new AdDetailsCLIController(adBeans);
     }
 
-    private Boolean getBooleanInput(String message) {
-        return view.getStringUserInput(message).equalsIgnoreCase("y");
+    private void showAdsPreview(List<AdBean> adBeans) {
+        for (int i = 1; i <= adBeans.size(); i++) {
+            view.displayMessage(i + ") " + adBeans.get(i - 1).getPreview());
+        }
     }
 
     private Float getValidatedInput(String message, float defaultValue) {

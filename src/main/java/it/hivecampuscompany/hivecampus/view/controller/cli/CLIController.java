@@ -85,6 +85,12 @@ public abstract class CLIController {
         System.exit(0);
     }
 
+    protected Boolean getBooleanInput(String message) {
+        return view.getStringUserInput(message).equalsIgnoreCase("y");
+    }
+
+
+
     /**
      * Abstract method that defines the behavior of the home page in the CLI application.
      * Implementing classes should provide the specific logic to display and handle the home page.

@@ -67,14 +67,13 @@ public class HomeBean {
         return description;
     }
 
-    @Override
-    public String toString() {
+    public String getDetails() {
         return  " - Type: " + type + "\n" +
                 " - Surface: " + surface + "\n" +
                 " - Rooms: " + features[0] + "\n" +
                 " - Bathrooms: " + features[1] + "\n" +
                 " - Floor: " + features[2] + "\n" +
-                " - Elevator: " + features[3] + "\n" +
+                " - Elevator: " + features[3] + "\n\n" +
                 "House Description: " + "\n" + FormatText.formatText(description);
     }
 }

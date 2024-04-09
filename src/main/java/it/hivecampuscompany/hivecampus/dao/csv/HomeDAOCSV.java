@@ -4,6 +4,8 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.model.Home;
+import it.hivecampuscompany.hivecampus.view.utility.CalculateDistance;
+
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.FileReader;
@@ -47,7 +49,8 @@ public class HomeDAOCSV implements HomeDAO {
             for (String[] homeRecord : homeTable) {
                 double homeLongitude = Double.parseDouble(homeRecord[HomeAttributes.INDEX_LONGITUDE]);
                 double homeLatitude = Double.parseDouble(homeRecord[HomeAttributes.INDEX_LATITUDE]);
-                if (Point2D.distance(homeLongitude, homeLatitude, uniCoordinates.getX(), uniCoordinates.getY()) <= distance) {
+                // Calculate the distance between the university and the home by Harvesine formula
+                if (CalculateDistance.haversineFormula( homeLongitude, homeLatitude, uniCoordinates.getX(), uniCoordinates.getY()) <= distance) {
                     Integer[] features = {
                             Integer.parseInt(homeRecord[HomeAttributes.INDEX_NROOMS]),
                             Integer.parseInt(homeRecord[HomeAttributes.INDEX_NBATHROOMS]),
