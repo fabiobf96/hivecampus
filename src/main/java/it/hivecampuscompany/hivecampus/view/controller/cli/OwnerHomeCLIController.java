@@ -1,7 +1,8 @@
 package it.hivecampuscompany.hivecampus.view.controller.cli;
 
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
-import it.hivecampuscompany.hivecampus.view.controller.cli.state.LeaseRequestContext;
+import it.hivecampuscompany.hivecampus.view.controller.cli.state.Context;
+import it.hivecampuscompany.hivecampus.view.controller.cli.state.StateCLIController;
 import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
@@ -31,8 +32,16 @@ public class OwnerHomeCLIController extends CLIController {
             switch (view.getIntUserInput(properties.getProperty("CHOICE_MSG"))) {
                 case 1 -> controller = new AccountSettingsCLIController();
                 case 3 -> {
-                    ManageLeaseRequestCLIController requestCLIController = new ManageLeaseRequestCLIController(sessionBean);
-                    LeaseRequestContext context = new LeaseRequestContext(requestCLIController);
+                    StateCLIController requestCLIController = new StateCLIController(sessionBean, StateCLIController.CLI.MANAGE_LEASE_REQUEST);
+                    Context context = new Context(requestCLIController);
+                    while (!context.isExitRequested()) { // Controlla se l'uscita è stata richiesta
+                        context.request();
+                    }
+                    homePage();
+                }
+                case 4 -> {
+                    StateCLIController leaseCLIController = new StateCLIController(sessionBean, StateCLIController.CLI.MANAGE_LEASE);
+                    Context context = new Context(leaseCLIController);
                     while (!context.isExitRequested()) { // Controlla se l'uscita è stata richiesta
                         context.request();
                     }
@@ -41,17 +50,17 @@ public class OwnerHomeCLIController extends CLIController {
                 case 6 -> exit();
                 default -> invalidChoice();
             }
+            if (controller != null) {
+                view.clean();
+                controller.homePage();
+            }
+            homePage();
         } catch (InputMismatchException e){
             invalidChoice();
             homePage();
         } catch (InvalidSessionException e){
             view.displayMessage(e.getMessage());
-            return;
         }
-        assert controller != null;
-        view.clean();
-        controller.homePage();
-        homePage();
     }
     public static void main (String[] args){
         OwnerHomeCLIController ownerHomeCLIController = new OwnerHomeCLIController();

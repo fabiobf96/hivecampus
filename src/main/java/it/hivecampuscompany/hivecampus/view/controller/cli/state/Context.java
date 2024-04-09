@@ -1,18 +1,19 @@
 package it.hivecampuscompany.hivecampus.view.controller.cli.state;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
+import it.hivecampuscompany.hivecampus.bean.LeaseBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
-import it.hivecampuscompany.hivecampus.view.controller.cli.ManageLeaseRequestCLIController;
 
-public class LeaseRequestContext {
-    private ManageLeaseRequestState state;
-    private ManageLeaseRequestCLIController controller; // Sostituisci con il tuo tipo di view
+public class Context {
+    private State state;
+    private StateCLIController controller; // Sostituisci con il tuo tipo di view
     private AdBean adBean;
+    private LeaseBean leaseBean;
     private LeaseRequestBean leaseRequestBean;
     private boolean exitRequested = false;
 
-    public LeaseRequestContext(ManageLeaseRequestCLIController controller) {
+    public Context(StateCLIController controller) {
         this.controller = controller;
         this.state = new AdSelectionState(); // Stato iniziale
     }
@@ -25,7 +26,7 @@ public class LeaseRequestContext {
         this.exitRequested = exitRequested;
     }
 
-    public void setState(ManageLeaseRequestState state) {
+    public void setState(State state) {
         this.state = state;
     }
 
@@ -37,7 +38,7 @@ public class LeaseRequestContext {
         }
     }
 
-    public ManageLeaseRequestCLIController getController() {
+    public StateCLIController getController() {
         return controller;
     }
 
@@ -57,5 +58,12 @@ public class LeaseRequestContext {
         this.leaseRequestBean = leaseRequestBean;
     }
 
+    public LeaseBean getLeaseBean() {
+        return leaseBean;
+    }
+
+    public void setLeaseBean(LeaseBean leaseBean) {
+        this.leaseBean = leaseBean;
+    }
 }
 

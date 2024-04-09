@@ -4,8 +4,8 @@ import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 
 // Stato per visualizzare e gestire le richieste di locazione
-class LeaseRequestViewState implements ManageLeaseRequestState {
-    public void handle(LeaseRequestContext context) throws InvalidSessionException {
+class LeaseRequestViewState implements State {
+    public void handle(Context context) throws InvalidSessionException {
         LeaseRequestBean leaseRequestBean = context.getController().manageLeaseRequestSelection(context.getAdBean());
         if (leaseRequestBean != null) {
             context.setLeaseRequestBean(leaseRequestBean);
