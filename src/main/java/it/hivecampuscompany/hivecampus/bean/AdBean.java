@@ -27,7 +27,7 @@ public class AdBean {
         this.adStatus = adStatus;
     }
 
-    public AdBean(Ad ad){
+    public AdBean(Ad ad, String university, double distance){
         this.id = ad.getId();
         this.ownerBean = new AccountBean(ad.getOwner());
         this.homeBean =  new HomeBean(ad.getHome());
@@ -35,8 +35,8 @@ public class AdBean {
         this.price = ad.getPrice();
         this.adStatus = ad.getAdStatus();
         this.adStart = ad.getAdStart();
-        this.university = ad.getUniversity();
-        this.distance = ad.getDistance();
+        this.university = university;
+        this.distance = distance;
 
     }
 
@@ -76,14 +76,16 @@ public class AdBean {
         return distance;
     }
 
+    public String adTitle() {
+        return " " + homeBean.getType() + " - " + homeBean.getAddress() + " - €" + price;
+    }
+
     @Override
     public String toString() {
-        return "Ad: " + id + "\n" +
-                "Owner: " + ownerBean + "\n" +
-                "Home: " + homeBean + "\n" +
-                "Room: " + roomBean + "\n" +
-                "Price: " + price + "\n" +
-                "Status: " + adStatus + "\n" +
-                "Start: " + adStart + "\n";
+        return  adTitle() + "\n\n" +
+                "Home Features: " + "\n" + homeBean + "\n\n" +
+                "Room Features: " + "\n" + roomBean + "\n\n" +
+                "Month Availability: " + adStart + "\n\n" +
+                "Owner information: " + "\n" + ownerBean + "\n\n";
     }
 }

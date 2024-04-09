@@ -11,9 +11,11 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class RoomSearchJavaFxController extends JavaFxController implements TabInitializerController {
     private RoomSearchManager roomSearchManager;
+    private static final Logger LOGGER = Logger.getLogger(RoomSearchJavaFxController.class.getName());
 
     @FXML
     private Label lblFilters;
@@ -97,7 +99,7 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
                 PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(basicComponent, adBean);
                 lvRooms.getItems().add(previewRoomDecorator.setup());
             } catch (IOException e) {
-                e.printStackTrace();
+                LOGGER.severe("Error loading the preview room card");
             }
         }
     }

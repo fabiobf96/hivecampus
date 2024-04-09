@@ -7,6 +7,7 @@ import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.model.Ad;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
 
+import java.awt.geom.Point2D;
 import java.util.List;
 
 /**
@@ -45,5 +46,5 @@ public interface AdDAO {
      */
     void updateAd(Ad ad);
 
-    List<Ad> retrieveAdsByFilters(FiltersBean filtersBean);
+    List<Ad> retrieveAdsByFilters(FiltersBean filtersBean, Point2D uniCoordinates);
 }

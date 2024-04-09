@@ -2,7 +2,6 @@ package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
-import it.hivecampuscompany.hivecampus.model.Ad;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -70,8 +69,7 @@ public class PreviewRoomJavaFxController extends JavaFxController {
     }
 
     public void initializePreviewFeatures() {
-        lblTitle.setText(properties.getProperty("ROOM_TYPE_MSG") + " " + adBean.getRoomBean().getType() + " - " +
-                adBean.getHomeBean().getAddress() + " - €" + adBean.getPrice() + properties.getProperty("MONTHLY_PRICE_MSG"));
+        lblTitle.setText(properties.getProperty("ROOM_TYPE_MSG") + adBean.adTitle() + properties.getProperty("MONTHLY_PRICE_MSG"));
         lblFeatures.setText(properties.getProperty("ROOM_FEATURES_MSG"));
         lblSurface.setText(properties.getProperty("SURFACE_MSG"));
         lblPrivateBath.setText(properties.getProperty("PRIVATE_BATH_MSG"));
@@ -91,8 +89,8 @@ public class PreviewRoomJavaFxController extends JavaFxController {
         lblDistUni.setText(properties.getProperty("UNIVERSITY_MSG"));
         lblAvl.setText(properties.getProperty("AVAILABILITY_MSG"));
 
-        lblUniversity.setText("UNIVERSITY"); // bean
-        lblDistance.setText("DISTANCE"); // bean
+        lblUniversity.setText(adBean.getUniversity());
+        lblDistance.setText(String.valueOf(adBean.getDistance()));
         lblAvailability.setText(String.valueOf(adBean.getAdStart()));
     }
 

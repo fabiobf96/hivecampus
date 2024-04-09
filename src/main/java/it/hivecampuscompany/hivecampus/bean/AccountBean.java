@@ -53,11 +53,9 @@ public class AccountBean {
 
     @Override
     public String toString() {
-        return "AccountBean{" +
-                "email='" + email + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
+        return  " - Name: " + name + '\n' +
+                " - Surname: " + surname + '\n' +
+                " - Email: " + email +  '\n' +
+                " - Telephone: " + phoneNumber;
     }
 }

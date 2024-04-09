@@ -8,10 +8,6 @@ public class Ad {
     private AdStatus adStatus;
     private AdStart adStart;
     private final int price;
-    private String university;
-    private double distance;
-
-    private Integer[] leaseInfo;
 
     public Ad(int id, int adStatus, int price) {
         this.id = id;
@@ -26,16 +22,11 @@ public class Ad {
         this.price = price;
     }
 
-    public Ad(int id, Account owner, Home home, Room room, int adStatus, int adMonth, int price, String university, double distance) {
-        this.id = id;
+    public Ad(int id, Account owner, Home home, Room room, int adStatus, int adStart, int price) {
+        this(id, home, room, price);
         this.owner = owner;
-        this.home = home;
-        this.room = room;
         this.adStatus = AdStatus.fromInt(adStatus);
-        this.adStart = AdStart.fromInt(adMonth);
-        this.price = price;
-        this.university = university;
-        this.distance = distance;
+        this.adStart = AdStart.fromInt(adStart);
     }
 
     @Override
@@ -80,13 +71,5 @@ public class Ad {
 
     public int getPrice() {
         return price;
-    }
-
-    public String getUniversity() {
-        return university;
-    }
-
-    public double getDistance() {
-        return distance;
     }
 }

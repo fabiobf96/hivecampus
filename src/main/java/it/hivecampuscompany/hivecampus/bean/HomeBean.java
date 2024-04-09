@@ -1,6 +1,7 @@
 package it.hivecampuscompany.hivecampus.bean;
 
 import it.hivecampuscompany.hivecampus.model.Home;
+import it.hivecampuscompany.hivecampus.view.utility.FormatText;
 import java.awt.geom.Point2D;
 
 public class HomeBean {
@@ -68,14 +69,12 @@ public class HomeBean {
 
     @Override
     public String toString() {
-        return "Home: " + idHome + "\n" +
-                "Type: " + type + "\n" +
-                "Address: " + address + "\n" +
-                "Surface: " + surface + "\n" +
-                "Rooms: " + features[0] + "\n" +
-                "Bathrooms: " + features[1] + "\n" +
-                "Floor: " + features[2] + "\n" +
-                "Elevator: " + features[3] + "\n" +
-                "Description: " + description + "\n";
+        return  " - Type: " + type + "\n" +
+                " - Surface: " + surface + "\n" +
+                " - Rooms: " + features[0] + "\n" +
+                " - Bathrooms: " + features[1] + "\n" +
+                " - Floor: " + features[2] + "\n" +
+                " - Elevator: " + features[3] + "\n" +
+                "House Description: " + "\n" + FormatText.formatText(description);
     }
 }
