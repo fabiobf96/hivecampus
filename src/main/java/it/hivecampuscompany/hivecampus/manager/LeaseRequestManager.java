@@ -43,7 +43,6 @@ public class LeaseRequestManager {
                 adDAO.updateAd(ad);
             }
             leaseRequestDAO.updateLeaseRequest(leaseRequest);
-        }
-        throw new InvalidSessionException();
+        } else throw new InvalidSessionException();
     }
 }

@@ -12,7 +12,7 @@ class AdSelectionState implements State {
             context.setAdBean(adBean);
             if (controller.getCli() == StateCLIController.CLI.MANAGE_LEASE_REQUEST) {
                 context.setState(new LeaseRequestViewState()); // Passa allo stato successivo
-            } context.setState(new LeaseDecisionState());
+            } else context.setState(new LeaseDecisionState());
         } else context.setState(new ExitState()); // Ritorna al chiamante
     }
 }
