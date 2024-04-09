@@ -69,7 +69,7 @@ public abstract class CLIController {
             if (isNull){
                 break;
             }
-        } while (field.isEmpty());
+        } while (field.isBlank());
         return field;
     }
 
@@ -127,6 +127,13 @@ public abstract class CLIController {
                 view.displayMessage(INVALID_CHOICE);
             }
         }
+    }
+
+    public void displayError (String message) {
+        view.displayMessage(message);
+        view.getStringUserInput("press any key to continue");
+        view.clean();
+        homePage();
     }
 
     /**
