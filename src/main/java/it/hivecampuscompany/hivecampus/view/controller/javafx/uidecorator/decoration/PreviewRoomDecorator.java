@@ -8,8 +8,11 @@ import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class PreviewRoomDecorator extends Decorator{
+
+    private static final Logger LOGGER = Logger.getLogger(PreviewRoomDecorator.class.getName());
     private final AdBean adBean;
 
     public PreviewRoomDecorator(Component component, AdBean adBean) {
@@ -35,7 +38,8 @@ public class PreviewRoomDecorator extends Decorator{
             vBox.getChildren().addAll(root, child);
             return vBox;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.severe("Error while applying PreviewRoomDecorator");
+            return child;
         }
     }
     @Override

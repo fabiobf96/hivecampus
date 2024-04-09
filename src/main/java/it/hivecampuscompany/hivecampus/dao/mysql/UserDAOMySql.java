@@ -1,6 +1,5 @@
 package it.hivecampuscompany.hivecampus.dao.mysql;
 
-import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.exception.AuthenticateException;
 import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import it.hivecampuscompany.hivecampus.dao.UserDAO;

@@ -4,7 +4,6 @@ import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.queries.StoredProcedures;
 import it.hivecampuscompany.hivecampus.model.Account;
-
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;

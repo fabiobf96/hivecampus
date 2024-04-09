@@ -6,10 +6,11 @@ import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class HBoxDecorator extends Decorator{
+    private static final Logger LOGGER = Logger.getLogger(HBoxDecorator.class.getName());
     public HBoxDecorator(Component component) {
         super(component);
     }
@@ -25,7 +26,8 @@ public class HBoxDecorator extends Decorator{
             VBox.setVgrow(child, Priority.ALWAYS);
             return hBox;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.severe("Error while applying HBoxDecorator");
+            return child;
         }
     }
     @Override

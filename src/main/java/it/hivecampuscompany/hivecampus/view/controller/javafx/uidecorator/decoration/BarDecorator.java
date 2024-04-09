@@ -5,13 +5,15 @@ import it.hivecampuscompany.hivecampus.view.controller.javafx.HomePageJavaFxCont
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class BarDecorator extends Decorator{
+
+    private static final Logger LOGGER = Logger.getLogger(BarDecorator.class.getName());
 
     private SessionBean sessionBean;
 
@@ -33,7 +35,8 @@ public class BarDecorator extends Decorator{
             VBox.setVgrow(child, Priority.ALWAYS);
             return vBox;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.severe("Error while applying BarDecorator");
+            return child;
         }
     }
     @Override
