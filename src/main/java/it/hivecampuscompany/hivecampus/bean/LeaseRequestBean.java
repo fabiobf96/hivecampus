@@ -13,43 +13,40 @@ public class LeaseRequestBean {
 
     public LeaseRequestBean(int id, AdBean adBean, AccountBean tenant, String month, String duration, String message, LeaseRequestStatus status) {
         this.id = id;
-        this.adBean = adBean;
+        setAdBean(adBean);
         this.tenant = tenant;
         this.month = month;
         this.duration = duration;
         this.message = message;
-        this.status = status;
+        setStatus(status);
     }
 
     public int getId() {
         return id;
     }
-
     public AdBean getAdBean() {
         return adBean;
     }
-
     public AccountBean getTenant() {
         return tenant;
     }
-
     public String getMonth() {
         return month;
     }
-
     public String getDuration() {
         return duration;
     }
-
     public String getMessage() {
         return message;
     }
-
     public LeaseRequestStatus getStatus() {
         return status;
     }
     public void setStatus (LeaseRequestStatus status) {
         this.status = status;
+    }
+    public void setAdBean(AdBean adBean) {
+        this.adBean = adBean;
     }
 
     @Override

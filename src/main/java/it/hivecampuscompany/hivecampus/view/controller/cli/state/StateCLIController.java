@@ -88,16 +88,18 @@ public class StateCLIController extends CLIController {
     public LeaseBean getContractPath(AdBean adBean) throws InvalidSessionException, IOException {
         homePage();
         view.displayMessage(adBean.toString());
-        view.displayMessage(leaseRequestManager.searchLeaseRequestsByAd(sessionBean, adBean).toString());
+        LeaseRequestBean leaseRequestBean = leaseRequestManager.searchLeaseRequestsByAd(sessionBean, adBean).getFirst();
+        leaseRequestBean.setAdBean(adBean);
+        view.displayMessage(leaseRequestBean.toString());
         view.displayMessage("insert the path for continue or notting for go back: ");
         String path = getField("Path", true);
         if (path.isBlank() || path.isEmpty()) {
             return null;
         }
-        return new LeaseBean(adBean, path);
+        return new LeaseBean(leaseRequestBean, path);
     }
-    public void loadLeaseContract (LeaseBean leaseBean) {
-        leaseManager.saveLease(sessionBean, leaseBean);
+    public void loadLeaseContract (LeaseBean leaseBean) throws InvalidSessionException{
+        leaseManager.loadLease(sessionBean, leaseBean);
     }
     public CLI getCli() {
         return cli;

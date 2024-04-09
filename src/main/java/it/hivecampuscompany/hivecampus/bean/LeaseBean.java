@@ -5,16 +5,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class LeaseBean {
-    private AdBean adBean;
+    private LeaseRequestBean leaseRequestBean;
     private byte[] contract;
 
-    public LeaseBean(AdBean adBean, String path) throws IOException {
-        this.adBean = adBean;
+    public LeaseBean(LeaseRequestBean leaseRequestBean, String path) throws IOException {
+        this.leaseRequestBean = leaseRequestBean;
         this.contract = fromPathToBytes(path);
     }
 
-    public AdBean getAdBean() {
-        return adBean;
+    public LeaseRequestBean getLeaseRequestBean() {
+        return leaseRequestBean;
     }
 
     public byte[] getContract() {
