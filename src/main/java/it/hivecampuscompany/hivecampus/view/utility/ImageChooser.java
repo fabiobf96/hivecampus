@@ -2,21 +2,16 @@ package it.hivecampuscompany.hivecampus.view.utility;
 
 import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import javafx.application.Application;
-import javafx.scene.shape.Path;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Region;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import java.io.File;
-import javafx.scene.image.Image;
-import javax.imageio.ImageIO;
-import java.io.FileInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.awt.image.BufferedImage;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.util.Arrays;
 import java.util.logging.Logger;
@@ -27,38 +22,57 @@ public class ImageChooser extends Application {
     private final Connection connection = ConnectionManager.getConnection();
     private static final Logger LOGGER = Logger.getLogger(ImageChooser.class.getName());
 
+    File selectedFile;
+
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Seleziona un'immagine");
 
         // Creazione del pulsante per selezionare l'immagine
-        Button selectImageButton = new Button("Seleziona Immagine");
+        Button btnSelectImage = new Button("Seleziona Immagine");
+        // Creazione di un textfield per specificare il nome dell'immagine caricata
+        TextField txfImageName = new TextField();
+
+        // Creazione di un textfield per specificare l'id della stanza
+        TextField txfIdRoom = new TextField();
+        txfIdRoom.setPromptText("Inserisci l'id della stanza");
+
+        // Creazione di un textfield per specificare l'id della casa
+        TextField txfIdHome = new TextField();
+        txfIdHome.setPromptText("Inserisci l'id della casa");
+
+        // Creazione di un bottone submit
+        Button btnSubmit = new Button("Submit");
 
         // Azione quando viene cliccato il pulsante
-        selectImageButton.setOnAction(e -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Seleziona un'immagine");
-            fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Immagini", "*.jpg", "*.jpeg", "*.png" , "*.pdf")
-            );
-            File selectedFile = fileChooser.showOpenDialog(primaryStage);
+        btnSelectImage.setOnAction(e -> {
+                    FileChooser fileChooser = new FileChooser();
+                    fileChooser.setTitle("Seleziona un'immagine");
+                    fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Immagini", "*.jpg", "*.jpeg", "*.png"));
+                    selectedFile = fileChooser.showOpenDialog(primaryStage);
 
-            if (selectedFile != null) {
+                    // Mostra il nome del file selezionato nel textfield
+                    txfImageName.setText(selectedFile.getName());
+                });
+
+        // Azione quando viene cliccato il pulsante submit
+        btnSubmit.setOnAction(e -> {
+            // Recupera l'id della stanza e della casa
+            int idRoom = Integer.parseInt(txfIdRoom.getText());
+            int idHome = Integer.parseInt(txfIdHome.getText());
+
+            // Se è stata selezionata un'immagine e sono stati inseriti l'id della stanza e della casa
+            if (selectedFile != null && txfIdRoom.getText() != null && txfIdHome.getText() != null) {
                 try {
                     // Leggi l'immagine come array di byte
                     byte[] imageArray = Files.readAllBytes(selectedFile.toPath());  // <-- funziona per entrambi
-
-                    // Ottieni il formato dell'immagine
-                    //String imageFormat = getImageFormat(selectedFile);
 
                     // Ottieni il nome e l'estensione del file selezionato
                     String imageName = selectedFile.getName();
                     String imageType = imageName.substring(imageName.lastIndexOf('.') + 1);
 
-                    // Inserisci l'array di byte nel database insieme al nome e all'estensione dell'immagine
+                    // insertImageIntoDatabase(imageName, imageType, imageArray, idRoom, idHome);  // <-- lato database
 
-                    insertImageIntoDatabase(imageArray);  // <-- lato database
-                    //new SaveRoomIntoCSV().saveRoom(imageArray, imageName, imageType);
+                    new InsertImageIntoCSV().saveRoom(imageName, imageType, imageArray, idRoom, idHome); // <-- lato CSV
 
                     // Ora puoi utilizzare byteArray come desideri
                 } catch (IOException ex) {
@@ -67,44 +81,29 @@ public class ImageChooser extends Application {
             }
         });
 
-        VBox vbox = new VBox(selectImageButton);
-        Scene scene = new Scene(vbox, 300, 100);
+        VBox vbox = new VBox(btnSelectImage, txfIdRoom, txfIdHome, txfImageName, btnSubmit);
+
+        vbox.setPadding(new javafx.geometry.Insets(20));
+        vbox.setAlignment(javafx.geometry.Pos.CENTER);
+        vbox.setSpacing(10);
+        vbox.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+
+        Scene scene = new Scene(vbox);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    private String getImageFormat(File file) {
-        String format = null;
-        try {
-            format = ImageIO.getImageReadersBySuffix(getExtension(file)).next().getFormatName();
-        } catch (IOException e) {
-            LOGGER.severe(Arrays.toString(e.getStackTrace()));
-        }
-        return format;
-    }
-
-    private String getExtension(File file) {
-        String name = file.getName();
-        int lastIndexOfDot = name.lastIndexOf('.');
-        if (lastIndexOfDot == -1 || lastIndexOfDot == name.length() - 1) {
-            return "";
-        }
-        return name.substring(lastIndexOfDot + 1);
-    }
-
-    private void insertImageIntoDatabase(byte[] byteArray) { // byte[] byteArray, String imageName, String imageType nella version hivecampus
-        int idImage = 3;
-        String sql = "INSERT INTO hivecampus_db.room (idRoom, image) VALUES (?, ?)";
+    private void insertImageIntoDatabase(String imgName, String imgType, byte[] byteArray, int idRoom, int idHome) {
+        String sql = "INSERT INTO room_images (name, type, image, idRoom, idHome) VALUES (?, ?, ?, ?, ?)";
         try (java.sql.PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, idImage);
-            pstmt.setBytes(2, byteArray);
+            pstmt.setString(1, imgName);
+            pstmt.setString(2, imgType);
+            pstmt.setBytes(3, byteArray);
+            pstmt.setInt(4, idRoom);
+            pstmt.setInt(5, idHome);
             pstmt.executeUpdate();
         } catch (Exception e) {
             LOGGER.severe(Arrays.toString(e.getStackTrace()));
         }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
