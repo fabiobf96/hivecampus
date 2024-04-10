@@ -4,6 +4,7 @@ import it.hivecampuscompany.hivecampus.bean.*;
 import it.hivecampuscompany.hivecampus.manager.RoomSearchManager;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.PreviewRoomDecorator;
+import it.hivecampuscompany.hivecampus.view.utility.CustomListCell;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -64,9 +65,15 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
         btnSearch.setText(properties.getProperty("SEARCH_MSG"));
 
         btnSearch.setOnAction(event -> handleSearch());
+
+        // Set the custom cell factory for the list view
+        lvRooms.setCellFactory(listView -> new CustomListCell());
     }
 
     private void handleSearch() {
+        // Elimina tutti gli elementi attualmente presenti nella ListView
+        lvRooms.getItems().clear();
+
         // Manage the search button click event
         String university = searchField.getText().trim();
         Float maxDistance = validateNumericInput(txfDistance.getText(), 15F); // Check distance
@@ -97,6 +104,8 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
 
                 BasicComponent basicComponent = new BasicComponent(root);
                 PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(basicComponent, adBean);
+
+                // Carico la preview della stanza nella ListView
                 lvRooms.getItems().add(previewRoomDecorator.setup());
             } catch (IOException e) {
                 LOGGER.severe("Error loading the preview room card");
@@ -122,5 +131,4 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
         }
         return Float.parseFloat(input);
     }
-
 }

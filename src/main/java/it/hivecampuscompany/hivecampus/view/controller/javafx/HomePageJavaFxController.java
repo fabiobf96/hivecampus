@@ -59,6 +59,8 @@ public class HomePageJavaFxController extends JavaFxController{
         mibtnSettings.setOnAction(event -> handleAccountSettings());
         mibtnLanguage.setOnAction(event -> handleLanguageSettings());
         mibtnLogout.setOnAction(event -> handleLogout());
+
+        // lvNotifications custom list cell as in RoomSearchJavaFxController
     }
 
     @FXML

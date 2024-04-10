@@ -25,7 +25,6 @@ public class PreviewRoomDecorator extends Decorator{
             VBox vBox = new VBox();
             vBox.paddingProperty().setValue(new javafx.geometry.Insets(10));
             vBox.alignmentProperty().setValue(javafx.geometry.Pos.CENTER);
-            vBox.setStyle("-fx-border-color: gray; -fx-border-radius: 5;");
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/previewRoom-card.fxml"));
             Node root = loader.load();

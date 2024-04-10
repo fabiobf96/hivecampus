@@ -3,6 +3,9 @@ package it.hivecampuscompany.hivecampus.view.controller.javafx;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+
 import java.util.Properties;
 
 public abstract class JavaFxController {
@@ -28,4 +31,10 @@ public abstract class JavaFxController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    protected void setLabelText(Label label, String text) {
+        label.setText(text);
+        label.setTextFill(Color.BLACK);
+    }
+
 }

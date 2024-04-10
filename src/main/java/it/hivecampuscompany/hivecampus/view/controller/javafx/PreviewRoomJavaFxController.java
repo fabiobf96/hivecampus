@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
 import java.io.ByteArrayInputStream;
 import java.sql.Connection;
 import java.util.logging.Logger;
@@ -69,34 +68,40 @@ public class PreviewRoomJavaFxController extends JavaFxController {
     }
 
     public void initializePreviewFeatures() {
-        lblTitle.setText(properties.getProperty("ROOM_TYPE_MSG") + adBean.adTitle() + properties.getProperty("MONTHLY_PRICE_MSG"));
-        lblFeatures.setText(properties.getProperty("ROOM_FEATURES_MSG"));
-        lblSurface.setText(properties.getProperty("SURFACE_MSG"));
-        lblPrivateBath.setText(properties.getProperty("PRIVATE_BATH_MSG"));
-        lblBalcony.setText(properties.getProperty("BALCONY_MSG"));
-        lblConditioner.setText(properties.getProperty("CONDITIONER_MSG"));
-        lblTVConnection.setText(properties.getProperty("TV_CONNECTION_MSG"));
+        // Imposta il colore a nero e il testo per tutte le label
+        setLabelText(lblTitle, properties.getProperty("ROOM_TYPE_MSG") + adBean.adTitle() + properties.getProperty("MONTHLY_PRICE_MSG"));
+        setLabelText(lblFeatures, properties.getProperty("ROOM_FEATURES_MSG"));
+        setLabelText(lblSurface, properties.getProperty("SURFACE_MSG"));
+        setLabelText(lblPrivateBath, properties.getProperty("PRIVATE_BATH_MSG"));
+        setLabelText(lblBalcony, properties.getProperty("BALCONY_MSG"));
+        setLabelText(lblConditioner, properties.getProperty("CONDITIONER_MSG"));
+        setLabelText(lblTVConnection, properties.getProperty("TV_CONNECTION_MSG"));
+        setLabelText(lblArea, String.valueOf(adBean.getRoomBean().getSurface()));
+        setLabelText(lblBath, String.valueOf(adBean.getRoomBean().getBathroom()));
+        setLabelText(lblBalc, String.valueOf(adBean.getRoomBean().getBalcony()));
+        setLabelText(lblAirCond, String.valueOf(adBean.getRoomBean().getConditioner()));
+        setLabelText(lblTV, String.valueOf(adBean.getRoomBean().getTV()));
 
-        lblArea.setText(String.valueOf(adBean.getRoomBean().getSurface()));
-        lblBath.setText(String.valueOf(adBean.getRoomBean().getBathroom()));
-        lblBalc.setText(String.valueOf(adBean.getRoomBean().getBalcony()));
-        lblAirCond.setText(String.valueOf(adBean.getRoomBean().getConditioner()));
-        lblTV.setText(String.valueOf(adBean.getRoomBean().getTV()));
+        byte[] imageBytes = getImageBytesFromDatabase(1);
+        if (imageBytes != null) {
+            imgRoom.setImage(new Image(new ByteArrayInputStream(imageBytes))); // solo per la prova delle immagini
+        }
+
     }
 
     public void initializePreviewDistance() {
-        lblDist.setText(properties.getProperty("DISTANCE_MSG"));
-        lblDistUni.setText(properties.getProperty("UNIVERSITY_MSG"));
-        lblAvl.setText(properties.getProperty("AVAILABILITY_MSG"));
-
-        lblUniversity.setText(adBean.getUniversity());
-        lblDistance.setText(String.valueOf(adBean.getDistance()));
-        lblAvailability.setText(String.valueOf(adBean.getAdStart()));
+        // Imposta il colore a nero e il testo per tutte le label
+        setLabelText(lblDist, properties.getProperty("DISTANCE_MSG"));
+        setLabelText(lblDistUni, properties.getProperty("UNIVERSITY_MSG"));
+        setLabelText(lblAvl, properties.getProperty("AVAILABILITY_MSG"));
+        setLabelText(lblUniversity, adBean.getUniversity());
+        setLabelText(lblDistance, (adBean.getDistance()) + " km");
+        setLabelText(lblAvailability, String.valueOf(adBean.getAdStart()));
     }
 
     // Recupera l'array di byte dell'immagine dal database (metodo di prova)
-    private byte[] getImageBytesFromDatabase(int roomId) {
-        String sql = "SELECT image FROM room WHERE idRoom = ?";
+    public byte[] getImageBytesFromDatabase(int roomId) {
+        String sql = "SELECT image FROM hivecampus2.room_images WHERE id = ?"; // hivecampus_db.room WHERE idRoom = ? (funziona)
         // Implementazione per recuperare l'array di byte dell'immagine dal database
         try(java.sql.PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(1, roomId);
@@ -107,6 +112,6 @@ public class PreviewRoomJavaFxController extends JavaFxController {
         } catch (java.sql.SQLException e) {
             LOGGER.severe("Errore durante il recupero dell'immagine dal database: " + e.getMessage());
         }
-        return null;
+        return new byte[0];
     }
 }
