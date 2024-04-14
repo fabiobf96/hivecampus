@@ -78,7 +78,7 @@ public abstract class CLIController {
      * If a sessionBean is present, it deletes the session before displaying a goodbye message
      * and terminating the application.
      */
-    protected void exit(){
+    public void exit(){
         if (sessionBean != null){
             SessionManager sessionManager = SessionManager.getInstance();
             sessionManager.deleteSession(sessionBean);
@@ -140,6 +140,11 @@ public abstract class CLIController {
         view.getStringUserInput("press any key to continue");
         view.clean();
         homePage();
+    }
+
+    public void notImplementedYet () {
+        view.displayMessage("Not Implemented Yet!");
+        view.getStringUserInput("press any key to continue");
     }
 
     /**
