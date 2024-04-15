@@ -130,17 +130,20 @@ public class AdDAOCSV implements AdDAO {
             LOGGER.log(Level.SEVERE, "University coordinates not found");
             System.exit(1);
         }
-
-        List<Ad> ads = new ArrayList<>(); // Lista per accumulare gli annunci
-
+        // List of ads to be returned
+        List<Ad> ads = new ArrayList<>();
+        // Retrieve homes by distance
         List<Home> homes = homeDAO.retrieveHomesByDistance(uniCoordinates, filtersBean.getDistance());
+
         for (Home home : homes) {
+            // Retrieve rooms by filters
             List<Room> rooms = roomDAO.retrieveRoomsByFilters(home.getId(), filtersBean);
             for (Room room : rooms) {
                 try (CSVReader reader = new CSVReader(new FileReader(fd))) {
                     List<String[]> adTable = reader.readAll();
                     adTable.removeFirst();
-                    List<Ad> adsForRoom = adTable.stream()
+                    // Filter the ads by home and room
+                    adTable.stream()
                             .filter(adRecord -> Integer.parseInt(adRecord[AdAttributes.INDEX_HOME]) == home.getId() && Integer.parseInt(adRecord[AdAttributes.INDEX_ROOM]) == room.getIdRoom())
                             .map(adRecord -> new Ad(
                                     Integer.parseInt(adRecord[AdAttributes.INDEX_ID]),
@@ -150,17 +153,17 @@ public class AdDAOCSV implements AdDAO {
                                     Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS]),
                                     Integer.parseInt(adRecord[AdAttributes.INDEX_MONTH_AVAILABILITY]),
                                     Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE])
-                            )).toList();
-                    ads.addAll(adsForRoom); // Aggiungi gli annunci trovati alla lista principale
+                            ))
+                            .forEach(ads::add); // Add the ads to the list
+
                 } catch (IOException | CsvException e) {
                     LOGGER.log(Level.SEVERE, "Failed to read ad table", e);
                     System.exit(3);
                 }
             }
         }
-        return ads; // Restituisci tutti gli annunci accumulati
+        return ads; // Return the list of ads
     }
-
 
     private static class AdAttributes {
         private static final int INDEX_ID = 0;

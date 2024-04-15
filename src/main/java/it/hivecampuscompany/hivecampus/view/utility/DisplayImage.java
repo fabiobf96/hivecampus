@@ -78,8 +78,8 @@ public class DisplayImage extends Application {
             // Recupera l'id dell'immagine
             int idImage = Integer.parseInt(txfIdImage.getText());
 
-            //byte [] byteArray = getImageBytesFromDB(idImage);
-            byte [] byteArray = getImageBytesFromCSV(idImage);
+            byte [] byteArray = getImageBytesFromDB(idImage); // <--  funziona
+           // byte [] byteArray = getImageBytesFromCSV(idImage); // <--  funziona
 
             // Creazione di un'immagine dall'array di byte
             Image image =  new Image(new ByteArrayInputStream(byteArray));
@@ -112,6 +112,7 @@ public class DisplayImage extends Application {
 
     public byte[] getImageBytesFromDB(int idImage) {
         String sql = "SELECT image FROM hivecampus2.room_images WHERE id = ?";
+        //String sql = "SELECT image FROM hivecampus_db.room_images WHERE id = ?"; // <--  funziona
         //String sql = "SELECT image FROM hivecampus_db.room WHERE idRoom = ?"; // <--  funziona
         // Implementazione per recuperare l'array di byte dell'immagine dal database
         try(java.sql.PreparedStatement pstmt = connection.prepareStatement(sql)) {

@@ -17,14 +17,17 @@ import java.util.logging.Logger;
 
 public class RoomDAOCSV implements RoomDAO {
     private File fd;
+    private File fdImages;
     private Properties properties;
     private static final Logger LOGGER = Logger.getLogger(RoomDAOCSV.class.getName());
+    static final String ERROR_ACCESS = "ERR_ACCESS";
 
     public RoomDAOCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")) {
             properties = new Properties();
             properties.load(input);
             fd = new File(properties.getProperty("ROOM_PATH"));
+            fdImages = new File(properties.getProperty("ROOM_IMAGES_PATH"));
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
             System.exit(1);
@@ -88,6 +91,27 @@ public class RoomDAOCSV implements RoomDAO {
         return Collections.emptyList();
     }
 
+    @Override
+    public byte[] getRoomImage(int homeID, int roomID) {
+        try (CSVReader reader = new CSVReader(new FileReader(fdImages))) {
+            List<String[]> imageTable = reader.readAll();
+            imageTable.removeFirst();
+            String[] imageRecord = imageTable.stream()
+                    .filter(rec -> Integer.parseInt(rec[RoomImagesAttributes.INDEX_ID_ROOM]) == roomID && Integer.parseInt(rec[RoomImagesAttributes.INDEX_ID_HOME]) == homeID)
+                    .findFirst()
+                    .orElseThrow(() -> new IOException("Image not found"));
+            return CSVUtility.decodeBase64ToBytes(imageRecord[RoomImagesAttributes.INDEX_IMAGE]);
+
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERROR_ACCESS), fd), e);
+            System.exit(3);
+        } catch (CsvException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_PARSER"), fd), e);
+            System.exit(3);
+        }
+        return new byte[0];
+    }
+
     private static class RoomAttributes{
         private static final int INDEX_ID_ROOM = 0;
         private static final int INDEX_ID_HOME = 1;
@@ -98,5 +122,11 @@ public class RoomDAOCSV implements RoomDAO {
         private static final int INDEX_CONDITIONER = 6;
         private static final int INDEX_TV = 7;
         private static final int INDEX_DESCRIPTION = 8;
+    }
+
+    private static class RoomImagesAttributes{
+        private static final int INDEX_ID_ROOM = 1;
+        private static final int INDEX_ID_HOME = 2;
+        private static final int INDEX_IMAGE = 5;
     }
 }

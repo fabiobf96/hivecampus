@@ -59,7 +59,6 @@ public class Room {
         return description;
     }
 
-
     @Override
     public String toString() {
         return typeRoom;

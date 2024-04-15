@@ -17,11 +17,10 @@ public class RoomSearchManager {
     public RoomSearchManager() {
         // Default constructor
     }
-
     public List<AdBean> searchAdsByFilters(FiltersBean filtersBean) {
-
+        // Get the coordinates of the university
         Point2D uniCoordinates = universityDAO.getUniversityCoordinates(filtersBean.getUniversity());
-
+        // Retrieve the ads by filters
         List<AdBean> adBeanList = new ArrayList<>();
         List<Ad> ads = adDAOCSV.retrieveAdsByFilters(filtersBean, uniCoordinates);
         for (Ad ad : ads) {
