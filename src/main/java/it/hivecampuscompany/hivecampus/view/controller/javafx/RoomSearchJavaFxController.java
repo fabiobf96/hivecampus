@@ -2,6 +2,7 @@ package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
 import it.hivecampuscompany.hivecampus.bean.*;
 import it.hivecampuscompany.hivecampus.manager.RoomSearchManager;
+import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.PreviewRoomDecorator;
 import it.hivecampuscompany.hivecampus.view.utility.CustomListCell;
@@ -16,6 +17,7 @@ import java.util.logging.Logger;
 
 public class RoomSearchJavaFxController extends JavaFxController implements TabInitializerController {
     private RoomSearchManager roomSearchManager;
+    private Context context;
     private static final Logger LOGGER = Logger.getLogger(RoomSearchJavaFxController.class.getName());
 
     @FXML
@@ -49,8 +51,8 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
         // Default constructor
     }
 
-    public void initialize(SessionBean sessionBean) {
-        this.sessionBean = sessionBean; // non sto considerando la sessione
+    public void initialize(Context context) {
+        this.context = context; // Set the context
         this.roomSearchManager = new RoomSearchManager();
 
         lblFilters.setText(properties.getProperty("FILTERS_MSG"));

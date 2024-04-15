@@ -1,6 +1,8 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration;
 
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
+import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
+import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.HomePageJavaFxController;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
 import javafx.fxml.FXMLLoader;
@@ -15,11 +17,11 @@ public class BarDecorator extends Decorator{
 
     private static final Logger LOGGER = Logger.getLogger(BarDecorator.class.getName());
 
-    private SessionBean sessionBean;
+    private Context context;
 
-    public BarDecorator(Component component, SessionBean sessionBean) {
+    public BarDecorator(Component component, Context context) {
         super(component);
-        this.sessionBean = sessionBean;
+        this.context =  context;
     }
     protected Node applyBarDecoration(Node child) {
         try {

@@ -26,13 +26,15 @@ public class OwnerHomePageJavaFxGUI extends HomePageJavaFxGUI {
 
         tabPane.setTabName("Manage Requests");
         tabPane.addChildren(addDynamicTab("/it/hivecampuscompany/hivecampus/tabRoomSearch-view.fxml", sessionBean));
-
+        /*
         BarDecorator barDecorator = new BarDecorator(tabPane, sessionBean);
 
         Scene scene = new Scene((Parent) barDecorator.setup());
         stage.setScene(scene);
         stage.setTitle("Home Page GUI");
         stage.show();
+
+         */
     }
 
     public static void main(String[] args) {

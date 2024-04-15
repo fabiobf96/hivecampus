@@ -35,4 +35,13 @@ module it.hivecampuscompany.hivecampus {
 
     exports it.hivecampuscompany.hivecampus.exception;
     opens it.hivecampuscompany.hivecampus.exception to javafx.fxml;
+
+    exports it.hivecampuscompany.hivecampus.state.javafx.controller;
+    opens it.hivecampuscompany.hivecampus.state.javafx.controller to javafx.fxml;
+
+    exports it.hivecampuscompany.hivecampus.state;
+    opens it.hivecampuscompany.hivecampus.state to javafx.fxml;
+
+    exports it.hivecampuscompany.hivecampus.state.javafx;
+    opens it.hivecampuscompany.hivecampus.state.javafx to javafx.fxml;
 }

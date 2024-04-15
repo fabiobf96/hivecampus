@@ -26,13 +26,15 @@ public class TenantHomePageJavaFxGUI  extends HomePageJavaFxGUI {
 
         tabPane.setTabName(properties.getProperty("MANAGE_REQUEST_MSG"));
         tabPane.addChildren(addDynamicTab("/it/hivecampuscompany/hivecampus/tabRoomSearch-view.fxml", sessionBean));
-
+        /*
         BarDecorator barDecorator = new BarDecorator(tabPane, sessionBean);
 
         Scene scene = new Scene((Parent) barDecorator.setup());
         stage.setScene(scene);
         stage.setTitle("Home Page GUI");
         stage.show();
+
+         */
     }
 
     public static void main(String[] args) {

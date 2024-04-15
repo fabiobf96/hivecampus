@@ -145,7 +145,7 @@ public class HomePageJavaFxController extends JavaFxController{
                 // Aggiorna le proprietà della lingua
                 properties = LanguageLoader.getLanguageProperties();
                 // Dopo che la finestra modale è stata chiusa, esegue il codice per aggiornare la home page e i tab
-                new TenantHomePageJavaFxGUI().startWithSession(stage, sessionBean);
+                //new TenantHomePageJavaFxGUI().startWithSession(stage, sessionBean);  <-- da modificare con la nuova versione state
             });
 
             popUpStage.setScene(scene);

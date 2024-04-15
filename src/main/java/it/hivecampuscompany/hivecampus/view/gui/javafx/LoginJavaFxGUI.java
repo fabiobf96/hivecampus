@@ -38,7 +38,7 @@ public class LoginJavaFxGUI extends Application {
             Node loginComponent = loader.load();
 
             LoginJavaFxController controller = loader.getController();
-            controller.initialize();
+            //controller.initialize();
 
             return new BasicComponent(loginComponent);
         } catch (Exception e) {

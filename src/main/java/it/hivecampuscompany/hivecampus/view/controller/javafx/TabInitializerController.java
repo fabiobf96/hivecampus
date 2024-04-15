@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
-import it.hivecampuscompany.hivecampus.bean.SessionBean;
+import it.hivecampuscompany.hivecampus.state.Context;
 
 public interface TabInitializerController {
-    void initialize(SessionBean sessionBean);
+    void initialize(Context context);
 }

@@ -2,6 +2,9 @@ package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
 
 import it.hivecampuscompany.hivecampus.exception.AuthenticateException;
+import it.hivecampuscompany.hivecampus.state.Context;
+import it.hivecampuscompany.hivecampus.state.LoginPage;
+import it.hivecampuscompany.hivecampus.state.javafx.OwnerHomeJavaFXPage;
 import it.hivecampuscompany.hivecampus.view.gui.javafx.OwnerHomePageJavaFxGUI;
 import it.hivecampuscompany.hivecampus.view.gui.javafx.SignUpJavaFxGUI;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
@@ -20,6 +23,10 @@ import java.util.Objects;
 
 
 public class LoginJavaFxController extends JavaFxController {
+
+    private Context context;
+
+    private LoginPage loginPage;
 
     private final LoginManager manager;
 
@@ -66,7 +73,10 @@ public class LoginJavaFxController extends JavaFxController {
 
     }
 
-    public void initialize(){
+    public void initialize(Context context, LoginPage loginPage) {
+        this.context = context;
+        this.loginPage = loginPage;
+
         lblLogin.setText(properties.getProperty("LOGIN_MSG"));
         txfEmail.setPromptText(properties.getProperty("EMAIL_MSG"));
         txfPassword.setPromptText(properties.getProperty("PASSWORD_MSG"));
@@ -79,7 +89,9 @@ public class LoginJavaFxController extends JavaFxController {
         setLanguageImage();
 
         mibtnLangChange.setOnAction(event -> handleLanguageChange());
+
         btnLogin.setOnAction(event -> handleLogin());
+
         btnSignUp.setOnAction(event -> handleSignUp());
         btnGoogle.setOnAction(event -> handleGoogleLogin());
 
@@ -108,7 +120,7 @@ public class LoginJavaFxController extends JavaFxController {
             LanguageLoader.loadLanguage(0);
         }
         properties = LanguageLoader.getLanguageProperties();
-        initialize();
+        context.request();
     }
 
     private void handleLogin() {
@@ -119,7 +131,9 @@ public class LoginJavaFxController extends JavaFxController {
         try {
             userBean.setEmail(email);
             userBean.setPassword(password);
-            sessionBean = manager.login(userBean);
+            sessionBean = loginPage.authenticate(userBean);
+            // Set the session bean into the context
+            context.setSessionBean(sessionBean);
             // Login successfully and empty the fields
             clearFields();
             // Shows the correct homepage based on the account type
@@ -149,20 +163,18 @@ public class LoginJavaFxController extends JavaFxController {
         Stage stage = (Stage) btnLogin.getScene().getWindow();
         try {
             switch (sessionBean.getRole()){
-                case ("owner"):
-                    new OwnerHomePageJavaFxGUI().startWithSession(stage, sessionBean);
-                    break;
+                case ("owner") -> loginPage.goToOwnerHomePage(new OwnerHomeJavaFXPage(context));
+                // new OwnerHomePageJavaFxGUI().startWithSession(stage, sessionBean);
 
-                case ("tenant"):
-                    new TenantHomePageJavaFxGUI().startWithSession(stage, sessionBean);
-                    break;
+                case ("tenant") -> System.out.println("TenantHomePage"); //loginPage.goToTenantHomePage(new TenantHomePageJavaFxGUI());
 
-                default : System.exit(3);
+                default -> System.exit(3);
             }
         } catch (Exception e) {
             showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("ERROR_HOMEPAGE_WINDOW_MSG"));
             System.exit(1);
         }
+        context.request();
     }
 
     private void clearFields() {

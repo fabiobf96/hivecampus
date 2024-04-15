@@ -33,7 +33,7 @@ public abstract class HomePageJavaFxGUI extends Application {
             Node tabContent = loader.load();
 
             TabInitializerController controller = loader.getController();
-            controller.initialize(sessionBean);
+            //controller.initialize();
 
             return new BasicComponent(tabContent);
         } catch (IOException | RuntimeException e) {
