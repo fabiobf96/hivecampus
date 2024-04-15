@@ -22,10 +22,6 @@ public class InitialCLIPageController extends CLIController {
     }
 
     public int getChoice() {
-        try {
-            return view.getIntUserInput(properties.getProperty("CHOICE_MSG"));
-        } catch (InputMismatchException e) {
-            return 0;
-        }
+        return view.getIntUserInput(properties.getProperty("CHOICE_MSG"));
     }
 }

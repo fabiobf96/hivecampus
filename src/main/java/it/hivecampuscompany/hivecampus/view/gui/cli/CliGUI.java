@@ -67,10 +67,14 @@ public class CliGUI {
      * @throws InputMismatchException if the next token does not match the Integer regular expression,
      *                                or is out of range for the Integer type.
      */
-    public int getIntUserInput(String prompt) throws InputMismatchException {
-        Scanner scanner = new Scanner(System.in);
-        printMessage(prompt + ": ");
-        return scanner.nextInt();
+    public int getIntUserInput(String prompt) {
+        try {
+            Scanner scanner = new Scanner(System.in);
+            printMessage(prompt + ": ");
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            return -1;
+        }
     }
 
     /**

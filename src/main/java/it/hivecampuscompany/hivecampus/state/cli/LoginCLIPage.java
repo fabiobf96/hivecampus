@@ -27,6 +27,7 @@ public class LoginCLIPage extends LoginPage {
                 case "owner" -> goToOwnerHomePage(new OwnerHomeCLIPage(context));
                 default      -> controller.displayError("");
             }
+            context.setSessionBean(sessionBean);
         } catch (AuthenticateException e) {
             controller.displayError(e.getMessage());
             goToInitialPage(new InitialCLIPage(context));

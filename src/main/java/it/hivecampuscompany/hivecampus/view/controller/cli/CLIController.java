@@ -38,7 +38,7 @@ public abstract class CLIController {
      * then returns to the home page. This method is intended to be used when
      * a user makes a selection that is not recognized by the program.
      */
-    protected void invalidChoice() {
+    public void invalidChoice() {
         view.displayMessage(properties.getProperty("INVALID_OPTION_MSG"));
         // ricordati di mettorlo dentro al file properties
         view.getStringUserInput("press any key to continue");
@@ -109,13 +109,11 @@ public abstract class CLIController {
      * @param <T> the type of elements in the itemList
      * @param itemList a List of items of type {@code T} from which the user can choose.
      *                 The list must not be {@code null} and should include at least one item.
-     * @param message a String to display to the user before presenting the options.
-     *                This message should instruct the user on how to make a selection.
      * @return the item of type {@code T} selected by the user, or {@code null} if the user
      *         chooses to "Go Back" by selecting the last option or if the selected item is {@code null}.
      */
-    protected <T> T selectFromList(List<T> itemList, String message) {
-        view.displayMessage(message);
+    protected <T> T selectFromList(List<T> itemList) {
+        itemList.add(null);
         while (true) {
             for (int i = 0; i < itemList.size(); i++) {
                 if (itemList.get(i) == null) {
