@@ -4,7 +4,7 @@ import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.compon
 import javafx.scene.Node;
 
 public abstract class Decorator extends Component {
-    private Component component;
+    private final Component component;
 
     protected Decorator(Component component){
         this.component = component;

@@ -17,7 +17,7 @@ public class BarDecorator extends Decorator{
 
     private static final Logger LOGGER = Logger.getLogger(BarDecorator.class.getName());
 
-    private Context context;
+    private final Context context;
 
     public BarDecorator(Component component, Context context) {
         super(component);
@@ -30,7 +30,7 @@ public class BarDecorator extends Decorator{
             Node root = loader.load();
 
             HomePageJavaFxController controller = loader.getController();
-            controller.initializeHomeView();
+            controller.initializeHomeView(context);
 
             //se devo passare un sessionBean devo ottenere il controller e chiamare initialize(sessionBean)
             vBox.getChildren().addAll(root, child);

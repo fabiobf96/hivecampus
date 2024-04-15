@@ -14,8 +14,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class OwnerHomeJavaFXPage extends OwnerHomePage {
+    private static final Logger LOGGER = Logger.getLogger(OwnerHomeJavaFXPage.class.getName());
 
     public OwnerHomeJavaFXPage(Context context) {
         super(context);
@@ -24,8 +26,8 @@ public class OwnerHomeJavaFXPage extends OwnerHomePage {
     public void handle() throws InvalidSessionException {
 
         CompositeTabPane tabPane = new CompositeTabPane();
-        tabPane.setTabName("Search Room");
-        tabPane.addChildren(addDynamicTab("/it/hivecampuscompany/hivecampus/tabRoomSearch-view.fxml"));
+        tabPane.setTabName("Manage Ads");
+        tabPane.addChildren(addDynamicTab("/it/hivecampuscompany/hivecampus/tabManageAds-view.fxml"));
 
         tabPane.setTabName("Manage Requests");
         tabPane.addChildren(addDynamicTab("/it/hivecampuscompany/hivecampus/tabRoomSearch-view.fxml"));
@@ -51,7 +53,7 @@ public class OwnerHomeJavaFXPage extends OwnerHomePage {
 
             return new BasicComponent(tabContent);
         } catch (IOException | RuntimeException e) {
-            e.printStackTrace();
+            LOGGER.severe("Error while adding dynamic tab");
         }
         return null;
     }

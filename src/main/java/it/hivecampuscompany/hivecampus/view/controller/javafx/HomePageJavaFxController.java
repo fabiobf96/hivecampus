@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
+import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.view.gui.javafx.LoginJavaFxGUI;
-import it.hivecampuscompany.hivecampus.view.gui.javafx.TenantHomePageJavaFxGUI;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -46,8 +46,9 @@ public class HomePageJavaFxController extends JavaFxController{
         // Default constructor
     }
 
-    public void initializeHomeView() {
-        //sessionBean
+    public void initializeHomeView(Context context) {
+        this.context = context;
+
         mbtnNotifications.setText(properties.getProperty("NOTIFICATIONS_MSG"));
         mbtnMenuAccount.setText(properties.getProperty("ACCOUNT_MSG"));
 
@@ -122,8 +123,6 @@ public class HomePageJavaFxController extends JavaFxController{
 
     private void handleLanguageSettings() {
         try {
-            Stage stage = (Stage) mbtnMenuAccount.getScene().getWindow();
-
             // Carica il file FXML per la finestra modale
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/languageSettingsForm-view.fxml"));
             Parent root = loader.load();
@@ -145,6 +144,7 @@ public class HomePageJavaFxController extends JavaFxController{
                 // Aggiorna le proprietà della lingua
                 properties = LanguageLoader.getLanguageProperties();
                 // Dopo che la finestra modale è stata chiusa, esegue il codice per aggiornare la home page e i tab
+
                 //new TenantHomePageJavaFxGUI().startWithSession(stage, sessionBean);  <-- da modificare con la nuova versione state
             });
 

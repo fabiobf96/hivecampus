@@ -1,17 +1,15 @@
-package it.hivecampuscompany.hivecampus.view.controller.javafx;
-
+package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import it.hivecampuscompany.hivecampus.exception.AuthenticateException;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.LoginPage;
 import it.hivecampuscompany.hivecampus.state.javafx.OwnerHomeJavaFXPage;
-import it.hivecampuscompany.hivecampus.view.gui.javafx.OwnerHomePageJavaFxGUI;
+import it.hivecampuscompany.hivecampus.state.javafx.TenantHomeJavaFXPage;
+import it.hivecampuscompany.hivecampus.view.controller.javafx.JavaFxController;
 import it.hivecampuscompany.hivecampus.view.gui.javafx.SignUpJavaFxGUI;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
-import it.hivecampuscompany.hivecampus.manager.LoginManager;
-import it.hivecampuscompany.hivecampus.view.gui.javafx.TenantHomePageJavaFxGUI;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -22,13 +20,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
 
-public class LoginJavaFxController extends JavaFxController {
-
-    private Context context;
+public class LoginJavaFXPageController extends JavaFxController {
 
     private LoginPage loginPage;
-
-    private final LoginManager manager;
 
     @FXML
     private Label lblLogin;
@@ -68,9 +62,8 @@ public class LoginJavaFxController extends JavaFxController {
     private static final String ERROR = "ERROR";
 
 
-    public LoginJavaFxController(){
-        this.manager = new LoginManager();
-
+    public LoginJavaFXPageController(){
+        // Default constructor
     }
 
     public void initialize(Context context, LoginPage loginPage) {
@@ -160,14 +153,10 @@ public class LoginJavaFxController extends JavaFxController {
     }
 
     private void showHomePage(SessionBean sessionBean) {
-        Stage stage = (Stage) btnLogin.getScene().getWindow();
         try {
             switch (sessionBean.getRole()){
                 case ("owner") -> loginPage.goToOwnerHomePage(new OwnerHomeJavaFXPage(context));
-                // new OwnerHomePageJavaFxGUI().startWithSession(stage, sessionBean);
-
-                case ("tenant") -> System.out.println("TenantHomePage"); //loginPage.goToTenantHomePage(new TenantHomePageJavaFxGUI());
-
+                case ("tenant") -> loginPage.goToTenantHomePage(new TenantHomeJavaFXPage(context));
                 default -> System.exit(3);
             }
         } catch (Exception e) {

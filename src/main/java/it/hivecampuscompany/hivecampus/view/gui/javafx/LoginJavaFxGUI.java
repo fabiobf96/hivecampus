@@ -1,6 +1,6 @@
 package it.hivecampuscompany.hivecampus.view.gui.javafx;
 
-import it.hivecampuscompany.hivecampus.view.controller.javafx.LoginJavaFxController;
+import it.hivecampuscompany.hivecampus.state.javafx.controller.LoginJavaFXPageController;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.HBoxDecorator;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
@@ -37,7 +37,7 @@ public class LoginJavaFxGUI extends Application {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/loginSection-view.fxml"));
             Node loginComponent = loader.load();
 
-            LoginJavaFxController controller = loader.getController();
+            LoginJavaFXPageController controller = loader.getController();
             //controller.initialize();
 
             return new BasicComponent(loginComponent);

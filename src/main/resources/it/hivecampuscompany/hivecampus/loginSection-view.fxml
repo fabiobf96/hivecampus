@@ -8,7 +8,7 @@
 
 <VBox alignment="CENTER" spacing="10.0" style="-fx-background-color: #595959;"
       xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="it.hivecampuscompany.hivecampus.view.controller.javafx.LoginJavaFxController">
+      fx:controller="it.hivecampuscompany.hivecampus.state.javafx.controller.LoginJavaFXPageController">
    <padding>
       <Insets bottom="25.0" left="25.0" right="25.0" top="25.0"/>
    </padding>
