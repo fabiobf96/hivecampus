@@ -25,4 +25,8 @@ public abstract class ManageRequestsPage implements State {
         LeaseRequestManager requestManager = new LeaseRequestManager();
         requestManager.modifyLeaseRequest(context.getSessionBean(), leaseRequestBean);
     }
+    public void goToOwnerHomePage(OwnerHomePage homePage) {
+        context.setState(homePage);
+        context.request();
+    }
 }
