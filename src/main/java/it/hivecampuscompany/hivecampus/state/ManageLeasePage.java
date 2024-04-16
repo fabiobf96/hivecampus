@@ -11,9 +11,9 @@ import it.hivecampuscompany.hivecampus.model.AdStatus;
 
 import java.util.List;
 
-public abstract class ManageRentPage implements State {
+public abstract class ManageLeasePage implements State {
     protected Context context;
-    protected ManageRentPage(Context context) {
+    protected ManageLeasePage(Context context) {
         this.context = context;
     }
 
