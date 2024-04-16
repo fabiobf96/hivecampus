@@ -14,7 +14,7 @@ public abstract class OwnerHomePage implements State {
     public void goToManageRequestPage(ManageRequestsPage manageRequestsPage) {
         context.setState(manageRequestsPage);
     }
-    public void goToManageRentPage(ManageRentPage manageRentPage) {
+    public void goToManageRentPage(ManageLeasePage manageRentPage) {
         context.setState(manageRentPage);
     }
 
