@@ -23,8 +23,8 @@ public class OwnerHomeCLIPage extends OwnerHomePage {
             }
             case 2 -> goToManageAdsPage(new ManageAdsCLIPage(context));
             case 3 -> goToManageRequestPage(new ManageRequestsCLIPage(context));
-            case 4 -> goToManageContractPage(new ManageContractsCLIPage(context));
-            case 5 -> goToManageRentPage(new ManageRentCLIPage(context));
+            case 4 -> goToManageLeasePage(new ManageLeaseCLIPage(context));
+            case 5 -> goToManageContractPage(new ManageContractsCLIPage(context));
             case 6 -> controller.exit();
             default -> controller.displayError("Invalid choice");
         }

@@ -8,6 +8,8 @@ import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.ManageRequestsPage;
 import it.hivecampuscompany.hivecampus.state.cli.controller.ManageRequestsCLIPageController;
 
+import java.util.List;
+
 public class ManageRequestsCLIPage extends ManageRequestsPage {
     private AdBean adBean;
     private LeaseRequestBean leaseRequestBean;
@@ -31,7 +33,8 @@ public class ManageRequestsCLIPage extends ManageRequestsPage {
 
     private void selectLeaseRequest() throws InvalidSessionException {
         controller.homePage();
-        leaseRequestBean = controller.selectRequest(retrieveLeaseRequests(adBean));
+        List<LeaseRequestBean> leaseRequestBeanList = retrieveLeaseRequests(adBean);
+        leaseRequestBean = controller.selectRequest(leaseRequestBeanList);
         if (leaseRequestBean != null) {
             makeDecision();
         }
