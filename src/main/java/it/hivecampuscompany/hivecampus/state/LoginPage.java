@@ -21,6 +21,7 @@ public abstract class LoginPage implements State {
     public void goToInitialPage(InitialPage initialPage) {
         context.setState(initialPage);
     }
+
     // usato da Login per tornare alla pagina di signUp
     public void goToSignUpPage(SignUpPage signUpPage) {
         context.setState(signUpPage);

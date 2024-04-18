@@ -3,7 +3,7 @@ package it.hivecampuscompany.hivecampus.state.javafx;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.TenantHomePage;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.TabInitializerController;
+import it.hivecampuscompany.hivecampus.state.javafx.controller.TabInitializerController;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.CompositeTabPane;
@@ -28,7 +28,7 @@ public class TenantHomeJavaFXPage extends TenantHomePage {
     public void handle() throws InvalidSessionException {
         CompositeTabPane tabPane = new CompositeTabPane();
         tabPane.setTabName("Room search");
-        tabPane.addChildren(addDynamicTab("/it/hivecampuscompany/hivecampus/tabRoomSearch-view.fxml"));
+        tabPane.addChildren(addDynamicTab("/it/hivecampuscompany/hivecampus/tabAdSearch-view.fxml"));
 
         tabPane.setTabName("Manage Requests");
         tabPane.addChildren(addDynamicTab("/it/hivecampuscompany/hivecampus/tabManageRequests-view.fxml"));

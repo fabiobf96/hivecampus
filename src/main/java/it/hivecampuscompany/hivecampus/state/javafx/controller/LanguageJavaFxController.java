@@ -1,11 +1,11 @@
-package it.hivecampuscompany.hivecampus.view.controller.javafx;
+package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-public class LanguageJavaFxController extends JavaFxController{
+public class LanguageJavaFxController extends JavaFxController {
 
     @FXML
     private Label lblLanguageTitle;

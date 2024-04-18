@@ -1,4 +1,4 @@
-package it.hivecampuscompany.hivecampus.view.controller.javafx;
+package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

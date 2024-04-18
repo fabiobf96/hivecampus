@@ -1,4 +1,4 @@
-package it.hivecampuscompany.hivecampus.view.controller.javafx;
+package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
@@ -10,10 +10,10 @@ import java.io.ByteArrayInputStream;
 import java.sql.Connection;
 import java.util.logging.Logger;
 
-public class PreviewRoomJavaFxController extends JavaFxController {
+public class PreviewAdJavaFxController extends JavaFxController {
 
     private final Connection connection = ConnectionManager.getConnection();  // solo per la prova delle immagini
-    private static final Logger LOGGER = Logger.getLogger(PreviewRoomJavaFxController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(PreviewAdJavaFxController.class.getName());
 
     @FXML
     private ImageView imgRoom;
@@ -58,7 +58,7 @@ public class PreviewRoomJavaFxController extends JavaFxController {
 
     private AdBean adBean;
 
-    public PreviewRoomJavaFxController() {
+    public PreviewAdJavaFxController() {
         // Default constructor
     }
 

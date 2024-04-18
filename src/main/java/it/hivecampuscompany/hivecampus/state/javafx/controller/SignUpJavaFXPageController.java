@@ -9,7 +9,6 @@ import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.SignUpPage;
 import it.hivecampuscompany.hivecampus.state.javafx.LoginJavaFXPage;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.JavaFxController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;

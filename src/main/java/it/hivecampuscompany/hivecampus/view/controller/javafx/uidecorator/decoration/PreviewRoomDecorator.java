@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.PreviewRoomJavaFxController;
+import it.hivecampuscompany.hivecampus.state.javafx.controller.PreviewAdJavaFxController;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -29,7 +29,7 @@ public class PreviewRoomDecorator extends Decorator{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/previewRoom-card.fxml"));
             Node root = loader.load();
 
-            PreviewRoomJavaFxController controller = loader.getController();
+            PreviewAdJavaFxController controller = loader.getController();
             controller.setAdBean(adBean);
             controller.initializePreviewFeatures();
 

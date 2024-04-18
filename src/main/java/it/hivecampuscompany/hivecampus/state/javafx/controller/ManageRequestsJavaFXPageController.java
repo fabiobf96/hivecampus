@@ -2,8 +2,6 @@ package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.ManageRequestsPage;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.JavaFxController;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.TabInitializerController;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ListView;

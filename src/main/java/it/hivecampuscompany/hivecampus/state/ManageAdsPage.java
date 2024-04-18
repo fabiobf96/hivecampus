@@ -8,6 +8,5 @@ public abstract class ManageAdsPage implements State {
 
     public void goToOwnerHomePage(OwnerHomePage ownerHomePage) {
         context.setState(ownerHomePage);
-        context.request();
     }
 }

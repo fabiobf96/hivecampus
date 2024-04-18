@@ -6,7 +6,6 @@ import it.hivecampuscompany.hivecampus.state.LoginPage;
 import it.hivecampuscompany.hivecampus.state.javafx.OwnerHomeJavaFXPage;
 import it.hivecampuscompany.hivecampus.state.javafx.SignUpJavaFXPage;
 import it.hivecampuscompany.hivecampus.state.javafx.TenantHomeJavaFXPage;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.JavaFxController;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;

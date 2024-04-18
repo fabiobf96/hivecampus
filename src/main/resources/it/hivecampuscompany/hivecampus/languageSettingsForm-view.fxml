@@ -12,7 +12,7 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="500.0"
       xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="it.hivecampuscompany.hivecampus.view.controller.javafx.LanguageJavaFxController">
+      fx:controller="it.hivecampuscompany.hivecampus.state.javafx.controller.LanguageJavaFxController">
    <BorderPane VBox.vgrow="ALWAYS">
       <top>
          <VBox style="-fx-background-color: #D9D9D9;" BorderPane.alignment="CENTER">

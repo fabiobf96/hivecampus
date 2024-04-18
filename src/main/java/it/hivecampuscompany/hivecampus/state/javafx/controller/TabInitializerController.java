@@ -1,4 +1,4 @@
-package it.hivecampuscompany.hivecampus.view.controller.javafx;
+package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import it.hivecampuscompany.hivecampus.state.Context;
 

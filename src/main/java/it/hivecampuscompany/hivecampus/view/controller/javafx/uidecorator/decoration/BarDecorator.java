@@ -1,9 +1,7 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration;
 
-import it.hivecampuscompany.hivecampus.bean.SessionBean;
-import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import it.hivecampuscompany.hivecampus.state.Context;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.HomePageJavaFxController;
+import it.hivecampuscompany.hivecampus.state.javafx.controller.HomePageJavaFxController;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

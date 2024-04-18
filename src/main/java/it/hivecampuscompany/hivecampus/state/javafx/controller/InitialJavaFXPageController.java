@@ -4,7 +4,6 @@ import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.javafx.InitialJavaFXPage;
 import it.hivecampuscompany.hivecampus.state.javafx.LoginJavaFXPage;
 import it.hivecampuscompany.hivecampus.state.javafx.SignUpJavaFXPage;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.JavaFxController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;

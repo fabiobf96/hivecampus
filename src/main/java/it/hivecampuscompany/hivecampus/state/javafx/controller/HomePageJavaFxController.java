@@ -1,4 +1,4 @@
-package it.hivecampuscompany.hivecampus.view.controller.javafx;
+package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.javafx.InitialJavaFXPage;
@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class HomePageJavaFxController extends JavaFxController{
+public class HomePageJavaFxController extends JavaFxController {
     private static final Logger LOGGER = Logger.getLogger(HomePageJavaFxController.class.getName());
 
     @FXML
@@ -60,7 +60,7 @@ public class HomePageJavaFxController extends JavaFxController{
         mibtnLanguage.setOnAction(event -> handleLanguageSettings());
         mibtnLogout.setOnAction(event -> handleLogout());
 
-        // lvNotifications custom list cell as in RoomSearchJavaFxController
+        // lvNotifications custom list cell as in AdSearchController
     }
 
     @FXML

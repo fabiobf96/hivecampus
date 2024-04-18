@@ -2,16 +2,16 @@ package it.hivecampuscompany.hivecampus.view.controller.cli;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
-import it.hivecampuscompany.hivecampus.manager.RoomSearchManager;
+import it.hivecampuscompany.hivecampus.manager.AdSearchManager;
 import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
 import java.util.List;
 
 public class AdSearchCLIController extends CLIController {
-    private final RoomSearchManager roomSearchManager;
+    private final AdSearchManager adSearchManager;
 
 public AdSearchCLIController() {
         view = new CliGUI();
-        roomSearchManager = new RoomSearchManager();
+        adSearchManager = new AdSearchManager();
         homePage();
     }
 
@@ -33,7 +33,7 @@ public AdSearchCLIController() {
         FiltersBean filtersBean = new FiltersBean(university, maxDistance, maxPrice, privateBath, balcony, conditioner, tvConnection);
 
         // Retrieve the ads that match the filters
-        List<AdBean> adBeans = roomSearchManager.searchAdsByFilters(filtersBean);
+        List<AdBean> adBeans = adSearchManager.searchAdsByFilters(filtersBean);
 
         // Display the preview of the ads
         showAdsPreview(adBeans);

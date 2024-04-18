@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.state.javafx.controller.ManageAdsJavaFXPageController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.state.javafx.controller.ManageAdsJavaFXPageController">
    <top>
       <VBox spacing="15.0" BorderPane.alignment="CENTER">
          <padding>
@@ -24,14 +24,14 @@
          </padding>
          <VBox alignment="CENTER" spacing="15.0">
             <VBox>
-               <Button fx:id="btnBack" mnemonicParsing="false" text="Go Back"/>
+               <Button fx:id="btnBack" mnemonicParsing="false" text="Go Back" />
             </VBox>
             <Label text="AD CREATION FORM">
                <padding>
-                  <Insets top="5.0"/>
+                  <Insets top="5.0" />
                </padding>
                <font>
-                  <Font name="System Bold" size="12.0"/>
+                  <Font name="System Bold" size="12.0" />
                </font>
             </Label>
          </VBox>

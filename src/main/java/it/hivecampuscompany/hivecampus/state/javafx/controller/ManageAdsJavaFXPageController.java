@@ -4,21 +4,11 @@ import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.ManageAdsPage;
 import it.hivecampuscompany.hivecampus.state.javafx.ManageAdsJavaFXPage;
 import it.hivecampuscompany.hivecampus.state.javafx.OwnerHomeJavaFXPage;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.JavaFxController;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.TabInitializerController;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.CompositeTabPane;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.BarDecorator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
-import javafx.stage.Stage;
-import java.io.IOException;
 import java.util.logging.Logger;
 
 public class ManageAdsJavaFXPageController extends JavaFxController implements TabInitializerController{
@@ -52,16 +42,10 @@ public class ManageAdsJavaFXPageController extends JavaFxController implements T
 
     private void handleCreateAd() {
         try {
-            CompositeTabPane tabPane = new CompositeTabPane();
-            tabPane.setTabName("Manage Ads");
-            tabPane.addChildren(addDynamicTab("/it/hivecampuscompany/hivecampus/createAdForm-view.fxml"));
-
-            BarDecorator barDecorator = new BarDecorator(tabPane, context);
-
-            Scene scene = new Scene((Parent) barDecorator.setup());
-            Stage stage = context.getStage();
-            stage.setScene(scene);
-            stage.show();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/createAdForm-view.fxml"));
+            context.getTab(0).setContent(loader.load()); // Cariamento del tab createAdForm (possibili modifiche)
+            ManageAdsJavaFXPageController controller = loader.getController();
+            controller.initializeCreateAd(context, new ManageAdsJavaFXPage(context));
 
         } catch (Exception e) {
             LOGGER.severe("Error while handling CreateAd");
@@ -70,29 +54,6 @@ public class ManageAdsJavaFXPageController extends JavaFxController implements T
 
     private void handleBack() {
         manageAdsPage.goToOwnerHomePage(new OwnerHomeJavaFXPage(context));
-    }
-
-
-    private Component addDynamicTab(String contentFXML){
-        try {
-            // Carica il contenuto del tab da un file FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(contentFXML));
-            Node tabContent = loader.load();
-
-            ManageAdsJavaFXPageController controller = loader.getController();
-            controller.initializeCreateAd(context, new ManageAdsJavaFXPage(context));
-
-            // Verifica se il nodo caricato è null
-            if (tabContent != null) {
-                return new BasicComponent(tabContent);
-            } else {
-                LOGGER.severe("Node loaded from FXML is null");
-                return null;
-            }
-        } catch (IOException | RuntimeException e) {
-            LOGGER.severe("Error while adding dynamic tab: " + e.getMessage());
-            // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore all'utente
-            return null;
-        }
+        context.request();
     }
 }

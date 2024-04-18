@@ -24,6 +24,7 @@ public class LogoDecorator extends Decorator{
             //se devo passare un sessionBean devo ottenere il controller e chiamare initialize(sessionBean)
             hBox.getChildren().addAll(root, child);
             VBox.setVgrow(child, Priority.ALWAYS);
+            HBox.setHgrow(child, Priority.ALWAYS);
             return hBox;
         } catch (IOException e) {
             LOGGER.severe("Error while applying LogoDecorator");
