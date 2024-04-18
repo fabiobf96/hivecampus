@@ -14,178 +14,180 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.state.javafx.controller.ManageAdsJavaFXPageController">
    <top>
-      <VBox style="-fx-background-color: #D9D9D9;" BorderPane.alignment="CENTER">
+      <VBox spacing="15.0" BorderPane.alignment="CENTER">
          <padding>
-            <Insets bottom="15.0" left="20.0" right="20.0" top="15.0"/>
+            <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
          </padding>
-         <Label text="Create ad">
-            <padding>
-               <Insets top="5.0"/>
-            </padding>
-         </Label>
+         <VBox alignment="CENTER" spacing="15.0">
+            <VBox>
+               <Button fx:id="btnBack" mnemonicParsing="false" text="Go Back"/>
+            </VBox>
+            <Label text="AD CREATION FORM">
+               <padding>
+                  <Insets top="5.0"/>
+               </padding>
+               <font>
+                  <Font name="System Bold" size="12.0"/>
+               </font>
+            </Label>
+         </VBox>
       </VBox>
    </top>
    <center>
       <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
-         <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+         <VBox spacing="10.0">
             <padding>
-               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </padding>
             <VBox spacing="15.0" style="-fx-border-radius: 5; -fx-border-color: grey;">
                <padding>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>
-               <Label text="House Information"/>
+               <Label text="House Information" />
                <HBox spacing="20.0">
                   <VBox spacing="10.0" HBox.hgrow="ALWAYS">
-                     <Label text="Street"/>
-                     <TextField/>
+                     <Label text="Street" />
+                     <TextField />
                   </VBox>
                   <VBox spacing="10.0">
-                     <Label text="Street Number"/>
-                     <TextField prefWidth="100.0" promptText="n°"/>
+                     <Label text="Street Number" />
+                     <TextField prefWidth="100.0" promptText="n°" />
                   </VBox>
                   <VBox spacing="10.0">
-                     <Label text="City"/>
-                     <TextField prefWidth="120.0"/>
+                     <Label text="City" />
+                     <TextField prefWidth="120.0" />
                   </VBox>
                </HBox>
                <HBox spacing="20.0">
                   <VBox spacing="10.0" HBox.hgrow="ALWAYS">
-                     <Label text="Type"/>
-                     <ChoiceBox maxWidth="1.7976931348623157E308"/>
+                     <Label text="Type" />
+                     <ChoiceBox maxWidth="1.7976931348623157E308" />
                   </VBox>
                   <VBox spacing="10.0">
-                     <Label text="Surface"/>
-                     <TextField prefWidth="80.0" promptText="mq" VBox.vgrow="ALWAYS"/>
+                     <Label text="Surface" />
+                     <TextField prefWidth="80.0" promptText="mq" VBox.vgrow="ALWAYS" />
                   </VBox>
                   <VBox spacing="10.0">
-                     <Label text="Number of Bedrooms"/>
-                     <TextField prefWidth="100.0" promptText="n°"/>
+                     <Label text="Number of Bedrooms" />
+                     <TextField prefWidth="100.0" promptText="n°" />
                   </VBox>
                   <VBox spacing="10.0">
-                     <Label text="Number of Bathrooms"/>
-                     <TextField prefWidth="120.0" promptText="n°"/>
+                     <Label text="Number of Bathrooms" />
+                     <TextField prefWidth="120.0" promptText="n°" />
                   </VBox>
                </HBox>
                <HBox spacing="20.0">
                   <VBox spacing="10.0">
-                     <Label text="Floor"/>
-                     <TextField prefWidth="65.0" promptText="n°" VBox.vgrow="ALWAYS"/>
+                     <Label text="Floor" />
+                     <TextField prefWidth="65.0" promptText="n°" VBox.vgrow="ALWAYS" />
                   </VBox>
                   <CheckBox mnemonicParsing="false" text="Elevator">
                      <padding>
-                        <Insets top="30.0"/>
+                        <Insets top="30.0" />
                      </padding>
                   </CheckBox>
-                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS"/>
+                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                </HBox>
                <HBox spacing="20.0">
                   <VBox spacing="10.0">
-                     <Label text="Image"/>
+                     <Label text="Image" />
                      <HBox spacing="10.0">
-                        <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0"
-                                style="-fx-background-radius: 5;">
+                        <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 5;">
                            <graphic>
-                              <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true"
-                                         preserveRatio="true">
-                                 <Image url="@images/imagePlus.png"/>
+                              <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                                 <Image url="@images/imagePlus.png" />
                               </ImageView>
                            </graphic>
                            <padding>
-                              <Insets bottom="0.5" left="0.5" right="0.5" top="0.5"/>
+                              <Insets bottom="0.5" left="0.5" right="0.5" top="0.5" />
                            </padding>
                         </Button>
                         <VBox style="-fx-border-color: grey; -fx-border-radius: 5;">
-                           <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true"
-                                      preserveRatio="true"/>
+                           <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
                         </VBox>
                      </HBox>
                   </VBox>
                   <VBox spacing="10.0" HBox.hgrow="ALWAYS">
-                     <Label text="Description"/>
-                     <TextArea prefWidth="0.0"/>
+                     <Label text="Description" />
+                     <TextArea prefWidth="0.0" />
                   </VBox>
                </HBox>
             </VBox>
             <VBox spacing="15.0" style="-fx-border-color: grey; -fx-border-radius: 5;">
                <padding>
-                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>
-               <Label text="Room Information"/>
+               <Label text="Room Information" />
                <HBox spacing="20.0">
                   <VBox spacing="10.0" HBox.hgrow="ALWAYS">
-                     <Label text="Type"/>
-                     <ChoiceBox maxWidth="1.7976931348623157E308"/>
+                     <Label text="Type" />
+                     <ChoiceBox maxWidth="1.7976931348623157E308" />
                   </VBox>
                   <VBox spacing="10.0">
-                     <Label text="Surface"/>
-                     <TextField prefWidth="80.0" promptText="mq" VBox.vgrow="ALWAYS"/>
+                     <Label text="Surface" />
+                     <TextField prefWidth="80.0" promptText="mq" VBox.vgrow="ALWAYS" />
                   </VBox>
-                  <Region prefHeight="200.0" prefWidth="200.0"/>
+                  <Region prefHeight="200.0" prefWidth="200.0" />
                </HBox>
                <HBox spacing="20.0">
                   <VBox spacing="10.0">
-                     <Label text="Services Included"/>
+                     <Label text="Services Included" />
                      <VBox spacing="10.0" style="-fx-border-color: #979797; -fx-border-radius: 3;">
                         <padding>
-                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                         </padding>
                         <CheckBox mnemonicParsing="false" text="Private bathroom">
                            <VBox.margin>
-                              <Insets/>
+                              <Insets />
                            </VBox.margin>
                         </CheckBox>
                         <CheckBox mnemonicParsing="false" text="Balcony">
                            <VBox.margin>
-                              <Insets/>
+                              <Insets />
                            </VBox.margin>
                         </CheckBox>
                         <CheckBox mnemonicParsing="false" text="Conditioner">
                            <VBox.margin>
-                              <Insets/>
+                              <Insets />
                            </VBox.margin>
                         </CheckBox>
                         <CheckBox mnemonicParsing="false" text="TV connection">
                            <VBox.margin>
-                              <Insets/>
+                              <Insets />
                            </VBox.margin>
                         </CheckBox>
                      </VBox>
                   </VBox>
                   <VBox spacing="10.0" HBox.hgrow="ALWAYS">
-                     <Label text="Description"/>
-                     <TextArea prefWidth="0.0"/>
+                     <Label text="Description" />
+                     <TextArea prefWidth="0.0" />
                   </VBox>
                </HBox>
                <VBox spacing="10.0">
-                  <Label text="Image"/>
+                  <Label text="Image" />
                   <HBox spacing="10.0">
-                     <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0"
-                             style="-fx-background-radius: 5;">
+                     <Button mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 5;">
                         <graphic>
-                           <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true"
-                                      preserveRatio="true">
-                              <Image url="@images/imagePlus.png"/>
+                           <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                              <Image url="@images/imagePlus.png" />
                            </ImageView>
                         </graphic>
                         <padding>
-                           <Insets bottom="0.5" left="0.5" right="0.5" top="0.5"/>
+                           <Insets bottom="0.5" left="0.5" right="0.5" top="0.5" />
                         </padding>
                      </Button>
                      <VBox style="-fx-border-color: grey; -fx-border-radius: 5;">
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true"
-                                   preserveRatio="true"/>
+                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
                      </VBox>
                   </HBox>
                </VBox>
             </VBox>
             <VBox alignment="TOP_RIGHT">
-               <Button fx:id="btnPublish" mnemonicParsing="false" text="Publish"/>
+               <Button fx:id="btnPublish" mnemonicParsing="false" text="Publish" />
             </VBox>
          </VBox>
       </ScrollPane>

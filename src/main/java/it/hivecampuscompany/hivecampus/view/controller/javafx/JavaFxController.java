@@ -5,8 +5,11 @@ import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
+import java.util.Objects;
 import java.util.Properties;
 
 public abstract class JavaFxController {
@@ -37,6 +40,32 @@ public abstract class JavaFxController {
     protected void setLabelText(Label label, String text) {
         label.setText(text);
         label.setTextFill(Color.BLACK);
+    }
+
+    protected void setLanguageImage(ImageView imvLang, ImageView imvLangChange) {
+
+        if (LanguageLoader.getCurrentLanguage() == 0) { // Se la lingua corrente è l'inglese
+            imvLang.setImage(new Image(ENGLISH_PNG_URL));
+            imvLangChange.setImage(new Image(ITALIAN_PNG_URL));
+        }
+        else {
+            imvLang.setImage((new Image(ITALIAN_PNG_URL)));
+            imvLangChange.setImage(new Image(ENGLISH_PNG_URL));
+        }
+    }
+
+    protected void handleLanguageChange(ImageView imvLangChange) {
+        // Recupera l'URL della lingua selezionata
+        String currentImageUrl = imvLangChange.getImage().getUrl();
+        // Se la lingua selezionata è l'italiano
+        if (currentImageUrl.equals(Objects.requireNonNull(getClass().getResource(ITALIAN_PNG_URL)).toString())) {
+            LanguageLoader.loadLanguage(1);
+
+        } else { // Se la lingua selezionata è l'inglese
+            LanguageLoader.loadLanguage(0);
+        }
+        properties = LanguageLoader.getLanguageProperties();
+        context.request();
     }
 
 }

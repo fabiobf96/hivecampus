@@ -4,21 +4,16 @@ import it.hivecampuscompany.hivecampus.exception.AuthenticateException;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.LoginPage;
 import it.hivecampuscompany.hivecampus.state.javafx.OwnerHomeJavaFXPage;
+import it.hivecampuscompany.hivecampus.state.javafx.SignUpJavaFXPage;
 import it.hivecampuscompany.hivecampus.state.javafx.TenantHomeJavaFXPage;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.JavaFxController;
-import it.hivecampuscompany.hivecampus.view.gui.javafx.SignUpJavaFxGUI;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import java.security.NoSuchAlgorithmException;
-import java.util.Objects;
-
 
 public class LoginJavaFXPageController extends JavaFxController {
 
@@ -26,37 +21,26 @@ public class LoginJavaFXPageController extends JavaFxController {
 
     @FXML
     private Label lblLogin;
-
     @FXML
     private TextField txfEmail;
-
     @FXML
     private PasswordField txfPassword;
-
     @FXML
     private Button btnLogin;
-
     @FXML
     private Label lblOr;
-
     @FXML
     private Button btnGoogle;
-
     @FXML
     private Label lblAccount;
-
     @FXML
     private Button btnSignUp;
-
     @FXML
     private MenuItem mibtnLangChange;
-
     @FXML
     private ImageView imvLang;
-
     @FXML
     private ImageView imvLangChange;
-
 
     private static final String ERROR_TITLE_MSG = "ERROR_TITLE_MSG";
     private static final String ERROR = "ERROR";
@@ -79,41 +63,14 @@ public class LoginJavaFXPageController extends JavaFxController {
         lblAccount.setText(properties.getProperty("DON_T_HAVE_ACCOUNT_MSG"));
         btnSignUp.setText(properties.getProperty("SIGN_UP_MSG"));
 
-        setLanguageImage();
+        setLanguageImage(imvLang, imvLangChange);
 
-        mibtnLangChange.setOnAction(event -> handleLanguageChange());
+        mibtnLangChange.setOnAction(event -> handleLanguageChange(imvLangChange));
 
         btnLogin.setOnAction(event -> handleLogin());
 
         btnSignUp.setOnAction(event -> handleSignUp());
         btnGoogle.setOnAction(event -> handleGoogleLogin());
-
-    }
-
-    private void setLanguageImage() {
-
-        if (LanguageLoader.getCurrentLanguage() == 0) { // Se la lingua corrente è l'inglese
-            imvLang.setImage(new Image(ENGLISH_PNG_URL));
-            imvLangChange.setImage(new Image(ITALIAN_PNG_URL));
-        }
-        else {
-            imvLang.setImage((new Image(ITALIAN_PNG_URL)));
-            imvLangChange.setImage(new Image(ENGLISH_PNG_URL));
-        }
-    }
-
-    private void handleLanguageChange() {
-        // Recupera l'URL della lingua selezionata
-        String currentImageUrl = imvLangChange.getImage().getUrl();
-        // Se la lingua selezionata è l'italiano
-        if (currentImageUrl.equals(Objects.requireNonNull(getClass().getResource(ITALIAN_PNG_URL)).toString())) {
-            LanguageLoader.loadLanguage(1);
-
-        } else { // Se la lingua selezionata è l'inglese
-            LanguageLoader.loadLanguage(0);
-        }
-        properties = LanguageLoader.getLanguageProperties();
-        context.request();
     }
 
     private void handleLogin() {
@@ -138,14 +95,7 @@ public class LoginJavaFXPageController extends JavaFxController {
     }
 
     public void handleSignUp() {
-        Stage stage = (Stage) btnSignUp.getScene().getWindow();
-
-        SignUpJavaFxGUI signUp = new SignUpJavaFxGUI();
-        try {
-            signUp.start(stage);
-        } catch (Exception e) {
-            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("ERROR_SIGNUP_WINDOW_MSG"));
-        }
+       loginPage.goToSignUpPage(new SignUpJavaFXPage(context));
     }
 
     public void handleGoogleLogin() {

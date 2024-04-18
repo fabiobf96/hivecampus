@@ -37,12 +37,10 @@ public class OwnerHomeJavaFXPage extends OwnerHomePage {
         Scene scene = new Scene((Parent) barDecorator.setup());
         Stage stage = context.getStage();
         stage.setScene(scene);
-        stage.setTitle("Home Page GUI");
         stage.show();
     }
 
-    private Component addDynamicTab(String contentFXML){
-
+    private Component addDynamicTab(String contentFXML) {
         try {
             // Carica il contenuto del tab da un file FXML
             FXMLLoader loader = new FXMLLoader(getClass().getResource(contentFXML));
@@ -51,11 +49,17 @@ public class OwnerHomeJavaFXPage extends OwnerHomePage {
             TabInitializerController controller = loader.getController();
             controller.initialize(context);
 
-            return new BasicComponent(tabContent);
+            // Verifica se il nodo caricato è null
+            if (tabContent != null) {
+                return new BasicComponent(tabContent);
+            } else {
+                LOGGER.severe("Node loaded from FXML is null");
+                return null;
+            }
         } catch (IOException | RuntimeException e) {
-            LOGGER.severe("Error while adding dynamic tab");
+            LOGGER.severe("Error while adding dynamic tab: " + e.getMessage());
+            // Gestisci l'eccezione qui, ad esempio mostrando un messaggio di errore all'utente
+            return null;
         }
-        return null;
     }
-
 }

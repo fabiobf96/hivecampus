@@ -5,7 +5,7 @@ import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.InitialPage;
 import it.hivecampuscompany.hivecampus.state.javafx.controller.InitialJavaFXPageController;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.HBoxDecorator;
+import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.LogoDecorator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -26,13 +26,12 @@ public class InitialJavaFXPage extends InitialPage {
             Parent root = loader.load();
 
             InitialJavaFXPageController controller = loader.getController();
-            controller.initialize(this);
+            controller.initialize(context, this);
 
             BasicComponent basicComponent = new BasicComponent(root);
+            LogoDecorator logoDecorator = new LogoDecorator(basicComponent);
 
-            HBoxDecorator hBoxDecorator = new HBoxDecorator(basicComponent);
-
-            Scene scene = new Scene((Parent) hBoxDecorator.setup());
+            Scene scene = new Scene((Parent) logoDecorator.setup());
             Stage stage = context.getStage();
             stage.setScene(scene);
             stage.setTitle("HiveCampus");

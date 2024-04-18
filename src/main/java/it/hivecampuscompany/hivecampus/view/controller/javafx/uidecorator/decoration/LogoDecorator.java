@@ -9,13 +9,13 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class HBoxDecorator extends Decorator{
-    private static final Logger LOGGER = Logger.getLogger(HBoxDecorator.class.getName());
-    public HBoxDecorator(Component component) {
+public class LogoDecorator extends Decorator{
+    private static final Logger LOGGER = Logger.getLogger(LogoDecorator.class.getName());
+    public LogoDecorator(Component component) {
         super(component);
     }
 
-    protected Node applyHBoxDecoration(Node child) {
+    protected Node applyLogoDecoration(Node child) {
         try {
             HBox hBox = new HBox();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/logoSection-view.fxml"));
@@ -26,13 +26,13 @@ public class HBoxDecorator extends Decorator{
             VBox.setVgrow(child, Priority.ALWAYS);
             return hBox;
         } catch (IOException e) {
-            LOGGER.severe("Error while applying HBoxDecorator");
+            LOGGER.severe("Error while applying LogoDecorator");
             return child;
         }
     }
     @Override
     public Node setup() {
-        return this.applyHBoxDecoration(super.setup());
+        return this.applyLogoDecoration(super.setup());
     }
 
 }

@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
 import it.hivecampuscompany.hivecampus.state.Context;
-import it.hivecampuscompany.hivecampus.view.gui.javafx.LoginJavaFxGUI;
+import it.hivecampuscompany.hivecampus.state.javafx.InitialJavaFXPage;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -18,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class HomePageJavaFxController extends JavaFxController{
-
     private static final Logger LOGGER = Logger.getLogger(HomePageJavaFxController.class.getName());
 
     @FXML
@@ -144,8 +143,7 @@ public class HomePageJavaFxController extends JavaFxController{
                 // Aggiorna le proprietà della lingua
                 properties = LanguageLoader.getLanguageProperties();
                 // Dopo che la finestra modale è stata chiusa, esegue il codice per aggiornare la home page e i tab
-
-                //new TenantHomePageJavaFxGUI().startWithSession(stage, sessionBean);  <-- da modificare con la nuova versione state
+                context.request();
             });
 
             popUpStage.setScene(scene);
@@ -158,13 +156,7 @@ public class HomePageJavaFxController extends JavaFxController{
 
     @FXML
     private void handleLogout() {
-        Stage stage = (Stage) mbtnMenuAccount.getScene().getWindow();
-
-        LoginJavaFxGUI login = new LoginJavaFxGUI();
-        try {
-            login.start(stage);
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, properties.getProperty("ERROR_LOGOUT_MSG"), e);
-        }
+        context.setState(new InitialJavaFXPage(context));
+        context.request();
     }
 }

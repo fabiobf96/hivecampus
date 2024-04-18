@@ -17,7 +17,6 @@ import java.util.logging.Logger;
 
 public class RoomSearchJavaFxController extends JavaFxController implements TabInitializerController {
     private RoomSearchManager roomSearchManager;
-    private Context context;
     private static final Logger LOGGER = Logger.getLogger(RoomSearchJavaFxController.class.getName());
 
     @FXML

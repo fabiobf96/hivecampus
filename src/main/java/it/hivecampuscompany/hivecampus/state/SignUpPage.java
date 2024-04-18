@@ -15,6 +15,11 @@ public abstract class SignUpPage implements State {
     public void goToInitialPage(InitialPage initialPage) {
         context.setState(initialPage);
     }
+    // usato da signUp per tornare alla pagina di login
+    public void goToLoginPage(LoginPage loginPage) {
+        context.setState(loginPage);
+        context.request();
+    }
     public void registerUser(UserBean userBean, AccountBean accountBean) throws NoSuchAlgorithmException, DuplicateRowException {
         LoginManager loginManager = new LoginManager();
         loginManager.signup(userBean, accountBean);

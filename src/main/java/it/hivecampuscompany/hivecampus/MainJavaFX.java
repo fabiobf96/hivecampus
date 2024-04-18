@@ -2,7 +2,6 @@ package it.hivecampuscompany.hivecampus;
 
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.javafx.InitialJavaFXPage;
-import it.hivecampuscompany.hivecampus.view.gui.javafx.LoginJavaFxGUI;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
