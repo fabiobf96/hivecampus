@@ -21,10 +21,10 @@ public class OwnerHomeCLIPage extends OwnerHomePage {
                 AccountSettingsCLIController accountSettingsCLIController = new AccountSettingsCLIController();
                 accountSettingsCLIController.homePage();
             }
-            case 2 -> goToManageAdsPage(new ManageAdsCLIPage(context));
-            case 3 -> goToManageRequestPage(new ManageRequestsCLIPage(context));
-            case 4 -> goToManageLeasePage(new ManageLeaseCLIPage(context));
-            case 5 -> goToManageContractPage(new ManageContractsCLIPage(context));
+            case 2 -> goToManageAdsPage(new ManageAdsOwnerCLIPage(context));
+            case 3 -> goToManageRequestPage(new ManageRequestsOwnerCLIPage(context));
+            case 4 -> goToManageLeasePage(new ManageLeaseOwnerCLIPage(context));
+            case 5 -> goToManageRentRatesPage(new ManageRentRatesOwnerCLIPage(context));
             case 6 -> controller.exit();
             default -> controller.displayError("Invalid choice");
         }

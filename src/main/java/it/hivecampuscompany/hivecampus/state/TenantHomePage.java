@@ -5,4 +5,5 @@ public abstract class TenantHomePage implements State {
     protected TenantHomePage(Context context) {
         this.context = context;
     }
+
 }

@@ -9,8 +9,8 @@ import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
 import java.io.IOException;
 import java.util.List;
 
-public class ManageLeaseCLIPageController extends CLIController {
-    public ManageLeaseCLIPageController() {
+public class ManageLeaseOwnerCLIPageController extends CLIController {
+    public ManageLeaseOwnerCLIPageController() {
         view = new CliGUI();
     }
     @Override

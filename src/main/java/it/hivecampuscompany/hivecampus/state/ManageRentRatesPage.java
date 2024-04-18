@@ -1,8 +1,8 @@
 package it.hivecampuscompany.hivecampus.state;
 
-public abstract class ManageContractsPage implements State {
+public abstract class ManageRentRatesPage implements State {
     protected Context context;
-    protected ManageContractsPage (Context context) {
+    protected ManageRentRatesPage(Context context) {
         this.context = context;
     }
 }

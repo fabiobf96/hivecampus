@@ -5,10 +5,10 @@ import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.ManageAdsPage;
 import it.hivecampuscompany.hivecampus.state.cli.controller.InitialCLIPageController;
 
-public class ManageAdsCLIPage extends ManageAdsPage {
+public class ManageAdsOwnerCLIPage extends ManageAdsPage {
     // controlle provvisorio
     InitialCLIPageController controller;
-    protected ManageAdsCLIPage(Context context) {
+    protected ManageAdsOwnerCLIPage(Context context) {
         super(context);
         controller = new InitialCLIPageController();
     }

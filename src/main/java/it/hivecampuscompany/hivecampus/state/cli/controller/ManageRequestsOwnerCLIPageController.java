@@ -7,8 +7,8 @@ import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
 
 import java.util.List;
 
-public class ManageRequestsCLIPageController extends CLIController {
-    public ManageRequestsCLIPageController() {
+public class ManageRequestsOwnerCLIPageController extends CLIController {
+    public ManageRequestsOwnerCLIPageController() {
         view = new CliGUI();
     }
     @Override

@@ -5,14 +5,14 @@ import it.hivecampuscompany.hivecampus.bean.LeaseBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.ManageLeasePage;
-import it.hivecampuscompany.hivecampus.state.cli.controller.ManageLeaseCLIPageController;
+import it.hivecampuscompany.hivecampus.state.cli.controller.ManageLeaseOwnerCLIPageController;
 
-public class ManageLeaseCLIPage extends ManageLeasePage {
-    private ManageLeaseCLIPageController controller;
+public class ManageLeaseOwnerCLIPage extends ManageLeasePage {
+    private ManageLeaseOwnerCLIPageController controller;
     private AdBean adBean;
-    public ManageLeaseCLIPage(Context context) {
+    public ManageLeaseOwnerCLIPage(Context context) {
         super(context);
-        controller = new ManageLeaseCLIPageController();
+        controller = new ManageLeaseOwnerCLIPageController();
     }
 
     @Override

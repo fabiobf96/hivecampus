@@ -6,17 +6,17 @@ import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.model.LeaseRequestStatus;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.ManageRequestsPage;
-import it.hivecampuscompany.hivecampus.state.cli.controller.ManageRequestsCLIPageController;
+import it.hivecampuscompany.hivecampus.state.cli.controller.ManageRequestsOwnerCLIPageController;
 
 import java.util.List;
 
-public class ManageRequestsCLIPage extends ManageRequestsPage {
+public class ManageRequestsOwnerCLIPage extends ManageRequestsPage {
     private AdBean adBean;
     private LeaseRequestBean leaseRequestBean;
-    private ManageRequestsCLIPageController controller;
-    public ManageRequestsCLIPage(Context context) {
+    private ManageRequestsOwnerCLIPageController controller;
+    public ManageRequestsOwnerCLIPage(Context context) {
         super(context);
-        controller = new ManageRequestsCLIPageController();
+        controller = new ManageRequestsOwnerCLIPageController();
     }
 
     @Override
