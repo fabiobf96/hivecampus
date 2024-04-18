@@ -5,6 +5,7 @@ import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.manager.AdManager;
 import it.hivecampuscompany.hivecampus.manager.LeaseRequestManager;
+import it.hivecampuscompany.hivecampus.model.AdStatus;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public abstract class ManageRequestsPage implements State {
         return adManager.searchAvailableAds(context.getSessionBean());
     }
     public List<LeaseRequestBean> retrieveLeaseRequests(AdBean adBean) throws InvalidSessionException {
+        adBean.setAdStatus(AdStatus.AVAILABLE);
         LeaseRequestManager requestManager = new LeaseRequestManager();
         return requestManager.searchLeaseRequestsByAd(context.getSessionBean(), adBean);
     }
