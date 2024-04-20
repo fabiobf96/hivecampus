@@ -1,19 +1,36 @@
 package it.hivecampuscompany.hivecampus.dao.csv;
 
 import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
+
+import java.io.*;
+import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CSVUtility {
-
+    private static Properties properties;
     private static final Logger LOGGER = Logger.getLogger(CSVUtility.class.getName());
+
     private CSVUtility(){}
+    static {
+        try (InputStream input = new FileInputStream("properties/csv.properties")) {
+            properties = new Properties();
+            properties.load(input);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
+            System.exit(1);
+        }
+    }
     public static String encodeBytesToBase64(byte[] content) {
         // Codifica l'array di byte in una stringa Base64
         return Base64.getEncoder().encodeToString(content);
@@ -25,23 +42,27 @@ public class CSVUtility {
     }
 
     public static int findLastRowIndex(File fd) {
-        int lastID = 0;
-        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
-            String[] nextRecord;
-            reader.readNext();
-            while ((nextRecord = reader.readNext()) != null) {
-                lastID = Integer.parseInt(nextRecord[0].trim());
-            }
-        } catch (IOException | CsvValidationException e) {
-            LOGGER.log(Level.SEVERE, "Enable to open file", e);
-        }
-        if (lastID == 0) {
-            return 0;
+        List<String[]> table = readAll(fd);
+        String lastRecord = table.getLast()[0];
+        if (lastRecord.isBlank()) {
+            return 1;
         }
         else {
-            return lastID + 1;
+            return Integer.parseInt(lastRecord) + 1;
         }
     }
 
 
+    public static List<String[]> readAll(File fd) {
+        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
+            return reader.readAll();
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_ACCESS"), fd), e);
+            System.exit(3);
+        } catch (CsvException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_PARSER"), fd), e);
+            System.exit(3);
+        }
+        return Collections.emptyList();
+    }
 }
