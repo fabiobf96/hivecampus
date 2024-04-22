@@ -1,8 +1,6 @@
 package it.hivecampuscompany.hivecampus.dao.csv;
 
-import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvException;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.model.Account;
 
@@ -16,8 +14,9 @@ public class AccountDAOCSV implements AccountDAO {
     private File fd;
     private static final Logger LOGGER = Logger.getLogger(AccountDAOCSV.class.getName());
     private Properties properties;
+
     public AccountDAOCSV() {
-        try (InputStream input = new FileInputStream("properties/csv.properties")){
+        try (InputStream input = new FileInputStream("properties/csv.properties")) {
             properties = new Properties();
             properties.load(input);
             fd = new File(properties.getProperty("ACCOUNT_PATH"));
@@ -26,6 +25,7 @@ public class AccountDAOCSV implements AccountDAO {
             System.exit(1);
         }
     }
+
     @Override
     public void saveAccount(Account account) {
         try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
@@ -44,30 +44,21 @@ public class AccountDAOCSV implements AccountDAO {
 
     @Override
     public Account retrieveAccountInformationByEmail(String email) {
-        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
-            List<String[]> accountTable = reader.readAll();
-            accountTable.removeFirst();
-            return accountTable.stream()
-                    .filter(accountRecord -> accountRecord[AccountAttributes.GET_INDEX_EMAIL].equals(email))
-                    .findFirst()
-                    .map(accountRecord -> new Account(
-                            accountRecord[AccountAttributes.GET_INDEX_EMAIL],
-                            accountRecord[AccountAttributes.GET_INDEX_NAME],
-                            accountRecord[AccountAttributes.GET_INDEX_SURNAME],
-                            accountRecord[AccountAttributes.GET_INDEX_PHONE_NUMBER]
-                    ))
-                    .orElse(null);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_ACCESS"), fd), e);
-            System.exit(3);
-        } catch (CsvException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_PARSER"), fd), e);
-            System.exit(3);
-        }
-        return null;
+        List<String[]> accountTable = CSVUtility.readAll(fd);
+        accountTable.removeFirst();
+        return accountTable.stream()
+                .filter(accountRecord -> accountRecord[AccountAttributes.GET_INDEX_EMAIL].equals(email))
+                .findFirst()
+                .map(accountRecord -> new Account(
+                        accountRecord[AccountAttributes.GET_INDEX_EMAIL],
+                        accountRecord[AccountAttributes.GET_INDEX_NAME],
+                        accountRecord[AccountAttributes.GET_INDEX_SURNAME],
+                        accountRecord[AccountAttributes.GET_INDEX_PHONE_NUMBER]
+                ))
+                .orElse(null);
     }
 
-    private static class AccountAttributes{
+    private static class AccountAttributes {
         static final int GET_INDEX_EMAIL = 0;
         static final int GET_INDEX_NAME = 1;
         static final int GET_INDEX_SURNAME = 2;

@@ -23,7 +23,7 @@ public class LoginCLIPage extends LoginPage {
             controller.homePage();
             SessionBean sessionBean = authenticate(controller.getCredentials());
             switch (sessionBean.getRole()) {
-                case "tenat" -> goToTenantHomePage(new TenantHomeCLIPage(context));
+                case "tenant" -> goToTenantHomePage(new TenantHomeCLIPage(context));
                 case "owner" -> goToOwnerHomePage(new OwnerHomeCLIPage(context));
                 default      -> controller.displayError("");
             }

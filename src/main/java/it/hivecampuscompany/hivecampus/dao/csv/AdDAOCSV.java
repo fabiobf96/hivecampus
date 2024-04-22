@@ -3,8 +3,8 @@ package it.hivecampuscompany.hivecampus.dao.csv;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
-import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
+import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
@@ -13,15 +13,11 @@ import it.hivecampuscompany.hivecampus.model.Ad;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
 import it.hivecampuscompany.hivecampus.model.Home;
 import it.hivecampuscompany.hivecampus.model.Room;
+
 import java.awt.geom.Point2D;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.Collections;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -32,8 +28,6 @@ public class AdDAOCSV implements AdDAO {
     private File fd;
     private static final Logger LOGGER = Logger.getLogger(AdDAOCSV.class.getName());
     private Properties properties;
-    private static final String ERR_ACCESS = "ERR_ACCESS";
-    private static final String ERR_PARSER = "ERR_PARSER";
 
     public AdDAOCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")) {
@@ -50,7 +44,7 @@ public class AdDAOCSV implements AdDAO {
     public List<Ad> retrieveAdsByOwner(SessionBean sessionBean, AdStatus adStatus) {
         HomeDAO homeDAO = new HomeDAOCSV();
         RoomDAO roomDAO = new RoomDAOCSV();
-        List<String[]> adTable = readAdTable();
+        List<String[]> adTable = CSVUtility.readAll(fd);
         adTable.removeFirst(); // Rimuove l'header
         return adTable.stream()
                 // Ensure to separate the conditions correctly and parse the status value appropriately
@@ -69,14 +63,17 @@ public class AdDAOCSV implements AdDAO {
 
     @Override
     public Ad retrieveAdByID(int id) {
-        List<String[]> adTable = readAdTable();
+        RoomDAO roomDAO = new RoomDAOCSV();
+        HomeDAO homeDAO = new HomeDAOCSV();
+        List<String[]> adTable = CSVUtility.readAll(fd);
         adTable.removeFirst(); // Rimuove l'header
         return adTable.stream()
                 .filter(adRecord -> Integer.parseInt(adRecord[AdAttributes.INDEX_ID]) == id)
                 .findFirst()
                 .map(adRecord -> new Ad(
                         Integer.parseInt(adRecord[AdAttributes.INDEX_ID]),
-                        Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS]),
+                        homeDAO.retrieveHomeByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME])),
+                        roomDAO.retrieveRoomByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME]), Integer.parseInt(adRecord[AdAttributes.INDEX_ROOM])),
                         Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE])
                 ))
                 .orElse(null);
@@ -86,14 +83,20 @@ public class AdDAOCSV implements AdDAO {
     @Override
     public void updateAd(Ad ad) {
         File fdTmp = new File(fd.getAbsolutePath() + ".tmp");
-        List<String[]> adTable = readAdTable();
+        List<String[]> adTable = CSVUtility.readAll(fd);
         String[] header = adTable.getFirst();
         adTable.removeFirst();
         adTable.replaceAll(adRecord -> Integer.parseInt(adRecord[AdAttributes.INDEX_ID]) == ad.getId() ? updateAdRecord(adRecord, ad) : adRecord);
         adTable.addFirst(header);
-        // Sostituisci il file originale con il file temporaneo aggiornato
+        // scrivi la tabella sul file temporaneo
         try (CSVWriter writer = new CSVWriter(new FileWriter(fdTmp))) {
             writer.writeAll(adTable);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format("failure to write to temporary file %s", fdTmp), e);
+            System.exit(4);
+        }
+        // Sostituisci il file originale con il file temporaneo aggiornato
+        try {
             Files.move(fdTmp.toPath(), fd.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, String.format("Failed to move file from %s to %s", fdTmp, fd), e);
@@ -105,19 +108,6 @@ public class AdDAOCSV implements AdDAO {
         adRecord[AdAttributes.INDEX_STATUS] = String.valueOf(ad.getAdStatus().getId());
         adRecord[AdAttributes.INDEX_PRICE] = String.valueOf(ad.getPrice());
         return adRecord;
-    }
-
-    private List<String[]> readAdTable() {
-        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
-            return reader.readAll();
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_ACCESS), fd), e);
-            System.exit(3);
-        } catch (CsvException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERR_PARSER), fd), e);
-            System.exit(3);
-        }
-        return Collections.emptyList();
     }
 
     @Override

@@ -5,10 +5,8 @@ import com.opencsv.exceptions.CsvException;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.dao.RoomDAO;
 import it.hivecampuscompany.hivecampus.model.Room;
+
 import java.io.*;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
@@ -33,25 +31,20 @@ public class RoomDAOCSV implements RoomDAO {
 
     @Override
     public Room retrieveRoomByID(int homeID, int roomID) {
-        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
-            List<String[]> roomTable = reader.readAll();
-            roomTable.removeFirst();
-            return roomTable.stream()
-                    .filter(roomRecord -> Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]) == homeID && Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]) == roomID)
-                    .findFirst()
-                    .map(roomRecord -> new Room(
-                            Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]),
-                            Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]),
-                            Integer.parseInt(roomRecord[RoomAttributes.INDEX_SURFACE]),
-                            roomRecord[RoomAttributes.INDEX_TYPE],
-                            new boolean[]{Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_BATHROOM]), Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_BALCONY]), Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_CONDITIONER]), Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_TV])},
-                            roomRecord[RoomAttributes.INDEX_DESCRIPTION]
-                    ))
-                    .orElse(null);
-        } catch (IOException | CsvException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), fd), e);
-        }
-        return null;
+        List<String[]> roomTable = CSVUtility.readAll(fd);
+        roomTable.removeFirst();
+        return roomTable.stream()
+                .filter(roomRecord -> Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]) == homeID && Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]) == roomID)
+                .findFirst()
+                .map(roomRecord -> new Room(
+                        Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]),
+                        Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]),
+                        Integer.parseInt(roomRecord[RoomAttributes.INDEX_SURFACE]),
+                        roomRecord[RoomAttributes.INDEX_TYPE],
+                        new boolean[]{Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_BATHROOM]), Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_BALCONY]), Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_CONDITIONER]), Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_TV])},
+                        roomRecord[RoomAttributes.INDEX_DESCRIPTION]
+                ))
+                .orElse(null);
     }
 
     /*
@@ -78,7 +71,7 @@ public class RoomDAOCSV implements RoomDAO {
                             Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]),
                             Integer.parseInt(roomRecord[RoomAttributes.INDEX_SURFACE]),
                             roomRecord[RoomAttributes.INDEX_TYPE],
-                            new boolean[]{Integer.parseInt(roomRecord[RoomAttributes.INDEX_BATHROOM])== 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_BALCONY])== 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_CONDITIONER])== 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_TV])== 1},
+                            new boolean[]{Integer.parseInt(roomRecord[RoomAttributes.INDEX_BATHROOM]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_BALCONY]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_CONDITIONER]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_TV]) == 1},
                             roomRecord[RoomAttributes.INDEX_DESCRIPTION]
                     ))
                     .toList();
@@ -88,7 +81,7 @@ public class RoomDAOCSV implements RoomDAO {
         return Collections.emptyList();
     }
 
-    private static class RoomAttributes{
+    private static class RoomAttributes {
         private static final int INDEX_ID_ROOM = 0;
         private static final int INDEX_ID_HOME = 1;
         private static final int INDEX_TYPE = 2;

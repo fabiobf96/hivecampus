@@ -23,8 +23,8 @@ public class TenantHomeCLIPage extends TenantHomePage {
                 AccountSettingsCLIController accountSettingsCLIController = new AccountSettingsCLIController();
                 accountSettingsCLIController.homePage();
             }
-            case 2 -> goToAdSearchPage(new AdSearchCLIPage(context));
-            case 3,4,5 -> controller.notImplementedYet();
+            case 2,4,5 -> controller.notImplementedYet();
+            case 3 -> goToManageLeasePage(new ManageLeaseTenantCLIPage(context));
             case 6 -> controller.exit();
             default -> controller.invalidChoice();
         }
