@@ -1,8 +1,6 @@
 package it.hivecampuscompany.hivecampus.dao.csv;
 
-import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvException;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
@@ -127,30 +125,35 @@ public class AdDAOCSV implements AdDAO {
         for (Home home : homes) {
             List<Room> rooms = roomDAO.retrieveRoomsByFilters(home.getId(), filtersBean);
             for (Room room : rooms) {
-                try (CSVReader reader = new CSVReader(new FileReader(fd))) {
-                    List<String[]> adTable = reader.readAll();
-                    adTable.removeFirst();
-                    List<Ad> adsForRoom = adTable.stream()
-                            .filter(adRecord -> Integer.parseInt(adRecord[AdAttributes.INDEX_HOME]) == home.getId() && Integer.parseInt(adRecord[AdAttributes.INDEX_ROOM]) == room.getIdRoom())
-                            .map(adRecord -> new Ad(
-                                    Integer.parseInt(adRecord[AdAttributes.INDEX_ID]),
-                                    accountDAO.retrieveAccountInformationByEmail(adRecord[AdAttributes.INDEX_OWNER]),
-                                    home,
-                                    room,
-                                    Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS]),
-                                    Integer.parseInt(adRecord[AdAttributes.INDEX_MONTH_AVAILABILITY]),
-                                    Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE])
-                            )).toList();
-                    ads.addAll(adsForRoom); // Aggiungi gli annunci trovati alla lista principale
-                } catch (IOException | CsvException e) {
-                    LOGGER.log(Level.SEVERE, "Failed to read ad table", e);
-                    System.exit(3);
-                }
+                List<String[]> adTable = CSVUtility.readAll(fd);
+                adTable.removeFirst();
+                List<Ad> adsForRoom = adTable.stream()
+                        .filter(adRecord -> Integer.parseInt(adRecord[AdAttributes.INDEX_HOME]) == home.getId() && Integer.parseInt(adRecord[AdAttributes.INDEX_ROOM]) == room.getIdRoom())
+                        .map(adRecord -> new Ad(
+                                Integer.parseInt(adRecord[AdAttributes.INDEX_ID]),
+                                accountDAO.retrieveAccountInformationByEmail(adRecord[AdAttributes.INDEX_OWNER]),
+                                home,
+                                room,
+                                Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS]),
+                                Integer.parseInt(adRecord[AdAttributes.INDEX_MONTH_AVAILABILITY]),
+                                Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE])
+                        )).toList();
+                ads.addAll(adsForRoom); // Aggiungi gli annunci trovati alla lista principale
             }
         }
-        return ads; // Restituisci tutti gli annunci accumulati
+        // Filtra gli annunci disponibili
+        return filterAvailableAds(ads); // Restituisci tutti gli annunci disponibili
     }
 
+    private List<Ad> filterAvailableAds(List<Ad> ads) {
+        List<Ad> availableAds = new ArrayList<>();
+        for (Ad ad : ads) {
+            if (ad.getAdStatus() == AdStatus.AVAILABLE) {
+                availableAds.add(ad);
+            }
+        }
+        return availableAds;
+    }
 
     private static class AdAttributes {
         private static final int INDEX_ID = 0;

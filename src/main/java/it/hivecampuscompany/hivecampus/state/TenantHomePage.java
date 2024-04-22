@@ -6,10 +6,7 @@ public abstract class TenantHomePage implements State {
         this.context = context;
     }
 
-    //public void goToAdSearchPage(AdSearchPage adSearchPage) {
-    //    context.setState(adSearchPage);
-    //}
-    public void goToManageLeasePage(ManageLeasePage manageLeasePage) {
-        context.setState(manageLeasePage);
+    public void goToAdSearchPage(AdSearchPage adSearchPage) {
+        context.setState(adSearchPage);
     }
 }

@@ -2,11 +2,7 @@ package it.hivecampuscompany.hivecampus.dao.csv;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
-
 import java.io.*;
-import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvValidationException;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -51,7 +47,6 @@ public class CSVUtility {
             return Integer.parseInt(lastRecord) + 1;
         }
     }
-
 
     public static List<String[]> readAll(File fd) {
         try (CSVReader reader = new CSVReader(new FileReader(fd))) {

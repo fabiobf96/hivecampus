@@ -97,6 +97,33 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
         }
     }
 
+    @Override
+    public void saveLeaseRequest(LeaseRequest leaseRequest) {
+        int lastId = CSVUtility.findLastRowIndex(fd);
+        try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
+            String[] leaseRequestRecord = new String[7];
+            leaseRequestRecord[LeaseRequestAttributes.INDEX_ID] = String.valueOf(lastId);
+            leaseRequestRecord[LeaseRequestAttributes.INDEX_AD] = String.valueOf(leaseRequest.getAd().getId());
+            leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT] = leaseRequest.getTenant().getEmail();
+            leaseRequestRecord[LeaseRequestAttributes.INDEX_STATUS] = String.valueOf(leaseRequest.getStatus().getId());
+            leaseRequestRecord[LeaseRequestAttributes.INDEX_START] = leaseRequest.getMonth();
+            leaseRequestRecord[LeaseRequestAttributes.INDEX_DURATION] = leaseRequest.getDuration();
+            leaseRequestRecord[LeaseRequestAttributes.INDEX_MESSAGE] = leaseRequest.getMessage();
+            writer.writeNext(leaseRequestRecord);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Failed to save lease request", e);
+            System.exit(2);
+        }
+    }
+
+    @Override
+    public boolean validRequest(String email, int id) {
+        List<String[]> leaseRequestTable = CSVUtility.readAll(fd);
+        leaseRequestTable.removeFirst();
+        return leaseRequestTable.stream()
+                .noneMatch(leaseRequestRecord -> leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT].equals(email) && Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_AD]) == id);
+    }
+
     private static class LeaseRequestAttributes {
         private static final int INDEX_ID = 0;
         private static final int INDEX_AD = 1;
