@@ -6,6 +6,7 @@ module it.hivecampuscompany.hivecampus {
     requires com.opencsv;
     requires java.sql;
     requires java.desktop;
+    requires wiremock.standalone;
 
     opens it.hivecampuscompany.hivecampus.images;
 
