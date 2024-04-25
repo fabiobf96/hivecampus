@@ -19,12 +19,12 @@ public class ManageRequestsOwnerCLIPageController extends CLIController {
 
     public AdBean selectAd(List<AdBean> adBeanList) {
         view.displayMessage("seleziona un annuncio per gestirlo o seleziona l'ultima opzione per tornare indietro");
-        return selectFromList(adBeanList);
+        return selectFromList(adBeanList, "");
     }
 
     public LeaseRequestBean selectRequest (List<LeaseRequestBean> leaseRequestBeanList) {
         view.displayMessage("seleziona un richiesta di affitto o seleziona l'ultima opzione per tornare indietro");
-        return selectFromList(leaseRequestBeanList);
+        return selectFromList(leaseRequestBeanList, "");
     }
 
     public int getChoice(AdBean adBean, LeaseRequestBean leaseRequestBean) {

@@ -1,5 +1,6 @@
 package it.hivecampuscompany.hivecampus.dao;
 
+import it.hivecampuscompany.hivecampus.bean.HomeBean;
 import it.hivecampuscompany.hivecampus.model.Home;
 
 import java.awt.geom.Point2D;
@@ -20,4 +21,6 @@ public interface HomeDAO {
     Home retrieveHomeByID(int id);
 
     List<Home> retrieveHomesByDistance(Point2D unicoordinates, double distance);
+
+    Home saveHome(HomeBean homeBean, String ownerEmail);
 }

@@ -1,5 +1,6 @@
 package it.hivecampuscompany.hivecampus.view.controller.cli;
 
+import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.manager.SessionManager;
 import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
@@ -22,6 +23,7 @@ public abstract class CLIController {
     protected CliGUI view;
     protected Properties properties;
     protected SessionBean sessionBean;
+    private static final String PRESS_ANY_KEY = "Press any key to continue";
     private static final String INVALID_CHOICE = "Invalid choice, please try again.";
 
     /**
@@ -30,6 +32,7 @@ public abstract class CLIController {
      */
     protected CLIController(){
         properties = LanguageLoader.getLanguageProperties();
+        view = new CliGUI();
     }
 
     /**
@@ -41,7 +44,7 @@ public abstract class CLIController {
     public void invalidChoice() {
         view.displayMessage(properties.getProperty("INVALID_OPTION_MSG"));
         // ricordati di mettorlo dentro al file properties
-        view.getStringUserInput("press any key to continue");
+        view.getStringUserInput(PRESS_ANY_KEY);
         view.clean();
         homePage();
     }
@@ -112,22 +115,21 @@ public abstract class CLIController {
      * @return the item of type {@code T} selected by the user, or {@code null} if the user
      *         chooses to "Go Back" by selecting the last option or if the selected item is {@code null}.
      */
-    protected <T> T selectFromList(List<T> itemList) {
+    protected <T> T selectFromList(List<T> itemList, String format) {
         itemList.add(null);
         while (true) {
-            for (int i = 0; i < itemList.size(); i++) {
-                if (itemList.get(i) == null) {
-                    view.displayMessage(i + ") Go back");
+            for (int i = 0; i < itemList.size()-1 ; i++) {
+                if (itemList.get(i) instanceof AdBean adBean && !format.isEmpty()){
+                        view.displayMessage(i + ") " + (adBean.toFormatString(format)));
                 } else {
-                    view.displayMessage(i + ") " + itemList.get(i).toString());
+                        view.displayMessage(i + ") " + itemList.get(i).toString());
                 }
             }
-            int choice = view.getIntUserInput("choice");
-            if (choice >= 0 && choice < itemList.size() - 1) {
+            view.displayMessage(itemList.size() - 1 + ") " + properties.getProperty("GO_BACK_MSG"));
+            int choice = view.getIntUserInput("Choice");
+            if (choice >= 0 && choice <= itemList.size() - 1) {
                 return itemList.get(choice);
-            } else if (choice == itemList.size() - 1) {
-                return null; // Permette all'utente di tornare indietro
-            } else {
+            }  else {
                 view.displayMessage(INVALID_CHOICE);
             }
         }
@@ -135,14 +137,18 @@ public abstract class CLIController {
 
     public void displayError (String message) {
         view.displayMessage(message);
-        view.getStringUserInput("press any key to continue");
+        view.getStringUserInput(PRESS_ANY_KEY);
         view.clean();
         homePage();
     }
 
     public void notImplementedYet () {
         view.displayMessage("Not Implemented Yet!");
-        view.getStringUserInput("press any key to continue");
+        view.getStringUserInput(PRESS_ANY_KEY);
+    }
+
+    public void pause() {
+        view.getStringUserInput("\n" + PRESS_ANY_KEY);
     }
 
     /**

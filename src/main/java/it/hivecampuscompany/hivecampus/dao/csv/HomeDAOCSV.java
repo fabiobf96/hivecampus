@@ -1,8 +1,13 @@
 package it.hivecampuscompany.hivecampus.dao.csv;
 
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvValidationException;
+import it.hivecampuscompany.hivecampus.bean.HomeBean;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.model.Home;
 import it.hivecampuscompany.hivecampus.view.utility.CalculateDistance;
+import it.hivecampuscompany.hivecampus.view.utility.Geocoding;
 
 import java.awt.geom.Point2D;
 import java.io.*;
@@ -15,11 +20,10 @@ import java.util.logging.Logger;
 public class HomeDAOCSV implements HomeDAO {
     private File fd;
     private static final Logger LOGGER = Logger.getLogger(HomeDAOCSV.class.getName());
-    private Properties properties;
 
     public HomeDAOCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")) {
-            properties = new Properties();
+            Properties properties = new Properties();
             properties.load(input);
             fd = new File(properties.getProperty("HOME_PATH"));
         } catch (IOException e) {
@@ -75,6 +79,76 @@ public class HomeDAOCSV implements HomeDAO {
             }
         }
         return homes;
+    }
+
+    @Override
+    public Home saveHome(HomeBean homeBean, String ownerEmail) {
+        // Check if the home already exists
+        int existingHomeId = isHomeAlreadyExists(homeBean);
+        if (existingHomeId != -1) {
+            return retrieveHomeByID(existingHomeId);
+        }
+
+        int lastId = CSVUtility.findLastRowIndex(fd);
+
+        Point2D coordinates = Geocoding.getCoordinates(homeBean.getAddress());
+
+        Integer[] features = {
+                homeBean.getNRooms(),
+                homeBean.getNBathrooms(),
+                homeBean.getFloor(),
+                homeBean.getElevator()
+        };
+
+        if (coordinates == null) {
+            LOGGER.log(Level.SEVERE, "Failed to retrieve coordinates");
+            return null;
+        }
+
+        try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
+            String[] homeRecord = new String[12];
+            homeRecord[HomeAttributes.INDEX_ID] = String.valueOf(lastId);
+            homeRecord[HomeAttributes.INDEX_OWNER] = ownerEmail;
+            homeRecord[HomeAttributes.INDEX_LATITUDE] = String.valueOf(coordinates.getX());
+            homeRecord[HomeAttributes.INDEX_LONGITUDE] = String.valueOf(coordinates.getY());
+            homeRecord[HomeAttributes.INDEX_ADDRESS] = homeBean.getAddress();
+            homeRecord[HomeAttributes.INDEX_TYPE] = homeBean.getType();
+            homeRecord[HomeAttributes.INDEX_SURFACE] = String.valueOf(homeBean.getSurface());
+            homeRecord[HomeAttributes.INDEX_NROOMS] = String.valueOf(homeBean.getNRooms());
+            homeRecord[HomeAttributes.INDEX_NBATHROOMS] = String.valueOf(homeBean.getNBathrooms());
+            homeRecord[HomeAttributes.INDEX_FLOOR] = String.valueOf(homeBean.getFloor());
+            homeRecord[HomeAttributes.INDEX_ELEVATOR] = String.valueOf(homeBean.getElevator());
+            homeRecord[HomeAttributes.INDEX_DESCRIPTION] = homeBean.getDescription();
+            writer.writeNext(homeRecord);
+            return new Home(lastId, coordinates, homeBean.getAddress(), homeBean.getType(), homeBean.getSurface(), homeBean.getDescription(), features);
+
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Failed to write to file", e);
+            return null;
+        }
+    }
+
+    private int isHomeAlreadyExists(HomeBean homeBean) {
+        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
+            String[] nextLine;
+            // Itera attraverso ogni riga del file CSV
+            while ((nextLine = reader.readNext()) != null) {
+                // Confronta i campi della riga corrente con quelli della casa da controllare
+                if (nextLine[HomeAttributes.INDEX_ADDRESS].equals(homeBean.getAddress()) &&
+                        nextLine[HomeAttributes.INDEX_TYPE].equals(homeBean.getType()) &&
+                        Double.parseDouble(nextLine[HomeAttributes.INDEX_SURFACE]) == homeBean.getSurface() &&
+                        Integer.parseInt(nextLine[HomeAttributes.INDEX_NROOMS]) == homeBean.getNRooms() &&
+                        Integer.parseInt(nextLine[HomeAttributes.INDEX_NBATHROOMS]) == homeBean.getNBathrooms() &&
+                        Integer.parseInt(nextLine[HomeAttributes.INDEX_FLOOR]) == homeBean.getFloor() &&
+                        Integer.parseInt(nextLine[HomeAttributes.INDEX_ELEVATOR]) == homeBean.getElevator()) {
+                    // Se la casa esiste, restituisci il suo ID
+                    return Integer.parseInt(nextLine[HomeAttributes.INDEX_ID]);
+                }
+            }
+        } catch (IOException | NumberFormatException | CsvValidationException e) {
+            LOGGER.log(Level.SEVERE, "Failed to read file or parse values", e);
+        }
+        return -1; // La casa non esiste
     }
 
     private static class HomeAttributes {

@@ -25,11 +25,10 @@ import java.util.logging.Logger;
 public class AdDAOCSV implements AdDAO {
     private File fd;
     private static final Logger LOGGER = Logger.getLogger(AdDAOCSV.class.getName());
-    private Properties properties;
 
     public AdDAOCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")) {
-            properties = new Properties();
+            Properties properties = new Properties();
             properties.load(input);
             fd = new File(properties.getProperty("AD_PATH"));
         } catch (IOException e) {
@@ -108,6 +107,23 @@ public class AdDAOCSV implements AdDAO {
         return adRecord;
     }
 
+    public List<Ad> retrieveOwnerAds(SessionBean sessionBean) {
+        HomeDAO homeDAO = new HomeDAOCSV();
+        RoomDAO roomDAO = new RoomDAOCSV();
+        List<String[]> adTable = CSVUtility.readAll(fd);
+        adTable.removeFirst(); // Rimuove l'header
+        return adTable.stream()
+                .filter(adRecord -> adRecord[AdAttributes.INDEX_OWNER].equals(sessionBean.getEmail()))
+                .map(adRecord -> new Ad(
+                        Integer.parseInt(adRecord[AdAttributes.INDEX_ID]),
+                        homeDAO.retrieveHomeByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME])),
+                        roomDAO.retrieveRoomByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME]), Integer.parseInt(adRecord[AdAttributes.INDEX_ROOM])),
+                        Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS]),
+                        Integer.parseInt(adRecord[AdAttributes.INDEX_MONTH_AVAILABILITY]),
+                        Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE])
+                )).toList();
+    }
+
     @Override
     public List<Ad> retrieveAdsByFilters(FiltersBean filtersBean, Point2D uniCoordinates) {
         AccountDAO accountDAO = new AccountDAOCSV();
@@ -143,6 +159,26 @@ public class AdDAOCSV implements AdDAO {
         }
         // Filtra gli annunci disponibili
         return filterAvailableAds(ads); // Restituisci tutti gli annunci disponibili
+    }
+
+    @Override
+    public boolean publishAd(Ad ad) {
+        int lastID = CSVUtility.findLastRowIndex(fd);
+        try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
+            String[] adRecord = new String[7];
+            adRecord[AdAttributes.INDEX_ID] = String.valueOf(lastID);
+            adRecord[AdAttributes.INDEX_OWNER] = ad.getOwner().getEmail();
+            adRecord[AdAttributes.INDEX_HOME] = String.valueOf(ad.getHome().getId());
+            adRecord[AdAttributes.INDEX_ROOM] = String.valueOf(ad.getRoom().getIdRoom());
+            adRecord[AdAttributes.INDEX_STATUS] = String.valueOf(ad.getAdStatus().getId());
+            adRecord[AdAttributes.INDEX_MONTH_AVAILABILITY] = String.valueOf(ad.getAdStart().getMonth());
+            adRecord[AdAttributes.INDEX_PRICE] = String.valueOf(ad.getPrice());
+            writer.writeNext(adRecord);
+            return true;
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Failed to write to file", e);
+            return false;
+        }
     }
 
     private List<Ad> filterAvailableAds(List<Ad> ads) {

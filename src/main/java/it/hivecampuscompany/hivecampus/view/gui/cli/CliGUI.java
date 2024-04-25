@@ -1,7 +1,10 @@
 package it.hivecampuscompany.hivecampus.view.gui.cli;
 
+import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+
 import java.io.IOException;
 import java.util.InputMismatchException;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +22,7 @@ import java.util.logging.Logger;
 public class CliGUI {
 
     private static final Logger LOGGER = Logger.getLogger(CliGUI.class.getName());
+    protected Properties properties = LanguageLoader.getLanguageProperties();
 
     /**
      * Displays a welcome message within a frame. The message title is centered within the frame,
@@ -128,4 +132,5 @@ public class CliGUI {
     private void printMessage(String message) {
         System.out.print(message);
     }
+
 }

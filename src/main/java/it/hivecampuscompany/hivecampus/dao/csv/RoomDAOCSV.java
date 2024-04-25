@@ -1,8 +1,10 @@
 package it.hivecampuscompany.hivecampus.dao.csv;
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
+import it.hivecampuscompany.hivecampus.bean.RoomBean;
 import it.hivecampuscompany.hivecampus.dao.RoomDAO;
 import it.hivecampuscompany.hivecampus.model.Room;
 
@@ -79,6 +81,46 @@ public class RoomDAOCSV implements RoomDAO {
             LOGGER.log(Level.SEVERE, String.format(properties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), fd), e);
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public Room saveRoom(int homeID, RoomBean roomBean) {
+
+        Room room = null;
+
+        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
+            List<String[]> roomTable = reader.readAll();
+            roomTable.removeFirst();
+            int idRoom = roomTable.stream()
+                    .filter(roomRecord -> Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]) == homeID)
+                    .mapToInt(roomRecord -> Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]))
+                    .max()
+                    .orElse(0) + 1;
+            room = new Room(idRoom, homeID, roomBean.getSurface(), roomBean.getType(), new boolean[]{roomBean.getBathroom(), roomBean.getBalcony(), roomBean.getConditioner(), roomBean.getTV()}, roomBean.getDescription());
+
+        } catch (IOException | CsvException | RuntimeException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), fd), e);
+        }
+
+        if (room != null) {
+            try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
+                String[] roomRecord = new String[9];
+                roomRecord[RoomAttributes.INDEX_ID_ROOM] = String.valueOf(room.getIdRoom());
+                roomRecord[RoomAttributes.INDEX_ID_HOME] = String.valueOf(room.getIdHome());
+                roomRecord[RoomAttributes.INDEX_TYPE] = room.getTypeRoom();
+                roomRecord[RoomAttributes.INDEX_SURFACE] = String.valueOf(room.getSurface());
+                roomRecord[RoomAttributes.INDEX_BATHROOM] = room.getBathroom() ? "1" : "0";
+                roomRecord[RoomAttributes.INDEX_BALCONY] = room.getBalcony() ? "1" : "0";
+                roomRecord[RoomAttributes.INDEX_CONDITIONER] = room.getConditioner() ? "1" : "0";
+                roomRecord[RoomAttributes.INDEX_TV] = room.getTV() ? "1" : "0";
+                roomRecord[RoomAttributes.INDEX_DESCRIPTION] = room.getDescription();
+                writer.writeNext(roomRecord);
+                return room;
+            } catch (IOException e) {
+                LOGGER.log(Level.SEVERE, "Failed to save room", e);
+            }
+        }
+        return null;
     }
 
     private static class RoomAttributes {

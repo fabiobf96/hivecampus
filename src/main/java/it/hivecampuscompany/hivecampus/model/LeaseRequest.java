@@ -3,32 +3,40 @@ package it.hivecampuscompany.hivecampus.model;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
 
 public class LeaseRequest {
-    private final int id;
+    private int id;
     private Ad ad;
     private final Account tenant;
     private final String month;
     private final String duration;
     private final String message;
     private LeaseRequestStatus status;
+
     public LeaseRequest(int id, Account tenant, String month, String duration, String message) {
+        this(tenant, month, duration, message);
         this.id = id;
-        this.tenant = tenant;
-        this.month = month;
-        this.duration = duration;
-        this.message = message;
     }
     public LeaseRequest(int id, Account tenant, String month, String duration, int status, String message) {
+        this(tenant, month, duration, message);
         this.id = id;
-        this.tenant = tenant;
-        this.month = month;
-        this.duration = duration;
-        this.message = message;
         this.status = LeaseRequestStatus.fromInt(status);
     }
 
     public LeaseRequest(int id, Ad ad, Account tenant, String month, String duration, String message, int status) {
         this(id, tenant, month, duration, status, message);
         this.ad = ad;
+    }
+
+    public LeaseRequest(Ad ad, Account tenant, String month, String duration, int status, String message) {
+        this(tenant, month, duration, message);
+        this.ad = ad;
+        this.status = LeaseRequestStatus.fromInt(status);
+    }
+
+    public LeaseRequest(Account tenant, String month, String duration, String message) {
+        this.tenant = tenant;
+        this.month = month;
+        this.duration = duration;
+        this.message = message;
     }
 
     public Ad getAd() {
@@ -47,5 +55,25 @@ public class LeaseRequest {
     }
     public int getID() {
         return id;
+    }
+
+    public Account getTenant() {
+        return tenant;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public LeaseRequestStatus getStatus() {
+        return status;
     }
 }

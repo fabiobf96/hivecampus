@@ -13,7 +13,7 @@ import java.util.List;
 public class ManageRequestsOwnerCLIPage extends ManageRequestsPage {
     private AdBean adBean;
     private LeaseRequestBean leaseRequestBean;
-    private ManageRequestsOwnerCLIPageController controller;
+    private final ManageRequestsOwnerCLIPageController controller;
     public ManageRequestsOwnerCLIPage(Context context) {
         super(context);
         controller = new ManageRequestsOwnerCLIPageController();

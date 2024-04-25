@@ -4,8 +4,6 @@ import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
 import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 
-import java.util.InputMismatchException;
-
 public class OwnerHomeCLIPageController extends CLIController{
         public OwnerHomeCLIPageController() {
             properties = LanguageLoader.getLanguageProperties();

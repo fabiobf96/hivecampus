@@ -3,20 +3,44 @@ package it.hivecampuscompany.hivecampus.state.cli;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.ManageAdsPage;
-import it.hivecampuscompany.hivecampus.state.cli.controller.InitialCLIPageController;
+import it.hivecampuscompany.hivecampus.state.cli.controller.ManageAdsCLIPageController;
 
 public class ManageAdsOwnerCLIPage extends ManageAdsPage {
-    // controlle provvisorio
-    InitialCLIPageController controller;
+    private final ManageAdsCLIPageController controller;
+
     protected ManageAdsOwnerCLIPage(Context context) {
         super(context);
-        controller = new InitialCLIPageController();
+        controller = new ManageAdsCLIPageController();
     }
 
     @Override
     public void handle() throws InvalidSessionException {
-        controller.notImplementedYet();
-        goToOwnerHomePage(new OwnerHomeCLIPage(context));
+        controller.homePage();
+        switch (controller.getChoice()) {
+            case 1 -> {
+                // View your ads
+                controller.viewAds(context.getSessionBean());
+                goToManageAdsPage(new ManageAdsOwnerCLIPage(context));
+            }
+            case 2 -> {
+                // Create an ad
+               if (controller.adCreationForm()) {
+                   controller.publishAd(context.getSessionBean());
+               }
+               goToManageAdsPage(new ManageAdsOwnerCLIPage(context));
+            }
+
+            case 3, 4 -> {
+                // Edit an ad
+                controller.notImplementedYet();
+                goToManageAdsPage(new ManageAdsOwnerCLIPage(context));
+            }
+
+            case 5 -> // Go back
+                goToOwnerHomePage(new OwnerHomeCLIPage(context));
+
+            default -> controller.invalidChoice();
+        }
         context.request();
     }
 }

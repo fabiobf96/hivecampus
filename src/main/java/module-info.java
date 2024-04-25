@@ -7,6 +7,9 @@ module it.hivecampuscompany.hivecampus {
     requires java.sql;
     requires java.desktop;
     requires wiremock.standalone;
+    requires org.apache.httpcomponents.httpclient;
+    requires org.apache.httpcomponents.httpclient.fluent;
+    requires com.fasterxml.jackson.databind;
 
     opens it.hivecampuscompany.hivecampus.images;
 

@@ -10,11 +10,11 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomSearchManager {
+public class AdSearchManager {
     private final UniversityDAO universityDAO = new UniversityDAOCSV();
     private final AdDAOCSV adDAOCSV = new AdDAOCSV();
 
-    public RoomSearchManager() {
+    public AdSearchManager() {
         // Default constructor
     }
 

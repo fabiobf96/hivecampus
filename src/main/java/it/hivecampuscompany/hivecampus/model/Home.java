@@ -77,7 +77,7 @@ public class Home {
     }
 
     public double calculateDistance(Point2D uniCoordinates) {
-        return CalculateDistance.haversineFormula(coordinates.getX(), coordinates.getY(), uniCoordinates.getX(), uniCoordinates.getY());
+        return CalculateDistance.haversineFormula(getLongitude(), getLatitude(), uniCoordinates.getX(), uniCoordinates.getY());
     }
 
     @Override

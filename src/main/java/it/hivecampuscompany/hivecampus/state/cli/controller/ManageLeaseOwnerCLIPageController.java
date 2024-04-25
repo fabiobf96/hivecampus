@@ -26,7 +26,7 @@ public class ManageLeaseOwnerCLIPageController extends CLIController {
     }
     public AdBean selectAd(List<AdBean> adBeanList) {
         view.displayMessage("seleziona un annuncio per gestire l'affitto o l'ultima opzione per tornare indietro");
-        return selectFromList(adBeanList);
+        return selectFromList(adBeanList, "");
     }
     public LeaseBean getLease(AdBean adBean, LeaseRequestBean leaseRequestBean) {
         while (true) {
