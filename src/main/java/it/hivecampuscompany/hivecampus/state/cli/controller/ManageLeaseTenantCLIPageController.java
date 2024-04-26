@@ -49,4 +49,8 @@ public class ManageLeaseTenantCLIPageController extends CLIController {
             }
         }
     }
+    public void successMessage() {
+        view.displayMessage("la firma è avvenuta con successo");
+        pause();
+    }
 }

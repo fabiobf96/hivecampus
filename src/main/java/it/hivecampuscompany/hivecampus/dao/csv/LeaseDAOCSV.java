@@ -6,6 +6,8 @@ import it.hivecampuscompany.hivecampus.dao.LeaseDAO;
 import it.hivecampuscompany.hivecampus.model.Lease;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.List;
 import java.util.Properties;
@@ -68,9 +70,31 @@ public class LeaseDAOCSV implements LeaseDAO {
 
     @Override
     public void updateLease(Lease lease) {
-
+        File fdTmp = new File(fd.getAbsolutePath() + ".tmp");
+        try (CSVWriter writer = new CSVWriter(new FileWriter(fdTmp))) {
+            List<String[]> leaseTable = CSVUtility.readAll(fd);
+            String[] header = leaseTable.getFirst();
+            leaseTable.removeFirst();
+            leaseTable.replaceAll(leaseRecord -> Integer.parseInt(leaseRecord[LeaseAttributes.GET_INDEX_ID]) == lease.getId() ? updateLeaseRecord(leaseRecord, lease) : leaseRecord);
+            leaseTable.addFirst(header);
+            writer.writeAll(leaseTable);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_ACCESS"), fdTmp), e);
+            System.exit(3);
+        }
+        // Sostituisci il file originale con il file temporaneo aggiornato
+        try {
+            Files.move(fdTmp.toPath(), fd.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format("Failed to move file from %s to %s", fdTmp, fd), e);
+            System.exit(4);
+        }
     }
-
+    private String [] updateLeaseRecord(String[] leaseRecord, Lease lease) {
+        leaseRecord[LeaseAttributes.GET_INDEX_SIGNED] = String.valueOf(lease.isSigned());
+        leaseRecord[LeaseAttributes.GET_INDEX_TIMESTAMP] = lease.getTimeStamp().toString();
+        return leaseRecord;
+    }
     private static class LeaseAttributes {
         static final int GET_INDEX_ID = 0;
         static final int GET_INDEX_AD = 1;

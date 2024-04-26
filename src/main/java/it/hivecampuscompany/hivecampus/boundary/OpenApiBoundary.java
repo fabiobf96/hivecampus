@@ -1,5 +1,6 @@
 package it.hivecampuscompany.hivecampus.boundary;
 
+import it.hivecampuscompany.hivecampus.exception.MockOpenAPIException;
 import mockapi.MockAPI;
 
 import java.io.IOException;
@@ -9,11 +10,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
-import java.util.logging.Logger;
 
 public class OpenApiBoundary {
-    private static final Logger LOGGER = Logger.getLogger(OpenApiBoundary.class.getName());
-    public boolean signContract(byte[] contract) {
+    public boolean signContract(byte[] contract) throws MockOpenAPIException {
         MockAPI.mockOpenAPI();
         MockAPI.start();
 
@@ -30,13 +29,11 @@ public class OpenApiBoundary {
             if (responseCode == HttpURLConnection.HTTP_OK && response.body().equals("true")) {
                 return true;
             } else {
-                LOGGER.warning("POST request not worked");
-                return false;
+                throw new MockOpenAPIException("POST request not worked");
             }
         } catch (InterruptedException | IOException e) {
-            LOGGER.warning(e.getMessage());
             Thread.currentThread().interrupt();
-            return false;
+            throw new MockOpenAPIException(e.getMessage());
         } finally {
             MockAPI.shutdown();
         }

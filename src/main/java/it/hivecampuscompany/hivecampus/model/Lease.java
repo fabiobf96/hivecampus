@@ -20,8 +20,8 @@ public class Lease {
         this.starting = starting;
         this.duration = duration;
         this.contract = contract;
-        this.signed = signed;
-        this.timeStamp = timeStamp;
+        setSigned(signed);
+        setTimeStamp(timeStamp);
     }
 
     public Lease(int id, Ad ad, String starting, String duration, byte[] contract, boolean signed, Instant timeStamp) {
@@ -30,8 +30,12 @@ public class Lease {
         this.starting = starting;
         this.duration = duration;
         this.contract = contract;
-        this.signed = signed;
-        this.timeStamp = timeStamp;
+        setSigned(signed);
+        setTimeStamp(timeStamp);
+    }
+
+    public int getId() {
+        return id;
     }
 
     public Ad getAd() {
@@ -64,7 +68,11 @@ public class Lease {
     public void setSigned(boolean signed){
         this.signed = signed;
     }
+    public void setTimeStamp(Instant timeStamp) {
+        this.timeStamp = timeStamp;
+    }
     public LeaseBean toBean() {
         return new LeaseBean(null, starting, duration, contract, signed, timeStamp);
     }
+
 }
