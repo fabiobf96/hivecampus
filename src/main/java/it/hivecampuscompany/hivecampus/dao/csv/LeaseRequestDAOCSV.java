@@ -99,6 +99,7 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
 
     @Override
     public void saveLeaseRequest(LeaseRequest leaseRequest) {
+        /*
         int lastId = CSVUtility.findLastRowIndex(fd);
         try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
             String[] leaseRequestRecord = new String[7];
@@ -113,7 +114,11 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to save lease request", e);
             System.exit(2);
+
+
         }
+
+         */
     }
 
     @Override

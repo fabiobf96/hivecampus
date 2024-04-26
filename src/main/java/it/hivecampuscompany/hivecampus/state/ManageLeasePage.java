@@ -8,6 +8,7 @@ import it.hivecampuscompany.hivecampus.manager.AdManager;
 import it.hivecampuscompany.hivecampus.manager.LeaseManager;
 import it.hivecampuscompany.hivecampus.manager.LeaseRequestManager;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
+import it.hivecampuscompany.hivecampus.model.Lease;
 
 import java.util.List;
 
@@ -32,8 +33,15 @@ public abstract class ManageLeasePage implements State {
         LeaseManager leaseManager = new LeaseManager();
         leaseManager.loadLease(context.getSessionBean(), leaseBean);
     }
+    public LeaseBean getUnSignedLease() throws InvalidSessionException {
+        LeaseManager leaseManager = new LeaseManager();
+        return leaseManager.searchUnsignedLease(context.getSessionBean());
+    }
     public void goToOwnerHomePage(OwnerHomePage ownerHomePage) {
         context.setState(ownerHomePage);
     }
-
+    public void goToTenantHomePage(TenantHomePage tenantHomePage) {
+        context.setState(tenantHomePage);
+        context.request();
+    }
 }

@@ -31,14 +31,15 @@ public class ManageLeaseOwnerCLIPageController extends CLIController {
     public LeaseBean getLease(AdBean adBean, LeaseRequestBean leaseRequestBean) {
         while (true) {
             try {
-                leaseRequestBean.setAdBean(adBean);
                 view.displayMessage("inserisci un path per caricare un contratto o nulla per tornare indietro");
                 view.displayMessage(adBean.toString());
                 view.displayMessage(leaseRequestBean.toString());
+
                 String path = getField("path",true);
                 if (path.isBlank()) {
                     return null;
                 }
+                leaseRequestBean.setAdBean(adBean);
                 return new LeaseBean(leaseRequestBean, path);
             } catch (IOException e) {
                 displayError("il path che hai inserito non è valido");

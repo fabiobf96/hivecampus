@@ -10,6 +10,7 @@ module it.hivecampuscompany.hivecampus {
     requires org.apache.httpcomponents.httpclient;
     requires org.apache.httpcomponents.httpclient.fluent;
     requires com.fasterxml.jackson.databind;
+    requires java.net.http;
 
     opens it.hivecampuscompany.hivecampus.images;
 
