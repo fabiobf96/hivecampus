@@ -5,8 +5,8 @@ import it.hivecampuscompany.hivecampus.bean.AdBean;
 public class Ad {
     private final int id;
     private Account owner;
-    private Home home;
-    private Room room;
+    private final Home home;
+    private final Room room;
     private AdStatus adStatus;
     private AdStart adStart;
     private final int price;

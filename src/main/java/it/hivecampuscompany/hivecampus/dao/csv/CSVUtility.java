@@ -39,11 +39,13 @@ public class CSVUtility {
 
     public static int findLastRowIndex(File fd) {
         List<String[]> table = readAll(fd);
-        String lastRecord = table.getLast()[0];
-        if (lastRecord.isBlank()) {
+        table.removeFirst();
+        // Se la tabella è vuota, restituisce 1
+        if (table.isEmpty()) {
             return 1;
         }
         else {
+            String lastRecord = table.getLast()[0];
             return Integer.parseInt(lastRecord);
         }
     }

@@ -27,8 +27,6 @@ public class FiltersBean {
 
     public Float getDistance() { return distance; }
 
-    public Integer getMaxPrice() { return maxPrice; }
-
     public Boolean getPrivateBathroom() { return privateBathroom; }
 
     public Boolean getBalcony() { return balcony; }
@@ -45,24 +43,5 @@ public class FiltersBean {
                 "Balcony: " + balcony + "\n" +
                 "Conditioner: " + conditioner + "\n" +
                 "TV Connection: " + tvConnection;
-    }
-
-    public void setMaxDistance(int distance) {
-        this.distance = distance;
-    }
-
-    public void setMaxPrice(int maxPrice) {
-        this.maxPrice = maxPrice;
-    }
-
-    public void setFeatures(Boolean privateBathroom, Boolean balcony, Boolean conditioner, Boolean tvConnection) {
-        this.privateBathroom = privateBathroom;
-        this.balcony = balcony;
-        this.conditioner = conditioner;
-        this.tvConnection = tvConnection;
-    }
-
-    public void setUniversity(String s) {
-        this.university = s;
     }
 }
