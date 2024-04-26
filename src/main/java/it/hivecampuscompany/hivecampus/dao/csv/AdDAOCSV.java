@@ -3,10 +3,14 @@ package it.hivecampuscompany.hivecampus.dao.csv;
 import com.opencsv.CSVWriter;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
+import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.dao.RoomDAO;
+import it.hivecampuscompany.hivecampus.exception.AuthenticateException;
+import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
+import it.hivecampuscompany.hivecampus.manager.LoginManager;
 import it.hivecampuscompany.hivecampus.model.Ad;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
 import it.hivecampuscompany.hivecampus.model.Home;
@@ -16,6 +20,7 @@ import java.awt.geom.Point2D;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -45,13 +50,16 @@ public class AdDAOCSV implements AdDAO {
         adTable.removeFirst(); // Rimuove l'header
         return adTable.stream()
                 // Ensure to separate the conditions correctly and parse the status value appropriately
-                .filter(adRecord -> adRecord[AdAttributes.INDEX_OWNER].equals(sessionBean.getEmail()) && AdStatus.fromInt(Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS])) == adStatus)
+                .filter(adRecord -> adRecord[AdAttributes.INDEX_OWNER].equals(sessionBean.getEmail()))
+                .filter(adRecord -> (adStatus != null) == (AdStatus.fromInt(Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS])) == adStatus))
                 .map(adRecord ->
                         // Pass the actual values from adRecord to retrieveHomeByID and retrieveRoomByID
                         new Ad(
                                 Integer.parseInt(adRecord[AdAttributes.INDEX_ID]),
                                 homeDAO.retrieveHomeByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME])),
                                 roomDAO.retrieveRoomByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME]), Integer.parseInt(adRecord[AdAttributes.INDEX_ROOM])),
+                                adStatus == null ? Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS]) : null,
+                                adStatus == null ? Integer.parseInt(adRecord[AdAttributes.INDEX_MONTH_AVAILABILITY]) : null,
                                 Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE])
                         )
                 ).toList();
@@ -199,5 +207,24 @@ public class AdDAOCSV implements AdDAO {
         private static final int INDEX_STATUS = 4;
         private static final int INDEX_MONTH_AVAILABILITY = 5;
         private static final int INDEX_PRICE = 6;
+    }
+    public static void main (String[] args) throws InvalidEmailException, AuthenticateException, NoSuchAlgorithmException {
+        LoginManager loginManager = new LoginManager();
+        UserBean userBean = new UserBean();
+        userBean.setEmail("marco.neri@gmail.com");
+        userBean.setPassword("pippo");
+        SessionBean sessionBean = loginManager.login(userBean);
+        AdDAOCSV adDAOCSV = new AdDAOCSV();
+        List<Ad> adBeanList = adDAOCSV.retrieveAdsByOwner(sessionBean, null);
+        System.out.println("stampa con ad status == null");
+        for (Ad ad : adBeanList) {
+            System.out.println(ad.toBasicBean().toString());
+        }
+        System.out.println("stampa con ad status != null");
+        adBeanList = adDAOCSV.retrieveAdsByOwner(sessionBean, AdStatus.AVAILABLE);
+
+        for (Ad ad : adBeanList) {
+            System.out.println(ad.toBasicBean().toString());
+        }
     }
 }
