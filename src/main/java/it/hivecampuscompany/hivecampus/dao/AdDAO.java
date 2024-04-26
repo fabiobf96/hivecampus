@@ -44,4 +44,6 @@ public interface AdDAO {
     void updateAd(Ad ad);
 
     List<Ad> retrieveAdsByFilters(FiltersBean filtersBean, Point2D uniCoordinates);
+
+    boolean publishAd(Ad ad);
 }

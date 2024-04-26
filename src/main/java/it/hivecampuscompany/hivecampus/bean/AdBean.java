@@ -13,7 +13,6 @@ public class AdBean {
     private String university;
     private double distance;
 
-
     public AdBean (int id){
         this.id = id;
     }
@@ -23,6 +22,12 @@ public class AdBean {
         this.homeBean = homeBean;
         this.roomBean = roomBean;
         this.price = price;
+    }
+
+    public AdBean(int id, HomeBean homeBean, RoomBean roomBean, int price, int adStatus, int adStart) {
+        this(id, homeBean, roomBean, price);
+        this.adStatus = AdStatus.fromInt(adStatus);
+        this.adStart = AdStart.fromInt(adStart);
     }
 
     public AdBean(Ad ad, String university, double distance){
@@ -35,7 +40,6 @@ public class AdBean {
         this.adStart = ad.getAdStart();
         this.university = university;
         this.distance = distance;
-
     }
 
     public int getId() {
@@ -46,20 +50,8 @@ public class AdBean {
         this.adStatus = adStatus;
     }
 
-    public AccountBean getOwnerBean() {
-        return ownerBean;
-    }
-
-    public HomeBean getHomeBean() {
-        return homeBean;
-    }
-
     public RoomBean getRoomBean() {
         return roomBean;
-    }
-
-    public int getPrice() {
-        return price;
     }
 
     public AdStatus getAdStatus() {
@@ -72,10 +64,13 @@ public class AdBean {
         if (adStatus != null){
             result += ", " + adStatus;
         }
+        if (adStart != null){
+            result += ", " + adStart;
+        }
         if (ownerBean != null){
             ownerBean.toString();
         }
-        result += ", " + price;
+        result += ", " + price + " €";
         return result;
     }
 
@@ -92,7 +87,7 @@ public class AdBean {
     }
 
     public String adTitle() {
-        return " " + homeBean.getType() + " - " + homeBean.getAddress() + " - €" + price;
+        return " " + homeBean.getType() + " - " + homeBean.getAddress() + " - " + price + " €";
     }
 
     public String getPreview() {
@@ -109,5 +104,13 @@ public class AdBean {
                 "Month Availability: " + adStart + "\n\n" +
                 "Owner information: " + "\n" + ownerBean.getDetails() + "\n"
                 + "____________________________________________________________\n";
+    }
+
+    public String toFormatString(String format) {
+        return switch (format) {
+            case "preview" -> getPreview();
+            case "details" -> getDetails();
+            default -> toString();
+        };
     }
 }

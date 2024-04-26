@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
 import it.hivecampuscompany.hivecampus.bean.*;
-import it.hivecampuscompany.hivecampus.manager.RoomSearchManager;
+import it.hivecampuscompany.hivecampus.manager.AdSearchManager;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.PreviewRoomDecorator;
 import it.hivecampuscompany.hivecampus.view.utility.CustomListCell;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class RoomSearchJavaFxController extends JavaFxController implements TabInitializerController {
-    private RoomSearchManager roomSearchManager;
+    private AdSearchManager adSearchManager;
     private static final Logger LOGGER = Logger.getLogger(RoomSearchJavaFxController.class.getName());
 
     @FXML
@@ -51,7 +51,7 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
 
     public void initialize(SessionBean sessionBean) {
         this.sessionBean = sessionBean; // non sto considerando la sessione
-        this.roomSearchManager = new RoomSearchManager();
+        this.adSearchManager = new AdSearchManager();
 
         lblFilters.setText(properties.getProperty("FILTERS_MSG"));
         lblServices.setText(properties.getProperty("SERVICES_MSG"));
@@ -91,7 +91,7 @@ public class RoomSearchJavaFxController extends JavaFxController implements TabI
         FiltersBean filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
 
         // Retrieve the ads that match the filters
-        List <AdBean> adBeans = roomSearchManager.searchAdsByFilters(filtersBean);
+        List <AdBean> adBeans = adSearchManager.searchAdsByFilters(filtersBean);
 
         for (AdBean adBean: adBeans) {
             try {

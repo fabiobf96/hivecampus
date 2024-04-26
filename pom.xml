@@ -64,6 +64,26 @@
             <artifactId>opencsv</artifactId>
             <version>5.7.0</version>
         </dependency>
+        <!-- _______________________________________________ -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.13</version>
+        </dependency>
+
+        <!-- Dipendenza per Apache Http Fluent API che semplifica il lavoro con HttpClient -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>fluent-hc</artifactId>
+            <version>4.5.13</version>
+        </dependency>
+        <!-- _______________________________________________ -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.17.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -75,6 +95,7 @@
                 <configuration>
                     <source>21</source>
                     <target>21</target>
+                    
                 </configuration>
             </plugin>
             <plugin>

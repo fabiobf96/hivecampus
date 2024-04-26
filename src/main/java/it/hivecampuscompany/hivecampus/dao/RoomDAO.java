@@ -1,7 +1,9 @@
 package it.hivecampuscompany.hivecampus.dao;
 
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
+import it.hivecampuscompany.hivecampus.bean.RoomBean;
 import it.hivecampuscompany.hivecampus.model.Room;
+
 import java.util.List;
 
 /**
@@ -22,5 +24,5 @@ public interface RoomDAO {
 
     List<Room> retrieveRoomsByFilters(int homeID, FiltersBean filtersBean);
 
-    byte[] getRoomImage(int homeID, int roomID);
+    Room saveRoom(int homeID, RoomBean roomBean);
 }

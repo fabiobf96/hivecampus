@@ -6,29 +6,28 @@ import java.awt.geom.Point2D;
 
 public class Home {
     private final int id;
-    private final Point2D coordinates;
+    private Point2D coordinates;
     private final String address;
     private final String homeType;
-    private final int surface;
-    private final String description;
+    private int surface;
+    private String description;
     private Integer[] features; // nRooms, nBathrooms, floor, elevator
 
-    public Home(int id, Point2D coordinates, String address, String homeType, int surface, String description) {
+    public Home(int id, String address, String homeType) {
         this.id = id;
-        this.coordinates = coordinates;
         this.address = address;
         this.homeType = homeType;
+    }
+
+    public Home(int id, Point2D coordinates, String address, String homeType, int surface, String description) {
+        this(id, address, homeType);
+        this.coordinates = coordinates;
         this.surface = surface;
         this.description = description;
     }
 
     public Home(int id, Point2D coordinates, String address, String homeType, int surface, String description, Integer[] features) {
-        this.id = id;
-        this.coordinates = coordinates;
-        this.address = address;
-        this.homeType = homeType;
-        this.surface = surface;
-        this.description = description;
+        this(id, coordinates, address, homeType, surface, description);
         this.features = features;
     }
 
@@ -77,7 +76,7 @@ public class Home {
     }
 
     public double calculateDistance(Point2D uniCoordinates) {
-        return CalculateDistance.haversineFormula(coordinates.getX(), coordinates.getY(), uniCoordinates.getX(), uniCoordinates.getY());
+        return CalculateDistance.haversineFormula(getLongitude(), getLatitude(), uniCoordinates.getX(), uniCoordinates.getY());
     }
 
     @Override
@@ -87,5 +86,9 @@ public class Home {
 
     public HomeBean toBasicBean() {
         return new HomeBean(id, address);
+    }
+
+    public HomeBean toBean() {
+        return new HomeBean(this);
     }
 }

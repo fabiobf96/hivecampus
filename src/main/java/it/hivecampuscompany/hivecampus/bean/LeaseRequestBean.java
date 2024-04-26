@@ -3,21 +3,25 @@ package it.hivecampuscompany.hivecampus.bean;
 import it.hivecampuscompany.hivecampus.model.LeaseRequestStatus;
 
 public class LeaseRequestBean {
-    private final int id;
+    private int id;
     private AdBean adBean;
-    private final AccountBean tenant;
-    private final String month;
-    private final String duration;
-    private final String message;
+    private AccountBean tenant;
+    private String month;
+    private String duration;
+    private String message;
     private LeaseRequestStatus status;
+
+    public LeaseRequestBean(){
+        // Default constructor
+    }
 
     public LeaseRequestBean(int id, AdBean adBean, AccountBean tenant, String month, String duration, String message, LeaseRequestStatus status) {
         this.id = id;
         setAdBean(adBean);
-        this.tenant = tenant;
-        this.month = month;
-        this.duration = duration;
-        this.message = message;
+        setTenant(tenant);
+        setMonth(month);
+        setDuration(duration);
+        setMessage(message);
         setStatus(status);
     }
 
@@ -48,15 +52,27 @@ public class LeaseRequestBean {
     public void setAdBean(AdBean adBean) {
         this.adBean = adBean;
     }
+    public void setTenant(AccountBean tenant) {
+        this.tenant = tenant;
+    }
+    public void setMonth(String month) {
+        this.month = month;
+    }
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     @Override
     public String toString(){
         String result = "";
         if (adBean != null) {
-            result += adBean.toString() + ", ";
+            result += adBean + ", ";
         }
         if (tenant != null){
-            result += tenant.toString() + ", ";
+            result += tenant + ", ";
         }
         result += month + ", " + duration + ", " + message;
         if (status != null) {

@@ -6,6 +6,11 @@ module it.hivecampuscompany.hivecampus {
     requires com.opencsv;
     requires java.sql;
     requires java.desktop;
+    requires wiremock.standalone;
+    requires org.apache.httpcomponents.httpclient;
+    requires org.apache.httpcomponents.httpclient.fluent;
+    requires com.fasterxml.jackson.databind;
+    requires java.net.http;
 
     opens it.hivecampuscompany.hivecampus.images;
 
