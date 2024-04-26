@@ -53,8 +53,8 @@ public class AdDAOCSV implements AdDAO {
                                 Integer.parseInt(adRecord[AdAttributes.INDEX_ID]),
                                 homeDAO.retrieveHomeByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME])),
                                 roomDAO.retrieveRoomByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME]), Integer.parseInt(adRecord[AdAttributes.INDEX_ROOM])),
-                                adStatus == null ? Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS]) : null,
-                                adStatus == null ? Integer.parseInt(adRecord[AdAttributes.INDEX_MONTH_AVAILABILITY]) : null,
+                                adStatus != null ? Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS]) : -1,
+                                adStatus == null ? Integer.parseInt(adRecord[AdAttributes.INDEX_MONTH_AVAILABILITY]) : -1,
                                 Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE])
                         )
                 ).toList();
