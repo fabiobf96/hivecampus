@@ -8,6 +8,7 @@ import it.hivecampuscompany.hivecampus.dao.csv.UniversityDAOCSV;
 import it.hivecampuscompany.hivecampus.model.Ad;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AdSearchManager {
@@ -21,7 +22,6 @@ public class AdSearchManager {
     public List<AdBean> searchAdsByFilters(FiltersBean filtersBean) {
 
         Point2D uniCoordinates = universityDAO.getUniversityCoordinates(filtersBean.getUniversity());
-
         List<AdBean> adBeanList = new ArrayList<>();
         List<Ad> ads = adDAOCSV.retrieveAdsByFilters(filtersBean, uniCoordinates);
         for (Ad ad : ads) {

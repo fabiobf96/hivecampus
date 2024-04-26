@@ -88,11 +88,20 @@ public class HomeDAOCSV implements HomeDAO {
         homeTable.removeFirst(); // Remove header
         for (String[] homeRecord : homeTable) {
             if (homeRecord[HomeAttributes.INDEX_OWNER].equals(ownerEmail)) {
-               Home home = new Home(
+                Integer[] features = {
+                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_NROOMS]),
+                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_NBATHROOMS]),
+                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_FLOOR]),
+                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_ELEVATOR])
+                };
+                Home home = new Home(
                         Integer.parseInt(homeRecord[HomeAttributes.INDEX_ID]),
+                        new Point2D.Double(Double.parseDouble(homeRecord[HomeAttributes.INDEX_LONGITUDE]), Double.parseDouble(homeRecord[HomeAttributes.INDEX_LATITUDE])),
                         homeRecord[HomeAttributes.INDEX_ADDRESS],
-                        homeRecord[HomeAttributes.INDEX_TYPE]
-                );
+                        homeRecord[HomeAttributes.INDEX_TYPE],
+                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_SURFACE]),
+                        homeRecord[HomeAttributes.INDEX_DESCRIPTION],
+                        features);
                 homes.add(home);
             }
         }

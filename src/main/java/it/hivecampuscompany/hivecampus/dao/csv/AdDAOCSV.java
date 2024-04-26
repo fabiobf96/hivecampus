@@ -117,8 +117,7 @@ public class AdDAOCSV implements AdDAO {
         RoomDAO roomDAO = new RoomDAOCSV();
 
         if (uniCoordinates == null) {
-            LOGGER.log(Level.SEVERE, "University coordinates not found");
-            System.exit(1);
+            return new ArrayList<>();
         }
 
         List<Ad> ads = new ArrayList<>(); // Lista per accumulare gli annunci

@@ -22,7 +22,7 @@ public class AdSearchCLIPage extends AdSearchPage {
     public void handle() throws InvalidSessionException {
         adController.homePage();
         List<AdBean> adBeans = adController.searchAds();
-        if(adBeans != null) {
+        if(adBeans != null && !adBeans.isEmpty()) {
             // Display the preview of the ads
             adBean = adController.showAdsPreview(adBeans);
             if (adBean == null) {

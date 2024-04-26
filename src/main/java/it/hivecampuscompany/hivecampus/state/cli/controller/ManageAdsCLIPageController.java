@@ -49,15 +49,14 @@ public class ManageAdsCLIPageController extends CLIController {
     public void homePage() {
         formView.clean();
         formView.displayWelcomeMessage(properties.getProperty("MANAGE_ADS_MSG").toUpperCase());
-        showManageAdsOptions();
     }
 
-    public void showManageAdsOptions() {
-        formView.displayMessage("1. " + "View your ads");
-        formView.displayMessage("2. " + properties.getProperty("CREATE_AD_MSG"));
-        formView.displayMessage("3. " + properties.getProperty("EDIT_AD_MSG"));
-        formView.displayMessage("4. " + properties.getProperty("DELETE_AD_MSG"));
-        formView.displayMessage("5. " + properties.getProperty("GO_BACK_MSG"));
+    public void showManageAdsOptions(SessionBean sessionBean) throws InvalidSessionException {
+        viewAds(sessionBean);
+        formView.displayMessage("\n1. " + properties.getProperty("CREATE_AD_MSG"));
+        formView.displayMessage("2. " + properties.getProperty("EDIT_AD_MSG"));
+        formView.displayMessage("3. " + properties.getProperty("DELETE_AD_MSG"));
+        formView.displayMessage("4. " + properties.getProperty("GO_BACK_MSG"));
     }
 
     public int getChoice() {
@@ -100,7 +99,6 @@ public class ManageAdsCLIPageController extends CLIController {
             homeType = convertTypeHome(getField(properties.getProperty("TYPE_CHOICE_MSG"), false));
 
             homeSurface = Integer.parseInt(getField(properties.getProperty("SURFACE_FIELD_REQUEST_MSG"), false));
-            numBedrooms = getField(properties.getProperty("NUM_BEDROOMS_FIELD_REQUEST_MSG"), false);   // setting the number of bedrooms from the home type
             numBathrooms = getField(properties.getProperty("NUM_BATHROOMS_FIELD_REQUEST_MSG"), false);
             floor = getField(properties.getProperty("FLOOR_FIELD_REQUEST_MSG"), false);
             elevator = getBooleanInput(properties.getProperty("ELEVATOR_FIELD_REQUEST_MSG"));
@@ -130,9 +128,9 @@ public class ManageAdsCLIPageController extends CLIController {
         roomDescription = getField(properties.getProperty("DESCRIPTION_FIELD_REQUEST_MSG"), false);
 
         formView.displayMessage("1. " + properties.getProperty("PUBLISH_AD_MSG"));
-        formView.displayMessage("2. " + properties.getProperty("GO_BACK_MSG"));
+        formView.displayMessage("2. " + properties.getProperty("CANCEL_GO_BACK_MSG"));
 
-        int choice = formView.getIntUserInput(properties.getProperty("CHOICE_MSG"));
+        int choice = formView.getIntUserInput(properties.getProperty("PUBLISH_CHOICE_MSG"));
 
         return choice == 1;
     }
@@ -160,32 +158,11 @@ public class ManageAdsCLIPageController extends CLIController {
         pause();
     }
 
-    public String convertTypeHome(String type) {
-        return switch (type) {
-            case "1" -> properties.getProperty("STUDIO_APARTMENT_MSG"); // Monolocale
-            case "2" -> properties.getProperty("ONE_BEDROOM_APARTMENT_MSG"); // Bilocale
-            case "3" -> properties.getProperty("TWO_BEDROOM_APARTMENT_MSG"); // Trilocale
-            case "4" -> properties.getProperty("THREE_BEDROOM_APARTMENT_MSG"); // Quadrilocale
-            default -> null;
-        };
-    }
-
-    public String convertTypeRoom(String type) {
-        return switch (type) {
-            case "1" -> properties.getProperty("SINGLE_ROOM_MSG"); // Singola
-            case "2" -> properties.getProperty("DOUBLE_ROOM_MSG"); // Doppia
-            default -> null;
-        };
-    }
-
     public void viewAds(SessionBean sessionBean) throws InvalidSessionException {
-        formView.clean();
-        formView.displayWelcomeMessage(properties.getProperty("VIEW_ADS_MSG").toUpperCase());
         List<AdBean> adBeans = manager.getAdsByOwner(sessionBean);
         for (AdBean adBean : adBeans) {
             formView.displayMessage(adBean.toString());
         }
-        pause();
     }
 
     public int viewHomes(SessionBean sessionBean) throws InvalidSessionException {
@@ -194,8 +171,41 @@ public class ManageAdsCLIPageController extends CLIController {
         for (i = 0; i < homeBeans.size(); i++) {
             formView.displayMessage(i + ") " + homeBeans.get(i).toString());
         }
-        formView.displayMessage(i + ") " + "Create a new home");
+        formView.displayMessage(i + ") " + properties.getProperty("CREATE_NEW_HOME_MSG"));
         formView.displayMessage(i+1 + ") " + properties.getProperty("GO_BACK_MSG"));
         return formView.getIntUserInput(properties.getProperty("CHOICE_MSG"));
+    }
+
+    public String convertTypeHome(String type) {
+        switch (type) {
+            case "1" -> {
+                numBedrooms = "1";
+                return properties.getProperty("STUDIO_APARTMENT_MSG"); // Monolocale
+            }
+            case "2" -> {
+                numBedrooms = "2";
+                return properties.getProperty("ONE_BEDROOM_APARTMENT_MSG"); // Bilocale
+            }
+            case "3" -> {
+                numBedrooms = "3";
+                return properties.getProperty("TWO_BEDROOM_APARTMENT_MSG"); // Trilocale
+            }
+            case "4" -> {
+                numBedrooms = "4";
+                return properties.getProperty("THREE_BEDROOM_APARTMENT_MSG"); // Quadrilocale
+            }
+            default -> {
+                numBedrooms = null;
+                return null;
+            }
+        }
+    }
+
+    public String convertTypeRoom(String type) {
+        return switch (type) {
+            case "1" -> properties.getProperty("SINGLE_ROOM_MSG"); // Singola
+            case "2" -> properties.getProperty("DOUBLE_ROOM_MSG"); // Doppia
+            default -> null;
+        };
     }
 }

@@ -95,8 +95,8 @@ public class RoomDAOCSV implements RoomDAO {
                     .filter(roomRecord -> Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]) == homeID)
                     .mapToInt(roomRecord -> Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]))
                     .max()
-                    .orElse (1);
-            room = new Room(idRoom, homeID, roomBean.getSurface(), roomBean.getType(), new boolean[]{roomBean.getBathroom(), roomBean.getBalcony(), roomBean.getConditioner(), roomBean.getTV()}, roomBean.getDescription());
+                    .orElse (0);
+            room = new Room(idRoom+1, homeID, roomBean.getSurface(), roomBean.getType(), new boolean[]{roomBean.getBathroom(), roomBean.getBalcony(), roomBean.getConditioner(), roomBean.getTV()}, roomBean.getDescription());
 
         } catch (IOException | CsvException | RuntimeException e) {
             LOGGER.log(Level.SEVERE, String.format(properties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), fd), e);

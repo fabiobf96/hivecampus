@@ -68,7 +68,7 @@ public class AdManager {
             List<Home> homeList = homeDAO.retrieveHomesByOwner(sessionBean.getEmail());
             List<HomeBean> homeBeanList = new ArrayList<>();
             for (Home home : homeList){
-                homeBeanList.add(home.toBasicBean());
+                homeBeanList.add(home.toBean());
             }
             return homeBeanList;
         }

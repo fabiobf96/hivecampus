@@ -4,6 +4,7 @@ import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.manager.AdSearchManager;
 import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
+import java.util.Collections;
 import java.util.List;
 
 public class AdSearchCLIPageController extends CLIController {
@@ -31,7 +32,13 @@ public class AdSearchCLIPageController extends CLIController {
         FiltersBean filtersBean = new FiltersBean(university, maxDistance, maxPrice, privateBath, balcony, conditioner, tvConnection);
 
         // Retrieve the ads that match the filters
-        return adSearchManager.searchAdsByFilters(filtersBean);
+        List<AdBean> adBeans = adSearchManager.searchAdsByFilters(filtersBean);
+        if (adBeans.isEmpty()) {
+            view.displayMessage("\n" + properties.getProperty("ERROR_SEARCH_MSG"));
+            pause();
+            return Collections.emptyList();
+        }
+        return adBeans;
     }
 
     public AdBean showAdsPreview(List<AdBean> adBeans) {

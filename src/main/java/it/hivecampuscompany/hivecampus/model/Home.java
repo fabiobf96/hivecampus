@@ -87,4 +87,8 @@ public class Home {
     public HomeBean toBasicBean() {
         return new HomeBean(id, address);
     }
+
+    public HomeBean toBean() {
+        return new HomeBean(this);
+    }
 }
