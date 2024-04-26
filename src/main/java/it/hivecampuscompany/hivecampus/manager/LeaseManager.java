@@ -11,6 +11,7 @@ import it.hivecampuscompany.hivecampus.dao.csv.AccountDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.csv.AdDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.csv.LeaseDAOCSV;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
+import it.hivecampuscompany.hivecampus.exception.MockOpenAPIException;
 import it.hivecampuscompany.hivecampus.model.Account;
 import it.hivecampuscompany.hivecampus.model.Ad;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
@@ -43,17 +44,25 @@ public class LeaseManager {
         LeaseDAO leaseDAO = new LeaseDAOCSV();
         return leaseDAO.retrieveUnsignedLeaseByTenant(sessionBean.getEmail()).toBean();
     }
-    public void signContract(SessionBean sessionBean, LeaseBean leaseBean) throws InvalidSessionException {
+    public void signContract(SessionBean sessionBean) throws InvalidSessionException, MockOpenAPIException {
         SessionManager sessionManager = SessionManager.getInstance();
         if (!sessionManager.validSession(sessionBean)){
             throw new InvalidSessionException();
         }
         LeaseDAO leaseDAO = new LeaseDAOCSV();
         Lease lease = leaseDAO.retrieveUnsignedLeaseByTenant(sessionBean.getEmail());
-        OpenApiBoundary openApiBoundary = new OpenApiBoundary();
-        if(openApiBoundary.signContract(lease.getContract())) {
-            lease.setSigned(true);
+        try {
+            OpenApiBoundary openApiBoundary = new OpenApiBoundary();
+            lease.setSigned(openApiBoundary.signContract(lease.getContract()));
             leaseDAO.updateLease(lease);
+            AdDAO adDAO = new AdDAOCSV();
+            Ad ad = lease.getAd();
+            ad.setAdStatus(AdStatus.LEASED);
+            adDAO.updateAd(ad);
+        } catch (MockOpenAPIException e) {
+            lease.setTimeStamp(Instant.now());
+            leaseDAO.updateLease(lease);
+            throw new MockOpenAPIException (e.getMessage());
         }
     }
 }
