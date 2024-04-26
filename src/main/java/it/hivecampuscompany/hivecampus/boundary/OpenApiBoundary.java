@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.boundary;
 
 import it.hivecampuscompany.hivecampus.exception.MockOpenAPIException;
-import mockapi.MockAPI;
+import it.hivecampuscompany.hivecampus.mockapi.MockAPI;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -13,8 +13,9 @@ import java.net.http.HttpResponse.BodyHandlers;
 
 public class OpenApiBoundary {
     public boolean signContract(byte[] contract) throws MockOpenAPIException {
-        MockAPI.mockOpenAPI();
+        //Start mock api for digital sign
         MockAPI.start();
+        MockAPI.mockOpenAPI();
 
         try (HttpClient client = HttpClient.newHttpClient()) {
             HttpRequest request = HttpRequest.newBuilder()

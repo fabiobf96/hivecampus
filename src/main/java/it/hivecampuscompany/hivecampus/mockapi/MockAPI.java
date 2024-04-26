@@ -1,4 +1,4 @@
-package mockapi;
+package it.hivecampuscompany.hivecampus.mockapi;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 
