@@ -10,6 +10,7 @@ import it.hivecampuscompany.hivecampus.model.AdStart;
 import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
 import it.hivecampuscompany.hivecampus.view.gui.cli.FormCliGUI;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ManageAdsCLIPageController extends CLIController {
@@ -36,6 +37,8 @@ public class ManageAdsCLIPageController extends CLIController {
     int roomSurface;
     int price;
     int monthAvailable;
+    List<HomeBean> homeBeans = new ArrayList<>();
+    HomeBean hBean;
 
     public ManageAdsCLIPageController() {
         formView = new FormCliGUI();
@@ -61,26 +64,53 @@ public class ManageAdsCLIPageController extends CLIController {
         return formView.getIntUserInput(properties.getProperty("CHOICE_MSG"));
     }
 
-    public boolean adCreationForm() {
+    public boolean createAdOptions(SessionBean sessionBean) throws InvalidSessionException {
+        formView.clean();
+        formView.displayWelcomeMessage(properties.getProperty("CREATE_AD_MSG").toUpperCase());
+
+        int res = viewHomes(sessionBean);
+
+        if (res >= 0 && res < homeBeans.size()) {
+            // ho scelto di utilizzare una casa esistente
+            hBean = homeBeans.get(res);
+            return adCreationForm(hBean);
+        }
+        else if (res == homeBeans.size()) {
+            // creo una nuova casa
+            return adCreationForm(null);
+        }
+        else // go back
+            return false;
+
+    }
+
+    public boolean adCreationForm(HomeBean homeBean) {
         formView.clean();
         formView.displayWelcomeMessage(properties.getProperty("CREATE_AD_FORM_MSG").toUpperCase());
 
-        formView.displayMessage(properties.getProperty("HOME_INFORMATION_MSG") + "\n");
+        if (homeBean == null) {
+            formView.displayMessage(properties.getProperty("HOME_INFORMATION_MSG") + "\n");
 
-        street = getField(properties.getProperty("STREET_FIELD_REQUEST_MSG"), false);
-        streetNumber = getField(properties.getProperty("STREET_NUMBER_FIELD_REQUEST_MSG"), false);
-        city = getField(properties.getProperty("CITY_FIELD_REQUEST_MSG"), false);
+            street = getField(properties.getProperty("STREET_FIELD_REQUEST_MSG"), false);
+            streetNumber = getField(properties.getProperty("STREET_NUMBER_FIELD_REQUEST_MSG"), false);
+            city = getField(properties.getProperty("CITY_FIELD_REQUEST_MSG"), false);
 
-        formView.displayMessage(properties.getProperty("TYPE_FIELD_REQUEST_MSG"));
-        formView.displayTypesHome();
-        homeType = convertTypeHome(getField(properties.getProperty("TYPE_CHOICE_MSG"), false));
+            formView.displayMessage(properties.getProperty("TYPE_FIELD_REQUEST_MSG"));
+            formView.displayTypesHome();
+            homeType = convertTypeHome(getField(properties.getProperty("TYPE_CHOICE_MSG"), false));
 
-        homeSurface = Integer.parseInt(getField(properties.getProperty("SURFACE_FIELD_REQUEST_MSG"), false));
-        numBedrooms = getField(properties.getProperty("NUM_BEDROOMS_FIELD_REQUEST_MSG"), false);
-        numBathrooms = getField(properties.getProperty("NUM_BATHROOMS_FIELD_REQUEST_MSG"), false);
-        floor = getField(properties.getProperty("FLOOR_FIELD_REQUEST_MSG"), false);
-        elevator = getBooleanInput(properties.getProperty("ELEVATOR_FIELD_REQUEST_MSG"));
-        homeDescription = getField(properties.getProperty("DESCRIPTION_FIELD_REQUEST_MSG"), false);
+            homeSurface = Integer.parseInt(getField(properties.getProperty("SURFACE_FIELD_REQUEST_MSG"), false));
+            numBedrooms = getField(properties.getProperty("NUM_BEDROOMS_FIELD_REQUEST_MSG"), false);   // setting the number of bedrooms from the home type
+            numBathrooms = getField(properties.getProperty("NUM_BATHROOMS_FIELD_REQUEST_MSG"), false);
+            floor = getField(properties.getProperty("FLOOR_FIELD_REQUEST_MSG"), false);
+            elevator = getBooleanInput(properties.getProperty("ELEVATOR_FIELD_REQUEST_MSG"));
+            homeDescription = getField(properties.getProperty("DESCRIPTION_FIELD_REQUEST_MSG"), false);
+        }
+
+        else {
+            formView.displayMessage(properties.getProperty("EXISTING_HOME_INFORMATION_MSG") + "\n");
+            formView.displayMessage(homeBean.toString());
+        }
 
         formView.displayMessage("\n" + properties.getProperty("ROOM_INFORMATION_MSG") + "\n");
 
@@ -108,13 +138,17 @@ public class ManageAdsCLIPageController extends CLIController {
     }
 
     public void publishAd(SessionBean sessionBean) {
-        String address = street + ", " + streetNumber + ", " + city;
-        int lift = this.elevator ? 1 : 0;
-        Integer[] features = new Integer[]{Integer.parseInt(numBedrooms), Integer.parseInt(numBathrooms), Integer.parseInt(floor), lift};
+        HomeBean homeBean;
+
+        if (hBean == null) {
+            String address = street + ", " + streetNumber + ", " + city;
+            int lift = this.elevator ? 1 : 0;
+            Integer[] features = new Integer[]{Integer.parseInt(numBedrooms), Integer.parseInt(numBathrooms), Integer.parseInt(floor), lift};
+            homeBean = new HomeBean(address, homeType, homeSurface, features, homeDescription);
+        }
+        else homeBean = hBean;
 
         boolean[] services = new boolean[]{privateBath, balcony, conditioner, tvConnection};
-
-        HomeBean homeBean = new HomeBean(address, homeType, homeSurface, features, homeDescription);
         RoomBean roomBean = new RoomBean(roomType, roomSurface, services, roomDescription);
 
         boolean res  = manager.publishAd(sessionBean, homeBean, roomBean, price, AdStart.fromInt(monthAvailable));
@@ -152,5 +186,16 @@ public class ManageAdsCLIPageController extends CLIController {
             formView.displayMessage(adBean.toString());
         }
         pause();
+    }
+
+    public int viewHomes(SessionBean sessionBean) throws InvalidSessionException {
+        homeBeans = manager.getHomesByOwner(sessionBean);
+        int i;
+        for (i = 0; i < homeBeans.size(); i++) {
+            formView.displayMessage(i + ") " + homeBeans.get(i).toString());
+        }
+        formView.displayMessage(i + ") " + "Create a new home");
+        formView.displayMessage(i+1 + ") " + properties.getProperty("GO_BACK_MSG"));
+        return formView.getIntUserInput(properties.getProperty("CHOICE_MSG"));
     }
 }

@@ -3,14 +3,10 @@ package it.hivecampuscompany.hivecampus.dao.csv;
 import com.opencsv.CSVWriter;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
-import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.dao.RoomDAO;
-import it.hivecampuscompany.hivecampus.exception.AuthenticateException;
-import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
-import it.hivecampuscompany.hivecampus.manager.LoginManager;
 import it.hivecampuscompany.hivecampus.model.Ad;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
 import it.hivecampuscompany.hivecampus.model.Home;
@@ -20,7 +16,6 @@ import java.awt.geom.Point2D;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -115,23 +110,6 @@ public class AdDAOCSV implements AdDAO {
         return adRecord;
     }
 
-    public List<Ad> retrieveOwnerAds(SessionBean sessionBean) {
-        HomeDAO homeDAO = new HomeDAOCSV();
-        RoomDAO roomDAO = new RoomDAOCSV();
-        List<String[]> adTable = CSVUtility.readAll(fd);
-        adTable.removeFirst(); // Rimuove l'header
-        return adTable.stream()
-                .filter(adRecord -> adRecord[AdAttributes.INDEX_OWNER].equals(sessionBean.getEmail()))
-                .map(adRecord -> new Ad(
-                        Integer.parseInt(adRecord[AdAttributes.INDEX_ID]),
-                        homeDAO.retrieveHomeByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME])),
-                        roomDAO.retrieveRoomByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME]), Integer.parseInt(adRecord[AdAttributes.INDEX_ROOM])),
-                        Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS]),
-                        Integer.parseInt(adRecord[AdAttributes.INDEX_MONTH_AVAILABILITY]),
-                        Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE])
-                )).toList();
-    }
-
     @Override
     public List<Ad> retrieveAdsByFilters(FiltersBean filtersBean, Point2D uniCoordinates) {
         AccountDAO accountDAO = new AccountDAOCSV();
@@ -174,7 +152,7 @@ public class AdDAOCSV implements AdDAO {
         int lastID = CSVUtility.findLastRowIndex(fd);
         try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
             String[] adRecord = new String[7];
-            adRecord[AdAttributes.INDEX_ID] = String.valueOf(lastID);
+            adRecord[AdAttributes.INDEX_ID] = String.valueOf(lastID + 1);
             adRecord[AdAttributes.INDEX_OWNER] = ad.getOwner().getEmail();
             adRecord[AdAttributes.INDEX_HOME] = String.valueOf(ad.getHome().getId());
             adRecord[AdAttributes.INDEX_ROOM] = String.valueOf(ad.getRoom().getIdRoom());
@@ -207,24 +185,5 @@ public class AdDAOCSV implements AdDAO {
         private static final int INDEX_STATUS = 4;
         private static final int INDEX_MONTH_AVAILABILITY = 5;
         private static final int INDEX_PRICE = 6;
-    }
-    public static void main (String[] args) throws InvalidEmailException, AuthenticateException, NoSuchAlgorithmException {
-        LoginManager loginManager = new LoginManager();
-        UserBean userBean = new UserBean();
-        userBean.setEmail("marco.neri@gmail.com");
-        userBean.setPassword("pippo");
-        SessionBean sessionBean = loginManager.login(userBean);
-        AdDAOCSV adDAOCSV = new AdDAOCSV();
-        List<Ad> adBeanList = adDAOCSV.retrieveAdsByOwner(sessionBean, null);
-        System.out.println("stampa con ad status == null");
-        for (Ad ad : adBeanList) {
-            System.out.println(ad.toBasicBean().toString());
-        }
-        System.out.println("stampa con ad status != null");
-        adBeanList = adDAOCSV.retrieveAdsByOwner(sessionBean, AdStatus.AVAILABLE);
-
-        for (Ad ad : adBeanList) {
-            System.out.println(ad.toBasicBean().toString());
-        }
     }
 }

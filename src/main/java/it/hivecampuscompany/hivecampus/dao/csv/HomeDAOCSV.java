@@ -82,6 +82,24 @@ public class HomeDAOCSV implements HomeDAO {
     }
 
     @Override
+    public List<Home> retrieveHomesByOwner(String ownerEmail) {
+        List<Home> homes = new ArrayList<>();
+        List<String[]> homeTable = CSVUtility.readAll(fd);
+        homeTable.removeFirst(); // Remove header
+        for (String[] homeRecord : homeTable) {
+            if (homeRecord[HomeAttributes.INDEX_OWNER].equals(ownerEmail)) {
+               Home home = new Home(
+                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_ID]),
+                        homeRecord[HomeAttributes.INDEX_ADDRESS],
+                        homeRecord[HomeAttributes.INDEX_TYPE]
+                );
+                homes.add(home);
+            }
+        }
+        return homes;
+    }
+
+    @Override
     public Home saveHome(HomeBean homeBean, String ownerEmail) {
         // Check if the home already exists
         int existingHomeId = isHomeAlreadyExists(homeBean);
@@ -93,6 +111,11 @@ public class HomeDAOCSV implements HomeDAO {
 
         Point2D coordinates = Geocoding.getCoordinates(homeBean.getAddress());
 
+        if (coordinates == null) {
+            LOGGER.log(Level.SEVERE, "Failed to retrieve coordinates");
+            return null;
+        }
+
         Integer[] features = {
                 homeBean.getNRooms(),
                 homeBean.getNBathrooms(),
@@ -100,14 +123,9 @@ public class HomeDAOCSV implements HomeDAO {
                 homeBean.getElevator()
         };
 
-        if (coordinates == null) {
-            LOGGER.log(Level.SEVERE, "Failed to retrieve coordinates");
-            return null;
-        }
-
         try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
             String[] homeRecord = new String[12];
-            homeRecord[HomeAttributes.INDEX_ID] = String.valueOf(lastId);
+            homeRecord[HomeAttributes.INDEX_ID] = String.valueOf(lastId + 1);
             homeRecord[HomeAttributes.INDEX_OWNER] = ownerEmail;
             homeRecord[HomeAttributes.INDEX_LATITUDE] = String.valueOf(coordinates.getX());
             homeRecord[HomeAttributes.INDEX_LONGITUDE] = String.valueOf(coordinates.getY());
@@ -120,7 +138,7 @@ public class HomeDAOCSV implements HomeDAO {
             homeRecord[HomeAttributes.INDEX_ELEVATOR] = String.valueOf(homeBean.getElevator());
             homeRecord[HomeAttributes.INDEX_DESCRIPTION] = homeBean.getDescription();
             writer.writeNext(homeRecord);
-            return new Home(lastId, coordinates, homeBean.getAddress(), homeBean.getType(), homeBean.getSurface(), homeBean.getDescription(), features);
+            return new Home(lastId + 1, coordinates, homeBean.getAddress(), homeBean.getType(), homeBean.getSurface(), homeBean.getDescription(), features);
 
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to write to file", e);

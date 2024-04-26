@@ -51,7 +51,7 @@ public class AdManager {
         SessionManager sessionManager = SessionManager.getInstance();
         AdDAO adDAO = new AdDAOCSV();
         if (sessionManager.validSession(sessionBean)) {
-            List<Ad> adList = adDAO.retrieveOwnerAds(sessionBean);
+            List<Ad> adList = adDAO.retrieveAdsByOwner(sessionBean, null);
             List<AdBean> adBeanList = new ArrayList<>();
             for (Ad ad : adList){
                 adBeanList.add(ad.toBean());
@@ -60,6 +60,21 @@ public class AdManager {
         }
         throw new InvalidSessionException();
     }
+
+    public List<HomeBean> getHomesByOwner(SessionBean sessionBean) throws InvalidSessionException {
+        SessionManager sessionManager = SessionManager.getInstance();
+        HomeDAO homeDAO = new HomeDAOCSV();
+        if (sessionManager.validSession(sessionBean)) {
+            List<Home> homeList = homeDAO.retrieveHomesByOwner(sessionBean.getEmail());
+            List<HomeBean> homeBeanList = new ArrayList<>();
+            for (Home home : homeList){
+                homeBeanList.add(home.toBasicBean());
+            }
+            return homeBeanList;
+        }
+        throw new InvalidSessionException();
+    }
+
     public boolean publishAd(SessionBean sessionBean, HomeBean homeBean, RoomBean roomBean, int price, AdStart adStart) {
         SessionManager sessionManager = SessionManager.getInstance();
         HomeDAO homeDAO = new HomeDAOCSV();
@@ -78,7 +93,7 @@ public class AdManager {
                     Room room = roomDAO.saveRoom(home.getId(), roomBean);
                     if (room != null) {
                         // Creo l'annuncio
-                        Ad ad = new Ad(home, room, owner, price, AdStatus.AVAILABLE, adStart);
+                        Ad ad = new Ad(0, owner, home, room, AdStatus.AVAILABLE.getId(), adStart.getMonth(), price);
                         // Pubblico l'annuncio
                         return adDAO.publishAd(ad);
                     }

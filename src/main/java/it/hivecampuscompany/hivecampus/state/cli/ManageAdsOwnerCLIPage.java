@@ -24,10 +24,10 @@ public class ManageAdsOwnerCLIPage extends ManageAdsPage {
             }
             case 2 -> {
                 // Create an ad
-               if (controller.adCreationForm()) {
+                if (controller.createAdOptions(context.getSessionBean())) {
                    controller.publishAd(context.getSessionBean());
-               }
-               goToManageAdsPage(new ManageAdsOwnerCLIPage(context));
+                }
+                goToManageAdsPage(new ManageAdsOwnerCLIPage(context));
             }
 
             case 3, 4 -> {

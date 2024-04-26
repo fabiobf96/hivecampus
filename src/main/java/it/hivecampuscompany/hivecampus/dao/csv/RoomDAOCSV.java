@@ -51,7 +51,7 @@ public class RoomDAOCSV implements RoomDAO {
 
     /*
     Nello stream, l'espressione filter è una condizione che determina se includere o meno un elemento nello stream risultante.
-    Quando viene applicato un filtro, gli elementi dello stream vengono confrontati con la condizione del filtro e solo quelli che soddisfano la condizione vengono inclusi nello stream di output.
+    Quando viene applicato un filtro, gli elementi dello stream vengono confrontati con la condizione del filtro e solo quelli che soddisfano la condizione vengono inclusi nello stream di uscita.
 
     Nel nostro caso, filter è una variabile booleana che rappresenta se vogliamo applicare un filtro o meno.
     Se filter è true, il filtro viene applicato, altrimenti viene ignorato.
@@ -95,7 +95,7 @@ public class RoomDAOCSV implements RoomDAO {
                     .filter(roomRecord -> Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]) == homeID)
                     .mapToInt(roomRecord -> Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]))
                     .max()
-                    .orElse(0) + 1;
+                    .orElse (1);
             room = new Room(idRoom, homeID, roomBean.getSurface(), roomBean.getType(), new boolean[]{roomBean.getBathroom(), roomBean.getBalcony(), roomBean.getConditioner(), roomBean.getTV()}, roomBean.getDescription());
 
         } catch (IOException | CsvException | RuntimeException e) {

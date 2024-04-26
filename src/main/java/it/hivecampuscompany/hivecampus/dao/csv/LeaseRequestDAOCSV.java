@@ -102,7 +102,7 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
         int lastId = CSVUtility.findLastRowIndex(fd);
         try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
             String[] leaseRequestRecord = new String[7];
-            leaseRequestRecord[LeaseRequestAttributes.INDEX_ID] = String.valueOf(lastId);
+            leaseRequestRecord[LeaseRequestAttributes.INDEX_ID] = String.valueOf(lastId + 1);
             leaseRequestRecord[LeaseRequestAttributes.INDEX_AD] = String.valueOf(leaseRequest.getAd().getId());
             leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT] = leaseRequest.getTenant().getEmail();
             leaseRequestRecord[LeaseRequestAttributes.INDEX_STATUS] = String.valueOf(leaseRequest.getStatus().getId());

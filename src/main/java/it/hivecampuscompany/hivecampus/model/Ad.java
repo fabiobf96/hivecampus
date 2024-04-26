@@ -11,6 +11,7 @@ public class Ad {
     private AdStart adStart;
     private final int price;
 
+
     public Ad(int id, Home home, Room room, int price) {
         this.id = id;
         this.home = home;

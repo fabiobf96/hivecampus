@@ -44,7 +44,7 @@ public class CSVUtility {
             return 1;
         }
         else {
-            return Integer.parseInt(lastRecord) + 1;
+            return Integer.parseInt(lastRecord);
         }
     }
 

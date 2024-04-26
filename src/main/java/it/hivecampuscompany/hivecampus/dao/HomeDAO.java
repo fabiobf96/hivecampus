@@ -22,5 +22,7 @@ public interface HomeDAO {
 
     List<Home> retrieveHomesByDistance(Point2D unicoordinates, double distance);
 
+    List<Home> retrieveHomesByOwner(String ownerEmail);
+
     Home saveHome(HomeBean homeBean, String ownerEmail);
 }
