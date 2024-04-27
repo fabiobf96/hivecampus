@@ -72,7 +72,7 @@ public class Lease {
         this.timeStamp = timeStamp;
     }
     public LeaseBean toBean() {
-        return new LeaseBean(null, starting, duration, contract, signed, timeStamp);
+        return new LeaseBean(ad.toBean(), starting, duration, contract);
     }
 
 }

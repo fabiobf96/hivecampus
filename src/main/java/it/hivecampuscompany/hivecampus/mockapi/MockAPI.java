@@ -6,11 +6,10 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 
 public class MockAPI {
-    private static final WireMockServer wireMockServer;
-    static {
-        wireMockServer = new WireMockServer(8080);
+    private static final WireMockServer wireMockServer = new WireMockServer(8080);
+    private MockAPI() {
+        throw new IllegalStateException("Utility class");
     }
-
     public static void start() {
         wireMockServer.start();
     }

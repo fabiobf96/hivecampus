@@ -21,9 +21,15 @@ public class ManageLeaseTenantCLIPageController extends CLIController {
     }
 
     public boolean manageSignContract(LeaseBean leaseBean) {
+        if (leaseBean == null) {
+            view.displayMessage("there are not contract to sign");
+            pause();
+            return false;
+        }
         boolean invalid = true;
         String choice;
         while (invalid) {
+            view.displayMessage(leaseBean.toString());
             view.displayMessage("do you want download the lease?");
             choice = view.getStringUserInput("Y (for yes) or N (for no)");
             if (choice.toLowerCase().contains("y")) {
@@ -37,7 +43,6 @@ public class ManageLeaseTenantCLIPageController extends CLIController {
         }
 
         while (true) {
-            view.displayMessage(leaseBean.toString());
             view.displayMessage("do you want sign contract?");
             choice = view.getStringUserInput("Y (for yes) or N (for no)");
             if (choice.toLowerCase().contains("y")) {

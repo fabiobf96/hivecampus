@@ -23,6 +23,7 @@ public class InitialCLIPage extends InitialPage {
             case 2 -> goToLoginPage(new LoginCLIPage(context));
             case 3 -> goToSignUpPage(new SignUpCLIPage(context));
             case 4 -> controller.exit();
+            default -> controller.invalidChoice();
         }
         context.request();
     }
