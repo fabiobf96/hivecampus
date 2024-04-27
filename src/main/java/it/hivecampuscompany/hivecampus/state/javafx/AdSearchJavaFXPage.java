@@ -7,7 +7,7 @@ import it.hivecampuscompany.hivecampus.state.Context;
 public class AdSearchJavaFXPage extends AdSearchPage {
 
     public AdSearchJavaFXPage(Context context) {
-       super(context);
+        super(context);
     }
 
     @Override

@@ -12,11 +12,10 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.state.javafx.controller.ManageAdsJavaFXPageController">
+<BorderPane prefHeight="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.state.javafx.controller.ManageAdsJavaFXPageController">
    <top>
       <VBox spacing="15.0" BorderPane.alignment="CENTER">
          <padding>
@@ -27,9 +26,6 @@
                <Button fx:id="btnBack" mnemonicParsing="false" text="Go Back" />
             </VBox>
             <Label text="AD CREATION FORM">
-               <padding>
-                  <Insets top="5.0" />
-               </padding>
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -48,7 +44,7 @@
                   <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                </padding>
                <Label text="House Information" />
-               <HBox spacing="20.0">
+               <HBox spacing="20.0" VBox.vgrow="ALWAYS">
                   <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                      <Label text="Street" />
                      <TextField />
@@ -62,35 +58,30 @@
                      <TextField prefWidth="120.0" />
                   </VBox>
                </HBox>
-               <HBox spacing="20.0">
+               <HBox spacing="20.0" VBox.vgrow="ALWAYS">
                   <VBox spacing="10.0" HBox.hgrow="ALWAYS">
-                     <Label text="Type" />
-                     <ChoiceBox maxWidth="1.7976931348623157E308" />
+                     <children>
+                        <Label text="Type" VBox.vgrow="ALWAYS" />
+                        <ChoiceBox maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+                     </children>
                   </VBox>
                   <VBox spacing="10.0">
                      <Label text="Surface" />
-                     <TextField prefWidth="80.0" promptText="mq" VBox.vgrow="ALWAYS" />
-                  </VBox>
-                  <VBox spacing="10.0">
-                     <Label text="Number of Bedrooms" />
-                     <TextField prefWidth="100.0" promptText="n°" />
+                     <TextField prefWidth="90.0" promptText="mq" />
                   </VBox>
                   <VBox spacing="10.0">
                      <Label text="Number of Bathrooms" />
-                     <TextField prefWidth="120.0" promptText="n°" />
+                     <TextField promptText="n°" />
                   </VBox>
-               </HBox>
-               <HBox spacing="20.0">
                   <VBox spacing="10.0">
                      <Label text="Floor" />
-                     <TextField prefWidth="65.0" promptText="n°" VBox.vgrow="ALWAYS" />
+                     <TextField prefWidth="70.0" promptText="n°" VBox.vgrow="ALWAYS" />
                   </VBox>
                   <CheckBox mnemonicParsing="false" text="Elevator">
                      <padding>
                         <Insets top="30.0" />
                      </padding>
                   </CheckBox>
-                  <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                </HBox>
                <HBox spacing="20.0">
                   <VBox spacing="10.0">
@@ -113,7 +104,7 @@
                   </VBox>
                   <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                      <Label text="Description" />
-                     <TextArea prefWidth="0.0" />
+                     <TextArea prefHeight="125.0" promptText="Short description of the house..." />
                   </VBox>
                </HBox>
             </VBox>
@@ -123,15 +114,28 @@
                </padding>
                <Label text="Room Information" />
                <HBox spacing="20.0">
-                  <VBox spacing="10.0" HBox.hgrow="ALWAYS">
-                     <Label text="Type" />
-                     <ChoiceBox maxWidth="1.7976931348623157E308" />
+                  <VBox spacing="10.0">
+                     <children>
+                        <Label text="Type" VBox.vgrow="ALWAYS" />
+                        <ChoiceBox prefWidth="200.0" />
+                     </children>
                   </VBox>
                   <VBox spacing="10.0">
                      <Label text="Surface" />
-                     <TextField prefWidth="80.0" promptText="mq" VBox.vgrow="ALWAYS" />
+                     <TextField prefWidth="90.0" promptText="mq" VBox.vgrow="ALWAYS" />
                   </VBox>
-                  <Region prefHeight="200.0" prefWidth="200.0" />
+                  <VBox spacing="10.0">
+                     <children>
+                        <Label text="Monthly Price" />
+                        <TextField prefWidth="120.0" promptText="€" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
+                  <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Month of Availability" VBox.vgrow="ALWAYS" />
+                        <ChoiceBox maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+                     </children>
+                  </VBox>
                </HBox>
                <HBox spacing="20.0">
                   <VBox spacing="10.0">
@@ -164,7 +168,7 @@
                   </VBox>
                   <VBox spacing="10.0" HBox.hgrow="ALWAYS">
                      <Label text="Description" />
-                     <TextArea prefWidth="0.0" />
+                     <TextArea prefHeight="125.0" promptText="Short description of the room..." />
                   </VBox>
                </HBox>
                <VBox spacing="10.0">
