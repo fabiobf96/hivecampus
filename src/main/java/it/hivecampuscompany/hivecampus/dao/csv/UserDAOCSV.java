@@ -52,7 +52,8 @@ public class UserDAOCSV implements UserDAO {
         String psw = user.getPassword();
         List<String[]> userTable = CSVUtility.readAll(fd);
         String[] nextRecord;
-        while ((nextRecord = userTable.removeFirst()) != null) {
+        while (!userTable.isEmpty()) {
+            nextRecord = userTable.removeFirst();
             String storedEmail = nextRecord[UserAttributesOrder.GET_INDEX_EMAIL].trim();
             String storedPassword = nextRecord[UserAttributesOrder.GET_INDEX_PASSWORD].trim();
             if (email.equals(storedEmail) && psw.equals(storedPassword)) {
