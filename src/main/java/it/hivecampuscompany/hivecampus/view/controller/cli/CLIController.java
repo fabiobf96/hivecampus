@@ -43,7 +43,7 @@ public abstract class CLIController {
      */
     public void invalidChoice() {
         view.displayMessage(properties.getProperty("INVALID_OPTION_MSG"));
-        // ricordati di mettorlo dentro al file properties
+        // ricordati di metterlo dentro al file properties
         view.getStringUserInput(PRESS_ANY_KEY);
         view.clean();
         homePage();
@@ -136,7 +136,7 @@ public abstract class CLIController {
     }
 
     public void displayError (String message) {
-        view.displayMessage(message);
+        view.displayMessage(properties.getProperty(message));
         view.getStringUserInput(PRESS_ANY_KEY);
         view.clean();
         homePage();
