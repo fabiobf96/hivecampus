@@ -21,7 +21,6 @@ public class AdSearchManager {
     public List<AdBean> searchAdsByFilters(FiltersBean filtersBean) {
 
         Point2D uniCoordinates = universityDAO.getUniversityCoordinates(filtersBean.getUniversity());
-
         List<AdBean> adBeanList = new ArrayList<>();
         List<Ad> ads = adDAOCSV.retrieveAdsByFilters(filtersBean, uniCoordinates);
         for (Ad ad : ads) {

@@ -1,16 +1,14 @@
 package it.hivecampuscompany.hivecampus.manager;
 
 import it.hivecampuscompany.hivecampus.bean.*;
+import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
 import it.hivecampuscompany.hivecampus.dao.LeaseRequestDAO;
+import it.hivecampuscompany.hivecampus.dao.csv.AccountDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.csv.AdDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.csv.LeaseRequestDAOCSV;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
-import it.hivecampuscompany.hivecampus.model.Ad;
-import it.hivecampuscompany.hivecampus.model.AdStatus;
-import it.hivecampuscompany.hivecampus.model.LeaseRequest;
-import it.hivecampuscompany.hivecampus.model.LeaseRequestStatus;
-
+import it.hivecampuscompany.hivecampus.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,5 +42,34 @@ public class LeaseRequestManager {
             }
             leaseRequestDAO.updateLeaseRequest(leaseRequest);
         } else throw new InvalidSessionException();
+    }
+
+    public String sendLeaseRequest(SessionBean sessionBean, LeaseRequestBean leaseRequestBean) throws InvalidSessionException {
+        SessionManager sessionManager = SessionManager.getInstance();
+        if(sessionManager.validSession(sessionBean)) {
+            AccountDAO accountDAO = new AccountDAOCSV();
+
+            Account tenant = accountDAO.retrieveAccountInformationByEmail(sessionBean.getEmail());
+            leaseRequestBean.setTenant(new AccountBean(tenant));
+
+            AdDAOCSV adDAO = new AdDAOCSV();
+            Ad ad = adDAO.retrieveAdByID(leaseRequestBean.getAdBean().getId());
+
+            LeaseRequestDAO leaseRequestDAO = new LeaseRequestDAOCSV();
+            LeaseRequest leaseRequest = new LeaseRequest(
+                    ad,
+                    tenant,
+                    leaseRequestBean.getMonth(),
+                    leaseRequestBean.getDuration(),
+                    leaseRequestBean.getStatus().getId(),
+                    leaseRequestBean.getMessage());
+
+            if (leaseRequestDAO.validRequest(tenant.getEmail(), ad.getId())) {
+                leaseRequestDAO.saveLeaseRequest(leaseRequest);
+                return "Lease request sent successfully";
+            }
+            return "Lease request already sent";
+        }
+        else throw new InvalidSessionException();
     }
 }

@@ -26,7 +26,7 @@ public class UniversityDAOCSV implements UniversityDAO {
             List<String[]> universityTable = reader.readAll();
             universityTable.removeFirst();
             return universityTable.stream()
-                    .filter(universityRecord -> universityRecord[UniversityDAOCSV.UniversityAttributes.INDEX_NAME].equals(universityName))
+                    .filter(universityRecord -> universityRecord[UniversityDAOCSV.UniversityAttributes.INDEX_NAME].trim().equalsIgnoreCase(universityName.trim()))
                     .findFirst()
                     .map(universityRecord -> new Point2D.Double(Double.parseDouble(universityRecord[UniversityDAOCSV.UniversityAttributes.INDEX_LONGITUDE]), Double.parseDouble(universityRecord[UniversityDAOCSV.UniversityAttributes.INDEX_LATITUDE])))
                     .orElse(null);
@@ -35,6 +35,7 @@ public class UniversityDAOCSV implements UniversityDAO {
         }
         return null;
     }
+
 
     private static class UniversityAttributes{
         private static final int INDEX_NAME = 0;

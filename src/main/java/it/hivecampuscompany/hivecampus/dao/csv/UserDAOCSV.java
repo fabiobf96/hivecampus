@@ -1,15 +1,13 @@
 package it.hivecampuscompany.hivecampus.dao.csv;
 
-import it.hivecampuscompany.hivecampus.dao.UserDAO;
-
-import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvValidationException;
+import it.hivecampuscompany.hivecampus.dao.UserDAO;
 import it.hivecampuscompany.hivecampus.exception.AuthenticateException;
 import it.hivecampuscompany.hivecampus.exception.DuplicateRowException;
 import it.hivecampuscompany.hivecampus.model.User;
 
 import java.io.*;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,8 +15,9 @@ import java.util.logging.Logger;
 public class UserDAOCSV implements UserDAO {
     private File fd;
     private static final Logger LOGGER = Logger.getLogger(UserDAOCSV.class.getName());
-    public UserDAOCSV(){
-        try (InputStream input = new FileInputStream("properties/csv.properties")){
+
+    public UserDAOCSV() {
+        try (InputStream input = new FileInputStream("properties/csv.properties")) {
             Properties properties = new Properties();
             properties.load(input);
             fd = new File(properties.getProperty("USER_PATH"));
@@ -27,6 +26,7 @@ public class UserDAOCSV implements UserDAO {
             System.exit(1);
         }
     }
+
     @Override
     public void saveUser(User user) throws DuplicateRowException {
         if (!checkUserExist(user.getEmail())) {
@@ -41,8 +41,7 @@ public class UserDAOCSV implements UserDAO {
                 LOGGER.log(Level.SEVERE, "FAILED_SAVE_USER", e); // Failed to save user
                 System.exit(2);
             }
-        }
-        else {
+        } else {
             throw new DuplicateRowException("ACCOUNT_EXIST");
         }
     }
@@ -51,36 +50,31 @@ public class UserDAOCSV implements UserDAO {
     public User verifyCredentials(User user) throws AuthenticateException {
         String email = user.getEmail();
         String psw = user.getPassword();
-        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
-            String[] nextRecord;
-            while ((nextRecord = reader.readNext()) != null) {
-                String storedEmail = nextRecord[UserAttributesOrder.GET_INDEX_EMAIL].trim();
-                String storedPassword = nextRecord[UserAttributesOrder.GET_INDEX_PASSWORD].trim();
-                if (email.equals(storedEmail) && psw.equals(storedPassword)) {
-                    return new User(storedEmail, storedPassword, nextRecord[UserAttributesOrder.GET_INDEX_ROLE]);
-                }
+        List<String[]> userTable = CSVUtility.readAll(fd);
+        String[] nextRecord;
+        while ((nextRecord = userTable.removeFirst()) != null) {
+            String storedEmail = nextRecord[UserAttributesOrder.GET_INDEX_EMAIL].trim();
+            String storedPassword = nextRecord[UserAttributesOrder.GET_INDEX_PASSWORD].trim();
+            if (email.equals(storedEmail) && psw.equals(storedPassword)) {
+                return new User(storedEmail, storedPassword, nextRecord[UserAttributesOrder.GET_INDEX_ROLE]);
             }
-        } catch (IOException | CsvValidationException e) {
-            LOGGER.log(Level.SEVERE, "FAILED_CHECK_USER", e); // Failed to check if user exists
         }
         throw new AuthenticateException("INCORRECT_CREDENTIALS"); // Email and/or password incorrect
     }
 
     private boolean checkUserExist(String email) {
-        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
-            String[] nextRecord;
-            while ((nextRecord = reader.readNext()) != null) {
-                String storedEmail = nextRecord[UserAttributesOrder.GET_INDEX_EMAIL].trim();
-                if (email.equals(storedEmail)) {
-                    return true;
-                }
+        List<String[]> userTable = CSVUtility.readAll(fd);
+        String[] nextRecord;
+        while ((nextRecord = userTable.removeFirst()) != null) {
+            String storedEmail = nextRecord[UserAttributesOrder.GET_INDEX_EMAIL].trim();
+            if (email.equals(storedEmail)) {
+                return true;
             }
-        } catch (IOException | CsvValidationException e) {
-            LOGGER.log(Level.SEVERE, "FAILED_CHECK_USER", e);
         }
         return false;
     }
-    private static class UserAttributesOrder{
+
+    private static class UserAttributesOrder {
         static final int GET_INDEX_EMAIL = 0;
         static final int GET_INDEX_PASSWORD = 1;
         static final int GET_INDEX_ROLE = 2;

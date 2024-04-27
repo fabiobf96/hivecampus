@@ -9,4 +9,8 @@ public abstract class ManageAdsPage implements State {
     public void goToOwnerHomePage(OwnerHomePage ownerHomePage) {
         context.setState(ownerHomePage);
     }
+
+    public void goToManageAdsPage(ManageAdsPage manageAdsPage) {
+        context.setState(manageAdsPage);
+    }
 }

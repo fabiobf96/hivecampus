@@ -2,12 +2,10 @@ package it.hivecampuscompany.hivecampus.bean;
 
 import it.hivecampuscompany.hivecampus.model.Home;
 import it.hivecampuscompany.hivecampus.view.utility.FormatText;
-import java.awt.geom.Point2D;
 
 public class HomeBean {
     private int idHome;
     private String address;
-    private Point2D coordinates;
     private String type;
     private int surface;
     private Integer[] features;
@@ -17,6 +15,14 @@ public class HomeBean {
         // Default constructor
     }
 
+    public HomeBean (String address, String type, int surface, Integer[] features, String description) {
+        this.address = address;
+        this.type = type;
+        this.surface = surface;
+        this.features = features;
+        this.description = description;
+    }
+
     public HomeBean(int id, String address) {
         this.idHome = id;
         this.address = address;
@@ -24,17 +30,11 @@ public class HomeBean {
 
     public HomeBean(Home home) {
         this.idHome = home.getId();
-        this.coordinates = new Point2D.Double(home.getLongitude(), home.getLatitude());
         this.address = home.getAddress();
         this.type = home.getHomeType();
         this.surface = home.getSurface();
         this.features = new Integer[]{home.getNRooms(), home.getNBathrooms(), home.getFloor(), home.getElevator()};
         this.description = home.getDescription();
-    }
-
-
-    public Point2D getCoordinates() {
-        return coordinates;
     }
 
     public String getAddress() {

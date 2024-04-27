@@ -1,14 +1,14 @@
 package it.hivecampuscompany.hivecampus.dao.csv;
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
+import it.hivecampuscompany.hivecampus.bean.RoomBean;
 import it.hivecampuscompany.hivecampus.dao.RoomDAO;
 import it.hivecampuscompany.hivecampus.model.Room;
+
 import java.io.*;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
@@ -33,30 +33,25 @@ public class RoomDAOCSV implements RoomDAO {
 
     @Override
     public Room retrieveRoomByID(int homeID, int roomID) {
-        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
-            List<String[]> roomTable = reader.readAll();
-            roomTable.removeFirst();
-            return roomTable.stream()
-                    .filter(roomRecord -> Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]) == homeID && Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]) == roomID)
-                    .findFirst()
-                    .map(roomRecord -> new Room(
-                            Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]),
-                            Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]),
-                            Integer.parseInt(roomRecord[RoomAttributes.INDEX_SURFACE]),
-                            roomRecord[RoomAttributes.INDEX_TYPE],
-                            new boolean[]{Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_BATHROOM]), Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_BALCONY]), Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_CONDITIONER]), Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_TV])},
-                            roomRecord[RoomAttributes.INDEX_DESCRIPTION]
-                    ))
-                    .orElse(null);
-        } catch (IOException | CsvException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), fd), e);
-        }
-        return null;
+        List<String[]> roomTable = CSVUtility.readAll(fd);
+        roomTable.removeFirst();
+        return roomTable.stream()
+                .filter(roomRecord -> Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]) == homeID && Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]) == roomID)
+                .findFirst()
+                .map(roomRecord -> new Room(
+                        Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]),
+                        Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]),
+                        Integer.parseInt(roomRecord[RoomAttributes.INDEX_SURFACE]),
+                        roomRecord[RoomAttributes.INDEX_TYPE],
+                        new boolean[]{Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_BATHROOM]), Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_BALCONY]), Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_CONDITIONER]), Boolean.parseBoolean(roomRecord[RoomAttributes.INDEX_TV])},
+                        roomRecord[RoomAttributes.INDEX_DESCRIPTION]
+                ))
+                .orElse(null);
     }
 
     /*
     Nello stream, l'espressione filter è una condizione che determina se includere o meno un elemento nello stream risultante.
-    Quando viene applicato un filtro, gli elementi dello stream vengono confrontati con la condizione del filtro e solo quelli che soddisfano la condizione vengono inclusi nello stream di output.
+    Quando viene applicato un filtro, gli elementi dello stream vengono confrontati con la condizione del filtro e solo quelli che soddisfano la condizione vengono inclusi nello stream di uscita.
 
     Nel nostro caso, filter è una variabile booleana che rappresenta se vogliamo applicare un filtro o meno.
     Se filter è true, il filtro viene applicato, altrimenti viene ignorato.
@@ -78,7 +73,7 @@ public class RoomDAOCSV implements RoomDAO {
                             Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]),
                             Integer.parseInt(roomRecord[RoomAttributes.INDEX_SURFACE]),
                             roomRecord[RoomAttributes.INDEX_TYPE],
-                            new boolean[]{Integer.parseInt(roomRecord[RoomAttributes.INDEX_BATHROOM])== 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_BALCONY])== 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_CONDITIONER])== 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_TV])== 1},
+                            new boolean[]{Integer.parseInt(roomRecord[RoomAttributes.INDEX_BATHROOM]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_BALCONY]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_CONDITIONER]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_TV]) == 1},
                             roomRecord[RoomAttributes.INDEX_DESCRIPTION]
                     ))
                     .toList();
@@ -88,7 +83,47 @@ public class RoomDAOCSV implements RoomDAO {
         return Collections.emptyList();
     }
 
-    private static class RoomAttributes{
+    @Override
+    public Room saveRoom(int homeID, RoomBean roomBean) {
+
+        Room room = null;
+
+        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
+            List<String[]> roomTable = reader.readAll();
+            roomTable.removeFirst();
+            int idRoom = roomTable.stream()
+                    .filter(roomRecord -> Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]) == homeID)
+                    .mapToInt(roomRecord -> Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]))
+                    .max()
+                    .orElse (0);
+            room = new Room(idRoom+1, homeID, roomBean.getSurface(), roomBean.getType(), new boolean[]{roomBean.getBathroom(), roomBean.getBalcony(), roomBean.getConditioner(), roomBean.getTV()}, roomBean.getDescription());
+
+        } catch (IOException | CsvException | RuntimeException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), fd), e);
+        }
+
+        if (room != null) {
+            try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
+                String[] roomRecord = new String[9];
+                roomRecord[RoomAttributes.INDEX_ID_ROOM] = String.valueOf(room.getIdRoom());
+                roomRecord[RoomAttributes.INDEX_ID_HOME] = String.valueOf(room.getIdHome());
+                roomRecord[RoomAttributes.INDEX_TYPE] = room.getTypeRoom();
+                roomRecord[RoomAttributes.INDEX_SURFACE] = String.valueOf(room.getSurface());
+                roomRecord[RoomAttributes.INDEX_BATHROOM] = room.getBathroom() ? "1" : "0";
+                roomRecord[RoomAttributes.INDEX_BALCONY] = room.getBalcony() ? "1" : "0";
+                roomRecord[RoomAttributes.INDEX_CONDITIONER] = room.getConditioner() ? "1" : "0";
+                roomRecord[RoomAttributes.INDEX_TV] = room.getTV() ? "1" : "0";
+                roomRecord[RoomAttributes.INDEX_DESCRIPTION] = room.getDescription();
+                writer.writeNext(roomRecord);
+                return room;
+            } catch (IOException e) {
+                LOGGER.log(Level.SEVERE, "Failed to save room", e);
+            }
+        }
+        return null;
+    }
+
+    private static class RoomAttributes {
         private static final int INDEX_ID_ROOM = 0;
         private static final int INDEX_ID_HOME = 1;
         private static final int INDEX_TYPE = 2;

@@ -8,8 +8,8 @@ public abstract class OwnerHomePage implements State {
     public void goToManageAdsPage(ManageAdsPage manageAdsPage) {
         context.setState(manageAdsPage);
     }
-    public void goToManageContractPage(ManageContractsPage manageContractsPage) {
-        context.setState(manageContractsPage);
+    public void goToManageRentRatesPage(ManageRentRatesPage manageRentRatesPage) {
+        context.setState(manageRentRatesPage);
     }
     public void goToManageRequestPage(ManageRequestsPage manageRequestsPage) {
         context.setState(manageRequestsPage);
@@ -17,5 +17,4 @@ public abstract class OwnerHomePage implements State {
     public void goToManageLeasePage(ManageLeasePage manageRentPage) {
         context.setState(manageRentPage);
     }
-
 }

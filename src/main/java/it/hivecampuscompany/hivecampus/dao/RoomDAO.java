@@ -1,6 +1,7 @@
 package it.hivecampuscompany.hivecampus.dao;
 
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
+import it.hivecampuscompany.hivecampus.bean.RoomBean;
 import it.hivecampuscompany.hivecampus.model.Room;
 
 import java.util.List;
@@ -22,4 +23,6 @@ public interface RoomDAO {
     Room retrieveRoomByID(int homeID, int roomID);
 
     List<Room> retrieveRoomsByFilters(int homeID, FiltersBean filtersBean);
+
+    Room saveRoom(int homeID, RoomBean roomBean);
 }

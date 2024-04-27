@@ -1,7 +1,10 @@
 package it.hivecampuscompany.hivecampus.view.gui.cli;
 
+import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+
 import java.io.IOException;
 import java.util.InputMismatchException;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +22,7 @@ import java.util.logging.Logger;
 public class CliGUI {
 
     private static final Logger LOGGER = Logger.getLogger(CliGUI.class.getName());
+    protected Properties properties = LanguageLoader.getLanguageProperties();
 
     /**
      * Displays a welcome message within a frame. The message title is centered within the frame,
@@ -67,10 +71,14 @@ public class CliGUI {
      * @throws InputMismatchException if the next token does not match the Integer regular expression,
      *                                or is out of range for the Integer type.
      */
-    public int getIntUserInput(String prompt) throws InputMismatchException {
-        Scanner scanner = new Scanner(System.in);
-        printMessage(prompt + ": ");
-        return scanner.nextInt();
+    public int getIntUserInput(String prompt) {
+        try {
+            Scanner scanner = new Scanner(System.in);
+            printMessage(prompt + ": ");
+            return scanner.nextInt();
+        } catch (InputMismatchException e) {
+            return -1;
+        }
     }
 
     /**
@@ -124,4 +132,5 @@ public class CliGUI {
     private void printMessage(String message) {
         System.out.print(message);
     }
+
 }

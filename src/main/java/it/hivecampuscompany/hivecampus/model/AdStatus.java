@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.model;
 
 public enum AdStatus {
-    AVAILABLE(1), PROCESSING(2), LEASED(3), UNAVAILABLE(4);
+    AVAILABLE(1), PROCESSING(2), RESERVED(3), LEASED(4), UNAVAILABLE(5);
 
     private final int id;
 

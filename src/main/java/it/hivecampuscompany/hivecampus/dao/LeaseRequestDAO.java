@@ -45,4 +45,8 @@ public interface LeaseRequestDAO {
      * @param leaseRequest The lease request object to be updated.
      */
     void updateLeaseRequest(LeaseRequest leaseRequest);
+
+    void saveLeaseRequest(LeaseRequest leaseRequest);
+
+    boolean validRequest(String email, int id);
 }

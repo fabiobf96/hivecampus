@@ -1,9 +1,7 @@
-package it.hivecampuscompany.hivecampus.state.javafx.controller;
+package it.hivecampuscompany.hivecampus.view.controller.javafx;
 
-import it.hivecampuscompany.hivecampus.bean.AdBean;
-import it.hivecampuscompany.hivecampus.bean.FiltersBean;
+import it.hivecampuscompany.hivecampus.bean.*;
 import it.hivecampuscompany.hivecampus.manager.AdSearchManager;
-import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.PreviewRoomDecorator;
 import it.hivecampuscompany.hivecampus.view.utility.CustomListCell;
@@ -16,9 +14,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class AdSearchJavaFXPageController extends JavaFxController implements TabInitializerController {
+public class RoomSearchJavaFxController extends JavaFxController implements TabInitializerController {
     private AdSearchManager adSearchManager;
-    private static final Logger LOGGER = Logger.getLogger(AdSearchJavaFXPageController.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(RoomSearchJavaFxController.class.getName());
 
     @FXML
     private Label lblFilters;
@@ -47,12 +45,12 @@ public class AdSearchJavaFXPageController extends JavaFxController implements Ta
     @FXML
     private ListView<Node> lvRooms;
 
-    public AdSearchJavaFXPageController() {
+    public RoomSearchJavaFxController() {
         // Default constructor
     }
 
-    public void initialize(Context context) {
-        this.context = context; // Set the context
+    public void initialize(SessionBean sessionBean) {
+        this.sessionBean = sessionBean; // non sto considerando la sessione
         this.adSearchManager = new AdSearchManager();
 
         lblFilters.setText(properties.getProperty("FILTERS_MSG"));
@@ -93,16 +91,16 @@ public class AdSearchJavaFXPageController extends JavaFxController implements Ta
         FiltersBean filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
 
         // Retrieve the ads that match the filters
-        List<AdBean> adBeans = adSearchManager.searchAdsByFilters(filtersBean);
+        List <AdBean> adBeans = adSearchManager.searchAdsByFilters(filtersBean);
 
         for (AdBean adBean: adBeans) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/previewRoomInfo-card.fxml"));
                 Parent root = loader.load(); // Carica il file FXML e restituisce il nodo radice
 
-                PreviewAdJavaFxController previewAdJavaFxController = loader.getController();
-                previewAdJavaFxController.setAdBean(adBean);
-                previewAdJavaFxController.initializePreviewDistance(); // Inizializza il controller dopo aver caricato il file FXML
+                PreviewRoomJavaFxController previewRoomJavaFxController = loader.getController();
+                previewRoomJavaFxController.setAdBean(adBean);
+                previewRoomJavaFxController.initializePreviewDistance(); // Inizializza il controller dopo aver caricato il file FXML
 
                 BasicComponent basicComponent = new BasicComponent(root);
                 PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(basicComponent, adBean);
