@@ -26,7 +26,7 @@ public class TenantHomeCLIPage extends TenantHomePage {
             case 2 -> goToAdSearchPage(new AdSearchCLIPage(context));
             case 3,5 -> controller.notImplementedYet();
             case 4 -> goToManageLeasePage(new ManageLeaseTenantCLIPage(context));
-            case 6 -> controller.exit();
+            case 6 -> throw new InvalidSessionException();
             default -> controller.invalidChoice();
         }
         context.request();

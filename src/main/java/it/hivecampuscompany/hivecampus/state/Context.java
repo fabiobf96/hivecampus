@@ -2,6 +2,8 @@ package it.hivecampuscompany.hivecampus.state;
 
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
+import it.hivecampuscompany.hivecampus.manager.SessionManager;
+import it.hivecampuscompany.hivecampus.state.cli.InitialCLIPage;
 import javafx.stage.Stage;
 
 public class Context {
@@ -32,7 +34,12 @@ public class Context {
         try {
             state.handle();
         } catch (InvalidSessionException e) {
-            // TODO
+            SessionManager sessionManager = SessionManager.getInstance();
+            sessionManager.deleteSession(sessionBean);
+            setSessionBean(null);
+            if (stage == null) {
+                setState(new InitialCLIPage(this));
+            }
         }
     }
 }

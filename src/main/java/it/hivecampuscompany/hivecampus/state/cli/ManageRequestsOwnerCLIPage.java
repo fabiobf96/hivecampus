@@ -21,13 +21,18 @@ public class ManageRequestsOwnerCLIPage extends ManageRequestsPage {
 
     @Override
     public void handle() throws InvalidSessionException {
-        controller.homePage();
-        adBean = controller.selectAd(retrieveAvailableAds());
-        if (adBean != null) {
-            selectLeaseRequest();
-        } else {
-            goToOwnerHomePage(new OwnerHomeCLIPage(context));
-            context.request();
+        try {
+            controller.homePage();
+            adBean = controller.selectAd(retrieveAvailableAds());
+            if (adBean != null) {
+                selectLeaseRequest();
+            } else {
+                goToOwnerHomePage(new OwnerHomeCLIPage(context));
+                context.request();
+            }
+        } catch (InvalidSessionException e) {
+            controller.sessionExpired();
+            throw new InvalidSessionException();
         }
     }
 

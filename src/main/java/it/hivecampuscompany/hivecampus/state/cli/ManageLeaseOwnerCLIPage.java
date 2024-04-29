@@ -17,18 +17,23 @@ public class ManageLeaseOwnerCLIPage extends ManageLeasePage {
 
     @Override
     public void handle() throws InvalidSessionException {
-        controller.homePage();
-        switch (controller.getChoice()) {
-            case 1 -> choiceAd();
-            case 2 -> {
-                controller.notImplementedYet();
-                context.request();
+        try {
+            controller.homePage();
+            switch (controller.getChoice()) {
+                case 1 -> choiceAd();
+                case 2 -> {
+                    controller.notImplementedYet();
+                    context.request();
+                }
+                case 3 -> goToOwnerHomePage(new OwnerHomeCLIPage(context));
+                default -> {
+                    controller.invalidChoice();
+                    context.request();
+                }
             }
-            case 3 -> goToOwnerHomePage(new OwnerHomeCLIPage(context));
-            default -> {
-                controller.invalidChoice();
-                context.request();
-            }
+        } catch (InvalidSessionException e) {
+            controller.sessionExpired();
+            throw new InvalidSessionException();
         }
     }
 

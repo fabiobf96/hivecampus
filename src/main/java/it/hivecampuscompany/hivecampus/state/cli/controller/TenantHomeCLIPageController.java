@@ -15,7 +15,7 @@ public class TenantHomeCLIPageController extends CLIController {
         view.displayMessage("3. " + properties.getProperty("MANAGE_REQUEST_MSG"));
         view.displayMessage("4. " + properties.getProperty("MANAGE_CONTRACT_MSG"));
         view.displayMessage("5. " + properties.getProperty("MANAGE_RENT_MSG"));
-        view.displayMessage("6. " + properties.getProperty("EXIT_MSG"));
+        view.displayMessage("6. " + properties.getProperty("LOGOUT_MSG"));
     }
 
     public int getChoice() {

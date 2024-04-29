@@ -150,6 +150,10 @@ public abstract class CLIController {
     public void pause() {
         view.getStringUserInput("\n" + PRESS_ANY_KEY);
     }
+    public void sessionExpired() {
+        view.displayMessage("Your session has expired, please log in");
+        pause();
+    }
 
     /**
      * Abstract method that defines the behavior of the home page in the CLI application.
