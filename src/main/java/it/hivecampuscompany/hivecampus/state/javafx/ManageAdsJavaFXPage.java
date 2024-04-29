@@ -1,6 +1,5 @@
 package it.hivecampuscompany.hivecampus.state.javafx;
 
-import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.ManageAdsPage;
 import it.hivecampuscompany.hivecampus.state.javafx.controller.ManageAdsJavaFXPageController;
@@ -14,7 +13,7 @@ public class ManageAdsJavaFXPage extends ManageAdsPage {
     }
 
     @Override
-    public void handle() throws InvalidSessionException {
+    public void handle() {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/tabManageAds-view.fxml"));
             context.getTab(0).setContent(loader.load());

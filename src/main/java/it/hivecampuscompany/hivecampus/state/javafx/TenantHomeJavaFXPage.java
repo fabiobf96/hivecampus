@@ -25,7 +25,7 @@ public class TenantHomeJavaFXPage extends TenantHomePage {
     }
 
     @Override
-    public void handle() throws InvalidSessionException {
+    public void handle() {
         CompositeTabPane tabPane = new CompositeTabPane();
         tabPane.setTabName("Room search");
         tabPane.addChildren(addDynamicTab("/it/hivecampuscompany/hivecampus/tabAdSearch-view.fxml"));

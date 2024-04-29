@@ -1,6 +1,5 @@
 package it.hivecampuscompany.hivecampus.state.javafx;
 
-import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.SignUpPage;
 import it.hivecampuscompany.hivecampus.state.javafx.controller.SignUpJavaFXPageController;
@@ -20,7 +19,7 @@ public class SignUpJavaFXPage extends SignUpPage {
         super(context);
     }
     @Override
-    public void handle() throws InvalidSessionException {
+    public void handle() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/signUpSection-view.fxml"));
             Node loginComponent = loader.load();

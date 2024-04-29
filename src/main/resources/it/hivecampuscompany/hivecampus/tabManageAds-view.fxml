@@ -34,7 +34,7 @@
                </padding>
             </Label>
          </HBox>
-         <ListView fx:id="lvRooms" style="-fx-border-color: grey; -fx-border-radius: 5;" VBox.vgrow="ALWAYS" />
+         <ListView fx:id="lvAds" style="-fx-border-color: grey; -fx-border-radius: 5;" VBox.vgrow="ALWAYS" />
       </VBox>
    </center>
 </BorderPane>
