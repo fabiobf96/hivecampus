@@ -128,7 +128,7 @@ public class HomePageJavaFxController extends JavaFxController {
 
             // Ottieni il controller dalla finestra modale
             LanguageJavaFxController controller = loader.getController();
-            controller.initializeLanguageSettingsView();
+            controller.initializeLanguageSettingsView(context);
 
             // Crea e visualizza la finestra modale con il form per le impostazioni della lingua
             Stage popUpStage = new Stage();

@@ -1,5 +1,6 @@
 package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
+import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,7 +23,8 @@ public class LanguageJavaFxController extends JavaFxController {
         // Default constructor
     }
 
-    public void initializeLanguageSettingsView() {
+    public void initializeLanguageSettingsView(Context context) {
+        this.context = context;
         lblLanguageTitle.setText(properties.getProperty("LANGUAGE_SETTINGS_MSG"));
         lblEnglish.setText(properties.getProperty("ENGLISH_MSG"));
         lblItalian.setText(properties.getProperty("ITALIAN_MSG"));
@@ -34,6 +36,7 @@ public class LanguageJavaFxController extends JavaFxController {
     private void handleChangeLanguage(int choice) {
         LanguageLoader.loadLanguage(choice);
         properties = LanguageLoader.getLanguageProperties();
-        initializeLanguageSettingsView();
+        context.setLanguage(properties);
+        initializeLanguageSettingsView(context);
     }
 }

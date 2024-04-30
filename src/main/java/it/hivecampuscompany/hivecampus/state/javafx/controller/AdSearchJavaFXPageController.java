@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class AdSearchJavaFXPageController extends JavaFxController implements TabInitializerController {
+public class AdSearchJavaFXPageController extends JavaFxController {
     private AdSearchManager adSearchManager;
     private static final Logger LOGGER = Logger.getLogger(AdSearchJavaFXPageController.class.getName());
 
@@ -93,8 +93,7 @@ public class AdSearchJavaFXPageController extends JavaFxController implements Ta
         FiltersBean filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
 
         // Retrieve the ads that match the filters
-        //List<AdBean> adBeans = adSearchManager.searchAdsByFilters(filtersBean);
-        List<AdBean> adBeans = adSearchManager.searchDecoratedAdsByFilters(filtersBean);
+        List<AdBean> adBeans = adSearchManager.searchDecoratedAdsByFilters(filtersBean);  // searchAdsByFilters
 
         for (AdBean adBean: adBeans) {
             try {

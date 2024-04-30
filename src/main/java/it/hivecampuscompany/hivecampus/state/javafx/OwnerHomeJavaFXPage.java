@@ -10,6 +10,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
+
 public class OwnerHomeJavaFXPage extends OwnerHomePage {
 
     public OwnerHomeJavaFXPage(Context context) {
@@ -19,8 +20,8 @@ public class OwnerHomeJavaFXPage extends OwnerHomePage {
     public void handle() {
 
         TabPane tabPane = new TabPane();
-        Tab tab1 = new Tab("Manage Ads");
-        Tab tab2 = new Tab("Manage Requests");
+        Tab tab1 = new Tab();
+        Tab tab2 = new Tab();
 
         tabPane.getTabs().add(tab1);
         tab1.setClosable(false);

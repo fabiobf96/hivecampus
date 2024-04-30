@@ -3,17 +3,21 @@ package it.hivecampuscompany.hivecampus.state;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.manager.SessionManager;
+import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.scene.control.Tab;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class Context {
     private State state;
     private Stage stage;
     private SessionBean sessionBean;
     private List<Tab> tabs = new ArrayList<>();
+    private Properties properties =  LanguageLoader.getLanguageProperties();
+
     public void setState(State state) {
         this.state = state;
     }
@@ -40,6 +44,14 @@ public class Context {
 
     public void setTabs(List<Tab> tabs) {
         this.tabs = tabs;
+    }
+
+    public Properties getLanguage() {
+        return properties;
+    }
+
+    public void setLanguage(Properties properties) {
+        this.properties = properties;
     }
 
     public void request() {

@@ -16,6 +16,8 @@ public class ManageAdsJavaFXPage extends ManageAdsPage {
     public void handle() {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/tabManageAds-view.fxml"));
+
+            context.getTab(0).setText(context.getLanguage().getProperty("MANAGE_ADS_MSG"));
             context.getTab(0).setContent(loader.load());
 
             ManageAdsJavaFXPageController controller = loader.getController();

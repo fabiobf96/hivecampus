@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.state.javafx.controller.ManageRequestsJavaFXPageController">
+<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.state.javafx.controller.ManageRequestsTenantJavaFXPageController">
    <center>
       <VBox spacing="15.0" BorderPane.alignment="CENTER">
          <padding>

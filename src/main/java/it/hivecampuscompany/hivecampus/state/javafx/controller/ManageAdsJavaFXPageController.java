@@ -28,7 +28,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class ManageAdsJavaFXPageController extends JavaFxController implements TabInitializerController{
+public class ManageAdsJavaFXPageController extends JavaFxController {
 
     private ManageAdsPage manageAdsPage;
     private final AdManager manager;
