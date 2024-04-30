@@ -93,7 +93,8 @@ public class AdSearchJavaFXPageController extends JavaFxController implements Ta
         FiltersBean filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
 
         // Retrieve the ads that match the filters
-        List<AdBean> adBeans = adSearchManager.searchAdsByFilters(filtersBean);
+        //List<AdBean> adBeans = adSearchManager.searchAdsByFilters(filtersBean);
+        List<AdBean> adBeans = adSearchManager.searchDecoratedAdsByFilters(filtersBean);
 
         for (AdBean adBean: adBeans) {
             try {

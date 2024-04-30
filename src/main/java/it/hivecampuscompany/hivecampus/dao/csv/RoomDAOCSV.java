@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 
 public class RoomDAOCSV implements RoomDAO {
     private File fd;
+    private File imageFd;
     private Properties properties;
     private static final Logger LOGGER = Logger.getLogger(RoomDAOCSV.class.getName());
 
@@ -25,6 +26,7 @@ public class RoomDAOCSV implements RoomDAO {
             properties = new Properties();
             properties.load(input);
             fd = new File(properties.getProperty("ROOM_PATH"));
+            imageFd = new File(properties.getProperty("ROOM_IMAGES_PATH"));
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
             System.exit(1);
@@ -123,6 +125,25 @@ public class RoomDAOCSV implements RoomDAO {
         return null;
     }
 
+    @Override
+    public byte[] getRoomImage(int idRoom, int idHome) {
+        try (CSVReader reader = new CSVReader(new FileReader(imageFd))) {
+            List<String[]> imageTable = reader.readAll();
+            imageTable.removeFirst();
+            String[] imageRecord = imageTable.stream()
+                    .filter(image -> Integer.parseInt(image[ImageAttributes.INDEX_ID_HOME]) == idHome && Integer.parseInt(image[ImageAttributes.INDEX_ID_ROOM]) == idRoom)
+                    .findFirst()
+                    .orElse(null);
+            if (imageRecord != null) {
+                return CSVUtility.decodeBase64ToBytes(imageRecord[ImageAttributes.INDEX_IMAGE]);
+            }
+        }
+        catch (IOException | CsvException e) {
+            LOGGER.log(Level.SEVERE, "Failed to load image from CSV", e);
+        }
+        return new byte[0];
+    }
+
     private static class RoomAttributes {
         private static final int INDEX_ID_ROOM = 0;
         private static final int INDEX_ID_HOME = 1;
@@ -133,5 +154,11 @@ public class RoomDAOCSV implements RoomDAO {
         private static final int INDEX_CONDITIONER = 6;
         private static final int INDEX_TV = 7;
         private static final int INDEX_DESCRIPTION = 8;
+    }
+
+    private static class ImageAttributes {
+        private static final int INDEX_ID_ROOM = 1;
+        private static final int INDEX_ID_HOME = 2;
+        private static final int INDEX_IMAGE = 5;
     }
 }

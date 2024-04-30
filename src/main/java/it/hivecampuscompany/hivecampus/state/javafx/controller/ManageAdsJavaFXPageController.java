@@ -135,7 +135,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController implements T
     int numRooms;
 
     public ManageAdsJavaFXPageController() {
-        manager = new AdManager();
+        this.manager = new AdManager();
     }
 
     public void initialize(Context context) {
@@ -148,8 +148,8 @@ public class ManageAdsJavaFXPageController extends JavaFxController implements T
         }
         for (AdBean adBean : adBeans) {
             // Create a new list view item
-            Label lblAd = new Label(adBean.toString());
-            lvAds.getItems().add(lblAd);
+            VBox vbItem = createPublishedAdCard(adBean);
+            lvAds.getItems().add(vbItem);
         }
 
         btnCreate.setOnAction(event -> handleCreateAd());
@@ -190,6 +190,21 @@ public class ManageAdsJavaFXPageController extends JavaFxController implements T
         btnPublish.setOnAction(event -> handlePublish());
     }
 
+    private VBox createPublishedAdCard(AdBean adBean) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/publishedAd-card.fxml"));
+            VBox vbox = loader.load();
+
+            PreviewAdJavaFxController controller = loader.getController();
+            controller.setAdBean(adBean);
+            controller.initializePublishedAds();
+
+            return vbox;
+        } catch (Exception e) {
+            LOGGER.severe("Error while creating ad card");
+        }
+        return null;
+    }
 
     private void handleCreateAd() {
         try {
@@ -279,7 +294,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController implements T
 
     private List<AdBean> retrieveAds(SessionBean sessionBean) {
         try {
-            return manager.getAdsByOwner(sessionBean);
+            return manager.getDecoratedAdsByOwner(sessionBean);
         } catch (Exception e) {
             LOGGER.severe("Error while retrieving ads");
             return Collections.emptyList();

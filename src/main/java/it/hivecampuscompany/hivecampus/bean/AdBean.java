@@ -50,12 +50,20 @@ public class AdBean {
         this.adStatus = adStatus;
     }
 
+    public HomeBean getHomeBean() {
+        return homeBean;
+    }
+
     public RoomBean getRoomBean() {
         return roomBean;
     }
 
     public AdStatus getAdStatus() {
         return adStatus;
+    }
+
+    public int getPrice() {
+        return price;
     }
 
     @Override

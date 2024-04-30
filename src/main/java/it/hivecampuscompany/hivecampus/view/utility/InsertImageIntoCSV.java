@@ -11,7 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class InsertImageIntoCSV {
-    private File fd;
+    private File roomFile;
+    private File homeFile;
     private static final Logger LOGGER = Logger.getLogger(InsertImageIntoCSV.class.getName());
     private Properties properties;
     static final String ERROR_ACCESS = "ERR_ACCESS";
@@ -19,7 +20,8 @@ public class InsertImageIntoCSV {
         try (InputStream input = new FileInputStream("properties/csv.properties")){
             properties = new Properties();
             properties.load(input);
-            fd = new File(properties.getProperty("ROOM_IMAGES_PATH"));
+            roomFile = new File(properties.getProperty("ROOM_IMAGES_PATH"));
+            homeFile = new File(properties.getProperty("HOME_IMAGES_PATH"));
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
             System.exit(1);
@@ -28,7 +30,7 @@ public class InsertImageIntoCSV {
 
     public void saveRoom(String imageName, String imageType, byte[] byteArray, int idRoom, int idHome) {
 
-        int idImage = getNextIdFromFile();
+        int idImage = getNextIdFromFile(roomFile);
 
         String[] room = new String[6];
         room[0] = String.valueOf(idImage);
@@ -38,15 +40,33 @@ public class InsertImageIntoCSV {
         room[4] = imageType;
         room[5] = CSVUtility.encodeBytesToBase64(byteArray);
 
-        try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
+        try (CSVWriter writer = new CSVWriter(new FileWriter(roomFile, true))) {
             writer.writeNext(room);
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERROR_ACCESS), fd), e);
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERROR_ACCESS), roomFile), e);
             System.exit(3);
         }
     }
 
-    public int getNextIdFromFile() {
+    public void saveHome (String imageName, String imageType, byte[] byteArray, int idHome) {
+        int idImage = getNextIdFromFile(homeFile);
+
+        String[] home = new String[6];
+        home[0] = String.valueOf(idImage);
+        home[1] = String.valueOf(idHome);
+        home[2] = imageName;
+        home[3] = imageType;
+        home[4] = CSVUtility.encodeBytesToBase64(byteArray);
+
+        try (CSVWriter writer = new CSVWriter(new FileWriter(homeFile, true))) {
+            writer.writeNext(home);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERROR_ACCESS), homeFile), e);
+            System.exit(3);
+        }
+    }
+
+    public int getNextIdFromFile(File fd) {
         int maxId = 0;
 
         try (CSVReader reader = new CSVReader(new FileReader(fd))) {

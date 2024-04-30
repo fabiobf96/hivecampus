@@ -10,6 +10,7 @@ public class HomeBean {
     private int surface;
     private Integer[] features;
     private String description;
+    private byte[] image;
 
     public HomeBean(){
         // Default constructor
@@ -71,6 +72,14 @@ public class HomeBean {
 
     public int getId() {
         return idHome;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public byte[] getImage() {
+        return image;
     }
 
     @Override

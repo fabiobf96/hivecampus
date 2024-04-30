@@ -10,6 +10,7 @@ public class RoomBean {
     private String typeRoom;
     private boolean[] services;
     private String description;
+    private byte[] image;
 
     public RoomBean(){
         // Default constructor
@@ -70,6 +71,14 @@ public class RoomBean {
 
     public String getDescription() {
         return description;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public byte[] getImage() {
+        return image;
     }
 
     @Override

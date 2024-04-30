@@ -25,4 +25,6 @@ public interface RoomDAO {
     List<Room> retrieveRoomsByFilters(int homeID, FiltersBean filtersBean);
 
     Room saveRoom(int homeID, RoomBean roomBean);
+
+    byte[] getRoomImage(int idRoom, int idHome);
 }

@@ -1,9 +1,6 @@
 package it.hivecampuscompany.hivecampus.manager;
 
-import it.hivecampuscompany.hivecampus.bean.AdBean;
-import it.hivecampuscompany.hivecampus.bean.HomeBean;
-import it.hivecampuscompany.hivecampus.bean.RoomBean;
-import it.hivecampuscompany.hivecampus.bean.SessionBean;
+import it.hivecampuscompany.hivecampus.bean.*;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
@@ -61,6 +58,21 @@ public class AdManager {
         throw new InvalidSessionException();
     }
 
+    public List<AdBean> getDecoratedAdsByOwner(SessionBean sessionBean) throws InvalidSessionException {
+        List<AdBean> adBeanList = getAdsByOwner(sessionBean);
+        RoomDAO roomDAO = new RoomDAOCSV();
+        HomeDAO homeDAO = new HomeDAOCSV();
+        for (AdBean adBean : adBeanList){
+            byte[] roomBytes = roomDAO.getRoomImage(adBean.getRoomBean().getIdRoom(), adBean.getHomeBean().getId());
+            byte[] homeBytes = homeDAO.getHomeImage(adBean.getHomeBean().getId());
+            if (roomBytes != null && homeBytes != null) {
+                adBean.getRoomBean().setImage(roomBytes);
+                adBean.getHomeBean().setImage(homeBytes);
+            }
+        }
+        return adBeanList;
+    }
+
     public List<HomeBean> getHomesByOwner(SessionBean sessionBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
         HomeDAO homeDAO = new HomeDAOCSV();
@@ -103,6 +115,4 @@ public class AdManager {
         // Se una delle operazioni fallisce o la sessione non è valida, restituisco false
         return false;
     }
-
-
 }

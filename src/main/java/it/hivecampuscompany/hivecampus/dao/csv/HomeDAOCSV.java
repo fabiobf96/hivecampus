@@ -2,6 +2,7 @@ package it.hivecampuscompany.hivecampus.dao.csv;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 import it.hivecampuscompany.hivecampus.bean.HomeBean;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
@@ -19,6 +20,7 @@ import java.util.logging.Logger;
 
 public class HomeDAOCSV implements HomeDAO {
     private File fd;
+    private File imageFd;
     private static final Logger LOGGER = Logger.getLogger(HomeDAOCSV.class.getName());
 
     public HomeDAOCSV() {
@@ -26,6 +28,7 @@ public class HomeDAOCSV implements HomeDAO {
             Properties properties = new Properties();
             properties.load(input);
             fd = new File(properties.getProperty("HOME_PATH"));
+            imageFd = new File(properties.getProperty("HOME_IMAGES_PATH"));
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
             System.exit(1);
@@ -155,6 +158,24 @@ public class HomeDAOCSV implements HomeDAO {
         }
     }
 
+    @Override
+    public byte[] getHomeImage(int idHome) {
+        try (CSVReader reader = new CSVReader(new FileReader(imageFd))) {
+            List<String[]> imageTable = reader.readAll();
+            imageTable.removeFirst();
+            String[] imageRecord = imageTable.stream()
+                    .filter(image -> Integer.parseInt(image[ImageAttributes.INDEX_ID_HOME]) == idHome)
+                    .findFirst()
+                    .orElse(null);
+            if (imageRecord != null) {
+                return CSVUtility.decodeBase64ToBytes(imageRecord[ImageAttributes.INDEX_IMAGE]);
+            }
+        } catch (IOException | CsvException e) {
+            LOGGER.log(Level.SEVERE, "Failed to load image from CSV", e);
+        }
+        return new byte[0];
+    }
+
     private int isHomeAlreadyExists(HomeBean homeBean) {
         try (CSVReader reader = new CSVReader(new FileReader(fd))) {
             String[] nextLine;
@@ -191,5 +212,10 @@ public class HomeDAOCSV implements HomeDAO {
         private static final int INDEX_FLOOR = 9;
         private static final int INDEX_ELEVATOR = 10;
         private static final int INDEX_DESCRIPTION = 11;
+    }
+
+    private static class ImageAttributes {
+        private static final int INDEX_ID_HOME = 1;
+        private static final int INDEX_IMAGE = 4;
     }
 }

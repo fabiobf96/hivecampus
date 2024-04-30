@@ -1,22 +1,18 @@
 package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
-import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
 import java.io.ByteArrayInputStream;
-import java.sql.Connection;
-import java.util.logging.Logger;
 
 public class PreviewAdJavaFxController extends JavaFxController {
 
-    private final Connection connection = ConnectionManager.getConnection();  // solo per la prova delle immagini
-    private static final Logger LOGGER = Logger.getLogger(PreviewAdJavaFxController.class.getName());
-
     @FXML
-    private ImageView imgRoom;
+    private ImageView imvRoom;
     @FXML
     private Label lblTitle;
     @FXML
@@ -56,6 +52,28 @@ public class PreviewAdJavaFxController extends JavaFxController {
     @FXML
     private Label lblAvailability;
 
+    @FXML
+    Button btnEdit;
+    @FXML
+    Button btnDelete;
+    @FXML
+    Label lblAdStatus;
+    @FXML
+    Label lblStatus;
+    @FXML
+    Label lblRoomType;
+    @FXML
+    Label lblMonthAvl;
+    @FXML
+    Label lblRPrice;
+    @FXML
+    Label lblType;
+    @FXML
+    Label lblMonth;
+    @FXML
+    Label lblPrice;
+
+
     private AdBean adBean;
 
     public PreviewAdJavaFxController() {
@@ -63,7 +81,6 @@ public class PreviewAdJavaFxController extends JavaFxController {
     }
 
     public void setAdBean(AdBean bean){
-        // set the bean
         this.adBean = bean;
     }
 
@@ -82,11 +99,7 @@ public class PreviewAdJavaFxController extends JavaFxController {
         setLabelText(lblAirCond, String.valueOf(adBean.getRoomBean().getConditioner()));
         setLabelText(lblTV, String.valueOf(adBean.getRoomBean().getTV()));
 
-        byte[] imageBytes = getImageBytesFromDatabase(1);
-        if (imageBytes != null) {
-            imgRoom.setImage(new Image(new ByteArrayInputStream(imageBytes))); // solo per la prova delle immagini
-        }
-
+        setImage(imvRoom, adBean);
     }
 
     public void initializePreviewDistance() {
@@ -99,19 +112,37 @@ public class PreviewAdJavaFxController extends JavaFxController {
         setLabelText(lblAvailability, String.valueOf(adBean.getAdStart()));
     }
 
-    // Recupera l'array di byte dell'immagine dal database (metodo di prova)
-    public byte[] getImageBytesFromDatabase(int roomId) {
-        String sql = "SELECT image FROM hivecampus2.room_images WHERE id = ?"; // hivecampus_db.room WHERE idRoom = ? (funziona)
-        // Implementazione per recuperare l'array di byte dell'immagine dal database
-        try(java.sql.PreparedStatement pstmt = connection.prepareStatement(sql)) {
-            pstmt.setInt(1, roomId);
-            java.sql.ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                return rs.getBytes("image");
-            }
-        } catch (java.sql.SQLException e) {
-            LOGGER.severe("Errore durante il recupero dell'immagine dal database: " + e.getMessage());
+    public void initializePublishedAds() {
+        // Imposta il colore a nero e il testo per tutte le label
+        setLabelText(lblTitle,adBean.getHomeBean().getAddress());
+        setLabelText(lblAdStatus, properties.getProperty("AD_STATUS_MSG"));
+        setLabelText(lblRoomType, properties.getProperty("TYPE_MSG"));
+        setLabelText(lblMonthAvl, properties.getProperty("AVAILABILITY_MSG"));
+        setLabelText(lblRPrice, properties.getProperty("PRICE_MSG"));
+        setLabelText(lblStatus, String.valueOf(adBean.getAdStatus()));
+        setLabelText(lblType, adBean.getRoomBean().getType());
+        setLabelText(lblMonth, String.valueOf(adBean.getAdStart()));
+        setLabelText(lblPrice, (adBean.getPrice()) + " €");
+
+        setImage(imvRoom, adBean);
+
+        btnEdit.setOnAction(event -> handleEditAd());
+        btnDelete.setOnAction(event -> handleDeleteAd());
+    }
+
+    private void setImage (ImageView imageView, AdBean adBean) {
+        byte[] imageBytes = adBean.getRoomBean().getImage();
+        if (imageBytes != null) {
+            imageView.setImage(new Image(new ByteArrayInputStream(imageBytes)));
+            imageView.setPreserveRatio(false);
         }
-        return new byte[0];
+    }
+
+    private void handleEditAd() {
+        showAlert("INFORMATION", properties.getProperty("EDIT_AD_MSG"), properties.getProperty("NOT_IMPLEMENTED_MSG"));
+    }
+
+    private void handleDeleteAd() {
+        showAlert("INFORMATION", properties.getProperty("DELETE_AD_MSG"), properties.getProperty("NOT_IMPLEMENTED_MSG"));
     }
 }
