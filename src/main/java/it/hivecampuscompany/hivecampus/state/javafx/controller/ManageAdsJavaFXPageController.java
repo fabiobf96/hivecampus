@@ -79,8 +79,6 @@ public class ManageAdsJavaFXPageController extends JavaFxController implements T
     @FXML
     Button btnHomeImage;
     @FXML
-    ImageView imvAddHome;
-    @FXML
     VBox vbHome;
     @FXML
     Label lblHDescription;
@@ -122,8 +120,6 @@ public class ManageAdsJavaFXPageController extends JavaFxController implements T
     Label lblRImage;
     @FXML
     Button btnRoomImage;
-    @FXML
-    ImageView imvAddRoom;
     @FXML
     VBox vbRoom;
     @FXML
