@@ -36,7 +36,6 @@ public class ManageLeaseOwnerCLIPage extends ManageLeasePage {
             throw new InvalidSessionException();
         }
     }
-
     private void choiceAd() throws InvalidSessionException {
         controller.homePage();
         adBean = controller.selectAd(getProcessingAds());
@@ -51,6 +50,7 @@ public class ManageLeaseOwnerCLIPage extends ManageLeasePage {
         LeaseBean leaseBean = controller.getLease(adBean, getLeaseRequestInformation(adBean));
         if (leaseBean != null) {
             uploadLease(leaseBean);
+            controller.successLoadLease();
         }
         else choiceAd();
     }

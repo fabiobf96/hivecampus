@@ -40,6 +40,7 @@ public class Context {
             if (stage == null) {
                 setState(new InitialCLIPage(this));
             }
+            request();
         }
     }
 }

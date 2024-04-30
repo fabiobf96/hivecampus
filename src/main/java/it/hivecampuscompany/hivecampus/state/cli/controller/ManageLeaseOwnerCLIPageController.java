@@ -46,4 +46,8 @@ public class ManageLeaseOwnerCLIPageController extends CLIController {
             }
         }
     }
+    public void successLoadLease() {
+        view.displayMessage("contratto caricato!");
+        pause();
+    }
 }
