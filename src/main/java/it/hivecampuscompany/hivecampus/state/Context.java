@@ -2,17 +2,14 @@ package it.hivecampuscompany.hivecampus.state;
 
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
-import javafx.scene.control.Tab;
+import it.hivecampuscompany.hivecampus.manager.SessionManager;
+import it.hivecampuscompany.hivecampus.state.cli.InitialCLIPage;
 import javafx.stage.Stage;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Context {
     private State state;
     private Stage stage;
     private SessionBean sessionBean;
-    private List<Tab> tabs = new ArrayList<>();
     public void setState(State state) {
         this.state = state;
     }
@@ -33,19 +30,17 @@ public class Context {
         this.stage = stage;
     }
 
-    public Tab getTab(int index) {
-        return tabs.get(index);
-    }
-
-    public void setTabs(List<Tab> tabs) {
-        this.tabs = tabs;
-    }
-
     public void request() {
         try {
             state.handle();
         } catch (InvalidSessionException e) {
-            // TODO
+            SessionManager sessionManager = SessionManager.getInstance();
+            sessionManager.deleteSession(sessionBean);
+            setSessionBean(null);
+            if (stage == null) {
+                setState(new InitialCLIPage(this));
+            }
+            request();
         }
     }
 }
