@@ -1,16 +1,25 @@
 package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
+import it.hivecampuscompany.hivecampus.manager.AdSearchManager;
+import it.hivecampuscompany.hivecampus.state.Context;
+import it.hivecampuscompany.hivecampus.state.javafx.AdSearchJavaFXPage;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 
-import java.io.ByteArrayInputStream;
+import java.util.logging.Logger;
 
 public class PreviewAdJavaFxController extends JavaFxController {
 
+    private static final Logger LOGGER = Logger.getLogger(PreviewAdJavaFxController.class.getName());
+    private AdSearchManager adSearchManager;
+
+    @FXML
+    private VBox vbPreview;
     @FXML
     private ImageView imvRoom;
     @FXML
@@ -73,7 +82,6 @@ public class PreviewAdJavaFxController extends JavaFxController {
     @FXML
     Label lblPrice;
 
-
     private AdBean adBean;
 
     public PreviewAdJavaFxController() {
@@ -84,7 +92,11 @@ public class PreviewAdJavaFxController extends JavaFxController {
         this.adBean = bean;
     }
 
-    public void initializePreviewFeatures() {
+
+    public void initializePreviewFeatures(Context context) {
+        this.context = context;
+        this.adSearchManager = new AdSearchManager();
+
         // Imposta il colore a nero e il testo per tutte le label
         setLabelText(lblTitle, properties.getProperty("ROOM_TYPE_MSG") + adBean.adTitle() + properties.getProperty("MONTHLY_PRICE_MSG"));
         setLabelText(lblFeatures, properties.getProperty("ROOM_FEATURES_MSG"));
@@ -99,7 +111,9 @@ public class PreviewAdJavaFxController extends JavaFxController {
         setLabelText(lblAirCond, String.valueOf(adBean.getRoomBean().getConditioner()));
         setLabelText(lblTV, String.valueOf(adBean.getRoomBean().getTV()));
 
-        setImage(imvRoom, adBean);
+        setImage(imvRoom, adBean, "room");
+
+        vbPreview.setOnMouseClicked(event -> handlePreviewAd());
     }
 
     public void initializePreviewDistance() {
@@ -124,17 +138,23 @@ public class PreviewAdJavaFxController extends JavaFxController {
         setLabelText(lblMonth, String.valueOf(adBean.getAdStart()));
         setLabelText(lblPrice, (adBean.getPrice()) + " €");
 
-        setImage(imvRoom, adBean);
+        setImage(imvRoom, adBean, "room");
 
         btnEdit.setOnAction(event -> handleEditAd());
         btnDelete.setOnAction(event -> handleDeleteAd());
     }
 
-    private void setImage (ImageView imageView, AdBean adBean) {
-        byte[] imageBytes = adBean.getRoomBean().getImage();
-        if (imageBytes != null) {
-            imageView.setImage(new Image(new ByteArrayInputStream(imageBytes)));
-            imageView.setPreserveRatio(false);
+    private void handlePreviewAd() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/adDetails-view.fxml"));
+            context.getTab(0).setContent(loader.load()); // Caricamento del tab per la visualizzazione dei dettagli dell'annuncio
+
+            adSearchManager.getHomeMap(context.getSessionBean(), adBean);
+
+            AdDetailsJavaFxController controller = loader.getController();
+            controller.initialize(context, new AdSearchJavaFXPage(context), adBean);
+        } catch (Exception e) {
+            LOGGER.severe("Error while loading ad details page: " + e.getMessage());
         }
     }
 

@@ -12,6 +12,7 @@ public class AdBean {
     private int price;
     private String university;
     private double distance;
+    private byte[] map;
 
     public AdBean (int id){
         this.id = id;
@@ -58,12 +59,24 @@ public class AdBean {
         return roomBean;
     }
 
+    public AccountBean getOwnerBean() {
+        return ownerBean;
+    }
+
     public AdStatus getAdStatus() {
         return adStatus;
     }
 
     public int getPrice() {
         return price;
+    }
+
+    public void setMap(byte[] map) {
+        this.map = map;
+    }
+
+    public byte[] getMap() {
+        return map;
     }
 
     @Override

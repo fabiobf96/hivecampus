@@ -1,5 +1,6 @@
 package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
+import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
@@ -9,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
+import java.io.ByteArrayInputStream;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -18,7 +20,11 @@ public abstract class JavaFxController {
     protected Context context;
 
     protected static final String ERROR_TITLE_MSG = "ERROR_TITLE_MSG";
+    protected static final String WARNING_TITLE_MSG = "WARNING_TITLE_MSG";
+    protected static final String INFORMATION_TITLE_MSG = "INFORMATION_TITLE_MSG";
     protected static final String ERROR = "ERROR";
+    protected static final String WARNING = "WARNING";
+    protected static final String INFORMATION = "INFORMATION";
 
     protected static final String ITALIAN_PNG_URL = "/it/hivecampuscompany/hivecampus/images/italian_flag.png";
     protected static final String ENGLISH_PNG_URL = "/it/hivecampuscompany/hivecampus/images/english_flag.png";
@@ -66,6 +72,19 @@ public abstract class JavaFxController {
         }
         properties = LanguageLoader.getLanguageProperties();
         context.request();
+    }
+
+    protected void setImage (ImageView imageView, AdBean adBean, String choice) {
+        byte[] imageBytes;
+        if (choice.equals("room")) {
+            imageBytes = adBean.getRoomBean().getImage();
+        }
+        else imageBytes = adBean.getHomeBean().getImage();
+
+        if (imageBytes != null) {
+            imageView.setImage(new Image(new ByteArrayInputStream(imageBytes)));
+            imageView.setPreserveRatio(false);
+        }
     }
 
 }

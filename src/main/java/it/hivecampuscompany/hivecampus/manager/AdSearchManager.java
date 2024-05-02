@@ -2,6 +2,8 @@ package it.hivecampuscompany.hivecampus.manager;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
+import it.hivecampuscompany.hivecampus.bean.SessionBean;
+import it.hivecampuscompany.hivecampus.boundary.OpenStreetMapApiBoundary;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.dao.RoomDAO;
 import it.hivecampuscompany.hivecampus.dao.UniversityDAO;
@@ -9,6 +11,8 @@ import it.hivecampuscompany.hivecampus.dao.csv.AdDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.csv.HomeDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.csv.RoomDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.csv.UniversityDAOCSV;
+import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
+import it.hivecampuscompany.hivecampus.exception.MockOpenStreetMapAPIException;
 import it.hivecampuscompany.hivecampus.model.Ad;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -48,5 +52,18 @@ public class AdSearchManager {
             }
         }
         return adBeanList;
+    }
+
+    public void getHomeMap(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException, MockOpenStreetMapAPIException {
+        SessionManager sessionManager = SessionManager.getInstance();
+        if (!sessionManager.validSession(sessionBean)){
+            throw new InvalidSessionException();
+        }
+        try {
+            OpenStreetMapApiBoundary openStreetMapApiBoundary = new OpenStreetMapApiBoundary();
+            adBean.setMap(openStreetMapApiBoundary.getMap(adBean.getHomeBean().getAddress()));
+        } catch (MockOpenStreetMapAPIException e) {
+            throw new MockOpenStreetMapAPIException(e.getMessage());
+        }
     }
 }

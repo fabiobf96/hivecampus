@@ -131,7 +131,7 @@ public class SignUpJavaFXPageController extends JavaFxController {
 
             signUpPage.registerUser(userBean, accountBean);
             //mostro il messaggio di successo e svuoto i campi.
-            showAlert("INFORMATION", properties.getProperty("SUCCESS_TITLE_MSG"), properties.getProperty("ACCOUNT_CREATED_MSG"));
+            showAlert(INFORMATION, properties.getProperty("SUCCESS_TITLE_MSG"), properties.getProperty("ACCOUNT_CREATED_MSG"));
             clearFields();
 
             handleLogHere();

@@ -1,5 +1,6 @@
 package it.hivecampuscompany.hivecampus.state;
 
+import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.manager.SessionManager;
@@ -17,6 +18,7 @@ public class Context {
     private SessionBean sessionBean;
     private List<Tab> tabs = new ArrayList<>();
     private Properties properties =  LanguageLoader.getLanguageProperties();
+    private FiltersBean filtersBean;
 
     public void setState(State state) {
         this.state = state;
@@ -52,6 +54,13 @@ public class Context {
 
     public void setLanguage(Properties properties) {
         this.properties = properties;
+    }
+
+    public FiltersBean getFiltersBean() {
+        return filtersBean;
+    }
+    public void setFiltersBean(FiltersBean filtersBean) {
+        this.filtersBean = filtersBean;
     }
 
     public void request() {

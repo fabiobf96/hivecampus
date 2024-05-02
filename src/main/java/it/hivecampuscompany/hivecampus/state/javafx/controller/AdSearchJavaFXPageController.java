@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -66,6 +67,12 @@ public class AdSearchJavaFXPageController extends JavaFxController {
         searchField.setPromptText(properties.getProperty("SEARCH_BAR_MSG"));
         btnSearch.setText(properties.getProperty("SEARCH_MSG"));
 
+        // Check if there are results in context
+        if (context.getFiltersBean() != null) {
+            List<AdBean> adBeans = retrieveAdsByFilters(context.getFiltersBean());
+            setResults(adBeans);
+        }
+
         btnSearch.setOnAction(event -> handleSearch());
 
         // Set the custom cell factory for the list view
@@ -73,9 +80,6 @@ public class AdSearchJavaFXPageController extends JavaFxController {
     }
 
     private void handleSearch() {
-        // Elimina tutti gli elementi attualmente presenti nella ListView
-        lvRooms.getItems().clear();
-
         // Manage the search button click event
         String university = searchField.getText().trim();
         Float maxDistance = validateNumericInput(txfDistance.getText(), 15F); // Check distance
@@ -93,24 +97,48 @@ public class AdSearchJavaFXPageController extends JavaFxController {
         FiltersBean filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
 
         // Retrieve the ads that match the filters
-        List<AdBean> adBeans = adSearchManager.searchDecoratedAdsByFilters(filtersBean);  // searchAdsByFilters
+        List<AdBean> adBeans = retrieveAdsByFilters(filtersBean);
 
-        for (AdBean adBean: adBeans) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/previewRoomInfo-card.fxml"));
-                Parent root = loader.load(); // Carica il file FXML e restituisce il nodo radice
+        // Save the results in the session bean
+        context.setFiltersBean(filtersBean);
 
-                PreviewAdJavaFxController previewAdJavaFxController = loader.getController();
-                previewAdJavaFxController.setAdBean(adBean);
-                previewAdJavaFxController.initializePreviewDistance(); // Inizializza il controller dopo aver caricato il file FXML
+        // Set the results in the list view
+        setResults(adBeans);
+    }
 
-                BasicComponent basicComponent = new BasicComponent(root);
-                PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(basicComponent, adBean);
+    private List<AdBean> retrieveAdsByFilters(FiltersBean filtersBean) {
+        List<AdBean> adBeans = adSearchManager.searchDecoratedAdsByFilters(filtersBean);
+        if (adBeans == null || adBeans.isEmpty()) {
+            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("NO_ADS_FOUND_MSG"));
+            return Collections.emptyList();
+        }
+        else return adBeans;
+    }
 
-                // Carico la preview della stanza nella ListView
-                lvRooms.getItems().add(previewRoomDecorator.setup());
-            } catch (IOException e) {
-                LOGGER.severe("Error loading the preview room card");
+    private Node createPreviewAd(AdBean adBean) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/previewRoomInfo-card.fxml"));
+            Parent root = loader.load(); // Carica il file FXML e restituisce il nodo radice
+
+            PreviewAdJavaFxController previewAdJavaFxController = loader.getController();
+            previewAdJavaFxController.setAdBean(adBean);
+            previewAdJavaFxController.initializePreviewDistance(); // Inizializza il controller dopo aver caricato il file FXML
+
+            BasicComponent basicComponent = new BasicComponent(root);
+            PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(basicComponent, adBean, context);
+            return previewRoomDecorator.setup();
+        } catch (IOException e) {
+            LOGGER.severe("Error loading the preview room card");
+            return null;
+        }
+    }
+
+    private void setResults(List<AdBean> results) {
+        lvRooms.getItems().clear();
+        for (AdBean adBean: results) {
+            Node node = createPreviewAd(adBean);
+            if (node != null) {
+                lvRooms.getItems().add(node);
             }
         }
     }

@@ -10,4 +10,8 @@ public abstract class AdSearchPage implements State {
     public void goToTenantHomePage(TenantHomePage tenantHomePage) {
         context.setState(tenantHomePage);
     }
+
+    public void goToLoginPage(LoginPage loginPage) {
+        context.setState(loginPage);
+    }
 }

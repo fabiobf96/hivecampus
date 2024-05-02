@@ -1,6 +1,7 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
+import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.javafx.controller.PreviewAdJavaFxController;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
 import javafx.fxml.FXMLLoader;
@@ -14,10 +15,12 @@ public class PreviewRoomDecorator extends Decorator{
 
     private static final Logger LOGGER = Logger.getLogger(PreviewRoomDecorator.class.getName());
     private final AdBean adBean;
+    private final Context context;
 
-    public PreviewRoomDecorator(Component component, AdBean adBean) {
+    public PreviewRoomDecorator(Component component, AdBean adBean, Context context) {
         super(component);
         this.adBean = adBean;
+        this.context = context;
     }
 
     protected Node applyPreviewRoomDecoration(Node child) {
@@ -31,7 +34,7 @@ public class PreviewRoomDecorator extends Decorator{
 
             PreviewAdJavaFxController controller = loader.getController();
             controller.setAdBean(adBean);
-            controller.initializePreviewFeatures();
+            controller.initializePreviewFeatures(context);
 
             //se devo passare un sessionBean devo ottenere il controller e chiamare initialize(sessionBean)
             vBox.getChildren().addAll(root, child);
