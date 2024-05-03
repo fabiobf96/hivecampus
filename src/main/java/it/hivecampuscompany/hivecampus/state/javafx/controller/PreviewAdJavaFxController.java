@@ -1,25 +1,14 @@
 package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
-import it.hivecampuscompany.hivecampus.manager.AdSearchManager;
 import it.hivecampuscompany.hivecampus.state.Context;
-import it.hivecampuscompany.hivecampus.state.javafx.AdSearchJavaFXPage;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-
-import java.util.logging.Logger;
 
 public class PreviewAdJavaFxController extends JavaFxController {
 
-    private static final Logger LOGGER = Logger.getLogger(PreviewAdJavaFxController.class.getName());
-    private AdSearchManager adSearchManager;
-
-    @FXML
-    private VBox vbPreview;
     @FXML
     private ImageView imvRoom;
     @FXML
@@ -95,7 +84,6 @@ public class PreviewAdJavaFxController extends JavaFxController {
 
     public void initializePreviewFeatures(Context context) {
         this.context = context;
-        this.adSearchManager = new AdSearchManager();
 
         // Imposta il colore a nero e il testo per tutte le label
         setLabelText(lblTitle, properties.getProperty("ROOM_TYPE_MSG") + adBean.adTitle() + properties.getProperty("MONTHLY_PRICE_MSG"));
@@ -112,8 +100,6 @@ public class PreviewAdJavaFxController extends JavaFxController {
         setLabelText(lblTV, String.valueOf(adBean.getRoomBean().getTV()));
 
         setImage(imvRoom, adBean, "room");
-
-        vbPreview.setOnMouseClicked(event -> handlePreviewAd());
     }
 
     public void initializePreviewDistance() {
@@ -144,25 +130,11 @@ public class PreviewAdJavaFxController extends JavaFxController {
         btnDelete.setOnAction(event -> handleDeleteAd());
     }
 
-    private void handlePreviewAd() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/adDetails-view.fxml"));
-            context.getTab(0).setContent(loader.load()); // Caricamento del tab per la visualizzazione dei dettagli dell'annuncio
-
-            adSearchManager.getHomeMap(context.getSessionBean(), adBean);
-
-            AdDetailsJavaFxController controller = loader.getController();
-            controller.initialize(context, new AdSearchJavaFXPage(context), adBean);
-        } catch (Exception e) {
-            LOGGER.severe("Error while loading ad details page: " + e.getMessage());
-        }
-    }
-
     private void handleEditAd() {
-        showAlert("INFORMATION", properties.getProperty("EDIT_AD_MSG"), properties.getProperty("NOT_IMPLEMENTED_MSG"));
+        showAlert(INFORMATION, properties.getProperty("EDIT_AD_MSG"), properties.getProperty("NOT_IMPLEMENTED_MSG"));
     }
 
     private void handleDeleteAd() {
-        showAlert("INFORMATION", properties.getProperty("DELETE_AD_MSG"), properties.getProperty("NOT_IMPLEMENTED_MSG"));
+        showAlert(INFORMATION, properties.getProperty("DELETE_AD_MSG"), properties.getProperty("NOT_IMPLEMENTED_MSG"));
     }
 }

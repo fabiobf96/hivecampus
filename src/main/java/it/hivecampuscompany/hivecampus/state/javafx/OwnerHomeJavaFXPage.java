@@ -4,14 +4,19 @@ import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.OwnerHomePage;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.BarDecorator;
+import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
 
+import java.util.Properties;
+
 
 public class OwnerHomeJavaFXPage extends OwnerHomePage {
+
+    Properties properties = LanguageLoader.getLanguageProperties();
 
     public OwnerHomeJavaFXPage(Context context) {
         super(context);
@@ -20,8 +25,8 @@ public class OwnerHomeJavaFXPage extends OwnerHomePage {
     public void handle() {
 
         TabPane tabPane = new TabPane();
-        Tab tab1 = new Tab();
-        Tab tab2 = new Tab();
+        Tab tab1 = new Tab(properties.getProperty("MANAGE_ADS_MSG"));
+        Tab tab2 = new Tab(properties.getProperty("MANAGE_REQUEST_MSG"));
 
         tabPane.getTabs().add(tab1);
         tab1.setClosable(false);
@@ -36,7 +41,7 @@ public class OwnerHomeJavaFXPage extends OwnerHomePage {
         BarDecorator barDecorator = new BarDecorator(tabComponent, context);
 
         goToManageAdsPage(new ManageAdsJavaFXPage(context));
-        context.request();
+        goToManageRequestPage(new ManageRequestsOwnerJavaFXPage(context));
 
         Scene scene = new Scene((Parent) barDecorator.setup());
         Stage stage = context.getStage();

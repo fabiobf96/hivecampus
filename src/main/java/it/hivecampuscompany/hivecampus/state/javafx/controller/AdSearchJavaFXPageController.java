@@ -4,6 +4,7 @@ import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.manager.AdSearchManager;
 import it.hivecampuscompany.hivecampus.state.Context;
+import it.hivecampuscompany.hivecampus.state.javafx.AdSearchJavaFXPage;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.PreviewRoomDecorator;
 import it.hivecampuscompany.hivecampus.view.utility.CustomListCell;
@@ -139,7 +140,23 @@ public class AdSearchJavaFXPageController extends JavaFxController {
             Node node = createPreviewAd(adBean);
             if (node != null) {
                 lvRooms.getItems().add(node);
+                node.setOnMouseClicked(event -> handlePreviewAd(adBean));
             }
+        }
+    }
+
+
+    private void handlePreviewAd(AdBean adBean) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/adDetails-view.fxml"));
+            context.getTab(0).setContent(loader.load()); // Caricamento del tab per la visualizzazione dei dettagli dell'annuncio
+
+            adSearchManager.getHomeMap(context.getSessionBean(), adBean);
+
+            AdDetailsJavaFxController controller = loader.getController();
+            controller.initialize(context, new AdSearchJavaFXPage(context), adBean);
+        } catch (Exception e) {
+            LOGGER.severe("Error while loading ad details page: " + e.getMessage());
         }
     }
 
