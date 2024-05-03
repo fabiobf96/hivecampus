@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-public class PreviewRoomDecorator extends Decorator{
+public class PreviewRoomDecorator extends Decorator {
 
     private static final Logger LOGGER = Logger.getLogger(PreviewRoomDecorator.class.getName());
     private final AdBean adBean;

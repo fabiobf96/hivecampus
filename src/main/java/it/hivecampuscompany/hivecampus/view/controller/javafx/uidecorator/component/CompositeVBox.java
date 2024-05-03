@@ -11,6 +11,5 @@ public class CompositeVBox extends Composite {
             vBox.getChildren().add(component.setup());
         }
         return vBox;
-
     }
 }
