@@ -36,4 +36,10 @@ public class LoginManager {
         Session session = sessionManager.createSession(user);
         return new SessionBean(session);
     }
+
+    public AccountBean getAccountInfo(SessionBean sessionBean) {
+        AccountDAO accountDAO = new AccountDAOCSV(); // AccountDAOMySql() or AccountDAOCSV()
+        Account account = accountDAO.retrieveAccountInformationByEmail(sessionBean.getEmail());
+        return account.toBasicBean();
+    }
 }

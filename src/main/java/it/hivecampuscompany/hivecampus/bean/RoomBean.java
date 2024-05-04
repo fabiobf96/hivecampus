@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.bean;
 
 import it.hivecampuscompany.hivecampus.model.Room;
-import it.hivecampuscompany.hivecampus.view.utility.FormatText;
+import it.hivecampuscompany.hivecampus.view.utility.Utility;
 
 public class RoomBean {
     private int idRoom;
@@ -11,6 +11,8 @@ public class RoomBean {
     private boolean[] services;
     private String description;
     private byte[] image;
+    private String imageName;
+
 
     public RoomBean(){
         // Default constructor
@@ -41,8 +43,16 @@ public class RoomBean {
         return idRoom;
     }
 
+    public void setIdRoom(int idRoom) {
+        this.idRoom = idRoom;
+    }
+
     public int getIdHome() {
         return idHome;
+    }
+
+    public void setIdHome(int idHome) {
+        this.idHome = idHome;
     }
 
     public int getSurface() {
@@ -81,6 +91,14 @@ public class RoomBean {
         return image;
     }
 
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
     @Override
     public String toString(){
         return typeRoom;
@@ -102,6 +120,6 @@ public class RoomBean {
                 " - Balcony: " + (services[1] ? "Yes" : "No") + "\n" +
                 " - Conditioner: " + (services[2] ? "Yes" : "No") + "\n" +
                 " - TV: " + (services[3] ? "Yes" : "No") + "\n\n" +
-                "Room Description: " + "\n" + FormatText.formatText(description);
+                "Room Description: " + "\n" + Utility.formatText(description);
     }
 }

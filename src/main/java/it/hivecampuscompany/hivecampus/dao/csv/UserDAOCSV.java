@@ -66,7 +66,8 @@ public class UserDAOCSV implements UserDAO {
     private boolean checkUserExist(String email) {
         List<String[]> userTable = CSVUtility.readAll(fd);
         String[] nextRecord;
-        while ((nextRecord = userTable.removeFirst()) != null) {
+        while (!userTable.isEmpty()) {
+            nextRecord = userTable.removeFirst();
             String storedEmail = nextRecord[UserAttributesOrder.GET_INDEX_EMAIL].trim();
             if (email.equals(storedEmail)) {
                 return true;

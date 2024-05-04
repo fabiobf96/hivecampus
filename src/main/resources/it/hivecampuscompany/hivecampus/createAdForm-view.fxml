@@ -86,7 +86,9 @@
                               <Insets bottom="0.5" left="0.5" right="0.5" top="0.5" />
                            </padding>
                         </Button>
-                        <VBox fx:id="vbHome" prefHeight="100.0" prefWidth="100.0" style="-fx-border-color: grey; -fx-border-radius: 5;">
+                        <VBox fx:id="vbHome" alignment="CENTER" prefHeight="100.0" prefWidth="100.0"
+                              style="-fx-border-color: grey; -fx-border-radius: 5;">
+                           <ImageView fx:id="imvHome" pickOnBounds="true"/>
                         </VBox>
                      </HBox>
                   </VBox>
@@ -166,7 +168,9 @@
                            <Insets bottom="0.5" left="0.5" right="0.5" top="0.5" />
                         </padding>
                      </Button>
-                     <VBox fx:id="vbRoom" prefHeight="100.0" prefWidth="100.0" style="-fx-border-color: grey; -fx-border-radius: 5;">
+                     <VBox fx:id="vbRoom" alignment="CENTER" prefHeight="100.0" prefWidth="100.0"
+                           style="-fx-border-color: grey; -fx-border-radius: 5;">
+                        <ImageView fx:id="imvRoom" pickOnBounds="true"/>
                      </VBox>
                   </HBox>
                </VBox>

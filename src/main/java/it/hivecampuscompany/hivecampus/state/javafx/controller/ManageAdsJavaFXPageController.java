@@ -16,14 +16,21 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
@@ -125,6 +132,17 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
     @FXML
     Button btnPublish;
 
+    @FXML
+    ImageView imvHome;
+    @FXML
+    ImageView imvRoom;
+
+    byte[] homeBytes;
+    byte[] roomBytes;
+
+    File homeFile;
+    File roomFile;
+
     String homeType;
     String roomType;
     int month;
@@ -139,9 +157,12 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
 
         // Retrieve ads
         List<AdBean> adBeans = retrieveAds(context.getSessionBean());
+
         if (adBeans.isEmpty()) {
-            showAlert("INFORMATION", String.valueOf(Alert.AlertType.INFORMATION), "No ads found");
+            Label noAds = new Label("No ads found. Create an ad to start renting!");
+            lvAds.getItems().add(noAds);
         }
+
         for (AdBean adBean : adBeans) {
             // Create a new list view item
             VBox vbItem = createPublishedAdCard(adBean);
@@ -165,17 +186,15 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
 
         // Listener for home type choice box
         cbxHType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            homeType = String.valueOf(cbxHType.getItems().indexOf(newValue) + 1);
+            homeType = newValue;
             numRooms = cbxHType.getItems().indexOf(newValue) + 1;
         });
 
-
         // Listener for room type choice box
         cbxRType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            roomType = String.valueOf(cbxRType.getItems().indexOf(newValue) + 1);
+            roomType = newValue;
             numRooms = cbxRType.getItems().indexOf(newValue) + 1;
         });
-
 
         // Listener for moth choice box
         cbxMonth.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> month = cbxMonth.getItems().indexOf(newValue) + 1);
@@ -215,42 +234,77 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
     }
 
     private void handleChooseHomeImage() {
-        File selectedFile = openFileChooser();
-        if (selectedFile != null && selectedFile.exists()) {
-            Image image = new Image(selectedFile.toURI().toString());
-            ImageView imvHome = createImageView(image);
+        homeFile = openFileChooser();
+        if (homeFile != null && homeFile.exists()) {
+            try {
+                homeBytes = Files.readAllBytes(homeFile.toPath());
 
-            Button deleteButton = createDeleteButton();
-            StackPane stackPane = createStackPane(imvHome, deleteButton);
+                // Convert bytes to image
+                Image image = byteToImage(homeBytes);
 
-            vbHome.getChildren().clear();
-            vbHome.getChildren().add(stackPane);
+                // Set image view
+                imvHome = new ImageView(image);
+                setImageView(imvHome);
 
-            deleteButton.setOnAction(event -> deleteImage(vbHome, stackPane));
+                Button deleteButton = createDeleteButton();
+                StackPane stackPane = createStackPane(imvHome, deleteButton);
+
+                vbHome.getChildren().clear();
+                vbHome.getChildren().add(stackPane);
+
+                deleteButton.setOnAction(event -> deleteImage(vbHome, stackPane));
+
+            } catch (IOException e) {
+                LOGGER.severe("Error while reading bytes from file");
+            }
         } else {
             LOGGER.severe("Error while opening file chooser");
         }
     }
 
     private void handleChooseRoomImage() {
-        File selectedFile = openFileChooser();
-        if (selectedFile != null && selectedFile.exists()) {
-            Image image = new Image(selectedFile.toURI().toString());
-            ImageView imvRoom = createImageView(image);
+        roomFile = openFileChooser();
+        if (roomFile != null && roomFile.exists()) {
+            try {
+                roomBytes = Files.readAllBytes(roomFile.toPath());
 
-            Button deleteButton = createDeleteButton();
-            StackPane stackPane = createStackPane(imvRoom, deleteButton);
+                // Convert bytes to image
+                Image image = byteToImage(roomBytes);
 
-            vbRoom.getChildren().clear();
-            vbRoom.getChildren().add(stackPane);
+                // Set image view
+                imvRoom = new ImageView(image);
+                setImageView(imvRoom);
 
-            deleteButton.setOnAction(event -> deleteImage(vbRoom, stackPane));
+                Button deleteButton = createDeleteButton();
+                StackPane stackPane = createStackPane(imvRoom, deleteButton);
+
+                vbRoom.getChildren().clear();
+                vbRoom.getChildren().add(stackPane);
+
+                deleteButton.setOnAction(event -> deleteImage(vbRoom, stackPane));
+
+            } catch (IOException e) {
+                LOGGER.severe("Error while reading bytes from file");
+            }
         } else {
             LOGGER.severe("Error while opening file chooser");
         }
     }
 
     private void handlePublish() {
+
+        //Check if all fields are filled
+        if (!checkFields()) {
+            showAlert(ERROR, String.valueOf(Alert.AlertType.ERROR), "EMPTY_FIELDS_MSG");
+            return;
+        }
+
+        // Check if images are chosen
+        if (imvHome.getImage() == null || imvRoom.getImage() == null) {
+            showAlert(ERROR, String.valueOf(Alert.AlertType.ERROR), "Please select images");
+            return;
+        }
+
         // Retrieve data from the form
         String street = txfStreet.getText();
         String numStreet = txfNumStreet.getText();
@@ -268,24 +322,41 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         boolean conditioner = ckbConditioner.isSelected();
         boolean tvConnection = ckbTV.isSelected();
 
+        //Save filename
+        String homeFileName = homeFile.getName();
+        String roomFileName = roomFile.getName();
+
         // Create beans
         String address = street + ", " + numStreet + ", " + city;
         int lift = elevator ? 1 : 0;
         Integer[] features = new Integer[]{numRooms, numBath, floor, lift};
         HomeBean homeBean = new HomeBean(address, homeType, hSurface, features, hDescription);
 
+        // Save home image
+        homeBean.setImage(homeBytes);
+        homeBean.setImageName(homeFileName);
+
         boolean[] services = new boolean[]{privateBath, balcony, conditioner, tvConnection};
         RoomBean roomBean = new RoomBean(roomType, rSurface, services, rDescription);
+
+        // Save room image
+        roomBean.setImage(roomBytes);
+        roomBean.setImageName(roomFileName);
 
         // Publish ad
         boolean res = manager.publishAd(context.getSessionBean(),homeBean, roomBean, price, AdStart.fromInt(month));
 
         if (res) {
-            showAlert("INFORMATION", String.valueOf(Alert.AlertType.INFORMATION), "Ad published successfully");
+            showAlert(INFORMATION, String.valueOf(Alert.AlertType.INFORMATION), "Ad published successfully");
             handleBack();
         } else {
-            showAlert("ERROR", String.valueOf(Alert.AlertType.ERROR), "Error while publishing ad. Please try again.");
+            showAlert(ERROR, String.valueOf(Alert.AlertType.ERROR), "Error while publishing ad. Please try again.");
         }
+    }
+
+    private void handleBack() {
+        manageAdsPage.goToOwnerHomePage(new OwnerHomeJavaFXPage(context));
+        context.request();
     }
 
     private List<AdBean> retrieveAds(SessionBean sessionBean) {
@@ -295,14 +366,6 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
             LOGGER.severe("Error while retrieving ads");
             return Collections.emptyList();
         }
-    }
-
-    private ImageView createImageView(Image image) {
-        ImageView imvHome = new ImageView(image);
-        imvHome.setFitWidth(100);
-        imvHome.setFitHeight(100);
-        imvHome.setPreserveRatio(false);
-        return imvHome;
     }
 
     private Button createDeleteButton() {
@@ -330,6 +393,12 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         return stackPane;
     }
 
+    private void setImageView(ImageView imageView) {
+        imageView.setFitWidth(100);
+        imageView.setFitHeight(100);
+        imageView.setPreserveRatio(false);
+    }
+
     private void deleteImage(VBox vbox, StackPane stackPane) {
         vbox.getChildren().remove(stackPane);
     }
@@ -341,8 +410,19 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         return fileChooser.showOpenDialog(context.getStage());
     }
 
-    private void handleBack() {
-        manageAdsPage.goToOwnerHomePage(new OwnerHomeJavaFXPage(context));
-        context.request();
+    private Image byteToImage(byte[] bytes) throws IOException {
+       // Convert byte array to ByteArrayInputStream
+       ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+       // Create Image from ByteArrayInputStream
+       Image image = new Image(bis);
+       bis.close(); // Close the stream
+       return image;
+    }
+
+    private boolean checkFields() {
+        return  !txfStreet.getText().isEmpty() && !txfNumStreet.getText().isEmpty() && !txfCity.getText().isEmpty() &&
+                !txfHSurface.getText().isEmpty() && !txfNumBath.getText().isEmpty() && !txfFloor.getText().isEmpty() &&
+                !txaHDescription.getText().isEmpty() && !txfRSurface.getText().isEmpty() && !txfPrice.getText().isEmpty() &&
+                !txaRDescription.getText().isEmpty();
     }
 }

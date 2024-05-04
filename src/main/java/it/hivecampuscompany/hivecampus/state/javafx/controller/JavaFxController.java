@@ -1,7 +1,9 @@
 package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
+import it.hivecampuscompany.hivecampus.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
+import it.hivecampuscompany.hivecampus.manager.LoginManager;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.scene.control.Alert;
@@ -85,6 +87,11 @@ public abstract class JavaFxController {
             imageView.setImage(new Image(new ByteArrayInputStream(imageBytes)));
             imageView.setPreserveRatio(false);
         }
+    }
+
+    protected AccountBean getAccountInfo() {
+        LoginManager manager = new LoginManager();
+        return manager.getAccountInfo(context.getSessionBean());
     }
 
 }

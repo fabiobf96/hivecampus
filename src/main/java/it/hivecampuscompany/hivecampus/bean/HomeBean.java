@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.bean;
 
 import it.hivecampuscompany.hivecampus.model.Home;
-import it.hivecampuscompany.hivecampus.view.utility.FormatText;
+import it.hivecampuscompany.hivecampus.view.utility.Utility;
 
 public class HomeBean {
     private int idHome;
@@ -11,6 +11,7 @@ public class HomeBean {
     private Integer[] features;
     private String description;
     private byte[] image;
+    private String imageName;
 
     public HomeBean(){
         // Default constructor
@@ -73,6 +74,9 @@ public class HomeBean {
     public int getId() {
         return idHome;
     }
+    public void setIdHome(int idHome) {
+        this.idHome = idHome;
+    }
 
     public void setImage(byte[] image) {
         this.image = image;
@@ -80,6 +84,14 @@ public class HomeBean {
 
     public byte[] getImage() {
         return image;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public String getImageName() {
+        return imageName;
     }
 
     @Override
@@ -94,6 +106,6 @@ public class HomeBean {
                 " - Bathrooms: " + features[1] + "\n" +
                 " - Floor: " + features[2] + "\n" +
                 " - Elevator: " + features[3] + "\n\n" +
-                "House Description: " + "\n" + FormatText.formatText(description);
+                "House Description: " + "\n" + Utility.formatText(description);
     }
 }

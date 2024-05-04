@@ -1,7 +1,10 @@
 package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
+import it.hivecampuscompany.hivecampus.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.javafx.InitialJavaFXPage;
+import it.hivecampuscompany.hivecampus.state.javafx.OwnerHomeJavaFXPage;
+import it.hivecampuscompany.hivecampus.state.javafx.TenantHomeJavaFXPage;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
@@ -47,11 +50,12 @@ public class HomePageJavaFxController extends JavaFxController {
 
     public void initializeHomeView(Context context) {
         this.context = context;
+        AccountBean accountBean = getAccountInfo();
 
         mbtnNotifications.setText(properties.getProperty("NOTIFICATIONS_MSG"));
         mbtnMenuAccount.setText(properties.getProperty("ACCOUNT_MSG"));
 
-        lblUsername.setText("Pippo Pluto"); // devo recuperare il nome dell'utente loggato
+        lblUsername.setText(accountBean.getName() + " " + accountBean.getSurname());
         lblSettings.setText(properties.getProperty("ACCOUNT_SETTINGS_MSG"));
         lblLanguage.setText(properties.getProperty("CHANGE_LANGUAGE_MSG"));
         lblLogout.setText(properties.getProperty("LOGOUT_MSG"));
@@ -101,7 +105,7 @@ public class HomePageJavaFxController extends JavaFxController {
 
             // Ottieni il controller dalla finestra modale
             AccountSettingsJavaFxController controller = loader.getController();
-            controller.initializeAccountSettingsView();
+            controller.initializeAccountSettingsView(context);
 
             // Crea e visualizza la finestra modale con il form per le impostazioni dell'account
             Stage popUpStage = new Stage();
@@ -143,6 +147,11 @@ public class HomePageJavaFxController extends JavaFxController {
                 // Aggiorna le proprietà della lingua
                 properties = LanguageLoader.getLanguageProperties();
                 // Dopo che la finestra modale è stata chiusa, esegue il codice per aggiornare la home page e i tab
+                if (context.getSessionBean().getRole().equals("owner")) {
+                    context.setState(new OwnerHomeJavaFXPage(context));
+                } else {
+                    context.setState(new TenantHomeJavaFXPage(context));
+                }
                 context.request();
             });
 

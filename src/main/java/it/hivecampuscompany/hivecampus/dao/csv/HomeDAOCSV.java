@@ -7,8 +7,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import it.hivecampuscompany.hivecampus.bean.HomeBean;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.model.Home;
-import it.hivecampuscompany.hivecampus.view.utility.CalculateDistance;
-import it.hivecampuscompany.hivecampus.view.utility.Geocoding;
+import it.hivecampuscompany.hivecampus.view.utility.Utility;
 
 import java.awt.geom.Point2D;
 import java.io.*;
@@ -62,7 +61,7 @@ public class HomeDAOCSV implements HomeDAO {
             double homeLongitude = Double.parseDouble(homeRecord[HomeAttributes.INDEX_LONGITUDE]);
             double homeLatitude = Double.parseDouble(homeRecord[HomeAttributes.INDEX_LATITUDE]);
             // Calculate the distance between the university and the home by Harvesine formula
-            if (CalculateDistance.haversineFormula(homeLongitude, homeLatitude, uniCoordinates.getX(), uniCoordinates.getY()) <= distance) {
+            if (Utility.calculateDistance(homeLongitude, homeLatitude, uniCoordinates.getX(), uniCoordinates.getY()) <= distance) {
                 Integer[] features = {
                         Integer.parseInt(homeRecord[HomeAttributes.INDEX_NROOMS]),
                         Integer.parseInt(homeRecord[HomeAttributes.INDEX_NBATHROOMS]),
@@ -121,7 +120,7 @@ public class HomeDAOCSV implements HomeDAO {
 
         int lastId = CSVUtility.findLastRowIndex(fd);
 
-        Point2D coordinates = Geocoding.getCoordinates(homeBean.getAddress());
+        Point2D coordinates = Utility.getCoordinates(homeBean.getAddress());
 
         if (coordinates == null) {
             LOGGER.log(Level.SEVERE, "Failed to retrieve coordinates");
