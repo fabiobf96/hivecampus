@@ -9,7 +9,6 @@ import it.hivecampuscompany.hivecampus.manager.AdManager;
 import it.hivecampuscompany.hivecampus.manager.LeaseManager;
 import it.hivecampuscompany.hivecampus.manager.LeaseRequestManager;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
-import it.hivecampuscompany.hivecampus.model.Lease;
 
 import java.util.List;
 
@@ -21,7 +20,8 @@ public abstract class ManageLeasePage implements State {
 
     public List<AdBean> getProcessingAds() throws InvalidSessionException {
         AdManager adManager = new AdManager();
-        return adManager.searchProcessingAds(context.getSessionBean());
+        AdBean adBean = new AdBean(AdStatus.PROCESSING);
+        return adManager.searchAdsByOwner(context.getSessionBean(), adBean);
     }
 
     public LeaseRequestBean getLeaseRequestInformation(AdBean adBean) throws InvalidSessionException {

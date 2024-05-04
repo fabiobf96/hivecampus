@@ -1,6 +1,9 @@
 package it.hivecampuscompany.hivecampus.manager;
 
-import it.hivecampuscompany.hivecampus.bean.*;
+import it.hivecampuscompany.hivecampus.bean.AdBean;
+import it.hivecampuscompany.hivecampus.bean.HomeBean;
+import it.hivecampuscompany.hivecampus.bean.RoomBean;
+import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
@@ -16,39 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdManager {
-    public List<AdBean> searchAvailableAds(SessionBean sessionBean) throws InvalidSessionException {
+    public List<AdBean> searchAdsByOwner(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
         AdDAO adDAO = new AdDAOCSV();
         if (sessionManager.validSession(sessionBean)) {
-            List<Ad> adList = adDAO.retrieveAdsByOwner(sessionBean, AdStatus.AVAILABLE);
-            List<AdBean> adBeanList = new ArrayList<>();
-            for (Ad ad : adList){
-                adBeanList.add(ad.toBasicBean());
-            }
-            return adBeanList;
-        }
-        throw new InvalidSessionException();
-    }
-
-    public List<AdBean> searchProcessingAds(SessionBean sessionBean) throws InvalidSessionException{
-        SessionManager sessionManager = SessionManager.getInstance();
-        AdDAO adDAO = new AdDAOCSV();
-        if (sessionManager.validSession(sessionBean)) {
-            List<Ad> adList = adDAO.retrieveAdsByOwner(sessionBean, AdStatus.PROCESSING);
-            List<AdBean> adBeanList = new ArrayList<>();
-            for (Ad ad : adList){
-                adBeanList.add(ad.toBasicBean());
-            }
-            return adBeanList;
-        }
-        throw new InvalidSessionException();
-    }
-
-    public List<AdBean> getAdsByOwner(SessionBean sessionBean) throws InvalidSessionException {
-        SessionManager sessionManager = SessionManager.getInstance();
-        AdDAO adDAO = new AdDAOCSV();
-        if (sessionManager.validSession(sessionBean)) {
-            List<Ad> adList = adDAO.retrieveAdsByOwner(sessionBean, null);
+            List<Ad> adList = adDAO.retrieveAdsByOwner(sessionBean, adBean.getAdStatus());
             List<AdBean> adBeanList = new ArrayList<>();
             for (Ad ad : adList){
                 adBeanList.add(ad.toBean());
@@ -59,7 +34,7 @@ public class AdManager {
     }
 
     public List<AdBean> getDecoratedAdsByOwner(SessionBean sessionBean) throws InvalidSessionException {
-        List<AdBean> adBeanList = getAdsByOwner(sessionBean);
+        List<AdBean> adBeanList = searchAdsByOwner(sessionBean, null);
         RoomDAO roomDAO = new RoomDAOCSV();
         HomeDAO homeDAO = new HomeDAOCSV();
         for (AdBean adBean : adBeanList){
