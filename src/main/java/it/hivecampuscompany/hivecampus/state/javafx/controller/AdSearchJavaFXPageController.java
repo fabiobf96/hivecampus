@@ -2,7 +2,7 @@ package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
-import it.hivecampuscompany.hivecampus.manager.AdSearchManager;
+import it.hivecampuscompany.hivecampus.manager.AdManager;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.javafx.AdSearchJavaFXPage;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class AdSearchJavaFXPageController extends JavaFxController {
-    private AdSearchManager adSearchManager;
+    private AdManager manager;
     private static final Logger LOGGER = Logger.getLogger(AdSearchJavaFXPageController.class.getName());
 
     @FXML
@@ -55,7 +55,7 @@ public class AdSearchJavaFXPageController extends JavaFxController {
 
     public void initialize(Context context) {
         this.context = context; // Set the context
-        this.adSearchManager = new AdSearchManager();
+        this.manager = new AdManager();
 
         lblFilters.setText(properties.getProperty("FILTERS_MSG"));
         lblServices.setText(properties.getProperty("SERVICES_MSG"));
@@ -108,7 +108,7 @@ public class AdSearchJavaFXPageController extends JavaFxController {
     }
 
     private List<AdBean> retrieveAdsByFilters(FiltersBean filtersBean) {
-        List<AdBean> adBeans = adSearchManager.searchDecoratedAdsByFilters(filtersBean);
+        List<AdBean> adBeans = manager.searchDecoratedAdsByFilters(filtersBean);
         if (adBeans == null || adBeans.isEmpty()) {
             showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("NO_ADS_FOUND_MSG"));
             return Collections.emptyList();
@@ -151,7 +151,7 @@ public class AdSearchJavaFXPageController extends JavaFxController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/adDetails-view.fxml"));
             context.getTab(0).setContent(loader.load()); // Caricamento del tab per la visualizzazione dei dettagli dell'annuncio
 
-            adSearchManager.getHomeMap(context.getSessionBean(), adBean);
+            manager.getHomeMap(context.getSessionBean(), adBean);
 
             AdDetailsJavaFxController controller = loader.getController();
             controller.initialize(context, new AdSearchJavaFXPage(context), adBean);

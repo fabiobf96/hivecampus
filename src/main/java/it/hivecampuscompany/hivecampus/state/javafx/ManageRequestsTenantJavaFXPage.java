@@ -18,7 +18,7 @@ public class ManageRequestsTenantJavaFXPage extends ManageRequestsPage {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/tabManageRequests-view.fxml"));
 
-            context.getTab(1).setText(context.getLanguage().getProperty("MANAGE_REQUESTS_MSG"));
+            context.getTab(1).setText(context.getLanguage().getProperty("MANAGE_REQUEST_MSG"));
             context.getTab(1).setContent(loader.load());
 
             ManageRequestsTenantJavaFXPageController controller = loader.getController();

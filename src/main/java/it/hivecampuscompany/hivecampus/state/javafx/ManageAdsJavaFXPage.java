@@ -5,8 +5,11 @@ import it.hivecampuscompany.hivecampus.state.ManageAdsPage;
 import it.hivecampuscompany.hivecampus.state.javafx.controller.ManageAdsJavaFXPageController;
 import javafx.fxml.FXMLLoader;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class ManageAdsJavaFXPage extends ManageAdsPage {
+
+    private static final Logger LOGGER = Logger.getLogger(ManageAdsJavaFXPage.class.getName());
 
     public ManageAdsJavaFXPage(Context context) {
         super(context);
@@ -24,7 +27,7 @@ public class ManageAdsJavaFXPage extends ManageAdsPage {
             controller.initialize(context);
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.severe("Error while loading ManageAdsJavaFXPage");
         }
     }
 }

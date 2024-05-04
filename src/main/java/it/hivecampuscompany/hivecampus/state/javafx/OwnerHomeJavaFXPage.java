@@ -41,7 +41,8 @@ public class OwnerHomeJavaFXPage extends OwnerHomePage {
         BarDecorator barDecorator = new BarDecorator(tabComponent, context);
 
         goToManageAdsPage(new ManageAdsJavaFXPage(context));
-        goToManageRequestPage(new ManageRequestsOwnerJavaFXPage(context));
+
+        tab2.setOnSelectionChanged(event -> goToManageRequestPage(new ManageRequestsOwnerJavaFXPage(context)));
 
         Scene scene = new Scene((Parent) barDecorator.setup());
         Stage stage = context.getStage();
