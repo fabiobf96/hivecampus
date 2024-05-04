@@ -10,13 +10,15 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class InsertImageIntoCSV {
+public class ImageSaverCSV {
     private File roomFile;
     private File homeFile;
-    private static final Logger LOGGER = Logger.getLogger(InsertImageIntoCSV.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ImageSaverCSV.class.getName());
     private Properties properties;
     static final String ERROR_ACCESS = "ERR_ACCESS";
-    public InsertImageIntoCSV() {
+    static final String ERROR_PARSER = "ERR_PARSER";
+
+    public ImageSaverCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")){
             properties = new Properties();
             properties.load(input);
@@ -28,7 +30,11 @@ public class InsertImageIntoCSV {
         }
     }
 
-    public void saveRoom(String imageName, String imageType, byte[] byteArray, int idRoom, int idHome) {
+    public void saveRoomImage (String imageName, String imageType, byte[] byteArray, int idRoom, int idHome) {
+        // Check if the image already exists
+        if (imageRoomAlreadyExists(imageName, idRoom, idHome)) {
+            return;
+        }
 
         int idImage = getNextIdFromFile(roomFile);
 
@@ -44,11 +50,16 @@ public class InsertImageIntoCSV {
             writer.writeNext(room);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERROR_ACCESS), roomFile), e);
-            System.exit(3);
+            System.exit(2);
         }
     }
 
-    public void saveHome (String imageName, String imageType, byte[] byteArray, int idHome) {
+    public void saveHomeImage (String imageName, String imageType, byte[] byteArray, int idHome) {
+        // Check if the image already exists
+        if (imageHomeAlreadyExists(imageName, idHome)) {
+            return;
+        }
+
         int idImage = getNextIdFromFile(homeFile);
 
         String[] home = new String[6];
@@ -62,7 +73,7 @@ public class InsertImageIntoCSV {
             writer.writeNext(home);
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERROR_ACCESS), homeFile), e);
-            System.exit(3);
+            System.exit(2);
         }
     }
 
@@ -82,11 +93,48 @@ public class InsertImageIntoCSV {
             LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERROR_ACCESS), fd), e);
             System.exit(3);
         } catch (CsvException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_PARSER"), fd), e);
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERROR_PARSER), fd), e);
             System.exit(3);
         }
 
         return (maxId == 0) ? 1 : maxId + 1;
     }
 
+    private boolean imageHomeAlreadyExists(String imageName, int idHome) {
+        try (CSVReader reader = new CSVReader(new FileReader(homeFile))) {
+            List<String[]> imageTable = reader.readAll();
+            imageTable.remove(0);
+            for (String[] imageRecord : imageTable) {
+                if (Integer.parseInt(imageRecord[1]) == idHome && imageRecord[2].equals(imageName)){
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERROR_ACCESS), homeFile), e);
+            System.exit(3);
+        } catch (CsvException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERROR_PARSER), homeFile), e);
+            System.exit(3);
+        }
+        return false;
+    }
+
+    private boolean imageRoomAlreadyExists(String imageName, int idRoom, int idHome) {
+        try (CSVReader reader = new CSVReader(new FileReader(roomFile))) {
+            List<String[]> imageTable = reader.readAll();
+            imageTable.remove(0);
+            for (String[] imageRecord : imageTable) {
+                if (Integer.parseInt(imageRecord[1]) == idRoom && Integer.parseInt(imageRecord[2]) == idHome && imageRecord[3].equals(imageName)){
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERROR_ACCESS), roomFile), e);
+            System.exit(3);
+        } catch (CsvException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty(ERROR_PARSER), roomFile), e);
+            System.exit(3);
+        }
+        return false;
+    }
 }

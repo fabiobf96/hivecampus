@@ -57,11 +57,11 @@ public class ImageChooser extends Application {
         // Azione quando viene cliccato il pulsante submit
         btnSubmit.setOnAction(e -> {
             // Recupera l'id della stanza e della casa
-           //int idRoom = Integer.parseInt(txfIdRoom.getText());  // <-- serve per l'inserimento room
+            int idRoom = Integer.parseInt(txfIdRoom.getText());  // <-- serve per l'inserimento room
             int idHome = Integer.parseInt(txfIdHome.getText());
 
             // Se è stata selezionata un'immagine e sono stati inseriti l'id della stanza e della casa
-            if (selectedFile != null  && txfIdHome.getText() != null) { // && txfIdRoom.getText() != null <-- serve per l'inserimento room
+            if (selectedFile != null  && txfIdHome.getText() != null && txfIdRoom.getText() != null ) { //<-- serve per l'inserimento room
                 try {
                     // Leggi l'immagine come array di byte
                     byte[] imageArray = Files.readAllBytes(selectedFile.toPath());  // <-- funziona per entrambi
@@ -74,8 +74,8 @@ public class ImageChooser extends Application {
 
                     //insertRoomImageIntoDB(imageName, imageType, imageArray, idRoom, idHome);  // <-- lato database
 
-                    //new InsertImageIntoCSV().saveRoom(imageName, imageType, imageArray, idRoom, idHome); // <-- lato CSV
-                    new InsertImageIntoCSV().saveHome(imageName, imageType, imageArray, idHome); // <-- lato CSV
+                    new ImageSaverCSV().saveRoomImage(imageName, imageType, imageArray, idRoom, idHome); // <-- lato CSV
+                    //new ImageSaverCSV().saveHomeImage(imageName, imageType, imageArray, idHome); // <-- lato CSV
 
                     // Ora puoi utilizzare byteArray come desideri
                 } catch (IOException ex) {
