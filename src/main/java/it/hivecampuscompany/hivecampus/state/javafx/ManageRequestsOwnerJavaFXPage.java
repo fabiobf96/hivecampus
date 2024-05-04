@@ -14,18 +14,14 @@ import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decora
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.LeaseRequestDecorator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
 
 public class ManageRequestsOwnerJavaFXPage extends ManageRequestsPage {
-    private AdBean adBean;
     public ManageRequestsOwnerJavaFXPage(Context context) {
         super(context);
     }
@@ -40,21 +36,24 @@ public class ManageRequestsOwnerJavaFXPage extends ManageRequestsPage {
                 Node ad = loader.load();
                 PreviewAdJavaFxController controller = loader.getController();
                 controller.setAdBean(adBean);
-                controller.initializePreviewFeatures();
-                ad.setOnMouseClicked(event -> {
-                    this.adBean = controller.getAdBean();
-                    manageLeaseRequests();
-                });
+                controller.initializePreviewFeatures(context);
                 listView.getItems().add(ad);
             }
-            Stage stage = context.getStage();
-            stage.setScene(new Scene(listView));
-            stage.show();
+            listView.setOnMouseClicked(event -> {
+                // Ottieni l'indice dell'elemento selezionato
+                int index = listView.getSelectionModel().getSelectedIndex();
+                if (index != -1) { // Controlla se l'indice è valido
+                    AdBean adBean = adBeanList.get(index); // Recupera l'AdBean associato
+                    manageLeaseRequests(adBean); // Chiama il metodo con il bean corrispondente
+                }
+            });
+            context.getTab(1).setText(context.getLanguage().getProperty("MANAGE_REQUEST_MSG"));
+            context.getTab(1).setContent(listView);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
-    public void manageLeaseRequests() {
+    public void manageLeaseRequests(AdBean adBean) {
         try {
             ListView<Node> listView = new ListView<>();
             CompositeVBox composite = new CompositeVBox();
@@ -65,7 +64,7 @@ public class ManageRequestsOwnerJavaFXPage extends ManageRequestsPage {
             ((VBox) ad).getChildren().add(btnGoBack);
             PreviewAdJavaFxController controller = loader.getController();
             controller.setAdBean(adBean);
-            controller.initializePreviewFeatures();
+            controller.initializePreviewFeatures(context);
             BasicComponent adComponent = new BasicComponent(ad);
             composite.addChildren(adComponent);
             List<LeaseRequestBean> requestBeanList = retrieveLeaseRequests(adBean);
@@ -78,30 +77,29 @@ public class ManageRequestsOwnerJavaFXPage extends ManageRequestsPage {
                 Button btnReject = (Button) requestNode.lookup("#btnReject");
                 btnAccept.setOnAction(event -> {
                     requestBean.setStatus(LeaseRequestStatus.ACCEPTED);
-                    //try {
-                    //    updateLeaseRequest(requestBean);
+                    try {
+                        updateLeaseRequest(requestBean);
                         context.request();
-                    //} catch (InvalidSessionException e) {
-                    //    throw new RuntimeException(e);
-                    //}
+                    } catch (InvalidSessionException e) {
+                        throw new RuntimeException(e);
+                    }
                 });
                 btnReject.setOnAction(event -> {
                     requestBean.setStatus(LeaseRequestStatus.REJECTED);
-                    //try {
-                    //    updateLeaseRequest(requestBean);
+                    try {
+                        updateLeaseRequest(requestBean);
                         listView.getItems().remove(requestBeanList.indexOf(requestBean));
-                    //} catch (InvalidSessionException e) {
-                    //    throw new RuntimeException(e);
-                    //}
+                        requestBeanList.remove(requestBean);
+                    } catch (InvalidSessionException e) {
+                        throw new RuntimeException(e);
+                    }
                 });
                 listView.getItems().add(requestNode);
             }
             BasicComponent listRequests = new BasicComponent(listView);
             composite.addChildren(listRequests);
             CssDecoration cssDecoration = new CssDecoration(composite);
-            Stage stage = context.getStage();
-            stage.setScene(new Scene((Parent) cssDecoration.setup()));
-            stage.show();
+            context.getTab(1).setContent(cssDecoration.setup());
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InvalidSessionException e) {
