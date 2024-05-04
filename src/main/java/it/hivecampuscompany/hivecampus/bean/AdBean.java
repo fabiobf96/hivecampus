@@ -3,7 +3,7 @@ package it.hivecampuscompany.hivecampus.bean;
 import it.hivecampuscompany.hivecampus.model.*;
 
 public class AdBean {
-    private final int id;
+    private int id;
     private AccountBean ownerBean;
     private HomeBean homeBean;
     private RoomBean roomBean;
@@ -12,7 +12,9 @@ public class AdBean {
     private int price;
     private String university;
     private double distance;
-
+    public AdBean(AdStatus adStatus){
+        this.adStatus = adStatus;
+    }
     public AdBean (int id){
         this.id = id;
     }

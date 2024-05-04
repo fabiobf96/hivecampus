@@ -16,7 +16,8 @@ public abstract class ManageRequestsPage implements State {
     }
     public List<AdBean> retrieveAvailableAds() throws InvalidSessionException {
         AdManager adManager = new AdManager();
-        return adManager.searchAvailableAds(context.getSessionBean());
+        AdBean adBean = new AdBean(AdStatus.AVAILABLE);
+        return adManager.searchAdsByOwner(context.getSessionBean(), adBean);
     }
     public List<LeaseRequestBean> retrieveLeaseRequests(AdBean adBean) throws InvalidSessionException {
         adBean.setAdStatus(AdStatus.AVAILABLE);

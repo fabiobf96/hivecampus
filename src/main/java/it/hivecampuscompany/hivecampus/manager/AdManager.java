@@ -19,39 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdManager {
-    public List<AdBean> searchAvailableAds(SessionBean sessionBean) throws InvalidSessionException {
+    public List<AdBean> searchAdsByOwner(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
         AdDAO adDAO = new AdDAOCSV();
         if (sessionManager.validSession(sessionBean)) {
-            List<Ad> adList = adDAO.retrieveAdsByOwner(sessionBean, AdStatus.AVAILABLE);
-            List<AdBean> adBeanList = new ArrayList<>();
-            for (Ad ad : adList){
-                adBeanList.add(ad.toBasicBean());
-            }
-            return adBeanList;
-        }
-        throw new InvalidSessionException();
-    }
-
-    public List<AdBean> searchProcessingAds(SessionBean sessionBean) throws InvalidSessionException{
-        SessionManager sessionManager = SessionManager.getInstance();
-        AdDAO adDAO = new AdDAOCSV();
-        if (sessionManager.validSession(sessionBean)) {
-            List<Ad> adList = adDAO.retrieveAdsByOwner(sessionBean, AdStatus.PROCESSING);
-            List<AdBean> adBeanList = new ArrayList<>();
-            for (Ad ad : adList){
-                adBeanList.add(ad.toBasicBean());
-            }
-            return adBeanList;
-        }
-        throw new InvalidSessionException();
-    }
-
-    public List<AdBean> getAdsByOwner(SessionBean sessionBean) throws InvalidSessionException {
-        SessionManager sessionManager = SessionManager.getInstance();
-        AdDAO adDAO = new AdDAOCSV();
-        if (sessionManager.validSession(sessionBean)) {
-            List<Ad> adList = adDAO.retrieveAdsByOwner(sessionBean, null);
+            List<Ad> adList = adDAO.retrieveAdsByOwner(sessionBean, adBean.getAdStatus());
             List<AdBean> adBeanList = new ArrayList<>();
             for (Ad ad : adList){
                 adBeanList.add(ad.toBean());
@@ -60,7 +32,6 @@ public class AdManager {
         }
         throw new InvalidSessionException();
     }
-
     public List<HomeBean> getHomesByOwner(SessionBean sessionBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
         HomeDAO homeDAO = new HomeDAOCSV();

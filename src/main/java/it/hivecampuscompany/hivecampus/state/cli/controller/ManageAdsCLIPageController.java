@@ -159,7 +159,7 @@ public class ManageAdsCLIPageController extends CLIController {
     }
 
     public void viewAds(SessionBean sessionBean) throws InvalidSessionException {
-        List<AdBean> adBeans = manager.getAdsByOwner(sessionBean);
+        List<AdBean> adBeans = manager.searchAdsByOwner(sessionBean, new AdBean(null));
         for (AdBean adBean : adBeans) {
             formView.displayMessage(adBean.toString());
         }
