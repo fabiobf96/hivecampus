@@ -28,16 +28,16 @@ public class AdManager {
         throw new InvalidSessionException();
     }
 
-    public List<AdBean> getDecoratedAdsByOwner(SessionBean sessionBean) throws InvalidSessionException {
-        List<AdBean> adBeanList = searchAdsByOwner(sessionBean, new AdBean(null));
+    public List<AdBean> getDecoratedAdsByOwner(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
+        List<AdBean> adBeanList = searchAdsByOwner(sessionBean, adBean);
         RoomDAO roomDAO = new RoomDAOCSV();
         HomeDAO homeDAO = new HomeDAOCSV();
-        for (AdBean adBean : adBeanList){
-            byte[] roomBytes = roomDAO.getRoomImage(adBean.getRoomBean().getIdRoom(), adBean.getHomeBean().getId());
-            byte[] homeBytes = homeDAO.getHomeImage(adBean.getHomeBean().getId());
+        for (AdBean adBeanWithImage : adBeanList){
+            byte[] roomBytes = roomDAO.getRoomImage(adBeanWithImage.getRoomBean().getIdRoom(), adBeanWithImage.getHomeBean().getId());
+            byte[] homeBytes = homeDAO.getHomeImage(adBeanWithImage.getHomeBean().getId());
             if (roomBytes != null && homeBytes != null) {
-                adBean.getRoomBean().setImage(roomBytes);
-                adBean.getHomeBean().setImage(homeBytes);
+                adBeanWithImage.getRoomBean().setImage(roomBytes);
+                adBeanWithImage.getHomeBean().setImage(homeBytes);
             }
         }
         return adBeanList;

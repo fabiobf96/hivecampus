@@ -22,7 +22,9 @@ public class Room {
     public RoomBean toBasicBean() {
         return new RoomBean(idRoom, typeRoom);
     }
-
+    public RoomBean toBean() {
+        return new RoomBean(idRoom, surface, typeRoom, services, description);
+    }
     public int getIdRoom() {
         return idRoom;
     }

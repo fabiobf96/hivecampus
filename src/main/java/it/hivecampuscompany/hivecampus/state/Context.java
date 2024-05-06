@@ -4,7 +4,9 @@ import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.manager.SessionManager;
+import it.hivecampuscompany.hivecampus.state.javafx.InitialJavaFXPage;
 import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Tab;
 import javafx.stage.Stage;
 
@@ -75,6 +77,13 @@ public class Context {
             }
             request();
         }
+    }
+    public void invalidSessionExceptionHandle() {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setContentText("Session Expire!");
+        alert.showAndWait();
+        state = new InitialJavaFXPage(this);
+        request();
     }
 }
 

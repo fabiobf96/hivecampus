@@ -30,6 +30,14 @@ public class RoomBean {
         this.description = description;
     }
 
+    public RoomBean(int idRoom, int surface, String typeRoom, boolean[] services, String description) {
+        this.idRoom = idRoom;
+        this.surface = surface;
+        this.typeRoom = typeRoom;
+        this.services = services;
+        this.description = description;
+    }
+
     public RoomBean(Room room) {
         this.idRoom = room.getIdRoom();
         this.idHome = room.getIdHome();

@@ -111,7 +111,7 @@ public class AdBean {
     }
 
     public String adTitle() {
-        return " " + homeBean.getType() + " - " + homeBean.getAddress() + " - " + price + " €";
+        return " " + roomBean.getType() + " - " + homeBean.getAddress() + " - " + price + " €";
     }
 
     public String getPreview() {

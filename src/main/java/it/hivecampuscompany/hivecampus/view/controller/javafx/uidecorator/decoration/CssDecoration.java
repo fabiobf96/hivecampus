@@ -2,6 +2,8 @@ package it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decor
 
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
 import javafx.scene.Node;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 public class CssDecoration extends Decorator {
     public CssDecoration(Component component) {
@@ -13,6 +15,7 @@ public class CssDecoration extends Decorator {
                 "-fx-border-radius: 10; " +
                 "-fx-background-radius: 10; " +
                 "-fx-padding: 10;");
+        HBox.setHgrow(root, Priority.ALWAYS);
         return root;
     }
     @Override
