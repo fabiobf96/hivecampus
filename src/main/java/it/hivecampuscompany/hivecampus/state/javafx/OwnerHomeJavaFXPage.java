@@ -27,12 +27,16 @@ public class OwnerHomeJavaFXPage extends OwnerHomePage {
         TabPane tabPane = new TabPane();
         Tab tab1 = new Tab(properties.getProperty("MANAGE_ADS_MSG"));
         Tab tab2 = new Tab(properties.getProperty("MANAGE_REQUEST_MSG"));
+        Tab tab3 = new Tab("Manage Lease");
 
         tabPane.getTabs().add(tab1);
         tab1.setClosable(false);
 
         tabPane.getTabs().add(tab2);
         tab2.setClosable(false);
+
+        tabPane.getTabs().add(tab3);
+        tab3.setClosable(false);
 
         context.setTabs(tabPane.getTabs());
 
@@ -43,6 +47,7 @@ public class OwnerHomeJavaFXPage extends OwnerHomePage {
         goToManageAdsPage(new ManageAdsJavaFXPage(context));
 
         tab2.setOnSelectionChanged(event -> goToManageRequestPage(new ManageRequestsOwnerJavaFXPage(context)));
+        tab3.setOnSelectionChanged(event -> goToManageLeasePage(new ManageLeaseOwnerJavaFXPage(context)));
 
         Scene scene = new Scene((Parent) barDecorator.setup());
         Stage stage = context.getStage();
