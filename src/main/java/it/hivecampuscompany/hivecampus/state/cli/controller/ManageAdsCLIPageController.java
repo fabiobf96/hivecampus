@@ -72,6 +72,12 @@ public class ManageAdsCLIPageController extends CLIController {
         if (res >= 0 && res < homeBeans.size()) {
             // ho scelto di utilizzare una casa esistente
             hBean = homeBeans.get(res);
+            // controllo se posso aggiungere un'altra stanza
+            if (manager.isMaxRoomsReached(hBean)){
+                formView.displayMessage(properties.getProperty("MAX_ROOMS_REACHED_MSG"));
+                pause();
+                return false;
+            }
             return adCreationForm(hBean);
         }
         else if (res == homeBeans.size()) {

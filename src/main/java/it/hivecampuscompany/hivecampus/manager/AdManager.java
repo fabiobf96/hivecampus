@@ -75,5 +75,11 @@ public class AdManager {
         return false;
     }
 
-
+    public boolean isMaxRoomsReached(HomeBean homeBean) {
+        RoomDAO roomDAO = new RoomDAOCSV();
+        // Check if the type of home allows the insertion of a new room
+        int roomsCount = (int) roomDAO.getRoomsAlreadyPresent(homeBean.getId());
+        // Verify if the number of rooms in the home is less than the maximum allowed
+        return roomsCount >= homeBean.getNRooms();
+    }
 }
