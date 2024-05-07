@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component;
 
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
-import it.hivecampuscompany.hivecampus.state.javafx.controller.ManageRequestsOwnerJavaFxPageController;
+import it.hivecampuscompany.hivecampus.state.javafx.controller.ManageRequestsJavaFxPageController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 
@@ -17,7 +17,7 @@ public class BasicRequest extends Component{
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/basicRequest-card.fxml"));
             Node root = loader.load();
-            ManageRequestsOwnerJavaFxPageController controller = loader.getController();
+            ManageRequestsJavaFxPageController controller = loader.getController();
             controller.initialize(leaseRequestBean);
             return root;
         } catch (IOException e) {

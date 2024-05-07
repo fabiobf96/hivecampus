@@ -5,6 +5,7 @@ import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.javafx.controller.PreviewAdJavaFxController;
 import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 
@@ -27,7 +28,7 @@ public class PreviewRoomDecorator extends Decorator {
         try {
             VBox vBox = new VBox();
             vBox.paddingProperty().setValue(new javafx.geometry.Insets(10));
-            vBox.alignmentProperty().setValue(javafx.geometry.Pos.CENTER);
+            vBox.alignmentProperty().setValue(Pos.CENTER_LEFT);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/previewRoom-card.fxml"));
             Node root = loader.load();

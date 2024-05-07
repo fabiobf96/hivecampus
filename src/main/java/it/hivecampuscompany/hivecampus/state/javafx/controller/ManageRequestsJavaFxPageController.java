@@ -1,14 +1,12 @@
 package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
+import it.hivecampuscompany.hivecampus.view.utility.Utility;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
-public class ManageRequestsOwnerJavaFxPageController extends JavaFxController {
-    @FXML
-    private ImageView imvUser;
+public class ManageRequestsJavaFxPageController extends JavaFxController {
 
     @FXML
     private Text txtName;
@@ -34,7 +32,6 @@ public class ManageRequestsOwnerJavaFxPageController extends JavaFxController {
     @FXML
     private Label lblMsgContent;
 
-    // Method to initialize anything you need when the UI first loads
     @FXML
     public void initialize(LeaseRequestBean leaseRequestBean) {
         txtName.setText(leaseRequestBean.getTenant().getName());
@@ -44,7 +41,6 @@ public class ManageRequestsOwnerJavaFxPageController extends JavaFxController {
         txtEmail.setText(properties.getProperty("EMAIL_MSG") + ": " + leaseRequestBean.getTenant().getEmail());
         txtPhoneNumber.setText(properties.getProperty("PHONE_N_MSG") + ": " + leaseRequestBean.getTenant().getPhoneNumber());
         txtMessage.setText(properties.getProperty("MESSAGE_MSG"));
-        lblMsgContent.setText(leaseRequestBean.getMessage());
+        lblMsgContent.setText(Utility.formatText(leaseRequestBean.getMessage()));
     }
-
 }

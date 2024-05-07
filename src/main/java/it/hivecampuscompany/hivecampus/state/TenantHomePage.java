@@ -19,5 +19,6 @@ public abstract class TenantHomePage implements State {
 
     public void goToManageLeasePage (ManageLeasePage manageLeasePage) {
         context.setState(manageLeasePage);
+        context.request();
     }
 }

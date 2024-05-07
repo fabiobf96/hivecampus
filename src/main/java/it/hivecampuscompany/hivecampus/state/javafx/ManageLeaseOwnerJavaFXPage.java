@@ -32,7 +32,7 @@ public class ManageLeaseOwnerJavaFXPage extends ManageLeasePage {
         for (AdBean adBean : adBeanList) {
             LeaseRequestBean leaseRequestBean = getLeaseRequestInformation(adBean);
             BasicRequest basicRequest = new BasicRequest(leaseRequestBean);
-            LeaseDecorator leaseDecorator = new LeaseDecorator(basicRequest);
+            LeaseDecorator leaseDecorator = new LeaseDecorator(basicRequest, LeaseDecorator.Type.OWNER);
             CssDecoration cssDecoration = new CssDecoration(leaseDecorator);
             PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(cssDecoration, adBean, context);
             CssDecoration decoration = new CssDecoration(previewRoomDecorator);

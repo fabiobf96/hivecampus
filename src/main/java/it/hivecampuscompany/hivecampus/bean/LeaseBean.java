@@ -46,6 +46,10 @@ public class LeaseBean {
         return Files.readAllBytes(Paths.get(path));
     }
 
+    public AdBean getAdBean() {
+        return adBean;
+    }
+
     @Override
     public String toString() {
         return adBean.toString() + ", " + starting + ", " + duration;
