@@ -4,7 +4,7 @@ import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.stateCli.Context;
 import it.hivecampuscompany.hivecampus.stateCli.InitialPage;
 import it.hivecampuscompany.hivecampus.stateCli.cli.controller.InitialCLIPageController;
-import it.hivecampuscompany.hivecampus.view.controller.cli.LanguageCLIController;
+import it.hivecampuscompany.hivecampus.viewCli.controller.cli.LanguageCLIController;
 
 public class InitialCLIPage extends InitialPage {
     public InitialCLIPage(Context context) {

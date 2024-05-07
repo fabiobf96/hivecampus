@@ -1,4 +1,4 @@
-package it.hivecampuscompany.hivecampus.view.utility;
+package it.hivecampuscompany.hivecampus.viewCli.utility;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

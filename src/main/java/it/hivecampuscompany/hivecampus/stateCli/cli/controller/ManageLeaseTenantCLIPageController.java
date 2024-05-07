@@ -1,8 +1,8 @@
 package it.hivecampuscompany.hivecampus.stateCli.cli.controller;
 
 import it.hivecampuscompany.hivecampus.bean.LeaseBean;
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
-import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
+import it.hivecampuscompany.hivecampus.viewCli.controller.cli.CLIController;
+import it.hivecampuscompany.hivecampus.viewCli.gui.cli.CliGUI;
 
 public class ManageLeaseTenantCLIPageController extends CLIController {
     public ManageLeaseTenantCLIPageController () {

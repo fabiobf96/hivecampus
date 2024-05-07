@@ -3,8 +3,8 @@ package it.hivecampuscompany.hivecampus.stateCli.cli.controller;
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
-import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
+import it.hivecampuscompany.hivecampus.viewCli.controller.cli.CLIController;
+import it.hivecampuscompany.hivecampus.viewCli.gui.cli.CliGUI;
 
 import java.io.IOException;
 import java.util.List;

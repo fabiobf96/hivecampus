@@ -1,6 +1,6 @@
-package it.hivecampuscompany.hivecampus.view.controller.cli;
+package it.hivecampuscompany.hivecampus.viewCli.controller.cli;
 
-import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
+import it.hivecampuscompany.hivecampus.viewCli.gui.cli.CliGUI;
 
 public class AccountSettingsCLIController extends CLIController {
     public AccountSettingsCLIController(){

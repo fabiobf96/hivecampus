@@ -1,4 +1,4 @@
-package it.hivecampuscompany.hivecampus.view.gui.cli;
+package it.hivecampuscompany.hivecampus.viewCli.gui.cli;
 
 import java.util.Arrays;
 import java.util.List;

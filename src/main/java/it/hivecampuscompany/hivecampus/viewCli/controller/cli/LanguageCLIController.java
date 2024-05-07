@@ -1,7 +1,7 @@
-package it.hivecampuscompany.hivecampus.view.controller.cli;
+package it.hivecampuscompany.hivecampus.viewCli.controller.cli;
 
-import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import it.hivecampuscompany.hivecampus.viewCli.gui.cli.CliGUI;
+import it.hivecampuscompany.hivecampus.viewCli.utility.LanguageLoader;
 
 import java.util.InputMismatchException;
 

@@ -3,7 +3,7 @@ package it.hivecampuscompany.hivecampus.stateCli.cli.controller;
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.manager.AdSearchManager;
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
+import it.hivecampuscompany.hivecampus.viewCli.controller.cli.CLIController;
 import java.util.Collections;
 import java.util.List;
 

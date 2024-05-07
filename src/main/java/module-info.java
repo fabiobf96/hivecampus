@@ -17,8 +17,8 @@ module it.hivecampuscompany.hivecampus {
     exports it.hivecampuscompany.hivecampus;
     opens it.hivecampuscompany.hivecampus to javafx.fxml;
 
-    exports it.hivecampuscompany.hivecampus.view.utility;
-    opens it.hivecampuscompany.hivecampus.view.utility to javafx.fxml;
+    exports it.hivecampuscompany.hivecampus.viewCli.utility;
+    opens it.hivecampuscompany.hivecampus.viewCli.utility to javafx.fxml;
     
     exports it.hivecampuscompany.hivecampus.bean;
     opens it.hivecampuscompany.hivecampus.bean to javafx.fxml;

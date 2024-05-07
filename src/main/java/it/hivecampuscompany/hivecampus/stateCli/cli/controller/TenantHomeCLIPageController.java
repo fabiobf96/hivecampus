@@ -1,6 +1,6 @@
 package it.hivecampuscompany.hivecampus.stateCli.cli.controller;
 
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
+import it.hivecampuscompany.hivecampus.viewCli.controller.cli.CLIController;
 public class TenantHomeCLIPageController extends CLIController {
 
     public TenantHomeCLIPageController(){

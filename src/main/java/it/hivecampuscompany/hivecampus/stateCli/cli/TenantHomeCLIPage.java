@@ -4,7 +4,7 @@ import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.stateCli.Context;
 import it.hivecampuscompany.hivecampus.stateCli.TenantHomePage;
 import it.hivecampuscompany.hivecampus.stateCli.cli.controller.TenantHomeCLIPageController;
-import it.hivecampuscompany.hivecampus.view.controller.cli.AccountSettingsCLIController;
+import it.hivecampuscompany.hivecampus.viewCli.controller.cli.AccountSettingsCLIController;
 
 public class TenantHomeCLIPage extends TenantHomePage {
 

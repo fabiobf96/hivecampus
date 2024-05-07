@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.bean;
 
 import it.hivecampuscompany.hivecampus.model.Room;
-import it.hivecampuscompany.hivecampus.view.utility.FormatText;
+import it.hivecampuscompany.hivecampus.viewCli.utility.FormatText;
 
 public class RoomBean {
     private int idRoom;

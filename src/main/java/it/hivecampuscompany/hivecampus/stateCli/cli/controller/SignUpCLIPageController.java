@@ -4,8 +4,8 @@ import it.hivecampuscompany.hivecampus.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
-import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
+import it.hivecampuscompany.hivecampus.viewCli.controller.cli.CLIController;
+import it.hivecampuscompany.hivecampus.viewCli.gui.cli.CliGUI;
 
 public class SignUpCLIPageController extends CLIController {
 
