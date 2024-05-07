@@ -8,8 +8,6 @@ import it.hivecampuscompany.hivecampus.bean.HomeBean;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.model.Home;
 import it.hivecampuscompany.hivecampus.view.utility.Utility;
-import it.hivecampuscompany.hivecampus.viewCli.utility.CalculateDistance;
-import it.hivecampuscompany.hivecampus.viewCli.utility.Geocoding;
 
 import java.awt.geom.Point2D;
 import java.io.*;

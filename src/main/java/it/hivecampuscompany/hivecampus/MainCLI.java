@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus;
 
-import it.hivecampuscompany.hivecampus.stateCli.Context;
-import it.hivecampuscompany.hivecampus.stateCli.cli.InitialCLIPage;
+import it.hivecampuscompany.hivecampus.state.Context;
+import it.hivecampuscompany.hivecampus.state.cli.InitialCLIPage;
 
 public class MainCLI {
     public static void main(String[] args){

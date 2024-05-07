@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.bean;
 
 import it.hivecampuscompany.hivecampus.model.Home;
-import it.hivecampuscompany.hivecampus.viewCli.utility.FormatText;
+import it.hivecampuscompany.hivecampus.view.utility.Utility;
 
 public class HomeBean {
     private int idHome;

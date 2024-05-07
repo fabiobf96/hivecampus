@@ -26,9 +26,6 @@ module it.hivecampuscompany.hivecampus {
     exports it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration;
     opens it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration to javafx.fxml;
 
-    exports it.hivecampuscompany.hivecampus.viewCli.utility;
-    opens it.hivecampuscompany.hivecampus.viewCli.utility to javafx.fxml;
-
     exports it.hivecampuscompany.hivecampus.bean;
     opens it.hivecampuscompany.hivecampus.bean to javafx.fxml;
 

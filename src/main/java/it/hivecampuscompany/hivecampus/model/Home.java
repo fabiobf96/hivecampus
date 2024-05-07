@@ -3,7 +3,6 @@ package it.hivecampuscompany.hivecampus.model;
 import it.hivecampuscompany.hivecampus.bean.HomeBean;
 import it.hivecampuscompany.hivecampus.view.utility.Utility;
 
-import it.hivecampuscompany.hivecampus.viewCli.utility.CalculateDistance;
 import java.awt.geom.Point2D;
 
 public class Home {
