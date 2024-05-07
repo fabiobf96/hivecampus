@@ -7,13 +7,9 @@ public class RoomBean {
     private int idRoom;
     private int idHome;
     private int surface;
-    private String typeRoom;
+    private final String typeRoom;
     private boolean[] services;
     private String description;
-
-    public RoomBean(){
-        // Default constructor
-    }
 
     public RoomBean(int id, String typeRoom) {
         this.idRoom = id;
@@ -28,12 +24,9 @@ public class RoomBean {
     }
 
     public RoomBean(Room room) {
+        this(room.getTypeRoom(), room.getSurface(), new boolean[]{room.getBathroom(), room.getBalcony(), room.getConditioner(), room.getTV()}, room.getDescription());
         this.idRoom = room.getIdRoom();
         this.idHome = room.getIdHome();
-        this.surface = room.getSurface();
-        this.typeRoom = room.getTypeRoom();
-        this.services = new boolean[]{room.getBathroom(), room.getBalcony(), room.getConditioner(), room.getTV()};
-        this.description = room.getDescription();
     }
 
     public int getIdRoom() {

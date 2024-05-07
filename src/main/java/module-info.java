@@ -19,19 +19,7 @@ module it.hivecampuscompany.hivecampus {
 
     exports it.hivecampuscompany.hivecampus.view.utility;
     opens it.hivecampuscompany.hivecampus.view.utility to javafx.fxml;
-
-    exports it.hivecampuscompany.hivecampus.view.gui.javafx;
-    opens it.hivecampuscompany.hivecampus.view.gui.javafx to javafx.fxml;
-
-    exports it.hivecampuscompany.hivecampus.view.controller.javafx;
-    opens it.hivecampuscompany.hivecampus.view.controller.javafx to javafx.fxml;
-
-    exports it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component;
-    opens it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component to javafx.fxml;
-
-    exports it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration;
-    opens it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration to javafx.fxml;
-
+    
     exports it.hivecampuscompany.hivecampus.bean;
     opens it.hivecampuscompany.hivecampus.bean to javafx.fxml;
 

@@ -41,25 +41,25 @@ public class FormCliGUI extends CliGUI{
 
     public void displayMonths() {
         for (String month : months) {
-            System.out.println(months.indexOf(month) + 1 + ". " + month);
+            displayMessage(months.indexOf(month) + 1 + ". " + month);
         }
     }
 
     public void displayTypesPermanence() {
         for (String type : typesPermanence) {
-            System.out.println(typesPermanence.indexOf(type) + 1 + ") " + type);
+            displayMessage(typesPermanence.indexOf(type) + 1 + ") " + type);
         }
     }
 
     public void displayTypesHome() {
         for (String type : typesHome) {
-            System.out.println(typesHome.indexOf(type) + 1 + ") " + type);
+            displayMessage(typesHome.indexOf(type) + 1 + ") " + type);
         }
     }
 
     public void displayTypesRoom() {
         for (String type : typesRoom) {
-            System.out.println(typesRoom.indexOf(type) + 1 + ") " + type);
+            displayMessage(typesRoom.indexOf(type) + 1 + ") " + type);
         }
     }
 }
