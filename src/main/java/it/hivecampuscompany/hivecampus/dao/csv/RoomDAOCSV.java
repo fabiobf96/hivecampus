@@ -104,6 +104,7 @@ public class RoomDAOCSV implements RoomDAO {
             LOGGER.log(Level.SEVERE, String.format(properties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), fd), e);
         }
 
+        // Save the room in the CSV file
         if (room != null) {
             try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
                 String[] roomRecord = new String[9];
@@ -123,6 +124,26 @@ public class RoomDAOCSV implements RoomDAO {
             }
         }
         return null;
+    }
+
+    @Override
+    public long getRoomsAlreadyPresent(int homeID) {
+        long roomCount = 0;
+        try (CSVReader reader = new CSVReader(new FileReader(fd))) {
+            List<String[]> roomTable = reader.readAll();
+            if (roomTable.isEmpty()) {
+                return roomCount; // Se la lista di camere è vuota, il conteggio è già zero
+            }
+            roomTable.remove(0); // Rimuovi l'intestazione
+            for (String[] roomRecord : roomTable) {
+                if (Integer.parseInt(roomRecord[RoomDAOCSV.RoomAttributes.INDEX_ID_HOME]) == homeID) {
+                    roomCount++;
+                }
+            }
+        } catch (CsvException | IOException e) {
+            LOGGER.log(Level.SEVERE, "Failed to load room data", e);
+        }
+        return roomCount;
     }
 
     @Override
