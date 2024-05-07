@@ -2,10 +2,12 @@ package it.hivecampuscompany.hivecampus.dao.csv;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
+import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 import it.hivecampuscompany.hivecampus.bean.HomeBean;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.model.Home;
+import it.hivecampuscompany.hivecampus.view.utility.Utility;
 import it.hivecampuscompany.hivecampus.viewCli.utility.CalculateDistance;
 import it.hivecampuscompany.hivecampus.viewCli.utility.Geocoding;
 
@@ -19,6 +21,7 @@ import java.util.logging.Logger;
 
 public class HomeDAOCSV implements HomeDAO {
     private File fd;
+    private File imageFd;
     private static final Logger LOGGER = Logger.getLogger(HomeDAOCSV.class.getName());
 
     public HomeDAOCSV() {
@@ -26,6 +29,7 @@ public class HomeDAOCSV implements HomeDAO {
             Properties properties = new Properties();
             properties.load(input);
             fd = new File(properties.getProperty("HOME_PATH"));
+            imageFd = new File(properties.getProperty("HOME_IMAGES_PATH"));
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
             System.exit(1);
@@ -59,7 +63,7 @@ public class HomeDAOCSV implements HomeDAO {
             double homeLongitude = Double.parseDouble(homeRecord[HomeAttributes.INDEX_LONGITUDE]);
             double homeLatitude = Double.parseDouble(homeRecord[HomeAttributes.INDEX_LATITUDE]);
             // Calculate the distance between the university and the home by Harvesine formula
-            if (CalculateDistance.haversineFormula(homeLongitude, homeLatitude, uniCoordinates.getX(), uniCoordinates.getY()) <= distance) {
+            if (Utility.calculateDistance(homeLongitude, homeLatitude, uniCoordinates.getX(), uniCoordinates.getY()) <= distance) {
                 Integer[] features = {
                         Integer.parseInt(homeRecord[HomeAttributes.INDEX_NROOMS]),
                         Integer.parseInt(homeRecord[HomeAttributes.INDEX_NBATHROOMS]),
@@ -118,7 +122,7 @@ public class HomeDAOCSV implements HomeDAO {
 
         int lastId = CSVUtility.findLastRowIndex(fd);
 
-        Point2D coordinates = Geocoding.getCoordinates(homeBean.getAddress());
+        Point2D coordinates = Utility.getCoordinates(homeBean.getAddress());
 
         if (coordinates == null) {
             LOGGER.log(Level.SEVERE, "Failed to retrieve coordinates");
@@ -153,6 +157,24 @@ public class HomeDAOCSV implements HomeDAO {
             LOGGER.log(Level.SEVERE, "Failed to write to file", e);
             return null;
         }
+    }
+
+    @Override
+    public byte[] getHomeImage(int idHome) {
+        try (CSVReader reader = new CSVReader(new FileReader(imageFd))) {
+            List<String[]> imageTable = reader.readAll();
+            imageTable.removeFirst();
+            String[] imageRecord = imageTable.stream()
+                    .filter(image -> Integer.parseInt(image[ImageAttributes.INDEX_ID_HOME]) == idHome)
+                    .findFirst()
+                    .orElse(null);
+            if (imageRecord != null) {
+                return CSVUtility.decodeBase64ToBytes(imageRecord[ImageAttributes.INDEX_IMAGE]);
+            }
+        } catch (IOException | CsvException e) {
+            LOGGER.log(Level.SEVERE, "Failed to load image from CSV", e);
+        }
+        return new byte[0];
     }
 
     private int isHomeAlreadyExists(HomeBean homeBean) {
@@ -191,5 +213,10 @@ public class HomeDAOCSV implements HomeDAO {
         private static final int INDEX_FLOOR = 9;
         private static final int INDEX_ELEVATOR = 10;
         private static final int INDEX_DESCRIPTION = 11;
+    }
+
+    private static class ImageAttributes {
+        private static final int INDEX_ID_HOME = 1;
+        private static final int INDEX_IMAGE = 4;
     }
 }

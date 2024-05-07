@@ -13,11 +13,10 @@ import java.util.logging.Logger;
 public class AccountDAOCSV implements AccountDAO {
     private File fd;
     private static final Logger LOGGER = Logger.getLogger(AccountDAOCSV.class.getName());
-    private Properties properties;
 
     public AccountDAOCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")) {
-            properties = new Properties();
+            Properties properties = new Properties();
             properties.load(input);
             fd = new File(properties.getProperty("ACCOUNT_PATH"));
         } catch (IOException e) {

@@ -26,5 +26,7 @@ public interface RoomDAO {
 
     Room saveRoom(int homeID, RoomBean roomBean);
 
+    byte[] getRoomImage(int idRoom, int idHome);
+
     long getRoomsAlreadyPresent(int homeID);
 }

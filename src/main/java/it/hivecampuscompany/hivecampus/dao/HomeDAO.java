@@ -25,4 +25,6 @@ public interface HomeDAO {
     List<Home> retrieveHomesByOwner(String ownerEmail);
 
     Home saveHome(HomeBean homeBean, String ownerEmail);
+
+    byte[] getHomeImage(int idHome);
 }

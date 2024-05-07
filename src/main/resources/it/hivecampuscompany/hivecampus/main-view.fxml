@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="25.0" style="-fx-background-color: #595959;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.state.javafx.controller.InitialJavaFXPageController">
+   <padding>
+      <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+   </padding>
+   <VBox alignment="TOP_RIGHT">
+      <MenuButton mnemonicParsing="false">
+         <graphic>
+            <ImageView fx:id="imvLang" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true"/>
+         </graphic>
+         <items>
+            <MenuItem fx:id="mibtnLangChange" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fx:id="imvLangChange" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true"
+                             preserveRatio="true"/>
+               </graphic>
+            </MenuItem>
+         </items>
+      </MenuButton>
+   </VBox>
+   <Region VBox.vgrow="ALWAYS" />
+   <VBox alignment="CENTER" spacing="30.0">
+      <Button fx:id="btnLoginChoice" mnemonicParsing="false" prefWidth="120.0" text="Label">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
+      <Button fx:id="btnSignUpChoice" mnemonicParsing="false" prefWidth="120.0" text="Label" />
+   </VBox>
+   <Region VBox.vgrow="ALWAYS" />
+</VBox>

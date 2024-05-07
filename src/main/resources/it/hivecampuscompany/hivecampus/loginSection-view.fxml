@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #595959;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.state.javafx.controller.LoginJavaFXPageController">
+   <padding>
+      <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
+   </padding>
+   <VBox alignment="TOP_RIGHT">
+      <MenuButton mnemonicParsing="false">
+         <graphic>
+            <ImageView fx:id="imvLang" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" />
+         </graphic>
+         <items>
+            <MenuItem fx:id="mibtnLangChange" mnemonicParsing="false">
+               <graphic>
+                  <ImageView fx:id="imvLangChange" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </MenuItem>
+         </items>
+      </MenuButton>
+   </VBox>
+   <Region VBox.vgrow="ALWAYS" />
+   <Label fx:id="lblLogin" text="Label" textFill="WHITE">
+      <font>
+         <Font name="Arial" size="20.0" />
+      </font>
+   </Label>
+   <VBox alignment="CENTER" spacing="15.0">
+      <TextField fx:id="txfEmail" maxHeight="-Infinity" maxWidth="520.0" prefHeight="25.0" prefWidth="260.0"
+                 promptText="Label" style="-fx-background-radius: 7;">
+         <font>
+            <Font name="Arial" size="12.0"/>
+         </font>
+      </TextField>
+      <PasswordField fx:id="txfPassword" maxHeight="-Infinity" maxWidth="520.0" prefHeight="25.0" prefWidth="260.0"
+                     promptText="Label" style="-fx-background-radius: 7;"/>
+   </VBox>
+   <VBox alignment="CENTER" spacing="5.0">
+      <Button fx:id="btnLogin" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Label"/>
+      <Label fx:id="lblOr" text="Label" textFill="WHITE">
+         <font>
+            <Font size="14.0"/>
+         </font>
+      </Label>
+      <Button fx:id="btnGoogle" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Label">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" translateX="-10.0">
+               <Image url="@images/google.png"/>
+            </ImageView>
+         </graphic>
+      </Button>
+   </VBox>
+   <HBox alignment="CENTER">
+      <Label fx:id="lblAccount" text="Label" textFill="WHITE">
+         <font>
+            <Font name="Arial" size="12.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnSignUp" mnemonicParsing="false" style="-fx-background-color: transparent;" text="Label" textFill="#0bb7ed" underline="true" />
+   </HBox>
+   <Region VBox.vgrow="ALWAYS" />
+</VBox>

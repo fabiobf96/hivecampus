@@ -10,6 +10,8 @@ public class HomeBean {
     private int surface;
     private Integer[] features;
     private String description;
+    private byte[] image;
+    private String imageName;
 
     public HomeBean(){
         // Default constructor
@@ -72,6 +74,25 @@ public class HomeBean {
     public int getId() {
         return idHome;
     }
+    public void setIdHome(int idHome) {
+        this.idHome = idHome;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
 
     @Override
     public String toString(){
@@ -85,6 +106,6 @@ public class HomeBean {
                 " - Bathrooms: " + features[1] + "\n" +
                 " - Floor: " + features[2] + "\n" +
                 " - Elevator: " + features[3] + "\n\n" +
-                "House Description: " + "\n" + FormatText.formatText(description);
+                "House Description: " + "\n" + Utility.formatText(description);
     }
 }

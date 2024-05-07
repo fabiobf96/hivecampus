@@ -1,6 +1,8 @@
 package it.hivecampuscompany.hivecampus.model;
 
 import it.hivecampuscompany.hivecampus.bean.HomeBean;
+import it.hivecampuscompany.hivecampus.view.utility.Utility;
+
 import it.hivecampuscompany.hivecampus.viewCli.utility.CalculateDistance;
 import java.awt.geom.Point2D;
 
@@ -76,7 +78,7 @@ public class Home {
     }
 
     public double calculateDistance(Point2D uniCoordinates) {
-        return CalculateDistance.haversineFormula(getLongitude(), getLatitude(), uniCoordinates.getX(), uniCoordinates.getY());
+        return Utility.calculateDistance(getLongitude(), getLatitude(), uniCoordinates.getX(), uniCoordinates.getY());
     }
 
     @Override

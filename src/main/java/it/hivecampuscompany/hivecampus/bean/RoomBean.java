@@ -2,6 +2,7 @@ package it.hivecampuscompany.hivecampus.bean;
 
 import it.hivecampuscompany.hivecampus.model.Room;
 import it.hivecampuscompany.hivecampus.viewCli.utility.FormatText;
+import it.hivecampuscompany.hivecampus.view.utility.Utility;
 
 public class RoomBean {
     private int idRoom;
@@ -10,6 +11,9 @@ public class RoomBean {
     private final String typeRoom;
     private boolean[] services;
     private String description;
+    private byte[] image;
+    private String imageName;
+
 
     public RoomBean(int id, String typeRoom) {
         this.idRoom = id;
@@ -19,6 +23,14 @@ public class RoomBean {
     public RoomBean(String typeRoom, int surface, boolean[] services, String description) {
         this.typeRoom = typeRoom;
         this.surface = surface;
+        this.services = services;
+        this.description = description;
+    }
+
+    public RoomBean(int idRoom, int surface, String typeRoom, boolean[] services, String description) {
+        this.idRoom = idRoom;
+        this.surface = surface;
+        this.typeRoom = typeRoom;
         this.services = services;
         this.description = description;
     }
@@ -33,8 +45,16 @@ public class RoomBean {
         return idRoom;
     }
 
+    public void setIdRoom(int idRoom) {
+        this.idRoom = idRoom;
+    }
+
     public int getIdHome() {
         return idHome;
+    }
+
+    public void setIdHome(int idHome) {
+        this.idHome = idHome;
     }
 
     public int getSurface() {
@@ -65,6 +85,22 @@ public class RoomBean {
         return description;
     }
 
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
     @Override
     public String toString(){
         return typeRoom;
@@ -86,6 +122,6 @@ public class RoomBean {
                 " - Balcony: " + (services[1] ? "Yes" : "No") + "\n" +
                 " - Conditioner: " + (services[2] ? "Yes" : "No") + "\n" +
                 " - TV: " + (services[3] ? "Yes" : "No") + "\n\n" +
-                "Room Description: " + "\n" + FormatText.formatText(description);
+                "Room Description: " + "\n" + Utility.formatText(description);
     }
 }

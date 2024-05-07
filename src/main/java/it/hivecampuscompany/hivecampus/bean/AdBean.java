@@ -12,6 +12,8 @@ public class AdBean {
     private int price;
     private String university;
     private double distance;
+    private byte[] map;
+
     public AdBean(AdStatus adStatus){
         this.adStatus = adStatus;
     }
@@ -52,12 +54,32 @@ public class AdBean {
         this.adStatus = adStatus;
     }
 
+    public HomeBean getHomeBean() {
+        return homeBean;
+    }
+
     public RoomBean getRoomBean() {
         return roomBean;
     }
 
+    public AccountBean getOwnerBean() {
+        return ownerBean;
+    }
+
     public AdStatus getAdStatus() {
         return adStatus;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setMap(byte[] map) {
+        this.map = map;
+    }
+
+    public byte[] getMap() {
+        return map;
     }
 
     @Override
@@ -89,7 +111,7 @@ public class AdBean {
     }
 
     public String adTitle() {
-        return " " + homeBean.getType() + " - " + homeBean.getAddress() + " - " + price + " €";
+        return " " + roomBean.getType() + " - " + homeBean.getAddress() + " - " + price + " €";
     }
 
     public String getPreview() {

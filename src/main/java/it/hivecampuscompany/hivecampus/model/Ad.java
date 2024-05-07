@@ -30,7 +30,7 @@ public class Ad {
 
 
     public AdBean toBean() {
-        return new AdBean(id, home.toBasicBean(), room.toBasicBean(), price, adStatus != null ? adStatus.getId() : -1, adStart != null ? adStart.getMonth() : -1);
+        return new AdBean(id, home.toBasicBean(), room.toBean(), price, adStatus != null ? adStatus.getId() : -1, adStart != null ? adStart.getMonth() : -1);
     }
 
     public int getId() {

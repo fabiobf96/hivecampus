@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane prefHeight="700.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.hivecampuscompany.hivecampus.state.javafx.controller.ManageAdsJavaFXPageController">
+   <top>
+      <VBox spacing="15.0" BorderPane.alignment="CENTER">
+         <padding>
+            <Insets bottom="15.0" left="20.0" right="20.0" top="15.0" />
+         </padding>
+         <VBox alignment="CENTER" spacing="15.0">
+            <VBox>
+               <Button fx:id="btnBack" mnemonicParsing="false" text="Go Back" />
+            </VBox>
+            <Label fx:id="lblTitle" text="AD CREATION FORM">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </VBox>
+      </VBox>
+   </top>
+   <center>
+      <ScrollPane fitToHeight="true" fitToWidth="true" BorderPane.alignment="CENTER">
+         <VBox spacing="10.0">
+            <padding>
+               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </padding>
+            <VBox spacing="15.0" style="-fx-border-radius: 5; -fx-border-color: grey;">
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+               <Label fx:id="lblHInfo" text="House Information" />
+               <HBox spacing="20.0" VBox.vgrow="ALWAYS">
+                  <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                     <Label fx:id="lblStreet" text="Street" />
+                     <TextField fx:id="txfStreet" />
+                  </VBox>
+                  <VBox spacing="10.0">
+                     <Label fx:id="lblNumStreet" text="Street Number" />
+                     <TextField fx:id="txfNumStreet" prefWidth="100.0" promptText="n°" />
+                  </VBox>
+                  <VBox spacing="10.0">
+                     <Label fx:id="lblCity" text="City" />
+                     <TextField fx:id="txfCity" prefWidth="120.0" />
+                  </VBox>
+               </HBox>
+               <HBox spacing="20.0" VBox.vgrow="ALWAYS">
+                  <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                     <Label fx:id="lblHType" text="Type" VBox.vgrow="ALWAYS" />
+                     <ChoiceBox fx:id="cbxHType" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+                  </VBox>
+                  <VBox spacing="10.0">
+                     <Label fx:id="lblHSurface" text="Surface" />
+                     <TextField fx:id="txfHSurface" prefWidth="90.0" promptText="mq" />
+                  </VBox>
+                  <VBox spacing="10.0">
+                     <Label fx:id="lblNumBath" text="Number of Bathrooms" />
+                     <TextField fx:id="txfNumBath" promptText="n°" />
+                  </VBox>
+                  <VBox spacing="10.0">
+                     <Label fx:id="lblFloor" text="Floor" />
+                     <TextField fx:id="txfFloor" prefWidth="70.0" promptText="n°" VBox.vgrow="ALWAYS" />
+                  </VBox>
+                  <CheckBox fx:id="ckbElevator" mnemonicParsing="false" text="Elevator">
+                     <padding>
+                        <Insets top="30.0" />
+                     </padding>
+                  </CheckBox>
+               </HBox>
+               <HBox spacing="20.0">
+                  <VBox spacing="10.0">
+                     <Label fx:id="lblHImage" text="Image" />
+                     <HBox spacing="10.0">
+                        <Button fx:id="btnHomeImage" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 5;">
+                           <graphic>
+                              <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                                 <Image url="@images/imagePlus.png" />
+                              </ImageView>
+                           </graphic>
+                           <padding>
+                              <Insets bottom="0.5" left="0.5" right="0.5" top="0.5" />
+                           </padding>
+                        </Button>
+                        <VBox fx:id="vbHome" alignment="CENTER" prefHeight="100.0" prefWidth="100.0"
+                              style="-fx-border-color: grey; -fx-border-radius: 5;">
+                           <ImageView fx:id="imvHome" pickOnBounds="true"/>
+                        </VBox>
+                     </HBox>
+                  </VBox>
+                  <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                     <Label fx:id="lblHDescription" text="Description" />
+                     <TextArea fx:id="txaHDescription" prefHeight="125.0" promptText="Short description of the house..." />
+                  </VBox>
+               </HBox>
+            </VBox>
+            <VBox spacing="15.0" style="-fx-border-color: grey; -fx-border-radius: 5;">
+               <padding>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </padding>
+               <Label fx:id="lblRInfo" text="Room Information" />
+               <HBox spacing="20.0">
+                  <VBox spacing="10.0">
+                     <Label fx:id="lblRType" text="Type" VBox.vgrow="ALWAYS" />
+                     <ChoiceBox fx:id="cbxRType" prefWidth="200.0" />
+                  </VBox>
+                  <VBox spacing="10.0">
+                     <Label fx:id="lblRSurface" text="Surface" />
+                     <TextField fx:id="txfRSurface" prefWidth="90.0" promptText="mq" VBox.vgrow="ALWAYS" />
+                  </VBox>
+                  <VBox spacing="10.0">
+                     <Label fx:id="lblPrice" text="Monthly Price" />
+                     <TextField fx:id="txfPrice" prefWidth="120.0" promptText="€" VBox.vgrow="ALWAYS" />
+                  </VBox>
+                  <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                     <Label fx:id="lblMonth" text="Month of Availability" VBox.vgrow="ALWAYS" />
+                     <ChoiceBox fx:id="cbxMonth" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS" />
+                  </VBox>
+               </HBox>
+               <HBox spacing="20.0">
+                  <VBox spacing="10.0">
+                     <Label fx:id="lblServices" text="Services Included" />
+                     <VBox spacing="10.0" style="-fx-border-color: #979797; -fx-border-radius: 3;">
+                        <padding>
+                           <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        </padding>
+                        <CheckBox fx:id="ckbBath" mnemonicParsing="false" text="Private bathroom">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </CheckBox>
+                        <CheckBox fx:id="ckbBalcony" mnemonicParsing="false" text="Balcony">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </CheckBox>
+                        <CheckBox fx:id="ckbConditioner" mnemonicParsing="false" text="Conditioner">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </CheckBox>
+                        <CheckBox fx:id="ckbTV" mnemonicParsing="false" text="TV connection">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </CheckBox>
+                     </VBox>
+                  </VBox>
+                  <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                     <Label fx:id="lblRDescription" text="Description" />
+                     <TextArea fx:id="txaRDescription" prefHeight="125.0" promptText="Short description of the room..." />
+                  </VBox>
+               </HBox>
+               <VBox spacing="10.0">
+                  <Label fx:id="lblRImage" text="Image" />
+                  <HBox spacing="10.0">
+                     <Button fx:id="btnRoomImage" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 5;">
+                        <graphic>
+                           <ImageView fitHeight="90.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true">
+                              <Image url="@images/imagePlus.png" />
+                           </ImageView>
+                        </graphic>
+                        <padding>
+                           <Insets bottom="0.5" left="0.5" right="0.5" top="0.5" />
+                        </padding>
+                     </Button>
+                     <VBox fx:id="vbRoom" alignment="CENTER" prefHeight="100.0" prefWidth="100.0"
+                           style="-fx-border-color: grey; -fx-border-radius: 5;">
+                        <ImageView fx:id="imvRoom" pickOnBounds="true"/>
+                     </VBox>
+                  </HBox>
+               </VBox>
+            </VBox>
+            <VBox alignment="TOP_RIGHT">
+               <Button fx:id="btnPublish" mnemonicParsing="false" text="Publish" />
+            </VBox>
+         </VBox>
+      </ScrollPane>
+   </center>
+</BorderPane>
