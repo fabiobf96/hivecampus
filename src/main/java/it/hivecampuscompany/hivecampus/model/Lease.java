@@ -75,4 +75,7 @@ public class Lease {
         return new LeaseBean(ad.toBean(), starting, duration, contract);
     }
 
+    public LeaseBean toBeanWithImage() {
+        return new LeaseBean(ad.toBeanWithImage(), starting, duration, contract);
+    }
 }

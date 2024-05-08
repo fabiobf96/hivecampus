@@ -11,26 +11,28 @@ import java.util.List;
 
 public abstract class ManageRequestsPage implements State {
     protected Context context;
+
     protected ManageRequestsPage(Context context) {
         this.context = context;
     }
+
     public List<AdBean> retrieveAvailableAds() throws InvalidSessionException {
         AdManager adManager = new AdManager();
         AdBean adBean = new AdBean(AdStatus.AVAILABLE);
-        if (context.getStage() == null) {
-            return adManager.searchAdsByOwner(context.getSessionBean(), adBean);
-        }
-        return adManager.getDecoratedAdsByOwner(context.getSessionBean(), adBean);
+        return adManager.searchAdsByOwner(context.getSessionBean(), adBean);
     }
+
     public List<LeaseRequestBean> retrieveLeaseRequests(AdBean adBean) throws InvalidSessionException {
         adBean.setAdStatus(AdStatus.AVAILABLE);
         LeaseRequestManager requestManager = new LeaseRequestManager();
         return requestManager.searchLeaseRequestsByAd(context.getSessionBean(), adBean);
     }
+
     public void updateLeaseRequest(LeaseRequestBean leaseRequestBean) throws InvalidSessionException {
         LeaseRequestManager requestManager = new LeaseRequestManager();
         requestManager.modifyLeaseRequest(context.getSessionBean(), leaseRequestBean);
     }
+
     public void goToOwnerHomePage(OwnerHomePage homePage) {
         context.setState(homePage);
         context.request();

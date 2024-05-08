@@ -43,8 +43,10 @@ public class LeaseManager {
         }
         LeaseDAO leaseDAO = new LeaseDAOCSV();
         Lease lease = leaseDAO.retrieveUnsignedLeaseByTenant(sessionBean.getEmail());
-        if (lease != null) {
+        if (lease != null && sessionBean.getClient() == SessionBean.Client.CLI) {
             return lease.toBean();
+        } else if (lease != null && sessionBean.getClient() == SessionBean.Client.JAVA_FX) {
+            return lease.toBeanWithImage();
         }
         else {
             return null;

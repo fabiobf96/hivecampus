@@ -46,7 +46,8 @@ public class RoomDAOCSV implements RoomDAO {
                         Integer.parseInt(roomRecord[RoomAttributes.INDEX_SURFACE]),
                         roomRecord[RoomAttributes.INDEX_TYPE],
                         new boolean[]{Integer.parseInt(roomRecord[RoomAttributes.INDEX_BATHROOM]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_BALCONY]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_CONDITIONER]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_TV]) == 1},
-                        roomRecord[RoomAttributes.INDEX_DESCRIPTION]
+                        roomRecord[RoomAttributes.INDEX_DESCRIPTION],
+                        getRoomImage(Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]), Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]))
                 ))
                 .orElse(null);
     }

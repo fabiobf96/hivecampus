@@ -21,7 +21,7 @@ public abstract class ManageLeasePage implements State {
     public List<AdBean> getProcessingAds() throws InvalidSessionException {
         AdManager adManager = new AdManager();
         AdBean adBean = new AdBean(AdStatus.PROCESSING);
-        return adManager.getDecoratedAdsByOwner(context.getSessionBean(), adBean);
+        return adManager.searchAdsByOwner(context.getSessionBean(), adBean);
     }
 
     public LeaseRequestBean getLeaseRequestInformation(AdBean adBean) throws InvalidSessionException {

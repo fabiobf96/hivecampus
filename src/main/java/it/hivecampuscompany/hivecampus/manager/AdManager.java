@@ -20,8 +20,12 @@ public class AdManager {
         if (sessionManager.validSession(sessionBean)) {
             List<Ad> adList = adDAO.retrieveAdsByOwner(sessionBean, adBean.getAdStatus());
             List<AdBean> adBeanList = new ArrayList<>();
-            for (Ad ad : adList){
-                adBeanList.add(ad.toBean());
+            for (Ad ad : adList) {
+                if (sessionBean.getClient() == SessionBean.Client.CLI) {
+                    adBeanList.add(ad.toBean());
+                } else {
+                    adBeanList.add(ad.toBeanWithImage());
+                }
             }
             return adBeanList;
         }
@@ -30,17 +34,7 @@ public class AdManager {
 
     public List<AdBean> getDecoratedAdsByOwner(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
         List<AdBean> adBeanList = searchAdsByOwner(sessionBean, adBean);
-        RoomDAO roomDAO = new RoomDAOCSV();
-        HomeDAO homeDAO = new HomeDAOCSV();
-        for (AdBean adBeanWithImage : adBeanList){
-            byte[] roomBytes = roomDAO.getRoomImage(adBeanWithImage.getRoomBean().getIdRoom(), adBeanWithImage.getHomeBean().getId());
-            byte[] homeBytes = homeDAO.getHomeImage(adBeanWithImage.getHomeBean().getId());
-            if (roomBytes != null && homeBytes != null) {
-                adBeanWithImage.getRoomBean().setImage(roomBytes);
-                adBeanWithImage.getHomeBean().setImage(homeBytes);
-            }
-        }
-        return adBeanList;
+        return getAdBeansWithImage(adBeanList);
     }
 
     public List<HomeBean> getHomesByOwner(SessionBean sessionBean) throws InvalidSessionException {
@@ -49,7 +43,7 @@ public class AdManager {
         if (sessionManager.validSession(sessionBean)) {
             List<Home> homeList = homeDAO.retrieveHomesByOwner(sessionBean.getEmail());
             List<HomeBean> homeBeanList = new ArrayList<>();
-            for (Home home : homeList){
+            for (Home home : homeList) {
                 homeBeanList.add(home.toBean());
             }
             return homeBeanList;
@@ -122,7 +116,7 @@ public class AdManager {
         List<Ad> ads = adDAO.retrieveAdsByFilters(filtersBean, uniCoordinates);
         for (Ad ad : ads) {
             double distance = ad.getHome().calculateDistance(uniCoordinates);
-            AdBean adBean = new AdBean(ad,filtersBean.getUniversity(), distance);
+            AdBean adBean = new AdBean(ad, filtersBean.getUniversity(), distance);
             adBeanList.add(adBean);
         }
         return adBeanList;
@@ -130,9 +124,13 @@ public class AdManager {
 
     public List<AdBean> searchDecoratedAdsByFilters(FiltersBean filtersBean) {
         List<AdBean> adBeanList = searchAdsByFilters(filtersBean);
+        return getAdBeansWithImage(adBeanList);
+    }
+
+    private List<AdBean> getAdBeansWithImage(List<AdBean> adBeanList) {
         RoomDAO roomDAO = new RoomDAOCSV();
         HomeDAO homeDAO = new HomeDAOCSV();
-        for (AdBean adBean : adBeanList){
+        for (AdBean adBean : adBeanList) {
             byte[] roomBytes = roomDAO.getRoomImage(adBean.getRoomBean().getIdRoom(), adBean.getHomeBean().getId());
             byte[] homeBytes = homeDAO.getHomeImage(adBean.getHomeBean().getId());
             if (roomBytes != null && homeBytes != null) {
@@ -145,7 +143,7 @@ public class AdManager {
 
     public void getHomeMap(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException, MockOpenStreetMapAPIException {
         SessionManager sessionManager = SessionManager.getInstance();
-        if (!sessionManager.validSession(sessionBean)){
+        if (!sessionManager.validSession(sessionBean)) {
             throw new InvalidSessionException();
         }
         try {
@@ -155,6 +153,7 @@ public class AdManager {
             throw new MockOpenStreetMapAPIException(e.getMessage());
         }
     }
+
     public boolean isMaxRoomsReached(HomeBean homeBean) {
         RoomDAO roomDAO = new RoomDAOCSV();
         // Check if the type of home allows the insertion of a new room

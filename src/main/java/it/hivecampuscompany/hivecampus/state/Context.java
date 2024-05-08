@@ -33,6 +33,13 @@ public class Context {
 
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
+        if (sessionBean != null) {
+            if (stage == null){
+                this.sessionBean.setClient(SessionBean.Client.CLI);
+            } else{
+                this.sessionBean.setClient(SessionBean.Client.JAVA_FX);
+            }
+        }
     }
 
     public Stage getStage() {
