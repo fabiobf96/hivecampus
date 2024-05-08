@@ -8,7 +8,6 @@ import java.util.InputMismatchException;
 public class LanguageCLIController extends CLIController {
     public LanguageCLIController(){
         view = new CliGUI();
-        homePage();
     }
     public void homePage(){
 
