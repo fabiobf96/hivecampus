@@ -17,20 +17,36 @@ public class LeaseDecorator extends Decorator {
     }
     protected Node applyOwnerLeaseDecoration(Node child) {
         VBox vBox = createVBox();
+
         Button btnUpload = new Button("Upload");
         btnUpload.setId("btnUpload");
+        btnUpload.setPrefWidth(75);
+        btnUpload.setStyle("-fx-background-color: #007bff; -fx-text-fill: white;"); // Blue button with white text
+
         Button btnDelete = new Button("Delete");
         btnDelete.setId("btnDelete");
+        btnDelete.setPrefWidth(75);
+        btnDelete.setStyle("-fx-background-color: #dc3545; -fx-text-fill: white;"); // Red button with white text
+
         vBox.getChildren().addAll(btnUpload, btnDelete);
+
         return createHBox(child, vBox);
     }
+
     protected Node applyTenantLeaseDecoration(Node child) {
         VBox vBox = createVBox();
+
         Button btnSign = new Button("Sign");
         btnSign.setId("btnSign");
+        btnSign.setPrefWidth(75);
+
         Button btnDownload = new Button("Download");
         btnDownload.setId("btnDownload");
+        btnDownload.setPrefWidth(75);
+        btnDownload.setStyle("-fx-background-color: #007bff; -fx-text-fill: white;"); // Yellow button with white text
+
         vBox.getChildren().addAll(btnSign, btnDownload);
+
         return createHBox(child, vBox);
     }
     @Override
