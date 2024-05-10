@@ -10,22 +10,38 @@ import it.hivecampuscompany.hivecampus.state.cli.controller.LoginCLIPageControll
 
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * The LoginCLIPage class represents the login page in the command-line interface (CLI).
+ * It extends the LoginPage class and provides methods for handling user interactions on the CLI login page.
+ */
 public class LoginCLIPage extends LoginPage {
-    private LoginCLIPageController controller;
+
+    /**
+     * Constructs a LoginCLIPage object with the given context.
+     *
+     * @param context The context object for the login page.
+     */
     protected LoginCLIPage(Context context) {
         super(context);
-        controller = new LoginCLIPageController();
     }
 
+    /**
+     * Handles user interactions on the CLI login page.
+     * It displays the login page, prompts the user for credentials, authenticates the user,
+     * and navigates to the appropriate home page based on the user's role.
+     *
+     * @throws InvalidSessionException if the session is invalid.
+     */
     @Override
     public void handle() throws InvalidSessionException {
+        LoginCLIPageController controller = new LoginCLIPageController();
         try {
             controller.homePage();
             SessionBean sessionBean = authenticate(controller.getCredentials());
             switch (sessionBean.getRole()) {
                 case "tenant" -> goToTenantHomePage(new TenantHomeCLIPage(context));
                 case "owner" -> goToOwnerHomePage(new OwnerHomeCLIPage(context));
-                default      -> controller.displayError("");
+                default -> controller.displayError("");
             }
             context.setSessionBean(sessionBean);
         } catch (AuthenticateException e) {

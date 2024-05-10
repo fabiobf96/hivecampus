@@ -12,13 +12,30 @@ import it.hivecampuscompany.hivecampus.state.cli.controller.SignUpCLIPageControl
 
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * The SignUpCLIPage class represents the sign-up page in the command-line interface (CLI).
+ * It extends the SignUpPage class and provides methods for handling user interactions on the CLI sign-up page.
+ */
 public class SignUpCLIPage extends SignUpPage {
-    SignUpCLIPageController controller;
+
+    private SignUpCLIPageController controller;
+
+    /**
+     * Constructs a SignUpCLIPage object with the given context.
+     *
+     * @param context The context object for the sign-up page.
+     */
     protected SignUpCLIPage(Context context) {
         super(context);
         controller = new SignUpCLIPageController();
     }
 
+    /**
+     * Handles user interactions on the sign-up page in the CLI.
+     * It prompts the user for information, registers the user, and navigates to the initial page upon successful registration.
+     *
+     * @throws InvalidSessionException if the session is invalid.
+     */
     @Override
     public void handle() throws InvalidSessionException {
         try {

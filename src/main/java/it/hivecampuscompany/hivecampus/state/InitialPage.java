@@ -1,18 +1,39 @@
 package it.hivecampuscompany.hivecampus.state;
 
-public abstract class InitialPage implements State{
+/**
+ * The InitialPage abstract class serves as a base class for initial pages in the application.
+ * It implements the State interface and provides methods for navigating to the login page and sign-up page.
+ */
+public abstract class InitialPage implements State {
     protected Context context;
-    protected InitialPage (Context context) {
+
+    /**
+     * Constructs an InitialPage object with the given context.
+     *
+     * @param context The context object for the initial page.
+     */
+    protected InitialPage(Context context) {
         this.context = context;
     }
 
+    /**
+     * Navigates to the login page by updating the context's state and making a request.
+     *
+     * @param loginPage The LoginPage object representing the login page.
+     */
     public void goToLoginPage(LoginPage loginPage) {
         context.setState(loginPage);
         context.request();
     }
 
+    /**
+     * Navigates to the sign-up page by updating the context's state and making a request.
+     *
+     * @param signUpPage The SignUpPage object representing the sign-up page.
+     */
     public void goToSignUpPage(SignUpPage signUpPage) {
         context.setState(signUpPage);
         context.request();
     }
 }
+

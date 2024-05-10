@@ -1,7 +1,6 @@
 package it.hivecampuscompany.hivecampus.state.cli.controller;
 
 import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 
 /**
  * The OwnerHomeCLIPageController class represents a controller for the home page of the owner in the command-line interface (CLI).
@@ -15,7 +14,6 @@ public class OwnerHomeCLIPageController extends CLIController {
      */
     @Override
     public void homePage() {
-        properties = LanguageLoader.getLanguageProperties();
         view.clean();
         view.displayWelcomeMessage(properties.getProperty("HOME_PAGE_MSG").toUpperCase());
         view.displayMessage("1. " + properties.getProperty("ACCOUNT_SETTINGS_MSG"));

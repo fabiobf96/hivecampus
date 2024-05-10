@@ -8,15 +8,13 @@ import it.hivecampuscompany.hivecampus.view.controller.cli.AccountSettingsCLICon
 
 public class TenantHomeCLIPage extends TenantHomePage {
 
-    TenantHomeCLIPageController controller;
-
     protected TenantHomeCLIPage(Context context) {
         super(context);
-        controller = new TenantHomeCLIPageController();
     }
 
     @Override
     public void handle() throws InvalidSessionException {
+        TenantHomeCLIPageController controller = new TenantHomeCLIPageController();
         controller.homePage();
         switch (controller.getChoice()) {
             case 1 -> {
@@ -24,7 +22,7 @@ public class TenantHomeCLIPage extends TenantHomePage {
                 accountSettingsCLIController.homePage();
             }
             case 2 -> goToAdSearchPage(new AdSearchCLIPage(context));
-            case 3,5 -> controller.notImplementedYet();
+            case 3, 5 -> controller.notImplementedYet();
             case 4 -> goToManageLeasePage(new ManageLeaseTenantCLIPage(context));
             case 6 -> throw new InvalidSessionException();
             default -> controller.invalidChoice();

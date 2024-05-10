@@ -5,19 +5,28 @@ import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
 import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
-import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
 
+/**
+ * The SignUpCLIPageController class represents a controller for the sign-up page in the command-line interface (CLI).
+ * It extends the CLIController class and provides methods for displaying the sign-up page and collecting user information.
+ */
 public class SignUpCLIPageController extends CLIController {
 
-    public SignUpCLIPageController() {
-        view = new CliGUI();
-        homePage();
-    }
+    /**
+     * Displays the sign-up page with a welcome message.
+     */
     @Override
-    public void homePage(){
+    public void homePage() {
         view.displayWelcomeMessage(properties.getProperty("SIGN_UP_MSG"));
     }
 
+    /**
+     * Retrieves user information required for sign-up.
+     *
+     * @return The UserBean object containing user information.
+     * @throws InvalidEmailException     if the email provided is invalid.
+     * @throws PasswordMismatchException if the passwords provided do not match.
+     */
     public UserBean getUserInformation() throws InvalidEmailException, PasswordMismatchException {
         UserBean userBean = new UserBean();
         userBean.setEmail(getField(properties.getProperty("EMAIL_MSG"), false));
@@ -25,7 +34,12 @@ public class SignUpCLIPageController extends CLIController {
         return userBean;
     }
 
-    public AccountBean getAccountInformation(){
+    /**
+     * Retrieves account information required for sign-up.
+     *
+     * @return The AccountBean object containing account information.
+     */
+    public AccountBean getAccountInformation() {
         AccountBean accountBean = new AccountBean();
         accountBean.setName(getField(properties.getProperty("NAME_MSG"), false));
         accountBean.setSurname(getField(properties.getProperty("SURNAME_MSG"), false));

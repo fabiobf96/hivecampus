@@ -10,15 +10,31 @@ import it.hivecampuscompany.hivecampus.state.cli.controller.ManageRequestsOwnerC
 
 import java.util.List;
 
+/**
+ * The ManageRequestsOwnerCLIPage class represents the owner's page for managing lease requests in the command-line interface (CLI).
+ * It extends the ManageRequestsPage class and provides methods for handling user interactions on the CLI owner's manage requests page.
+ */
 public class ManageRequestsOwnerCLIPage extends ManageRequestsPage {
     private AdBean adBean;
     private LeaseRequestBean leaseRequestBean;
     private final ManageRequestsOwnerCLIPageController controller;
+
+    /**
+     * Constructs a ManageRequestsOwnerCLIPage object with the given context.
+     *
+     * @param context The context object for the owner's manage requests page.
+     */
     public ManageRequestsOwnerCLIPage(Context context) {
         super(context);
         controller = new ManageRequestsOwnerCLIPageController();
     }
 
+    /**
+     * Handles user interactions on the owner's manage requests page.
+     * It displays the home page, prompts the user for input, and performs actions based on the user's choice.
+     *
+     * @throws InvalidSessionException if the session is invalid.
+     */
     @Override
     public void handle() throws InvalidSessionException {
         try {
@@ -36,16 +52,29 @@ public class ManageRequestsOwnerCLIPage extends ManageRequestsPage {
         }
     }
 
+    /**
+     * Prompts the owner to select a lease request.
+     * It retrieves the lease requests associated with the selected ad and prompts the owner to select one for decision making.
+     *
+     * @throws InvalidSessionException if the session is invalid.
+     */
     private void selectLeaseRequest() throws InvalidSessionException {
         controller.homePage();
         List<LeaseRequestBean> leaseRequestBeanList = retrieveLeaseRequests(adBean);
         leaseRequestBean = controller.selectRequest(leaseRequestBeanList);
         if (leaseRequestBean != null) {
             makeDecision();
+        } else {
+            context.request();
         }
-        else context.request();
     }
 
+    /**
+     * Handles the decision making for the selected lease request.
+     * It prompts the owner to accept, reject, or go back to select another lease request.
+     *
+     * @throws InvalidSessionException if the session is invalid.
+     */
     private void makeDecision() throws InvalidSessionException {
         controller.homePage();
         int choice = controller.getChoice(adBean, leaseRequestBean);

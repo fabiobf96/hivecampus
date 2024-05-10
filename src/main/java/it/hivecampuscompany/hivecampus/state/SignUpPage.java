@@ -7,19 +7,50 @@ import it.hivecampuscompany.hivecampus.manager.LoginManager;
 
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * The SignUpPage abstract class represents the sign-up page in the application.
+ * It implements the State interface and provides methods for navigating to initial and login pages, as well as registering a user.
+ */
 public abstract class SignUpPage implements State {
+
     protected Context context;
+
+    /**
+     * Constructs a SignUpPage object with the given context.
+     *
+     * @param context The context object for the sign-up page.
+     */
     protected SignUpPage(Context context) {
         this.context = context;
     }
+
+    /**
+     * Navigates to the initial page.
+     *
+     * @param initialPage The InitialPage object representing the initial page.
+     */
     public void goToInitialPage(InitialPage initialPage) {
         context.setState(initialPage);
     }
-    // usato da signUp per tornare alla pagina di login
+
+    /**
+     * Navigates to the login page.
+     *
+     * @param loginPage The LoginPage object representing the login page.
+     */
     public void goToLoginPage(LoginPage loginPage) {
         context.setState(loginPage);
         context.request();
     }
+
+    /**
+     * Registers a new user.
+     *
+     * @param userBean    The UserBean object representing the user's information.
+     * @param accountBean The AccountBean object representing the user's account information.
+     * @throws NoSuchAlgorithmException if the specified algorithm is not available.
+     * @throws DuplicateRowException   if the user already exists.
+     */
     public void registerUser(UserBean userBean, AccountBean accountBean) throws NoSuchAlgorithmException, DuplicateRowException {
         LoginManager loginManager = new LoginManager();
         loginManager.signup(userBean, accountBean);

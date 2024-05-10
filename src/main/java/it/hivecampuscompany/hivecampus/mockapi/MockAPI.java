@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 
 public class MockAPI {
     private static final Logger LOGGER = Logger.getLogger(MockAPI.class.getName());
