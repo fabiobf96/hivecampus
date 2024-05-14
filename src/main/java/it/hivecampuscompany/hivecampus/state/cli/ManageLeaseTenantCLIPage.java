@@ -11,7 +11,7 @@ import it.hivecampuscompany.hivecampus.state.cli.controller.ManageLeaseTenantCLI
  * It extends the ManageLeasePage class and provides methods for handling user interactions on the CLI tenant's manage lease page.
  */
 public class ManageLeaseTenantCLIPage extends ManageLeasePage {
-    private ManageLeaseTenantCLIPageController controller = new ManageLeaseTenantCLIPageController();
+    private final ManageLeaseTenantCLIPageController controller = new ManageLeaseTenantCLIPageController();
 
     /**
      * Constructs a ManageLeaseTenantCLIPage object with the given context.

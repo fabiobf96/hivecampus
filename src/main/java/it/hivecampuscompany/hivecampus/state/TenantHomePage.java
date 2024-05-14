@@ -12,7 +12,7 @@ public abstract class TenantHomePage implements State {
        context.request();
     }
 
-    public void goToManageRequestPage(ManageRequestsPage manageRequestsPage) {
+    public void goToManageRequestsPage(ManageRequestsPage manageRequestsPage) {
         context.setState(manageRequestsPage);
         context.request();
     }

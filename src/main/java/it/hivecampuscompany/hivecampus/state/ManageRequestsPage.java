@@ -6,6 +6,7 @@ import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.manager.AdManager;
 import it.hivecampuscompany.hivecampus.manager.LeaseRequestManager;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
+import it.hivecampuscompany.hivecampus.state.cli.ManageRequestsTenantCLIPage;
 
 import java.util.List;
 
@@ -70,6 +71,16 @@ public abstract class ManageRequestsPage implements State {
      */
     public void goToOwnerHomePage(OwnerHomePage homePage) {
         context.setState(homePage);
+        context.request();
+    }
+
+    public void goToTenantHomePage(TenantHomePage tenantHomePage) {
+        context.setState(tenantHomePage);
+        context.request();
+    }
+
+    public void goToManageRequestsPage(ManageRequestsTenantCLIPage manageRequestsPage) {
+        context.setState(manageRequestsPage);
         context.request();
     }
 }

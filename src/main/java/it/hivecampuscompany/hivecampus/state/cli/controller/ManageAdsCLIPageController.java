@@ -6,12 +6,18 @@ import it.hivecampuscompany.hivecampus.bean.RoomBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.manager.AdManager;
-import it.hivecampuscompany.hivecampus.model.AdStart;
+import it.hivecampuscompany.hivecampus.model.Month;
 import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
 import it.hivecampuscompany.hivecampus.view.gui.cli.FormCliGUI;
 
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Controller class for the Manage Ads CLI Page. It extends the CLIController class and uses the AdManager class to manage ads.
+ * It provides methods to display the home page, show manage ads options, get user's choice, create ad options, ad creation form,
+ * publish ad, view ads, view homes.
+ */
 
 public class ManageAdsCLIPageController extends CLIController {
 
@@ -40,16 +46,30 @@ public class ManageAdsCLIPageController extends CLIController {
     List<HomeBean> homeBeans = new ArrayList<>();
     HomeBean hBean;
 
+    /**
+     * Constructor for the ManageAdsCLIPageController class.
+     */
+
     public ManageAdsCLIPageController() {
         formView = new FormCliGUI();
         manager = new AdManager();
     }
+
+    /**
+     * Method to display the home page. It displays a welcome message.
+     */
 
     @Override
     public void homePage() {
         formView.clean();
         formView.displayWelcomeMessage(properties.getProperty("MANAGE_ADS_MSG").toUpperCase());
     }
+
+    /**
+     * Method to show manage ads options.
+     * @param sessionBean SessionBean object.
+     * @throws InvalidSessionException If the session is invalid.
+     */
 
     public void showManageAdsOptions(SessionBean sessionBean) throws InvalidSessionException {
         viewAds(sessionBean);
@@ -59,9 +79,22 @@ public class ManageAdsCLIPageController extends CLIController {
         formView.displayMessage("4. " + properties.getProperty("GO_BACK_MSG"));
     }
 
+    /**
+     * Method to get the user's choice.
+     * @return int value that represents the user's choice.
+     */
+
     public int getChoice() {
         return formView.getIntUserInput(properties.getProperty("CHOICE_MSG"));
     }
+
+    /**
+     * Method to create ad options. It displays the view homes page and the ad options.
+     * The user can choose to use an existing home, create a new one or go back.
+     * @param sessionBean SessionBean object.
+     * @return boolean value that represents if the ad is created.
+     * @throws InvalidSessionException If the session is invalid.
+     */
 
     public boolean createAdOptions(SessionBean sessionBean) throws InvalidSessionException {
         formView.clean();
@@ -70,9 +103,9 @@ public class ManageAdsCLIPageController extends CLIController {
         int res = viewHomes(sessionBean);
 
         if (res >= 0 && res < homeBeans.size()) {
-            // ho scelto di utilizzare una casa esistente
+
             hBean = homeBeans.get(res);
-            // controllo se posso aggiungere un'altra stanza
+
             if (manager.isMaxRoomsReached(hBean)){
                 formView.displayMessage(properties.getProperty("MAX_ROOMS_REACHED_MSG"));
                 pause();
@@ -81,13 +114,19 @@ public class ManageAdsCLIPageController extends CLIController {
             return adCreationForm(hBean);
         }
         else if (res == homeBeans.size()) {
-            // creo una nuova casa
+
             return adCreationForm(null);
         }
-        else // go back
+        else
             return false;
 
     }
+
+    /**
+     * Method to create the ad creation form.
+     * @param homeBean HomeBean object.
+     * @return boolean value that represents if the ad is created.
+     */
 
     public boolean adCreationForm(HomeBean homeBean) {
         formView.clean();
@@ -141,6 +180,11 @@ public class ManageAdsCLIPageController extends CLIController {
         return choice == 1;
     }
 
+    /**
+     * Method to publish the ad.
+     * @param sessionBean SessionBean object.
+     */
+
     public void publishAd(SessionBean sessionBean) {
         HomeBean homeBean;
 
@@ -155,7 +199,7 @@ public class ManageAdsCLIPageController extends CLIController {
         boolean[] services = new boolean[]{privateBath, balcony, conditioner, tvConnection};
         RoomBean roomBean = new RoomBean(roomType, roomSurface, services, roomDescription);
 
-        boolean res  = manager.publishAd(sessionBean, homeBean, roomBean, price, AdStart.fromInt(monthAvailable));
+        boolean res  = manager.publishAd(sessionBean, homeBean, roomBean, price, Month.fromInt(monthAvailable));
 
         if (res) {
             formView.displayMessage(properties.getProperty("AD_PUBLISHED_MSG"));
@@ -164,12 +208,25 @@ public class ManageAdsCLIPageController extends CLIController {
         pause();
     }
 
+    /**
+     * Method to view ads.
+     * @param sessionBean SessionBean object.
+     * @throws InvalidSessionException If the session is invalid.
+     */
+
     public void viewAds(SessionBean sessionBean) throws InvalidSessionException {
         List<AdBean> adBeans = manager.searchAdsByOwner(sessionBean, new AdBean(null));
         for (AdBean adBean : adBeans) {
             formView.displayMessage(adBean.toString());
         }
     }
+
+    /**
+     * Method to view homes.
+     * @param sessionBean SessionBean object.
+     * @return int value that represents the user's choice.
+     * @throws InvalidSessionException If the session is invalid.
+     */
 
     public int viewHomes(SessionBean sessionBean) throws InvalidSessionException {
         homeBeans = manager.getHomesByOwner(sessionBean);
@@ -182,23 +239,29 @@ public class ManageAdsCLIPageController extends CLIController {
         return formView.getIntUserInput(properties.getProperty("CHOICE_MSG"));
     }
 
+    /**
+     * Method to convert the type of home. The types are: Studio Apartment, Two-Bedroom Apartment, Three-Bedroom Apartment, Four-Bedroom Apartment.
+     * @param type String value that specifies the type of house and allows you to associate the correct number of rooms.
+     * @return String value that represents the type of home.
+     */
+
     public String convertTypeHome(String type) {
         switch (type) {
             case "1" -> {
                 numBedrooms = "1";
-                return properties.getProperty("STUDIO_APARTMENT_MSG"); // Monolocale
+                return properties.getProperty("STUDIO_APARTMENT_MSG");
             }
             case "2" -> {
                 numBedrooms = "2";
-                return properties.getProperty("ONE_BEDROOM_APARTMENT_MSG"); // Bilocale
+                return properties.getProperty("TWO_BEDROOM_APARTMENT_MSG");
             }
             case "3" -> {
                 numBedrooms = "3";
-                return properties.getProperty("TWO_BEDROOM_APARTMENT_MSG"); // Trilocale
+                return properties.getProperty("THREE_BEDROOM_APARTMENT_MSG");
             }
             case "4" -> {
                 numBedrooms = "4";
-                return properties.getProperty("THREE_BEDROOM_APARTMENT_MSG"); // Quadrilocale
+                return properties.getProperty("FOUR_BEDROOM_APARTMENT_MSG");
             }
             default -> {
                 numBedrooms = null;
@@ -207,10 +270,16 @@ public class ManageAdsCLIPageController extends CLIController {
         }
     }
 
+    /**
+     * Method to convert the type of room. The types are: Single Room, Double Room.
+     * @param type String value that specifies the type of room.
+     * @return String value that represents the type of room.
+     */
+
     public String convertTypeRoom(String type) {
         return switch (type) {
-            case "1" -> properties.getProperty("SINGLE_ROOM_MSG"); // Singola
-            case "2" -> properties.getProperty("DOUBLE_ROOM_MSG"); // Doppia
+            case "1" -> properties.getProperty("SINGLE_ROOM_MSG");
+            case "2" -> properties.getProperty("DOUBLE_ROOM_MSG");
             default -> null;
         };
     }
