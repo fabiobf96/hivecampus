@@ -41,6 +41,9 @@ module it.hivecampuscompany.hivecampus {
     exports it.hivecampuscompany.hivecampus.state;
     opens it.hivecampuscompany.hivecampus.state to javafx.fxml;
 
+    exports it.hivecampuscompany.hivecampus.state.cli;
+    opens it.hivecampuscompany.hivecampus.state.cli to javafx.fxml;
+
     exports it.hivecampuscompany.hivecampus.state.javafx;
     opens it.hivecampuscompany.hivecampus.state.javafx to javafx.fxml;
 }

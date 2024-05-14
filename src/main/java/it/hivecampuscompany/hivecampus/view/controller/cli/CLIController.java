@@ -1,6 +1,7 @@
 package it.hivecampuscompany.hivecampus.view.controller.cli;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
+import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.manager.SessionManager;
 import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
@@ -118,6 +119,8 @@ public abstract class CLIController {
             for (int i = 0; i < itemList.size() - 1; i++) {
                 if (itemList.get(i) instanceof AdBean adBean && !format.isEmpty()) {
                     view.displayMessage(i + ") " + (adBean.toFormatString(format)));
+                } else if (itemList.get(i) instanceof LeaseRequestBean requestBean && !format.isEmpty()) {
+                    view.displayMessage(i + ") " + requestBean.getPreview());
                 } else {
                     view.displayMessage(i + ") " + itemList.get(i).toString());
                 }
