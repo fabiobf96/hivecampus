@@ -80,7 +80,7 @@ public class ManageLeaseOwnerCLIPage extends ManageLeasePage {
         LeaseBean leaseBean = controller.getLease(adBean, getLeaseRequestInformation(adBean));
         if (leaseBean != null) {
             uploadLease(leaseBean);
-            controller.successLoadLease();
+            controller.successMessage("LOADED");
         } else {
             choiceAd();
         }

@@ -58,7 +58,7 @@ public class ManageLeaseTenantCLIPage extends ManageLeasePage {
         if (controller.manageSignContract(getUnSignedLease())) {
             try {
                 signContract();
-                controller.successMessage();
+                controller.successMessage("SIGN");
                 goToTenantHomePage(new TenantHomeCLIPage(context));
             } catch (MockOpenAPIException e) {
                 controller.displayError(e.getMessage());

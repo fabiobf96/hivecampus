@@ -82,6 +82,7 @@ public class ManageRequestsOwnerCLIPage extends ManageRequestsPage {
             case 1 -> {
                 leaseRequestBean.setStatus(LeaseRequestStatus.ACCEPTED);
                 updateLeaseRequest(leaseRequestBean);
+                controller.successMessage("ACCEPT_REQUEST");
                 context.request();
             }
             case 2 -> {

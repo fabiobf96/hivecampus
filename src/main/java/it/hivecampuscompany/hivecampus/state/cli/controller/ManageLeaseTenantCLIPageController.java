@@ -74,12 +74,4 @@ public class ManageLeaseTenantCLIPageController extends CLIController {
             }
         }
     }
-
-    /**
-     * Displays a success message after successfully signing the lease.
-     */
-    public void successMessage() {
-        view.displayMessage(properties.getProperty("SUCCESS_SIGN_MSG"));
-        pause();
-    }
 }

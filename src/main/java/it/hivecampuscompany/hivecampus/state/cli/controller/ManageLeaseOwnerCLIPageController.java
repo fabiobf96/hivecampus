@@ -72,12 +72,4 @@ public class ManageLeaseOwnerCLIPageController extends CLIController {
             }
         }
     }
-
-    /**
-     * Displays a success message after successfully loading the lease.
-     */
-    public void successLoadLease() {
-        view.displayMessage(properties.getProperty("SUCCESS_LOADED_MSG"));
-        pause();
-    }
 }

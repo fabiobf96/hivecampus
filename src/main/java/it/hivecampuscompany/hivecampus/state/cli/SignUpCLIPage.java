@@ -40,6 +40,7 @@ public class SignUpCLIPage extends SignUpPage {
             UserBean userBean = controller.getUserInformation();
             AccountBean accountBean = controller.getAccountInformation();
             registerUser(userBean, accountBean);
+            controller.successMessage("SIGN_UP");
             goToInitialPage(new InitialCLIPage(context));
         } catch (PasswordMismatchException | InvalidEmailException | EmptyFieldsException e) {
             controller.displayError(e.getMessage());

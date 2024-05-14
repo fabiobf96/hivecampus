@@ -15,9 +15,9 @@ import java.util.Properties;
  * retrieving user input, managing session, and exiting the application. It leverages a properties file for
  * localized messages and a session bean for session management.
  *
- *  @author Fabio Barchiesi
- *  @version 1.1
- *  @since 2024-02-18
+ * @author Fabio Barchiesi
+ * @version 1.1
+ * @since 2024-02-18
  */
 public abstract class CLIController {
     protected CliGUI view;
@@ -30,7 +30,7 @@ public abstract class CLIController {
      * Constructor for CLIController. It initializes the properties object with
      * language-specific messages.
      */
-    protected CLIController(){
+    protected CLIController() {
         properties = LanguageLoader.getLanguageProperties();
         view = new CliGUI();
     }
@@ -53,22 +53,21 @@ public abstract class CLIController {
      * unless null inputs are permitted by the method's parameters.
      *
      * @param nameField The name of the field for which the input is being requested. This name is used to prompt the user.
-     * @param isNull A boolean value indicating whether null (or empty) inputs are allowed. If true, the method returns immediately after the first input,
-     * even if it is empty. If false, the method will repeatedly prompt the user until a non-empty string is entered.
-     *
+     * @param isNull    A boolean value indicating whether null (or empty) inputs are allowed. If true, the method returns immediately after the first input,
+     *                  even if it is empty. If false, the method will repeatedly prompt the user until a non-empty string is entered.
      * @return The user input string for the specified field. If isNull is true and the user enters an empty string, it returns the empty string.
      * Otherwise, it returns the first non-empty string entered by the user.
      */
-    protected String getField(String nameField, boolean isNull){
+    protected String getField(String nameField, boolean isNull) {
         String field;
         boolean first = true;
         do {
-            if(!first){
+            if (!first) {
                 view.displayMessage(properties.getProperty("EMPTY_FIELD_MSG"));
             }
             first = false;
             field = view.getStringUserInput(nameField);
-            if (isNull){
+            if (isNull) {
                 break;
             }
         } while (field.isBlank());
@@ -80,8 +79,8 @@ public abstract class CLIController {
      * If a sessionBean is present, it deletes the session before displaying a goodbye message
      * and terminating the application.
      */
-    public void exit(){
-        if (sessionBean != null){
+    public void exit() {
+        if (sessionBean != null) {
             SessionManager sessionManager = SessionManager.getInstance();
             sessionManager.deleteSession(sessionBean);
         }
@@ -92,7 +91,6 @@ public abstract class CLIController {
     protected Boolean getBooleanInput(String message) {
         return view.getStringUserInput(message).equalsIgnoreCase("y");
     }
-
 
 
     /**
@@ -108,47 +106,76 @@ public abstract class CLIController {
      * The method continuously prompts the user until a valid choice is made. Invalid
      * selections result in the display of an "invalid choice" message.
      *
-     * @param <T> the type of elements in the itemList
+     * @param <T>      the type of elements in the itemList
      * @param itemList a List of items of type {@code T} from which the user can choose.
      *                 The list must not be {@code null} and should include at least one item.
      * @return the item of type {@code T} selected by the user, or {@code null} if the user
-     *         chooses to "Go Back" by selecting the last option or if the selected item is {@code null}.
+     * chooses to "Go Back" by selecting the last option or if the selected item is {@code null}.
      */
     protected <T> T selectFromList(List<T> itemList, String format) {
         itemList.add(null);
         while (true) {
-            for (int i = 0; i < itemList.size()-1 ; i++) {
-                if (itemList.get(i) instanceof AdBean adBean && !format.isEmpty()){
-                        view.displayMessage(i + ") " + (adBean.toFormatString(format)));
+            for (int i = 0; i < itemList.size() - 1; i++) {
+                if (itemList.get(i) instanceof AdBean adBean && !format.isEmpty()) {
+                    view.displayMessage(i + ") " + (adBean.toFormatString(format)));
                 } else {
-                        view.displayMessage(i + ") " + itemList.get(i).toString());
+                    view.displayMessage(i + ") " + itemList.get(i).toString());
                 }
             }
             view.displayMessage(itemList.size() - 1 + ") " + properties.getProperty("GO_BACK_MSG"));
-            int choice = view.getIntUserInput("Choice");
+            int choice = view.getIntUserInput(properties.getProperty("CHOICE_MSG"));
             if (choice >= 0 && choice <= itemList.size() - 1) {
                 return itemList.get(choice);
-            }  else {
+            } else {
                 view.displayMessage(INVALID_CHOICE);
             }
         }
     }
 
-    public void displayError (String message) {
+    /**
+     * Displays an error message to the user and waits for user input to continue.
+     * This method retrieves the error message from the properties file based on the provided key.
+     *
+     * @param message The key corresponding to the error message in the properties file.
+     */
+    public void displayError(String message) {
         view.displayMessage(properties.getProperty(message));
         pause();
     }
 
-    public void notImplementedYet () {
-        view.displayMessage("Not Implemented Yet!");
+    /**
+     * Displays a message indicating that the functionality is not yet implemented and waits for user input to continue.
+     * This method retrieves the "not implemented" message from the properties file.
+     */
+    public void notImplementedYet() {
+        view.displayMessage(properties.getProperty("NOT_IMPLEMENTED_MSG"));
         pause();
     }
 
+    /**
+     * Pauses the execution by waiting for user input.
+     */
     public void pause() {
         view.getStringUserInput("\n" + PRESS_ANY_KEY);
     }
+
+    /**
+     * Displays a session expiration message to the user and waits for user input to continue.
+     * This method retrieves the session expiration message from the properties file.
+     */
     public void sessionExpired() {
-        view.displayMessage("Your session has expired, please log in");
+        view.displayMessage(properties.getProperty("INVALID_SESSION_MSG"));
+        pause();
+    }
+
+    /**
+     * Displays a success message to the user and waits for user input to continue.
+     * This method retrieves the success message from the properties file based on the provided type.
+     *
+     * @param type The type of success message to display. It is used to construct the key for retrieving the message.
+     */
+    public void successMessage(String type) {
+        view.displayMessage(properties.getProperty("SUCCESS_MSG_" + type));
         pause();
     }
 
