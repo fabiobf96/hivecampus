@@ -2,10 +2,7 @@ package it.hivecampuscompany.hivecampus.state.cli;
 
 import it.hivecampuscompany.hivecampus.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.bean.UserBean;
-import it.hivecampuscompany.hivecampus.exception.DuplicateRowException;
-import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
-import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
-import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
+import it.hivecampuscompany.hivecampus.exception.*;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.SignUpPage;
 import it.hivecampuscompany.hivecampus.state.cli.controller.SignUpCLIPageController;
@@ -44,12 +41,13 @@ public class SignUpCLIPage extends SignUpPage {
             AccountBean accountBean = controller.getAccountInformation();
             registerUser(userBean, accountBean);
             goToInitialPage(new InitialCLIPage(context));
-        } catch (PasswordMismatchException | InvalidEmailException e) {
+        } catch (PasswordMismatchException | InvalidEmailException | EmptyFieldsException e) {
             controller.displayError(e.getMessage());
         } catch (NoSuchAlgorithmException e) {
             controller.displayError(e.getMessage());
             controller.exit();
         } catch (DuplicateRowException e) {
+            controller.displayError(e.getMessage());
             goToInitialPage(new InitialCLIPage(context));
         }
         context.request();
