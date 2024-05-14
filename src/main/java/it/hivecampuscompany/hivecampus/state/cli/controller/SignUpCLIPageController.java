@@ -18,6 +18,7 @@ public class SignUpCLIPageController extends CLIController {
      */
     @Override
     public void homePage() {
+        view.clean();
         view.displayWelcomeMessage(properties.getProperty("SIGN_UP_MSG"));
     }
 

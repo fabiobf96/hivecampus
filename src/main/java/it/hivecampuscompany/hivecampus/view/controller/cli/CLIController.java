@@ -136,14 +136,12 @@ public abstract class CLIController {
 
     public void displayError (String message) {
         view.displayMessage(properties.getProperty(message));
-        view.getStringUserInput(PRESS_ANY_KEY);
-        view.clean();
-        homePage();
+        pause();
     }
 
     public void notImplementedYet () {
         view.displayMessage("Not Implemented Yet!");
-        view.getStringUserInput(PRESS_ANY_KEY);
+        pause();
     }
 
     public void pause() {
