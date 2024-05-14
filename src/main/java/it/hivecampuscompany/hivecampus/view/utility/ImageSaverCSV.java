@@ -26,7 +26,8 @@ public class ImageSaverCSV {
             roomFile = new File(properties.getProperty("ROOM_IMAGES_PATH"));
             homeFile = new File(properties.getProperty("HOME_IMAGES_PATH"));
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
+            Properties languageProperties = LanguageLoader.getLanguageProperties();
+            LOGGER.log(Level.SEVERE, languageProperties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), e);
             System.exit(1);
         }
     }

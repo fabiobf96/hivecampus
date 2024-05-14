@@ -5,7 +5,7 @@ import it.hivecampuscompany.hivecampus.bean.HomeBean;
 import it.hivecampuscompany.hivecampus.bean.RoomBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.manager.AdManager;
-import it.hivecampuscompany.hivecampus.model.AdStart;
+import it.hivecampuscompany.hivecampus.model.Month;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.ManageAdsPage;
 import it.hivecampuscompany.hivecampus.state.javafx.ManageAdsJavaFXPage;
@@ -344,7 +344,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         roomBean.setImageName(roomFileName);
 
         // Publish ad
-        boolean res = manager.publishAd(context.getSessionBean(),homeBean, roomBean, price, AdStart.fromInt(month));
+        boolean res = manager.publishAd(context.getSessionBean(),homeBean, roomBean, price, Month.fromInt(month));
 
         if (res) {
             showAlert(INFORMATION, String.valueOf(Alert.AlertType.INFORMATION), "Ad published successfully");

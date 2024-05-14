@@ -47,7 +47,7 @@ public class TenantHomeJavaFXPage extends TenantHomePage {
 
         goToAdSearchPage(new AdSearchJavaFXPage(context));
 
-        tab2.setOnSelectionChanged(event -> goToManageRequestPage(new ManageRequestsTenantJavaFXPage(context)));
+        tab2.setOnSelectionChanged(event -> goToManageRequestsPage(new ManageRequestsTenantJavaFXPage(context)));
         tab3.setOnSelectionChanged(event -> goToManageLeasePage(new ManageLeaseTenantJavaFXPage(context)));
 
         Scene scene = new Scene((Parent) barDecorator.setup());

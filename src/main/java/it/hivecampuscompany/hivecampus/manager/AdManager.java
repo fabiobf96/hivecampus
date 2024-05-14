@@ -51,7 +51,7 @@ public class AdManager {
         throw new InvalidSessionException();
     }
 
-    public boolean publishAd(SessionBean sessionBean, HomeBean homeBean, RoomBean roomBean, int price, AdStart adStart) {
+    public boolean publishAd(SessionBean sessionBean, HomeBean homeBean, RoomBean roomBean, int price, Month adStart) {
         SessionManager sessionManager = SessionManager.getInstance();
         HomeDAO homeDAO = new HomeDAOCSV();
         RoomDAO roomDAO = new RoomDAOCSV();

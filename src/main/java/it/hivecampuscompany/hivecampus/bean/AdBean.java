@@ -8,7 +8,7 @@ public class AdBean {
     private HomeBean homeBean;
     private RoomBean roomBean;
     private AdStatus adStatus;
-    private AdStart adStart;
+    private Month adStart;
     private int price;
     private String university;
     private double distance;
@@ -31,7 +31,7 @@ public class AdBean {
     public AdBean(int id, HomeBean homeBean, RoomBean roomBean, int price, int adStatus, int adStart) {
         this(id, homeBean, roomBean, price);
         this.adStatus = AdStatus.fromInt(adStatus);
-        this.adStart = AdStart.fromInt(adStart);
+        this.adStart = Month.fromInt(adStart);
     }
 
     public AdBean(Ad ad, String university, double distance){
@@ -98,7 +98,7 @@ public class AdBean {
         return result;
     }
 
-    public AdStart getAdStart() {
+    public Month getAdStart() {
         return adStart;
     }
 
