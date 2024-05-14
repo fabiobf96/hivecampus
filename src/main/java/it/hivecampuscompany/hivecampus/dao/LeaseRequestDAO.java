@@ -4,6 +4,7 @@ package it.hivecampuscompany.hivecampus.dao;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
+import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
 import it.hivecampuscompany.hivecampus.model.LeaseRequest;
 
@@ -49,4 +50,8 @@ public interface LeaseRequestDAO {
     void saveLeaseRequest(LeaseRequest leaseRequest);
 
     boolean validRequest(String email, int id);
+
+    List<LeaseRequest> retrieveLeaseRequestsByTenant(SessionBean sessionBean);
+
+    void deleteLeaseRequest(LeaseRequestBean requestBean);
 }
