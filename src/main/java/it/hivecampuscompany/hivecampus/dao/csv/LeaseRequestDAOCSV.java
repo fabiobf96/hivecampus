@@ -3,6 +3,7 @@ package it.hivecampuscompany.hivecampus.dao.csv;
 import com.opencsv.CSVWriter;
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
+import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
 import it.hivecampuscompany.hivecampus.dao.LeaseRequestDAO;
@@ -45,8 +46,8 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
                 .map(leaseRequestRecord -> new LeaseRequest(
                         Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]),
                         accountDAO.retrieveAccountInformationByEmail(leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT]),
-                        leaseRequestRecord[LeaseRequestAttributes.INDEX_START],
-                        leaseRequestRecord[LeaseRequestAttributes.INDEX_DURATION],
+                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_START]),
+                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_DURATION]),
                         leaseRequestRecord[LeaseRequestAttributes.INDEX_MESSAGE]
                 ))
                 .toList();
@@ -65,8 +66,8 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
                         Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]),
                         adDAO.retrieveAdByID(Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_AD])),
                         accountDAO.retrieveAccountInformationByEmail(leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT]),
-                        leaseRequestRecord[LeaseRequestAttributes.INDEX_START],
-                        leaseRequestRecord[LeaseRequestAttributes.INDEX_DURATION],
+                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_START]),
+                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_DURATION]),
                         leaseRequestRecord[LeaseRequestAttributes.INDEX_MESSAGE],
                         Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_STATUS])
                 ))
@@ -107,8 +108,8 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
             leaseRequestRecord[LeaseRequestAttributes.INDEX_AD] = String.valueOf(leaseRequest.getAd().getId());
             leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT] = leaseRequest.getTenant().getEmail();
             leaseRequestRecord[LeaseRequestAttributes.INDEX_STATUS] = String.valueOf(leaseRequest.getStatus().getId());
-            leaseRequestRecord[LeaseRequestAttributes.INDEX_START] = leaseRequest.getMonth();
-            leaseRequestRecord[LeaseRequestAttributes.INDEX_DURATION] = leaseRequest.getDuration();
+            leaseRequestRecord[LeaseRequestAttributes.INDEX_START] = String.valueOf(leaseRequest.getLeaseMonth().getMonth());
+            leaseRequestRecord[LeaseRequestAttributes.INDEX_DURATION] = String.valueOf(leaseRequest.getDuration().getPermanence());
             leaseRequestRecord[LeaseRequestAttributes.INDEX_MESSAGE] = leaseRequest.getMessage();
             writer.writeNext(leaseRequestRecord);
         } catch (IOException e) {
@@ -123,6 +124,48 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
         leaseRequestTable.removeFirst();
         return leaseRequestTable.stream()
                 .noneMatch(leaseRequestRecord -> leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT].equals(email) && Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_AD]) == id);
+    }
+
+    @Override
+    public List<LeaseRequest> retrieveLeaseRequestsByTenant(SessionBean sessionBean) {
+        AccountDAO accountDAO = new AccountDAOCSV();
+        AdDAO adDAO = new AdDAOCSV();
+        List<String[]> leaseRequestTable = CSVUtility.readAll(fd);
+        leaseRequestTable.removeFirst();
+        return leaseRequestTable.stream()
+                .filter(leaseRequestRecord -> leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT].equals(sessionBean.getEmail()))
+                .map(leaseRequestRecord -> new LeaseRequest(
+                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]),
+                        adDAO.retrieveAdByID(Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_AD])),
+                        accountDAO.retrieveAccountInformationByEmail(leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT]),
+                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_START]),
+                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_DURATION]),
+                        leaseRequestRecord[LeaseRequestAttributes.INDEX_MESSAGE],
+                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_STATUS])
+                ))
+                .toList();
+    }
+
+    @Override
+    public void deleteLeaseRequest(LeaseRequestBean requestBean) {
+        File fdTmp = new File(fd.getAbsolutePath() + ".tmp");
+        try (CSVWriter writer = new CSVWriter(new FileWriter(fdTmp))) {
+            List<String[]> leaseRequestTable = CSVUtility.readAll(fd);
+            String[] header = leaseRequestTable.getFirst();
+            leaseRequestTable.removeFirst();
+            leaseRequestTable.removeIf(leaseRequestRecord -> Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]) == requestBean.getId());
+            leaseRequestTable.addFirst(header);
+            writer.writeAll(leaseRequestTable);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_ACCESS"), fdTmp), e);
+            System.exit(3);
+        }
+        try {
+            Files.move(fdTmp.toPath(), fd.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format("Failed to move file from %s to %s", fdTmp, fd), e);
+            System.exit(4);
+        }
     }
 
     private static class LeaseRequestAttributes {

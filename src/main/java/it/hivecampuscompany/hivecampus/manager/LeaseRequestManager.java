@@ -59,8 +59,8 @@ public class LeaseRequestManager {
             LeaseRequest leaseRequest = new LeaseRequest(
                     ad,
                     tenant,
-                    leaseRequestBean.getMonth(),
-                    leaseRequestBean.getDuration(),
+                    leaseRequestBean.getLeaseMonth().getMonth(),
+                    leaseRequestBean.getDuration().getPermanence(),
                     leaseRequestBean.getStatus().getId(),
                     leaseRequestBean.getMessage());
 
@@ -71,5 +71,20 @@ public class LeaseRequestManager {
             return "Lease request already sent";
         }
         else throw new InvalidSessionException();
+    }
+
+    public List<LeaseRequestBean> searchTenantRequests(SessionBean sessionBean) {
+        LeaseRequestDAO leaseRequestDAO = new LeaseRequestDAOCSV();
+        List<LeaseRequest> leaseRequestList = leaseRequestDAO.retrieveLeaseRequestsByTenant(sessionBean);
+        List<LeaseRequestBean> leaseRequestBeanList = new ArrayList<>();
+        for (LeaseRequest leaseRequest : leaseRequestList) {
+            leaseRequestBeanList.add(leaseRequest.toBasicBean());
+        }
+        return leaseRequestBeanList;
+    }
+
+    public void deleteLeaseRequest(LeaseRequestBean requestBean) {
+        LeaseRequestDAO leaseRequestDAO = new LeaseRequestDAOCSV();
+        leaseRequestDAO.deleteLeaseRequest(requestBean);
     }
 }

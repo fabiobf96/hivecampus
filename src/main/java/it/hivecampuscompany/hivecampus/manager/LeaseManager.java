@@ -33,7 +33,7 @@ public class LeaseManager {
         ad.setAdStatus(AdStatus.RESERVED);
         adDAO.updateAd(ad);
         Account tenant = accountDAO.retrieveAccountInformationByEmail(leaseRequestBean.getTenant().getEmail());
-        Lease lease = new Lease(ad, tenant, leaseRequestBean.getMonth(), leaseRequestBean.getDuration(), leaseBean.getContract(), false, Instant.now());
+        Lease lease = new Lease(ad, tenant, String.valueOf(leaseRequestBean.getLeaseMonth()), String.valueOf(leaseRequestBean.getDuration()), leaseBean.getContract(), false, Instant.now()); // Modificato leaseRequestBean.getMonth() e leaseRequestBean.getDuration() in String.valueOf(leaseRequestBean.getLeaseMonth()) e String.valueOf(leaseRequestBean.getDuration())
         leaseDAO.saveLease(lease);
     }
     public LeaseBean searchUnsignedLease(SessionBean sessionBean) throws InvalidSessionException {

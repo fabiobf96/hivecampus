@@ -6,33 +6,33 @@ public class LeaseRequest {
     private int id;
     private Ad ad;
     private final Account tenant;
-    private final String month;
-    private final String duration;
+    private final Month month;
+    private final Permanence duration;
     private final String message;
     private LeaseRequestStatus status;
 
-    public LeaseRequest(int id, Account tenant, String month, String duration, String message) {
+    public LeaseRequest(int id, Account tenant, int month, int duration, String message) {
         this(tenant, month, duration, message);
         this.id = id;
     }
-    public LeaseRequest(int id, Account tenant, String month, String duration, int status, String message) {
+    public LeaseRequest(int id, Account tenant, int month, int duration, int status, String message) {
         this(id, tenant, month, duration, message);
         this.status = LeaseRequestStatus.fromInt(status);
     }
 
-    public LeaseRequest(int id, Ad ad, Account tenant, String month, String duration, String message, int status) {
+    public LeaseRequest(int id, Ad ad, Account tenant, int month, int duration, String message, int status) {
         this(id, tenant, month, duration, status, message);
         this.ad = ad;
     }
 
-    public LeaseRequest(Account tenant, String month, String duration, String message) {
+    public LeaseRequest(Account tenant, int month, int duration, String message) {
         this.tenant = tenant;
-        this.month = month;
-        this.duration = duration;
+        this.month = Month.fromInt(month);
+        this.duration = Permanence.fromInt(duration);
         this.message = message;
     }
 
-    public LeaseRequest(Ad ad, Account tenant, String month, String duration, int status, String message) {
+    public LeaseRequest(Ad ad, Account tenant, int month, int duration, int status, String message) {
         this(tenant, month, duration, message);
         this.ad = ad;
         this.status = LeaseRequestStatus.fromInt(status);
@@ -47,10 +47,10 @@ public class LeaseRequest {
     }
 
     public String[] toCSVString() {
-        return new String[]{String.valueOf(id), String.valueOf(ad.getId()), tenant.getEmail(), String.valueOf(status.getId()), month, duration, message};
+        return new String[]{String.valueOf(id), String.valueOf(ad.getId()), tenant.getEmail(), String.valueOf(status.getId()), String.valueOf(month.getMonth()), String.valueOf(duration.getPermanence()), message};
     }
     public LeaseRequestBean toBasicBean() {
-        return new LeaseRequestBean(id, ad != null ? ad.toBasicBean() : null, tenant != null ? tenant.toBasicBean() : null, month, duration, message, status);
+        return new LeaseRequestBean(id, ad != null ? ad.toBasicBean() : null, tenant != null ? tenant.toBasicBean() : null, month.getMonth(), duration.getPermanence(), message, status);
     }
     public int getID() {
         return id;
@@ -60,11 +60,11 @@ public class LeaseRequest {
         return tenant;
     }
 
-    public String getMonth() {
+    public Month getLeaseMonth() {
         return month;
     }
 
-    public String getDuration() {
+    public Permanence getDuration() {
         return duration;
     }
 

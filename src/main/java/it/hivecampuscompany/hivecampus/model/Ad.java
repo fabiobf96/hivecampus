@@ -8,7 +8,7 @@ public class Ad {
     private final Home home;
     private final Room room;
     private AdStatus adStatus;
-    private AdStart adStart;
+    private Month adStart;
     private final int price;
 
 
@@ -21,7 +21,7 @@ public class Ad {
     public Ad(int id, Home home, Room room, int adStatus, int adStart, int price) {
         this(id, home, room, price);
         this.adStatus = AdStatus.fromInt(adStatus);
-        this.adStart = AdStart.fromInt(adStart);
+        this.adStart = Month.fromInt(adStart);
     }
     public Ad(int id, Account owner, Home home, Room room, int adStatus, int adStart, int price) {
         this(id, home, room, adStatus, adStart, price);
@@ -55,7 +55,7 @@ public class Ad {
         return adStatus;
     }
 
-    public AdStart getAdStart(){
+    public Month getAdStart(){
         return adStart;
     }
 

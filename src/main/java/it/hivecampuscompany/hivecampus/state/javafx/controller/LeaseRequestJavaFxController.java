@@ -4,6 +4,8 @@ import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.manager.LeaseRequestManager;
+import it.hivecampuscompany.hivecampus.model.Month;
+import it.hivecampuscompany.hivecampus.model.Permanence;
 import it.hivecampuscompany.hivecampus.model.LeaseRequestStatus;
 import it.hivecampuscompany.hivecampus.state.AdSearchPage;
 import it.hivecampuscompany.hivecampus.state.Context;
@@ -74,6 +76,8 @@ public class LeaseRequestJavaFxController extends JavaFxController{
     private Button btnSend;
 
     private Stage popUpStage;
+    int type = 0;
+    int start = 0;
 
     public LeaseRequestJavaFxController() {
         // Default constructor
@@ -151,13 +155,13 @@ public class LeaseRequestJavaFxController extends JavaFxController{
 
     private void handleSendRequest(AdBean adBean) {
         // Get the selected type of permanence
-        String type = getSelectedType();
+        type = getSelectedType();
         // Get the selected start of permanence
-        String start = getSelectedStart();
+        start = getSelectedStart();
         // Get the message
         String message = txaMessage.getText();
 
-        if (type == null || start == null || message.isBlank()) {
+        if (type == 0 || start == 0 || message.isEmpty()){
             showAlert(WARNING, properties.getProperty(WARNING_TITLE_MSG), properties.getProperty("EMPTY_FIELDS_MSG"));
             return;
         }
@@ -166,7 +170,7 @@ public class LeaseRequestJavaFxController extends JavaFxController{
         leaseRequestBean.setAdBean(adBean);
         leaseRequestBean.setTenant(null);
         leaseRequestBean.setDuration(type);
-        leaseRequestBean.setMonth(start);
+        leaseRequestBean.setLeaseMonth(start); //
         leaseRequestBean.setMessage(message);
         leaseRequestBean.setStatus(LeaseRequestStatus.PROCESSING);
 
@@ -182,47 +186,47 @@ public class LeaseRequestJavaFxController extends JavaFxController{
         }
     }
 
-    private String getSelectedType() {
+    private int getSelectedType() {
         if (ckbSix.isSelected()) {
-            return properties.getProperty("SIX_MONTHS_MSG");
+            return Permanence.SIX_MONTHS.getPermanence();
         } else if (ckbTwelve.isSelected()) {
-            return properties.getProperty("TWELVE_MONTHS_MSG");
+            return Permanence.TWELVE_MONTHS.getPermanence();
         } else if (ckbTwentyFour.isSelected()) {
-            return properties.getProperty("TWENTY_FOUR_MONTHS_MSG");
+            return Permanence.TWENTY_FOUR_MONTHS.getPermanence();
         } else if (ckbThirtySix.isSelected()) {
-            return properties.getProperty("THIRTY_SIX_MONTHS_MSG");
+            return Permanence.THIRTY_SIX_MONTHS.getPermanence();
         } else {
-            return null;
+            return 0;
         }
     }
 
-    private String getSelectedStart() {
+    private int getSelectedStart() {
         if (ckbSeptember.isSelected()) {
-            return properties.getProperty("SEPTEMBER_MSG");
+            return Month.SEPTEMBER.getMonth();
         } else if (ckbOctober.isSelected()) {
-            return properties.getProperty("OCTOBER_MSG");
+            return Month.OCTOBER.getMonth();
         } else if (ckbNovember.isSelected()) {
-            return properties.getProperty("NOVEMBER_MSG");
+            return Month.NOVEMBER.getMonth();
         } else if (ckbDecember.isSelected()) {
-            return properties.getProperty("DECEMBER_MSG");
+            return Month.DECEMBER.getMonth();
         } else if (ckbJanuary.isSelected()) {
-            return properties.getProperty("JANUARY_MSG");
+            return Month.JANUARY.getMonth();
         } else if (ckbFebruary.isSelected()) {
-            return properties.getProperty("FEBRUARY_MSG");
+            return Month.FEBRUARY.getMonth();
         } else if (ckbMarch.isSelected()) {
-            return properties.getProperty("MARCH_MSG");
+            return Month.MARCH.getMonth();
         } else if (ckbApril.isSelected()) {
-            return properties.getProperty("APRIL_MSG");
+            return Month.APRIL.getMonth();
         } else if (ckbMay.isSelected()) {
-            return properties.getProperty("MAY_MSG");
+            return Month.MAY.getMonth();
         } else if (ckbJune.isSelected()) {
-            return properties.getProperty("JUNE_MSG");
+            return Month.JUNE.getMonth();
         } else if (ckbJuly.isSelected()) {
-            return properties.getProperty("JULY_MSG");
+            return Month.JULY.getMonth();
         } else if (ckbAugust.isSelected()) {
-            return properties.getProperty("AUGUST_MSG");
+            return Month.AUGUST.getMonth();
         } else {
-            return null;
+            return 0;
         }
     }
 

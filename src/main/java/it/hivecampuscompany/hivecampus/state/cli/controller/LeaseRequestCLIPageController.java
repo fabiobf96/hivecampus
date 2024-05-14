@@ -12,14 +12,28 @@ import it.hivecampuscompany.hivecampus.view.gui.cli.FormCliGUI;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Controller class for the Lease Request CLI page. It extends the CLIController class and uses the LeaseRequestManager class to send lease requests.
+ * It provides methods to display the lease request form and send and manage lease requests.
+ */
+
 public class LeaseRequestCLIPageController extends CLIController {
 
     FormCliGUI formView;
     LeaseRequestManager manager = new LeaseRequestManager();
 
+    /**
+     * Constructor for the LeaseRequestCLIPageController class.
+     */
+
     public LeaseRequestCLIPageController() {
         formView = new FormCliGUI();
     }
+
+    /**
+     * Method to display the home page.
+     * It displays a welcome message and the lease request form.
+     */
 
     @Override
     public void homePage() {
@@ -31,9 +45,17 @@ public class LeaseRequestCLIPageController extends CLIController {
         formView.displayMonths();
     }
 
+    /**
+     * Method to display the lease request form.
+     * @param sessionBean The session bean of the user.
+     * @param adBean The ad bean of the ad.
+     * @return True if the lease request is sent, false otherwise.
+     * @throws InvalidSessionException If the session is invalid.
+     */
+
     public boolean leaseRequestForm(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
-        String typePermanence = convertTypePermanence(formView.getStringUserInput("\n" + properties.getProperty("PERMANENCE_TYPE_MSG")));
-        String startPermanence = convertStartPermanence(formView.getStringUserInput(properties.getProperty("START_PERMANENCE_MSG")));
+        int typePermanence = convertTypePermanence(formView.getIntUserInput(properties.getProperty("PERMANENCE_TYPE_MSG")));
+        int startPermanence = convertStartPermanence(formView.getIntUserInput(properties.getProperty("START_PERMANENCE_MSG")));
         String message = formView.getStringUserInput(properties.getProperty("MESSAGE_FOR_OWNER_MSG"));
 
         formView.displayMessage("1. " + properties.getProperty("SEND_LEASE_REQUEST_MSG"));
@@ -45,7 +67,7 @@ public class LeaseRequestCLIPageController extends CLIController {
             leaseRequestBean.setAdBean(adBean);
             leaseRequestBean.setTenant(null);
             leaseRequestBean.setDuration(typePermanence);
-            leaseRequestBean.setMonth(startPermanence);
+            leaseRequestBean.setLeaseMonth(startPermanence);
             leaseRequestBean.setMessage(message);
             leaseRequestBean.setStatus(LeaseRequestStatus.PROCESSING);
 
@@ -56,29 +78,26 @@ public class LeaseRequestCLIPageController extends CLIController {
         } else return false;
     }
 
-    private String convertTypePermanence(String userInput) {
-        List<String> typesPermanence = Arrays.asList("6", "12", "24", "36");
+    private int convertTypePermanence(int inputNumber) {
+        List<Integer> typesPermanence = Arrays.asList(6, 12, 24, 36);
         try {
-            int inputNumber = Integer.parseInt(userInput);
             if (inputNumber >= 1 && inputNumber <= 4) {
-               return typesPermanence.get(inputNumber - 1);
-            }
-        } catch (NumberFormatException e) {
-           formView.displayMessage(properties.getProperty("INVALID_INPUT_MSG"));
-        }
-        return convertTypePermanence(formView.getStringUserInput(properties.getProperty("PERMANENCE_TYPE_MSG")));
-    }
-
-    private String convertStartPermanence(String userInput) {
-        List<String> months = Arrays.asList("1", "2", "3", "4", "5", "6","7", "8", "9", "10", "11", "12");
-        try {
-            int inputNumber = Integer.parseInt(userInput);
-            if (inputNumber >= 1 && inputNumber <= 12) {
-              return months.get(inputNumber - 1);
+                return typesPermanence.get(inputNumber - 1);
             }
         } catch (NumberFormatException e) {
             formView.displayMessage(properties.getProperty("INVALID_INPUT_MSG"));
         }
-        return convertStartPermanence(formView.getStringUserInput(properties.getProperty("START_PERMANENCE_MSG")));
+        return convertTypePermanence(formView.getIntUserInput(properties.getProperty("PERMANENCE_TYPE_MSG")));
+    }
+
+    private int convertStartPermanence(int inputNumber) {
+        try {
+            if (inputNumber >= 1 && inputNumber <= 12) {
+                return inputNumber;
+            }
+        } catch (NumberFormatException e) {
+            formView.displayMessage(properties.getProperty("INVALID_INPUT_MSG"));
+        }
+        return convertStartPermanence(formView.getIntUserInput(properties.getProperty("START_PERMANENCE_MSG")));
     }
 }
