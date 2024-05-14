@@ -11,6 +11,7 @@ import it.hivecampuscompany.hivecampus.model.Ad;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
 import it.hivecampuscompany.hivecampus.model.Home;
 import it.hivecampuscompany.hivecampus.model.Room;
+import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 
 import java.awt.geom.Point2D;
 import java.io.*;
@@ -25,6 +26,7 @@ import java.util.logging.Logger;
 public class AdDAOCSV implements AdDAO {
     private File fd;
     private static final Logger LOGGER = Logger.getLogger(AdDAOCSV.class.getName());
+    Properties languageProperties = LanguageLoader.getLanguageProperties();
 
     public AdDAOCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")) {
@@ -161,7 +163,7 @@ public class AdDAOCSV implements AdDAO {
             writer.writeNext(adRecord);
             return true;
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to write to file", e);
+            LOGGER.log(Level.SEVERE, languageProperties.getProperty("FAILED_WRITE_FILE"), e);
             return false;
         }
     }

@@ -3,17 +3,20 @@ package it.hivecampuscompany.hivecampus.dao.csv;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import it.hivecampuscompany.hivecampus.dao.UniversityDAO;
+import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 
 import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 public class UniversityDAOCSV implements UniversityDAO {
 
     private final File uni;
+    private final Properties properties = LanguageLoader.getLanguageProperties();
     private static final Logger LOGGER = Logger.getLogger(UniversityDAOCSV.class.getName());
 
     public UniversityDAOCSV() {
@@ -31,7 +34,7 @@ public class UniversityDAOCSV implements UniversityDAO {
                     .map(universityRecord -> new Point2D.Double(Double.parseDouble(universityRecord[UniversityDAOCSV.UniversityAttributes.INDEX_LONGITUDE]), Double.parseDouble(universityRecord[UniversityDAOCSV.UniversityAttributes.INDEX_LATITUDE])))
                     .orElse(null);
         } catch (IOException | CsvException e) {
-            LOGGER.severe("Failed to load university table");
+            LOGGER.severe(properties.getProperty("FAILED_LOADING_CSV_PROPERTIES"));
         }
         return null;
     }

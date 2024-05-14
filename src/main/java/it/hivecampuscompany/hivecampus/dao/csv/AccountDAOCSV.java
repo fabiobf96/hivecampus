@@ -3,6 +3,7 @@ package it.hivecampuscompany.hivecampus.dao.csv;
 import com.opencsv.CSVWriter;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.model.Account;
+import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 
 import java.io.*;
 import java.util.List;
@@ -20,7 +21,8 @@ public class AccountDAOCSV implements AccountDAO {
             properties.load(input);
             fd = new File(properties.getProperty("ACCOUNT_PATH"));
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
+            Properties languageProperties = LanguageLoader.getLanguageProperties();
+            LOGGER.log(Level.SEVERE, languageProperties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), e);
             System.exit(1);
         }
     }

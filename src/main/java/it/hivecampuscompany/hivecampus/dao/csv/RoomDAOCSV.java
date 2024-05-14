@@ -7,6 +7,7 @@ import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.bean.RoomBean;
 import it.hivecampuscompany.hivecampus.dao.RoomDAO;
 import it.hivecampuscompany.hivecampus.model.Room;
+import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 
 import java.io.*;
 import java.util.Collections;
@@ -28,7 +29,8 @@ public class RoomDAOCSV implements RoomDAO {
             fd = new File(properties.getProperty("ROOM_PATH"));
             imageFd = new File(properties.getProperty("ROOM_IMAGES_PATH"));
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
+            Properties languageProperties = LanguageLoader.getLanguageProperties();
+            LOGGER.log(Level.SEVERE, languageProperties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), e);
             System.exit(1);
         }
     }
@@ -81,7 +83,7 @@ public class RoomDAOCSV implements RoomDAO {
                     ))
                     .toList();
         } catch (IOException | CsvException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), fd), e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_READ_PARSE_VALUES"), e);
         }
         return Collections.emptyList();
     }
@@ -102,7 +104,7 @@ public class RoomDAOCSV implements RoomDAO {
             room = new Room(idRoom+1, homeID, roomBean.getSurface(), roomBean.getType(), new boolean[]{roomBean.getBathroom(), roomBean.getBalcony(), roomBean.getConditioner(), roomBean.getTV()}, roomBean.getDescription());
 
         } catch (IOException | CsvException | RuntimeException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), fd), e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), e);
         }
 
         // Save the room in the CSV file
@@ -121,7 +123,7 @@ public class RoomDAOCSV implements RoomDAO {
                 writer.writeNext(roomRecord);
                 return room;
             } catch (IOException e) {
-                LOGGER.log(Level.SEVERE, "Failed to save room", e);
+                LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_SAVE_ROOM"), e);
             }
         }
         return null;
@@ -142,10 +144,12 @@ public class RoomDAOCSV implements RoomDAO {
                 }
             }
         } catch (CsvException | IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load room data", e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_LOADING_ROOM_DATA"), e);
         }
         return roomCount;
     }
+
+
 
     @Override
     public byte[] getRoomImage(int idRoom, int idHome) {
@@ -161,7 +165,7 @@ public class RoomDAOCSV implements RoomDAO {
             }
         }
         catch (IOException | CsvException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load image from CSV", e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_LOADING_CSV_IMAGE"), e);
         }
         return new byte[0];
     }

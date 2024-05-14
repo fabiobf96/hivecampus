@@ -5,8 +5,10 @@ import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 import it.hivecampuscompany.hivecampus.bean.HomeBean;
+import it.hivecampuscompany.hivecampus.boundary.OpenStreetMapApiBoundary;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.model.Home;
+import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
 import it.hivecampuscompany.hivecampus.view.utility.Utility;
 
 import java.awt.geom.Point2D;
@@ -20,6 +22,7 @@ import java.util.logging.Logger;
 public class HomeDAOCSV implements HomeDAO {
     private File fd;
     private File imageFd;
+    private final Properties languageProperties = LanguageLoader.getLanguageProperties();
     private static final Logger LOGGER = Logger.getLogger(HomeDAOCSV.class.getName());
 
     public HomeDAOCSV() {
@@ -29,7 +32,7 @@ public class HomeDAOCSV implements HomeDAO {
             fd = new File(properties.getProperty("HOME_PATH"));
             imageFd = new File(properties.getProperty("HOME_IMAGES_PATH"));
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
+            LOGGER.log(Level.SEVERE, languageProperties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), e);
             System.exit(1);
         }
     }
@@ -120,10 +123,11 @@ public class HomeDAOCSV implements HomeDAO {
 
         int lastId = CSVUtility.findLastRowIndex(fd);
 
-        Point2D coordinates = Utility.getCoordinates(homeBean.getAddress());
-
-        if (coordinates == null) {
-            LOGGER.log(Level.SEVERE, "Failed to retrieve coordinates");
+        Point2D coordinates;
+        try {
+            coordinates = OpenStreetMapApiBoundary.getCoordinates(homeBean.getAddress());
+        } catch (IOException e) {
+            LOGGER.severe(languageProperties.getProperty("FAILED_TO_CONNECT_TO_SERVER"));
             return null;
         }
 
@@ -152,7 +156,7 @@ public class HomeDAOCSV implements HomeDAO {
             return new Home(lastId + 1, coordinates, homeBean.getAddress(), homeBean.getType(), homeBean.getSurface(), homeBean.getDescription(), features);
 
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to write to file", e);
+            LOGGER.log(Level.SEVERE, languageProperties.getProperty("FAILED_WRITE_FILE"), e);
             return null;
         }
     }
@@ -170,7 +174,7 @@ public class HomeDAOCSV implements HomeDAO {
                 return CSVUtility.decodeBase64ToBytes(imageRecord[ImageAttributes.INDEX_IMAGE]);
             }
         } catch (IOException | CsvException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load image from CSV", e);
+            LOGGER.log(Level.SEVERE, languageProperties.getProperty("FAILED_LOADING_CSV_IMAGE"), e);
         }
         return new byte[0];
     }
@@ -193,7 +197,7 @@ public class HomeDAOCSV implements HomeDAO {
                 }
             }
         } catch (IOException | NumberFormatException | CsvValidationException e) {
-            LOGGER.log(Level.SEVERE, "Failed to read file or parse values", e);
+            LOGGER.log(Level.SEVERE, languageProperties.getProperty("FAILED_READ_PARSE_VALUES"), e);
         }
         return -1; // La casa non esiste
     }
