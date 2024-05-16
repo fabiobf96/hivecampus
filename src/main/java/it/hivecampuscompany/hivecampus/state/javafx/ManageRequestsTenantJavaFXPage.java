@@ -6,8 +6,11 @@ import it.hivecampuscompany.hivecampus.state.javafx.controller.ManageRequestsTen
 import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class ManageRequestsTenantJavaFXPage extends ManageRequestsPage {
+
+    private static final Logger LOGGER = Logger.getLogger(ManageRequestsTenantJavaFXPage.class.getName());
 
     public ManageRequestsTenantJavaFXPage(Context context) {
         super(context);
@@ -25,7 +28,7 @@ public class ManageRequestsTenantJavaFXPage extends ManageRequestsPage {
             controller.initialize(context);
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.severe(context.getLanguage().getProperty("ERROR_HANDLING_MANAGE_REQUESTS_PAGE"));
         }
     }
 }
