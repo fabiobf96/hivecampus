@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 public class ConnectionManager {
     private static Connection connection;
     private static final Properties properties;
-
     private static final Logger LOGGER = Logger.getLogger(ConnectionManager.class.getName());
 
     private ConnectionManager(){
@@ -35,11 +34,13 @@ public class ConnectionManager {
             throw new IllegalArgumentException("Error loading database properties.", e);
         }
     }
+
     /**
      * This method returns a connection to the database.
      * If a connection has not been established, it creates a new connection.
      * @return The connection to the database.
      */
+
     public static Connection getConnection() {
         if (connection == null) {
             String dbUrl = properties.getProperty("CONNECTION_URL");
@@ -61,10 +62,12 @@ public class ConnectionManager {
         }
         return connection;
     }
+
     /**
      * This method closes the connection to the database.
      * @throws SQLException if an error occurs while closing the connection.
      */
+
     public static void closeConnection() throws SQLException {
         if (connection != null) {
             try {

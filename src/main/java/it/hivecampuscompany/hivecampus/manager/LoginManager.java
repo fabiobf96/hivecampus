@@ -37,6 +37,15 @@ public class LoginManager {
         return new SessionBean(session);
     }
 
+    /**
+     * Method to retrieve the account information of the user.
+     * It uses the email of the user to retrieve the account information.
+     * Then it converts the account information into a bean.
+     *
+     * @param sessionBean The session of the user.
+     * @return The account information of the user.
+     */
+
     public AccountBean getAccountInfo(SessionBean sessionBean) {
         AccountDAO accountDAO = new AccountDAOCSV(); // AccountDAOMySql() or AccountDAOCSV()
         Account account = accountDAO.retrieveAccountInformationByEmail(sessionBean.getEmail());

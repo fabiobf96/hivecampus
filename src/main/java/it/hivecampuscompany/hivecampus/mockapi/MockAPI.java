@@ -27,6 +27,12 @@ public class MockAPI {
                         .withBody("true")));
     }
 
+    /**
+     * Method to mock the OpenStreetMap API.
+     * It returns a map image when a GET request is made to /get-map.
+     * The image is read from the resources' folder.
+     */
+
     public static void mockOpenStreetMapAPI() {
         byte[] imageBytes;
         try {

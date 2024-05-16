@@ -7,7 +7,6 @@ import it.hivecampuscompany.hivecampus.dao.csv.*;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.exception.MockOpenStreetMapAPIException;
 import it.hivecampuscompany.hivecampus.model.*;
-import it.hivecampuscompany.hivecampus.view.utility.ImageSaverCSV;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -32,10 +31,29 @@ public class AdManager {
         throw new InvalidSessionException();
     }
 
+    /**
+     * Method to retrieve the decorated ads by owner. It retrieves the ads by owner
+     * and then retrieves the images of the rooms and homes of the ads.
+     *
+     * @param sessionBean The session of the user
+     * @param adBean The ad object
+     * @return The list of decorated ads owned by the user
+     * @throws InvalidSessionException If the session is invalid
+     */
+
     public List<AdBean> getDecoratedAdsByOwner(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
         List<AdBean> adBeanList = searchAdsByOwner(sessionBean, adBean);
         return getAdBeansWithImage(adBeanList);
     }
+
+    /**
+     * Method to retrieve the homes owned by the user.
+     * It checks if the session is valid and then retrieves the homes owned by the user.
+     *
+     * @param sessionBean The session of the user
+     * @return The list of homes owned by the user
+     * @throws InvalidSessionException If the session is invalid
+     */
 
     public List<HomeBean> getHomesByOwner(SessionBean sessionBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
@@ -51,6 +69,17 @@ public class AdManager {
         throw new InvalidSessionException();
     }
 
+    /**
+     * Method to publish an ad. It checks if the session is valid,
+     * retrieves the owner of the ad and saves the home and the room objects
+     * and rispettive images by calling the appropriate methods in the DAOs.
+     * Then it creates the ad object and saves it in the database.
+     * If the ad is published correctly, it returns true, otherwise false.
+     *
+     * @param sessionBean The session of the user
+     * @return The list of rooms owned by the user
+     */
+
     public boolean publishAd(SessionBean sessionBean, HomeBean homeBean, RoomBean roomBean, int price, Month adStart) {
         SessionManager sessionManager = SessionManager.getInstance();
         HomeDAO homeDAO = new HomeDAOCSV();
@@ -59,54 +88,74 @@ public class AdManager {
         AdDAO adDAO = new AdDAOCSV();
 
         if (sessionManager.validSession(sessionBean)) {
-            // Recupero l'account proprietario
+
             Account owner = accountDAO.retrieveAccountInformationByEmail(sessionBean.getEmail());
 
             if (owner != null) {
-                // Salvo la casa
+
                 Home home = homeDAO.saveHome(homeBean, owner.getEmail());
 
-                // Controllo se la casa è stata salvata con successo
                 if (home != null) {
                     homeBean.setIdHome(home.getId());
                     saveHomeImage(homeBean);
-                    // Salvo la stanza
+
                     Room room = roomDAO.saveRoom(home.getId(), roomBean);
 
-                    // Controllo se la stanza è stata salvata con successo
                     if (room != null) {
                         roomBean.setIdRoom(room.getIdRoom());
                         roomBean.setIdHome(home.getId());
                         saveRoomImage(roomBean);
-                        // Creo l'annuncio
+
                         Ad ad = new Ad(0, owner, home, room, AdStatus.AVAILABLE.getId(), adStart.getMonth(), price);
-                        // Pubblico l'annuncio
+
                         return adDAO.publishAd(ad);
                     }
                 }
             }
         }
-        // Se una delle operazioni fallisce o la sessione non è valida, restituisco false
         return false;
     }
 
+    /**
+     * Method to save the image of a home. It checks if the image is not null,
+     * retrieves the image name and type, and saves the image in the database.
+     *
+     * @param homeBean The home object
+     */
+
     public void saveHomeImage(HomeBean homeBean) {
         if (homeBean.getImage() != null) {
-            ImageSaverCSV imageSaver = new ImageSaverCSV();
+            HomeDAO homeDAO = new HomeDAOCSV();
             String imageName = homeBean.getImageName();
             String imageType = imageName.substring(imageName.lastIndexOf('.') + 1);
-            imageSaver.saveHomeImage(imageName, imageType, homeBean.getImage(), homeBean.getId());
+            homeDAO.saveHomeImage(imageName, imageType, homeBean.getImage(), homeBean.getId());
         }
     }
 
+    /**
+     * Method to save the image of a room. It checks if the image is not null,
+     * retrieves the image name and type, and saves the image in the database.
+     *
+     * @param roomBean The room object
+     */
+
     public void saveRoomImage(RoomBean roomBean) {
         if (roomBean.getImage() != null) {
-            ImageSaverCSV imageSaver = new ImageSaverCSV();
+            RoomDAO roomDAO = new RoomDAOCSV();
             String imageName = roomBean.getImageName();
             String imageType = imageName.substring(imageName.lastIndexOf('.') + 1);
-            imageSaver.saveRoomImage(imageName, imageType, roomBean.getImage(), roomBean.getIdRoom(), roomBean.getIdHome());
+            roomDAO.saveRoomImage(imageName, imageType, roomBean.getImage(), roomBean.getIdRoom(), roomBean.getIdHome());
         }
     }
+
+    /**
+     * Method to retrieve the ads by filters. It retrieves the coordinates of the university,
+     * retrieves the ads by filters and calculates the distance between the home and the university.
+     * Then it creates the adBean object and adds it to the list of adBean objects.
+     *
+     * @param filtersBean The filters to apply to the search
+     * @return The list of ads that match the filters
+     */
 
     public List<AdBean> searchAdsByFilters(FiltersBean filtersBean) {
         UniversityDAO universityDAO = new UniversityDAOCSV();
@@ -122,10 +171,26 @@ public class AdManager {
         return adBeanList;
     }
 
+    /**
+     * Method to retrieve the decorated ads by filters. It retrieves the ads by filters
+     * and then retrieves the images of the rooms and homes of the ads.
+     *
+     * @param filtersBean The filters to apply to the search
+     * @return The list of decorated ads that match the filters
+     */
+
     public List<AdBean> searchDecoratedAdsByFilters(FiltersBean filtersBean) {
         List<AdBean> adBeanList = searchAdsByFilters(filtersBean);
         return getAdBeansWithImage(adBeanList);
     }
+
+    /**
+     * Method to retrieve the decorated ads by owner. It retrieves the ads by owner
+     * and then retrieves the images of the rooms and homes of the ads.
+     *
+     * @param adBeanList The list of ads to decorate
+     * @return The list of decorated ads
+     */
 
     private List<AdBean> getAdBeansWithImage(List<AdBean> adBeanList) {
         RoomDAO roomDAO = new RoomDAOCSV();
@@ -141,6 +206,16 @@ public class AdManager {
         return adBeanList;
     }
 
+    /**
+     * Method to retrieve the map of the home. It checks if the session is valid,
+     * retrieves the map of the home and sets it in the adBean object.
+     *
+     * @param sessionBean The session of the user
+     * @param adBean The ad object
+     * @throws InvalidSessionException If the session is invalid
+     * @throws MockOpenStreetMapAPIException If the OpenStreetMap API is not available
+     */
+
     public void getHomeMap(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException, MockOpenStreetMapAPIException {
         SessionManager sessionManager = SessionManager.getInstance();
         if (!sessionManager.validSession(sessionBean)) {
@@ -154,11 +229,18 @@ public class AdManager {
         }
     }
 
+    /**
+     * Method to check if the maximum number of rooms is reached.
+     * It checks if the type of home allows the insertion of a new room and
+     * verifies if the number of rooms in the home is less than the maximum allowed.
+     *
+     * @param homeBean The home object
+     * @return True if the maximum number of rooms is reached, false otherwise
+     */
+
     public boolean isMaxRoomsReached(HomeBean homeBean) {
         RoomDAO roomDAO = new RoomDAOCSV();
-        // Check if the type of home allows the insertion of a new room
         int roomsCount = (int) roomDAO.getRoomsAlreadyPresent(homeBean.getId());
-        // Verify if the number of rooms in the home is less than the maximum allowed
         return roomsCount >= homeBean.getNRooms();
     }
 }
