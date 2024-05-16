@@ -91,6 +91,7 @@ public class ManageAdsCLIPageController extends CLIController {
     /**
      * Method to create ad options. It displays the view homes page and the ad options.
      * The user can choose to use an existing home, create a new one or go back.
+     *
      * @param sessionBean SessionBean object.
      * @return boolean value that represents if the ad is created.
      * @throws InvalidSessionException If the session is invalid.
@@ -124,6 +125,8 @@ public class ManageAdsCLIPageController extends CLIController {
 
     /**
      * Method to create the ad creation form.
+     * It displays the form to create a new ad.
+     *
      * @param homeBean HomeBean object.
      * @return boolean value that represents if the ad is created.
      */
@@ -182,6 +185,8 @@ public class ManageAdsCLIPageController extends CLIController {
 
     /**
      * Method to publish the ad.
+     * It publishes the ad using the AdManager class.
+     *
      * @param sessionBean SessionBean object.
      */
 
@@ -210,6 +215,8 @@ public class ManageAdsCLIPageController extends CLIController {
 
     /**
      * Method to view ads.
+     * It retrieves the ads from the database and displays them.
+     *
      * @param sessionBean SessionBean object.
      * @throws InvalidSessionException If the session is invalid.
      */
@@ -223,6 +230,8 @@ public class ManageAdsCLIPageController extends CLIController {
 
     /**
      * Method to view homes.
+     * It retrieves the homes from the database and displays them.
+     *
      * @param sessionBean SessionBean object.
      * @return int value that represents the user's choice.
      * @throws InvalidSessionException If the session is invalid.
@@ -240,8 +249,11 @@ public class ManageAdsCLIPageController extends CLIController {
     }
 
     /**
-     * Method to convert the type of home. The types are: Studio Apartment, Two-Bedroom Apartment, Three-Bedroom Apartment, Four-Bedroom Apartment.
-     * @param type String value that specifies the type of house and allows you to associate the correct number of rooms.
+     * Method to convert the type of home. The types are: Studio Apartment, Two-Bedroom Apartment,
+     * Three-Bedroom Apartment, Four-Bedroom Apartment.
+     *
+     * @param type String value that specifies the type of house
+     *             and allows you to associate the correct number of rooms.
      * @return String value that represents the type of home.
      */
 
@@ -272,6 +284,7 @@ public class ManageAdsCLIPageController extends CLIController {
 
     /**
      * Method to convert the type of room. The types are: Single Room, Double Room.
+     *
      * @param type String value that specifies the type of room.
      * @return String value that represents the type of room.
      */

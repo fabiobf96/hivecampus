@@ -37,6 +37,8 @@ public class AdSearchCLIPageController extends CLIController {
 
     /**
      * Method to display the search form.
+     * It gets the user's input for the filters and returns a list of ads that match the filters.
+     *
      * @return List of ads that match the filters.
      */
 

@@ -2,10 +2,21 @@ package it.hivecampuscompany.hivecampus.view.controller.cli;
 
 import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
 
+/**
+ *  Controller class for the Account Settings CLI page.
+ *  It extends the CLIController class and provides methods to display the home page.
+ */
+
 public class AccountSettingsCLIController extends CLIController {
     public AccountSettingsCLIController() {
         view = new CliGUI();
     }
+
+    /**
+     * Method to display the home page.
+     * It displays a welcome message and the options to change the language,
+     * view the profile, or go back.
+     */
 
     @Override
     public void homePage() {

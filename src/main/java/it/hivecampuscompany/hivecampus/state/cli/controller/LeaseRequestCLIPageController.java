@@ -47,6 +47,8 @@ public class LeaseRequestCLIPageController extends CLIController {
 
     /**
      * Method to display the lease request form.
+     * It gets the user's input for the lease request and sends the lease request.
+     *
      * @param sessionBean The session bean of the user.
      * @param adBean The ad bean of the ad.
      * @return True if the lease request is sent, false otherwise.
@@ -78,6 +80,14 @@ public class LeaseRequestCLIPageController extends CLIController {
         } else return false;
     }
 
+    /**
+     * Method to convert the type of permanence.
+     * It converts the input number into the type of permanence.
+     *
+     * @param inputNumber The input number.
+     * @return The type of permanence.
+     */
+
     private int convertTypePermanence(int inputNumber) {
         List<Integer> typesPermanence = Arrays.asList(6, 12, 24, 36);
         try {
@@ -89,6 +99,14 @@ public class LeaseRequestCLIPageController extends CLIController {
         }
         return convertTypePermanence(formView.getIntUserInput(properties.getProperty("PERMANENCE_TYPE_MSG")));
     }
+
+    /**
+     * Method to convert the start of permanence.
+     * It converts the input number into the start of permanence.
+     *
+     * @param inputNumber The input number.
+     * @return The start of permanence.
+     */
 
     private int convertStartPermanence(int inputNumber) {
         try {
