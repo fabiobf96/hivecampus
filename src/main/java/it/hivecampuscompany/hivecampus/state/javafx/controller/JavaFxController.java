@@ -16,6 +16,11 @@ import java.io.ByteArrayInputStream;
 import java.util.Objects;
 import java.util.Properties;
 
+/**
+ * The JavaFxController class represents a controller for the JavaFX user interface.
+ * It provides methods for handling user interactions and displaying alerts.
+ */
+
 public abstract class JavaFxController {
     protected Properties properties;
     protected SessionBean sessionBean;
@@ -35,7 +40,13 @@ public abstract class JavaFxController {
         properties = LanguageLoader.getLanguageProperties();
     }
 
-    // SessionBean get method
+    /**
+     * Shows an alert dialog with the specified type, title, and message.
+     *
+     * @param typeAlert The type of alert dialog (ERROR, WARNING, INFORMATION).
+     * @param title The title of the alert dialog.
+     * @param message The message to display in the alert dialog.
+     */
 
     protected void showAlert(String typeAlert, String title, String message) {
         Alert alert = new Alert(Alert.AlertType.valueOf(typeAlert.toUpperCase()));
@@ -45,10 +56,25 @@ public abstract class JavaFxController {
         alert.showAndWait();
     }
 
+    /**
+     * Sets the text and color of a label.
+     *
+     * @param label The label to set the text and color.
+     * @param text The text to set in the label.
+     */
+
     protected void setLabelText(Label label, String text) {
         label.setText(text);
         label.setTextFill(Color.BLACK);
     }
+
+    /**
+     * Sets the images of the language flags.
+     * If the current language is English, the English flag is displayed and the Italian flag is hidden and vice versa.
+     *
+     * @param imvLang The image view of the current language flag.
+     * @param imvLangChange The image view of the other language flag.
+     */
 
     protected void setLanguageImage(ImageView imvLang, ImageView imvLangChange) {
 
@@ -62,19 +88,36 @@ public abstract class JavaFxController {
         }
     }
 
+    /**
+     * Handles the language change event.
+     * It retrieves the URL of the selected language and checks if it is Italian or English.
+     * Then it loads the selected language and updates the context.
+     *
+     * @param imvLangChange The image view of the selected language flag.
+     */
+
     protected void handleLanguageChange(ImageView imvLangChange) {
-        // Recupera l'URL della lingua selezionata
         String currentImageUrl = imvLangChange.getImage().getUrl();
-        // Se la lingua selezionata è l'italiano
+
         if (currentImageUrl.equals(Objects.requireNonNull(getClass().getResource(ITALIAN_PNG_URL)).toString())) {
             LanguageLoader.loadLanguage(1);
 
-        } else { // Se la lingua selezionata è l'inglese
+        } else {
             LanguageLoader.loadLanguage(0);
         }
         properties = LanguageLoader.getLanguageProperties();
         context.request();
     }
+
+    /**
+     * Sets the image of the room or home in the image view.
+     * If the choice is "room", it sets the image of the room in the image view.
+     * If the choice is "home", it sets the image of the home in the image view.
+     *
+     * @param imageView The image view to set the image.
+     * @param adBean The AdBean object representing the ad.
+     * @param choice The choice of the image to set (room or home).
+     */
 
     protected void setImage (ImageView imageView, AdBean adBean, String choice) {
         byte[] imageBytes;
@@ -88,6 +131,12 @@ public abstract class JavaFxController {
             imageView.setPreserveRatio(false);
         }
     }
+
+    /**
+     * Retrieves the account information of the current user.
+     *
+     * @return The AccountBean object representing the account information.
+     */
 
     protected AccountBean getAccountInfo() {
         LoginManager manager = new LoginManager();

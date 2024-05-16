@@ -7,6 +7,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 
+/**
+ * The PreviewAdJavaFxController represents the controller for the preview ad page in the JavaFX user interface.
+ * It is responsible for previewing the ad.
+ */
+
 public class PreviewAdJavaFxController extends JavaFxController {
 
     @FXML
@@ -81,11 +86,17 @@ public class PreviewAdJavaFxController extends JavaFxController {
         this.adBean = bean;
     }
 
+    /**
+     * Initializes the preview features of the ad.
+     * It sets the text fields with the information of the ad.
+     *
+     * @param context the context
+     */
+
 
     public void initializePreviewFeatures(Context context) {
         this.context = context;
 
-        // Imposta il colore a nero e il testo per tutte le label
         setLabelText(lblTitle, properties.getProperty("ROOM_TYPE_MSG") + adBean.adTitle() + properties.getProperty("MONTHLY_PRICE_MSG"));
         setLabelText(lblFeatures, properties.getProperty("ROOM_FEATURES_MSG"));
         setLabelText(lblSurface, properties.getProperty("SURFACE_MSG"));
@@ -102,8 +113,14 @@ public class PreviewAdJavaFxController extends JavaFxController {
         setImage(imvRoom, adBean, "room");
     }
 
+    /**
+     * Initializes the preview distance of the ad.
+     * It sets the text fields with the information of the ad
+     * by calling the setLabelText method.
+     */
+
     public void initializePreviewDistance() {
-        // Imposta il colore a nero e il testo per tutte le label
+
         setLabelText(lblDist, properties.getProperty("DISTANCE_MSG"));
         setLabelText(lblDistUni, properties.getProperty("UNIVERSITY_MSG"));
         setLabelText(lblAvl, properties.getProperty("AVAILABILITY_MSG"));
@@ -112,8 +129,14 @@ public class PreviewAdJavaFxController extends JavaFxController {
         setLabelText(lblAvailability, String.valueOf(adBean.getAdStart()));
     }
 
+    /**
+     * Initializes the published ads.
+     * It sets the text fields with the information of the ad.
+     * It also sets the buttons for editing and deleting the ad.
+     */
+
     public void initializePublishedAds() {
-        // Imposta il colore a nero e il testo per tutte le label
+
         setLabelText(lblTitle,adBean.getHomeBean().getAddress());
         setLabelText(lblAdStatus, properties.getProperty("AD_STATUS_MSG"));
         setLabelText(lblRoomType, properties.getProperty("TYPE_MSG"));
@@ -130,9 +153,19 @@ public class PreviewAdJavaFxController extends JavaFxController {
         btnDelete.setOnAction(event -> handleDeleteAd());
     }
 
+    /**
+     * Handles the edit ad.
+     * It shows an alert with the message "Edit ad" and "Not implemented".
+     */
+
     private void handleEditAd() {
         showAlert(INFORMATION, properties.getProperty("EDIT_AD_MSG"), properties.getProperty("NOT_IMPLEMENTED_MSG"));
     }
+
+    /**
+     * Handles the delete ad.
+     * It shows an alert with the message "Delete ad" and "Not implemented".
+     */
 
     private void handleDeleteAd() {
         showAlert(INFORMATION, properties.getProperty("DELETE_AD_MSG"), properties.getProperty("NOT_IMPLEMENTED_MSG"));

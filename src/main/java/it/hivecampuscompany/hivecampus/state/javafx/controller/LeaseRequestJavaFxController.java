@@ -21,6 +21,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * The LeaseRequestJavaFxController class represents a controller for the lease request page in the JavaFX user interface.
+ * It extends the JavaFxController class and provides methods for initializing the lease request view and handling user interactions.
+ */
+
 public class LeaseRequestJavaFxController extends JavaFxController{
 
     private AdSearchPage adSearchPage;
@@ -83,6 +88,16 @@ public class LeaseRequestJavaFxController extends JavaFxController{
         // Default constructor
     }
 
+    /*
+    * Initializes the lease request view with the ad information and the user's input.
+    * It sets the labels, checkboxes, and text area with the ad details and user's message.
+    * It also handles the user's request to send the lease request to the ad owner.
+    *
+    * @param context The context object for the lease request page.
+    * @param adSearchPage The ad search page object for navigation.
+    * @param adBean The ad bean object with the ad information.
+    * @param popUpStage The pop-up stage for the lease request view.
+     */
     public void initialize(Context context, AdSearchPage adSearchPage, AdBean adBean, Stage popUpStage) {
         this.context = context;
         this.adSearchPage = adSearchPage;
@@ -118,6 +133,11 @@ public class LeaseRequestJavaFxController extends JavaFxController{
         btnSend.setOnAction(event -> handleSendRequest(adBean));
     }
 
+    /*
+     * Initializes the logic for the lease start checkboxes.
+     * It handles the selection of the start of permanence for the lease request.
+     */
+
     private void leaseStartCheckBoxLogic() {
         final CheckBox[] lastSelectedCheckBox = {null};
 
@@ -127,6 +147,11 @@ public class LeaseRequestJavaFxController extends JavaFxController{
             }
         }
     }
+
+    /*
+     * Initializes the logic for the lease type checkboxes.
+     * It handles the selection of the type of permanence for the lease request.
+     */
 
     private void leaseTypeCheckBoxLogic() {
         final CheckBox[] lastSelectedCheckBox = {null};
@@ -142,6 +167,15 @@ public class LeaseRequestJavaFxController extends JavaFxController{
         }
     }
 
+    /*
+     * Handles the selection of a checkbox.
+     * It sets the selected checkbox as the last selected checkbox.
+     * If another checkbox is selected, it deselects the last selected checkbox.
+     *
+     * @param checkBox The checkbox object to be selected.
+     * @param lastSelectedCheckBox The last selected checkbox object.
+     */
+
     private void checkBoxBehavior(CheckBox checkBox, CheckBox[] lastSelectedCheckBox) {
         if (checkBox.isSelected()) {
             if (lastSelectedCheckBox[0] != null) {
@@ -153,12 +187,18 @@ public class LeaseRequestJavaFxController extends JavaFxController{
         }
     }
 
+    /*
+     * Handles the user's request to send the lease request to the ad owner.
+     * It retrieves the selected type of permanence, the selected start of permanence, and the user's message.
+     * It sends the lease request to the ad owner and displays a message to the user.
+     *
+     * @param adBean The ad bean object with the ad information.
+     */
+
     private void handleSendRequest(AdBean adBean) {
-        // Get the selected type of permanence
+
         type = getSelectedType();
-        // Get the selected start of permanence
         start = getSelectedStart();
-        // Get the message
         String message = txaMessage.getText();
 
         if (type == 0 || start == 0 || message.isEmpty()){
@@ -170,7 +210,7 @@ public class LeaseRequestJavaFxController extends JavaFxController{
         leaseRequestBean.setAdBean(adBean);
         leaseRequestBean.setTenant(null);
         leaseRequestBean.setDuration(type);
-        leaseRequestBean.setLeaseMonth(start); //
+        leaseRequestBean.setLeaseMonth(start);
         leaseRequestBean.setMessage(message);
         leaseRequestBean.setStatus(LeaseRequestStatus.PROCESSING);
 
@@ -186,6 +226,13 @@ public class LeaseRequestJavaFxController extends JavaFxController{
         }
     }
 
+    /*
+     * Retrieves the selected type of permanence.
+     * It checks which checkbox is selected and returns the corresponding int value.
+     *
+     * @return The int representing the selected type of permanence.
+     */
+
     private int getSelectedType() {
         if (ckbSix.isSelected()) {
             return Permanence.SIX_MONTHS.getPermanence();
@@ -199,6 +246,13 @@ public class LeaseRequestJavaFxController extends JavaFxController{
             return 0;
         }
     }
+
+    /*
+     * Retrieves the selected start of permanence.
+     * It checks which checkbox is selected and returns the corresponding int value.
+     *
+     * @return The int representing the selected start of permanence.
+     */
 
     private int getSelectedStart() {
         if (ckbSeptember.isSelected()) {
@@ -230,10 +284,18 @@ public class LeaseRequestJavaFxController extends JavaFxController{
         }
     }
 
+    /*
+     * Navigates the user to the homepage.
+     */
+
     private void goToHomepage() {
         adSearchPage.goToTenantHomePage(new TenantHomeJavaFXPage(context));
         context.request();
     }
+
+    /*
+     * Navigates the user to the login page.
+     */
 
     private void goToLogin() {
         adSearchPage.goToLoginPage(new LoginJavaFXPage(context));

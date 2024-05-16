@@ -14,6 +14,11 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * The LoginJavaFXPageController class represents a controller for the login page in the JavaFX user interface.
+ * It extends the JavaFxController class and provides methods for initializing the login view and handling user interactions.
+ */
+
 public class LoginJavaFXPageController extends JavaFxController {
 
     private LoginPage loginPage;
@@ -49,6 +54,14 @@ public class LoginJavaFXPageController extends JavaFxController {
         // Default constructor
     }
 
+    /**
+     * Initializes the login view with the login label, email and password fields, login button, Google login button, and sign-up button.
+     * It sets the text for the labels and buttons based on the current language.
+     *
+     * @param context The context object for the login page.
+     * @param loginPage The login page object.
+     */
+
     public void initialize(Context context, LoginPage loginPage) {
         this.context = context;
         this.loginPage = loginPage;
@@ -72,6 +85,12 @@ public class LoginJavaFXPageController extends JavaFxController {
         btnGoogle.setOnAction(event -> handleGoogleLogin());
     }
 
+    /**
+     * Handles the login process based on the user's email and password.
+     * It authenticates the user and sets the session bean into the context.
+     * It shows the correct homepage based on the account type.
+     */
+
     private void handleLogin() {
         String email = txfEmail.getText();
         String password = txfPassword.getText();
@@ -81,11 +100,11 @@ public class LoginJavaFXPageController extends JavaFxController {
             userBean.setEmail(email);
             userBean.setPassword(password);
             sessionBean = loginPage.authenticate(userBean);
-            // Set the session bean into the context
+
             context.setSessionBean(sessionBean);
-            // Login successfully and empty the fields
+
             clearFields();
-            // Shows the correct homepage based on the account type
+
             showHomePage(sessionBean);
         }
         catch (InvalidEmailException | AuthenticateException | NoSuchAlgorithmException e) {
@@ -93,13 +112,30 @@ public class LoginJavaFXPageController extends JavaFxController {
         }
     }
 
+    /**
+     * Handles the user's request to sign up.
+     * It redirects the user to the sign-up page.
+     */
+
     public void handleSignUp() {
        loginPage.goToSignUpPage(new SignUpJavaFXPage(context));
     }
 
+    /**
+     * Handles the user's request to log in with Google.
+     * It displays a message indicating that the feature is not implemented.
+     */
+
     public void handleGoogleLogin() {
         showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("NOT_IMPLEMENTED_MSG"));
     }
+
+    /**
+     * Shows the homepage based on the user's role.
+     * It redirects the user to the owner or tenant homepage.
+     *
+     * @param sessionBean The session bean object for the user.
+     */
 
     private void showHomePage(SessionBean sessionBean) {
         try {
@@ -114,6 +150,10 @@ public class LoginJavaFXPageController extends JavaFxController {
         }
         context.request();
     }
+
+    /**
+     * Clears the email and password fields.
+     */
 
     private void clearFields() {
         txfEmail.clear();

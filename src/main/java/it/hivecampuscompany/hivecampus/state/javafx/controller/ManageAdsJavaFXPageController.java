@@ -33,7 +33,13 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+
+/**
+ * The ManageAdsJavaFXPageController class represents a controller for the manage ads page in the JavaFX user interface.
+ * It extends the JavaFxController class and provides methods for initializing the manage ads view and handling user interactions.
+ */
 
 public class ManageAdsJavaFXPageController extends JavaFxController {
 
@@ -152,19 +158,24 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         this.manager = new AdManager();
     }
 
+    /**
+     * Initializes the manage ads view with the list of published ads.
+     * It retrieves the ads from the database and displays them in the list view.
+     *
+     * @param context The context object for the manage ads page.
+     */
+
     public void initialize(Context context) {
         this.context = context;
 
-        // Retrieve ads
         List<AdBean> adBeans = retrieveAds(context.getSessionBean());
 
         if (adBeans.isEmpty()) {
-            Label noAds = new Label("No ads found. Create an ad to start renting!");
+            Label noAds = new Label(properties.getProperty("NO_ADS_CREATED_MSG"));
             lvAds.getItems().add(noAds);
         }
 
         for (AdBean adBean : adBeans) {
-            // Create a new list view item
             VBox vbItem = createPublishedAdCard(adBean);
             lvAds.getItems().add(vbItem);
         }
@@ -172,17 +183,45 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         btnCreate.setOnAction(event -> handleCreateAd());
     }
 
+    /**
+     * Initializes the create ad form with the fields for the home and room information.
+     * It sets the choice boxes for the home type, room type, and month.
+     * It also sets the buttons for choosing the home and room images and publishing the ad.
+     *
+     * @param context The context object for the create ad form.
+     * @param manageAdsPage The manage ads page object.
+     */
+
     public void initializeCreateAd(Context context, ManageAdsPage manageAdsPage) {
         this.context = context;
         this.manageAdsPage = manageAdsPage;
 
-        // Options for home type choice box
-        cbxHType.getItems().addAll("Studio apartment", "Two-room apartment", "Three-room apartment", "Four-room apartment");
-        // Options for room type choice box
-        cbxRType.getItems().addAll("Single", "Double");
-        // Options for month choice box
-        cbxMonth.getItems().addAll("January", "February", "March", "April", "May", "June", "July", "August", "September",
-                "October", "November", "December");
+        cbxHType.getItems().addAll(
+                properties.getProperty("STUDIO_APARTMENT_MSG"),
+                properties.getProperty("TWO_BEDROOM_APARTMENT_MSG"),
+                properties.getProperty("THREE_BEDROOM_APARTMENT_MSG"),
+                properties.getProperty("FOUR_BEDROOM_APARTMENT_MSG")
+        );
+
+        cbxRType.getItems().addAll(
+                properties.getProperty("SINGLE_ROOM_MSG"),
+                properties.getProperty("DOUBLE_ROOM_MSG")
+        );
+
+        cbxMonth.getItems().addAll(
+                properties.getProperty("JANUARY_MSG"),
+                properties.getProperty("FEBRUARY_MSG"),
+                properties.getProperty("MARCH_MSG"),
+                properties.getProperty("APRIL_MSG"),
+                properties.getProperty("MAY_MSG"),
+                properties.getProperty("JUNE_MSG"),
+                properties.getProperty("JULY_MSG"),
+                properties.getProperty("AUGUST_MSG"),
+                properties.getProperty("SEPTEMBER_MSG"),
+                properties.getProperty("OCTOBER_MSG"),
+                properties.getProperty("NOVEMBER_MSG"),
+                properties.getProperty("DECEMBER_MSG")
+        );
 
         // Listener for home type choice box
         cbxHType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -205,6 +244,14 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         btnPublish.setOnAction(event -> handlePublish());
     }
 
+    /**
+     * Creates a card for the published ad with the ad information.
+     * It loads the publishedAd-card.fxml file and sets the ad information in the controller.
+     *
+     * @param adBean The ad bean object with the ad information.
+     * @return The VBox object with the ad card.
+     */
+
     private VBox createPublishedAdCard(AdBean adBean) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/publishedAd-card.fxml"));
@@ -216,22 +263,33 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
 
             return vbox;
         } catch (Exception e) {
-            LOGGER.severe("Error while creating ad card");
+            LOGGER.severe(properties.getProperty("ERROR_CREATING_AD_CARD"));
         }
         return null;
     }
 
+    /**
+     * Handles the create ad event. It loads the create ad form in a new tab
+     * and sets the controller with the context and manage ads page.
+     */
+
     private void handleCreateAd() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/createAdForm-view.fxml"));
-            context.getTab(0).setContent(loader.load()); // Caricamento del tab createAdForm (possibili modifiche)
+            context.getTab(0).setContent(loader.load());
             ManageAdsJavaFXPageController controller = loader.getController();
             controller.initializeCreateAd(context, new ManageAdsJavaFXPage(context));
 
         } catch (Exception e) {
-            LOGGER.severe("Error while handling CreateAd");
+            LOGGER.severe(properties.getProperty("ERROR_CREATING_AD_CARD"));
         }
     }
+
+    /**
+     * Handles the choice of the home image.
+     * It opens a file chooser dialog to select the home image.
+     * It reads the bytes from the file and sets the image in the image view.
+     */
 
     private void handleChooseHomeImage() {
         homeFile = openFileChooser();
@@ -239,10 +297,8 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
             try {
                 homeBytes = Files.readAllBytes(homeFile.toPath());
 
-                // Convert bytes to image
                 Image image = byteToImage(homeBytes);
 
-                // Set image view
                 imvHome = new ImageView(image);
                 setImageView(imvHome);
 
@@ -255,12 +311,20 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
                 deleteButton.setOnAction(event -> deleteImage(vbHome, stackPane));
 
             } catch (IOException e) {
-                LOGGER.severe("Error while reading bytes from file");
+                LOGGER.severe(properties.getProperty("FAILED_READ_PARSE_VALUES"));
             }
         } else {
-            LOGGER.severe("Error while opening file chooser");
+            if (LOGGER.isLoggable(Level.SEVERE)) {
+                LOGGER.severe(properties.getProperty("FAILED_OPENING_FILE_CHOOSER"));
+            }
         }
     }
+
+    /**
+     * Handles the choice of the room image.
+     * It opens a file chooser dialog to select the room image.
+     * It reads the bytes from the file and sets the image in the image view.
+     */
 
     private void handleChooseRoomImage() {
         roomFile = openFileChooser();
@@ -268,10 +332,8 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
             try {
                 roomBytes = Files.readAllBytes(roomFile.toPath());
 
-                // Convert bytes to image
                 Image image = byteToImage(roomBytes);
 
-                // Set image view
                 imvRoom = new ImageView(image);
                 setImageView(imvRoom);
 
@@ -284,24 +346,33 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
                 deleteButton.setOnAction(event -> deleteImage(vbRoom, stackPane));
 
             } catch (IOException e) {
-                LOGGER.severe("Error while reading bytes from file");
+                LOGGER.severe(properties.getProperty("FAILED_READ_PARSE_VALUES"));
             }
         } else {
-            LOGGER.severe("Error while opening file chooser");
+            if (LOGGER.isLoggable(Level.SEVERE)) {
+                LOGGER.severe(properties.getProperty("FAILED_OPENING_FILE_CHOOSER"));
+            }
         }
     }
+
+    /**
+     * Handles the publish ad event.
+     * It retrieves the information from the form fields and creates the home and room beans.
+     * It saves the images and filenames in the beans and publishes the ad.
+     * If the ad is published successfully, it shows a success message and goes back to the owner home page.
+     */
 
     private void handlePublish() {
 
         //Check if all fields are filled
         if (!checkFields()) {
-            showAlert(ERROR, String.valueOf(Alert.AlertType.ERROR), "EMPTY_FIELDS_MSG");
+            showAlert(ERROR, String.valueOf(Alert.AlertType.ERROR), properties.getProperty("EMPTY_FIELDS_MSG"));
             return;
         }
 
         // Check if images are chosen
         if (imvHome.getImage() == null || imvRoom.getImage() == null) {
-            showAlert(ERROR, String.valueOf(Alert.AlertType.ERROR), "Please select images");
+            showAlert(ERROR, String.valueOf(Alert.AlertType.ERROR), properties.getProperty("PLEASE_SELECT_IMAGE_MSG"));
             return;
         }
 
@@ -347,34 +418,56 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         boolean res = manager.publishAd(context.getSessionBean(),homeBean, roomBean, price, Month.fromInt(month));
 
         if (res) {
-            showAlert(INFORMATION, String.valueOf(Alert.AlertType.INFORMATION), "Ad published successfully");
+            showAlert(INFORMATION, String.valueOf(Alert.AlertType.INFORMATION), properties.getProperty("AD_PUBLISHED_MSG"));
             handleBack();
         } else {
-            showAlert(ERROR, String.valueOf(Alert.AlertType.ERROR), "Error while publishing ad. Please try again.");
+            showAlert(ERROR, String.valueOf(Alert.AlertType.ERROR), properties.getProperty("FAILED_PUBLISH_AD"));
         }
     }
+
+    /**
+     * Handles the back event. It goes back to the owner home page.
+     */
 
     private void handleBack() {
         manageAdsPage.goToOwnerHomePage(new OwnerHomeJavaFXPage(context));
         context.request();
     }
 
+    /**
+     * Retrieves the ads from the database.
+     * It retrieves the ads by the owner and returns the list of ads.
+     *
+     * @param sessionBean The session bean object for the user.
+     * @return List of ads by the owner.
+     */
+
     private List<AdBean> retrieveAds(SessionBean sessionBean) {
         try {
             return manager.getDecoratedAdsByOwner(sessionBean, new AdBean(null));
         } catch (Exception e) {
-            LOGGER.severe("Error while retrieving ads");
+            LOGGER.severe(properties.getProperty("ERROR_RETRIEVING_ADS"));
             return Collections.emptyList();
         }
     }
+
+    /**
+     * Creates a delete button for the image.
+     * It sets the image of the delete button and the style.
+     *
+     * @return The Button object representing the delete button.
+     */
 
     private Button createDeleteButton() {
         Button deleteButton = new Button();
         URL imageUrl = getClass().getResource("/it/hivecampuscompany/hivecampus/images/delete.png");
 
         if (imageUrl == null) {
-            LOGGER.severe("Errore: L'immagine non è stata trovata.");
-        } else {
+            if (LOGGER.isLoggable(Level.SEVERE)) {
+                LOGGER.severe(properties.getProperty("FAILED_IMAGE_FOUND"));
+            }
+        }
+        else {
             Image deleteImage = new Image(imageUrl.toExternalForm());
             ImageView deleteImageView = new ImageView(deleteImage);
             deleteImageView.setFitWidth(20);
@@ -385,6 +478,15 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         return deleteButton;
     }
 
+    /**
+     * Creates a stack pane with the image view and the delete button.
+     * It sets the alignment of the delete button in the stack pane.
+     *
+     * @param imageView The image view object representing the image.
+     * @param deleteButton The delete button object.
+     * @return The StackPane object with the image view and delete button.
+     */
+
     private StackPane createStackPane(ImageView imageView, Button deleteButton) {
         StackPane stackPane = new StackPane();
         StackPane.setAlignment(deleteButton, Pos.TOP_RIGHT);
@@ -393,22 +495,53 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         return stackPane;
     }
 
+    /**
+     * Sets the image view with the image.
+     * It sets the fit width and height of the image view.
+     *
+     * @param imageView The image view object to set the image.
+     */
+
     private void setImageView(ImageView imageView) {
         imageView.setFitWidth(100);
         imageView.setFitHeight(100);
         imageView.setPreserveRatio(false);
     }
 
+    /**
+     * Deletes the image from the view.
+     * It removes the stack pane with the image view and delete button from the view.
+     *
+     * @param vbox The VBox object representing the container of the image.
+     * @param stackPane The StackPane object with the image view and delete button.
+     */
+
     private void deleteImage(VBox vbox, StackPane stackPane) {
         vbox.getChildren().remove(stackPane);
     }
 
+    /**
+     * Method to open a file chooser dialog to select an image.
+     * It sets the title and extension filters for the file chooser.
+     *
+     * @return The File object representing the selected image file.
+     */
+
     private File openFileChooser() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Seleziona un'immagine");
+        fileChooser.setTitle(properties.getProperty("SELECT_IMAGE_MSG"));
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.jpeg", "*.png"));
         return fileChooser.showOpenDialog(context.getStage());
     }
+
+    /**
+     * Converts a byte array to an image.
+     * It creates a ByteArrayInputStream from the byte array and creates an image from the ByteArrayInputStream.
+     *
+     * @param bytes The byte array representing the image.
+     * @return The Image object created from the byte array.
+     * @throws IOException If an I/O error occurs.
+     */
 
     private Image byteToImage(byte[] bytes) throws IOException {
        // Convert byte array to ByteArrayInputStream
@@ -418,6 +551,13 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
        bis.close(); // Close the stream
        return image;
     }
+
+    /**
+     * Checks if all the fields are filled in the form.
+     * It checks if all the text fields and text areas are filled.
+     *
+     * @return True if all fields are filled, false otherwise.
+     */
 
     private boolean checkFields() {
         return  !txfStreet.getText().isEmpty() && !txfNumStreet.getText().isEmpty() && !txfCity.getText().isEmpty() &&

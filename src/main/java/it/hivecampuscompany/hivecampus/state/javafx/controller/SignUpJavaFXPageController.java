@@ -14,6 +14,11 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * The SignUpJavaFXPageController represents the controller for the sign-up page in the JavaFX user interface.
+ * It is responsible for managing the sign-up of the users.
+ */
+
 public class SignUpJavaFXPageController extends JavaFxController {
     private SignUpPage signUpPage;
 
@@ -57,6 +62,16 @@ public class SignUpJavaFXPageController extends JavaFxController {
         // Default constructor
     }
 
+    /**
+     * Initializes the controller with the context and the sign-up page.
+     * It sets the text fields with the information of the sign-up page.
+     * It also sets the language image and the language change button,
+     * and the action for the sign-up and login buttons.
+     *
+     * @param context The context of the application
+     * @param signUpPage The sign-up page
+     */
+
     public void initializeSignUpView(Context context, SignUpPage signUpPage) {
         this.context = context;
         this.signUpPage = signUpPage;
@@ -82,23 +97,34 @@ public class SignUpJavaFXPageController extends JavaFxController {
         btnLogHere.setOnAction(event -> handleLogHere());
     }
 
+    /**
+     * Initializes the listener for the CheckBoxes.
+     * If the Owner CheckBox is selected, the Tenant CheckBox is deselected and vice versa.
+     */
+
     @FXML
     private void initialize() {
-        // Aggiungi un listener alle CheckBox per gestire il controllo
         ckbOwner.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (Boolean.TRUE.equals(newValue)) {
-                // Se Owner è selezionato, deseleziona Tenant
                 ckbTenant.setSelected(false);
             }
         });
 
         ckbTenant.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (Boolean.TRUE.equals(newValue)) {
-                // Se Tenant è selezionato, deseleziona Owner
                 ckbOwner.setSelected(false);
             }
         });
     }
+
+    /**
+     * Handles the sign-up of the user.
+     * It gets the information from the text fields and the CheckBoxes.
+     * It creates the UserBean and the AccountBean with the information.
+     * It registers the user with the sign-up page.
+     * If the registration is successful, it shows a success message and clears the fields.
+     * If there is an error, it shows an error message.
+     */
 
     private void handleSignUp() {
         String firstName = txfFirstName.getText();
@@ -118,10 +144,9 @@ public class SignUpJavaFXPageController extends JavaFxController {
         UserBean userBean = new UserBean();
         AccountBean accountBean = new AccountBean();
 
-        //Controllo campi inseriti
         try {
             userBean.setEmail(email);
-            userBean.setNewPassword(password, confPassword); // controllo password in userBean
+            userBean.setNewPassword(password, confPassword);
             userBean.setRole(typeAccount);
 
             accountBean.setName(firstName);
@@ -130,7 +155,6 @@ public class SignUpJavaFXPageController extends JavaFxController {
             accountBean.setPhoneNumber(telephone);
 
             signUpPage.registerUser(userBean, accountBean);
-            //mostro il messaggio di successo e svuoto i campi.
             showAlert(INFORMATION, properties.getProperty("SUCCESS_TITLE_MSG"), properties.getProperty("ACCOUNT_CREATED_MSG"));
             clearFields();
 
@@ -142,12 +166,20 @@ public class SignUpJavaFXPageController extends JavaFxController {
         }
     }
 
+    /**
+     * Handles the login of the user.
+     * It goes to the login page.
+     */
+
     public void handleLogHere() {
         signUpPage.goToLoginPage(new LoginJavaFXPage(context));
     }
 
+    /**
+     * Clears the fields of the text fields and deselects the CheckBoxes.
+     */
+
     private void clearFields() {
-        // Svuota i campi dei TextField
         txfFirstName.clear();
         txfLastName.clear();
         txfEmail.clear();
@@ -155,7 +187,6 @@ public class SignUpJavaFXPageController extends JavaFxController {
         txfConfPassword.clear();
         txfTelephone.clear();
 
-        // Deseleziona le CheckBox
         ckbOwner.setSelected(false);
         ckbTenant.setSelected(false);
     }

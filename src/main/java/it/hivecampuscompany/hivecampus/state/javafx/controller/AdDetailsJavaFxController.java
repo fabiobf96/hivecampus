@@ -22,6 +22,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The AdDetailsJavaFxController class represents a controller for the ad details page in the JavaFX user interface.
+ * It extends the JavaFxController class and provides methods for initializing the ad details view and handling user interactions.
+ */
+
 public class AdDetailsJavaFxController extends JavaFxController{
 
     private AdSearchPage adSearchPage;
@@ -130,6 +135,16 @@ public class AdDetailsJavaFxController extends JavaFxController{
         // Default constructor
     }
 
+    /**
+     * Initializes the ad details view with the ad information.
+     * It sets the labels and text fields with the ad detail and the images of the home, room, and map.
+     * It also sets the button text for going back and requesting the lease.
+     *
+     * @param context The context object for the ad details page.
+     * @param adSearchPage The ad search page object.
+     * @param adBean The ad bean object.
+     */
+
     public void initialize(Context context, AdSearchPage adSearchPage, AdBean adBean) {
         this.context = context;
         this.adSearchPage = adSearchPage;
@@ -190,8 +205,15 @@ public class AdDetailsJavaFxController extends JavaFxController{
 
         btnBack.setOnAction(event -> handleBack());
         btnRequest.setOnAction(event -> handleRequest(adBean));
-
     }
+
+    /**
+     * Formats the text to display in the ad details view.
+     * It formats the text to display in the ad details view by splitting the text into lines of 50 characters.
+     *
+     * @param text The text to format.
+     * @return The formatted text.
+     */
 
     private String formatText(String text) {
         StringBuilder formattedText = new StringBuilder();
@@ -208,9 +230,16 @@ public class AdDetailsJavaFxController extends JavaFxController{
                 charCount = 0;
             }
         }
-        formattedText.append(currentLine); // Aggiungi l'ultima riga rimanente
+        formattedText.append(currentLine);
         return formattedText.toString();
     }
+
+    /**
+     * Handles the user's request to send a lease request for the ad.
+     * It displays the lease request form and handles the user's input.
+     *
+     * @param adBean The ad bean object.
+     */
 
     public void handleRequest(AdBean adBean) {
         try {
@@ -219,7 +248,7 @@ public class AdDetailsJavaFxController extends JavaFxController{
 
             Stage popUpStage = new Stage();
             popUpStage.initModality(Modality.APPLICATION_MODAL);
-            popUpStage.setTitle("Lease Request Form");
+            popUpStage.setTitle(properties.getProperty("LEASE_REQUEST_FORM_MSG"));
             Scene scene = new Scene(root, 500, 500);
             popUpStage.setResizable(false);
             popUpStage.setScene(scene);
@@ -234,6 +263,14 @@ public class AdDetailsJavaFxController extends JavaFxController{
         }
     }
 
+    /**
+     * Method to set the map of the home in the ad details view.
+     * It sets the image of the map and the address in the ad details view.
+     *
+     * @param map The map image.
+     * @param address The address of the home.
+     */
+
     private void setMap(byte[] map, String address) {
         // Set the image of the map
         imvMap.setImage(new Image(new ByteArrayInputStream(map)));
@@ -243,6 +280,10 @@ public class AdDetailsJavaFxController extends JavaFxController{
         // Set the address into the map
         lblAddress.setText(address);
     }
+
+    /**
+     * Handles the user's request to go back to the ad search page.
+     */
 
     public void handleBack() {
         adSearchPage.goToTenantHomePage(new TenantHomeJavaFXPage(context));

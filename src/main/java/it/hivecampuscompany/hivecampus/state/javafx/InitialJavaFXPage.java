@@ -38,7 +38,7 @@ public class InitialJavaFXPage extends InitialPage {
             stage.show();
 
         } catch (Exception e) {
-            LOGGER.severe("Error while handling InitialJavaFXPage");
+            LOGGER.severe(context.getLanguage().getProperty("ERROR_HANDLING_INITIAL_PAGE"));
         }
     }
 

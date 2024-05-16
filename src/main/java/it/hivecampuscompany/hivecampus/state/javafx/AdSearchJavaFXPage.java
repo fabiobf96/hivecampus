@@ -6,8 +6,10 @@ import it.hivecampuscompany.hivecampus.state.javafx.controller.AdSearchJavaFXPag
 import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class AdSearchJavaFXPage extends AdSearchPage {
+    private static final Logger LOGGER = Logger.getLogger(AdSearchJavaFXPage.class.getName());
 
     public AdSearchJavaFXPage(Context context) {
         super(context);
@@ -25,7 +27,7 @@ public class AdSearchJavaFXPage extends AdSearchPage {
             controller.initialize(context);
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LOGGER.severe(context.getLanguage().getProperty("ERROR_HANDLING_AD_SEARCH_PAGE"));
         }
     }
 }

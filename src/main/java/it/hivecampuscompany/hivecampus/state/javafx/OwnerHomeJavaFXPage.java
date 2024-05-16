@@ -27,7 +27,7 @@ public class OwnerHomeJavaFXPage extends OwnerHomePage {
         TabPane tabPane = new TabPane();
         Tab tab1 = new Tab(properties.getProperty("MANAGE_ADS_MSG"));
         Tab tab2 = new Tab(properties.getProperty("MANAGE_REQUEST_MSG"));
-        Tab tab3 = new Tab("Manage Lease");
+        Tab tab3 = new Tab(properties.getProperty("MANAGE_LEASE_MSG"));
 
         tabPane.getTabs().add(tab1);
         tab1.setClosable(false);

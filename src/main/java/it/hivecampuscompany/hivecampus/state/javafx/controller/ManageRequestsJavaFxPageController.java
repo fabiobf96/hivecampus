@@ -6,6 +6,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
 
+/**
+ * The ManageRequestsJavaFxPageController represents the controller for the manage requests page in the JavaFX user interface.
+ * It is responsible for managing the requests of the tenants.
+ */
+
 public class ManageRequestsJavaFxPageController extends JavaFxController {
 
     @FXML
@@ -31,6 +36,13 @@ public class ManageRequestsJavaFxPageController extends JavaFxController {
 
     @FXML
     private Label lblMsgContent;
+
+    /**
+     * Initializes the controller with the lease request bean.
+     * It sets the text fields with the information of the lease request.
+     *
+     * @param leaseRequestBean the lease request bean
+     */
 
     @FXML
     public void initialize(LeaseRequestBean leaseRequestBean) {

@@ -18,6 +18,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * The AdSearchJavaFXPageController class represents a controller for the ad search page in the JavaFX user interface.
+ * It extends the JavaFxController class and provides methods for initializing the ad search view and handling user interactions.
+ */
+
 public class AdSearchJavaFXPageController extends JavaFxController {
     private AdManager manager;
     private static final Logger LOGGER = Logger.getLogger(AdSearchJavaFXPageController.class.getName());
@@ -53,8 +58,17 @@ public class AdSearchJavaFXPageController extends JavaFxController {
         // Default constructor
     }
 
+    /**
+     * Initializes the ad search view with the filters and search results into the list view.
+     * It sets the labels, checkboxes, text fields, and buttons with the corresponding properties.
+     * A similar cache has been managed through the context to retrieve a previously carried out search
+     * and show the results if present.
+     *
+     * @param context The context object for the ad search page.
+     */
+
     public void initialize(Context context) {
-        this.context = context; // Set the context
+        this.context = context;
         this.manager = new AdManager();
 
         lblFilters.setText(properties.getProperty("FILTERS_MSG"));
@@ -80,8 +94,15 @@ public class AdSearchJavaFXPageController extends JavaFxController {
         lvRooms.setCellFactory(listView -> new CustomListCell());
     }
 
+    /**
+     * Handles the search button click event.
+     * It retrieves the filters from the user input and searches the ads that match the filters.
+     * It saves the results in the session bean and sets the results in the list view.
+     * If no ads are found, it displays an error message.
+     * For each search results it sets the filter bean in the context.
+     */
+
     private void handleSearch() {
-        // Manage the search button click event
         String university = searchField.getText().trim();
         Float maxDistance = validateNumericInput(txfDistance.getText(), 15F); // Check distance
         Integer maxPrice = (validateNumericInput(txfMaxPrice.getText(), 1000)).intValue(); // Check price
@@ -97,15 +118,21 @@ public class AdSearchJavaFXPageController extends JavaFxController {
 
         FiltersBean filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
 
-        // Retrieve the ads that match the filters
         List<AdBean> adBeans = retrieveAdsByFilters(filtersBean);
 
-        // Save the results in the session bean
         context.setFiltersBean(filtersBean);
 
-        // Set the results in the list view
         setResults(adBeans);
     }
+
+    /**
+     * Retrieves the ads that match the filters from the database.
+     * It searches the ads by the filters and returns the list of ads.
+     * If no ads are found, it displays an error message.
+     *
+     * @param filtersBean The FiltersBean object representing the filters.
+     * @return List of ads that match the filters.
+     */
 
     private List<AdBean> retrieveAdsByFilters(FiltersBean filtersBean) {
         List<AdBean> adBeans = manager.searchDecoratedAdsByFilters(filtersBean);
@@ -116,23 +143,40 @@ public class AdSearchJavaFXPageController extends JavaFxController {
         else return adBeans;
     }
 
+    /**
+     * Creates a preview card for the ad.
+     * It loads the FXML file for the preview card and sets the ad bean in the controller.
+     * It initializes the preview distance and sets the controller in the preview room decorator.
+     *
+     * @param adBean The AdBean object representing the ad.
+     * @return The Node object representing the preview card.
+     */
+
     private Node createPreviewAd(AdBean adBean) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/previewRoomInfo-card.fxml"));
-            Parent root = loader.load(); // Carica il file FXML e restituisce il nodo radice
+            Parent root = loader.load();
 
             PreviewAdJavaFxController previewAdJavaFxController = loader.getController();
             previewAdJavaFxController.setAdBean(adBean);
-            previewAdJavaFxController.initializePreviewDistance(); // Inizializza il controller dopo aver caricato il file FXML
+            previewAdJavaFxController.initializePreviewDistance();
 
             BasicComponent basicComponent = new BasicComponent(root);
             PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(basicComponent, adBean, context);
             return previewRoomDecorator.setup();
         } catch (IOException e) {
-            LOGGER.severe("Error loading the preview room card");
+            LOGGER.severe(properties.getProperty("FAILED_LOADING_PREVIEW_AD"));
             return null;
         }
     }
+
+    /**
+     * Sets the search results in the list view.
+     * It clears the list view and adds the preview cards for each ad in the results.
+     * It sets the on click event for each preview card to handle the ad details.
+     *
+     * @param results The List of AdBean objects representing the search results.
+     */
 
     private void setResults(List<AdBean> results) {
         lvRooms.getItems().clear();
@@ -145,28 +189,44 @@ public class AdSearchJavaFXPageController extends JavaFxController {
         }
     }
 
+    /**
+     * Handles the preview card click event.
+     * It loads the ad details view and sets the controller with the ad bean.
+     *
+     * @param adBean The AdBean object representing the ad.
+     */
 
     private void handlePreviewAd(AdBean adBean) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/adDetails-view.fxml"));
-            context.getTab(0).setContent(loader.load()); // Caricamento del tab per la visualizzazione dei dettagli dell'annuncio
+            context.getTab(0).setContent(loader.load());
 
             manager.getHomeMap(context.getSessionBean(), adBean);
 
             AdDetailsJavaFxController controller = loader.getController();
             controller.initialize(context, new AdSearchJavaFXPage(context), adBean);
         } catch (Exception e) {
-            LOGGER.severe("Error while loading ad details page: " + e.getMessage());
+            LOGGER.severe(properties.getProperty("FAILED_LOADING_AD_DETAILS"));
         }
     }
 
+    /**
+     * Validates the numeric input.
+     * It checks if the input is empty, exceeds the limit, or is not a number.
+     * If the input is empty, it returns the default value.
+     * If the input exceeds the limit, it returns the default value.
+     * If the input is not a number, it displays an error message.
+     *
+     * @param input The String representing the input.
+     * @param defaultValue The float representing the default value.
+     * @return The Float representing the validated input.
+     */
+
     private Float validateNumericInput(String input, float defaultValue) {
-        // Verify if the input is empty
         if (input.isEmpty()){
             return defaultValue;
         }
         else {
-            // Verifica se il valore supera il limite o non rappresenta un numero
             try {
                 float floatValue = Float.parseFloat(input);
                 if (floatValue > defaultValue) {

@@ -38,7 +38,7 @@ public class LoginJavaFXPage extends LoginPage {
 
 
         } catch (Exception e) {
-            LOGGER.severe("Error while handling LoginJavaFXPage");
+            LOGGER.severe(context.getLanguage().getProperty("ERROR_HANDLING_LOGIN_PAGE"));
         }
     }
 }

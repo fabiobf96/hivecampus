@@ -37,7 +37,7 @@ public class SignUpJavaFXPage extends SignUpPage {
 
 
         } catch (Exception e) {
-            LOGGER.severe("Error while handling SignUpJavaFXPage");
+            LOGGER.severe(context.getLanguage().getProperty("ERROR_HANDLING_SIGN_UP_PAGE"));
         }
 
     }

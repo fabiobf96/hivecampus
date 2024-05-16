@@ -20,6 +20,11 @@ import javafx.stage.Stage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The HomePageJavaFxController class represents a controller for the home page in the JavaFX user interface.
+ * It extends the JavaFxController class and provides methods for initializing the home view and handling user interactions.
+ */
+
 public class HomePageJavaFxController extends JavaFxController {
     private static final Logger LOGGER = Logger.getLogger(HomePageJavaFxController.class.getName());
 
@@ -48,6 +53,13 @@ public class HomePageJavaFxController extends JavaFxController {
         // Default constructor
     }
 
+    /**
+     * Initializes the home view with the user's account information.
+     * It sets the labels and buttons with the user's name, notifications, and account settings.
+     *
+     * @param context The context object for the home page.
+     */
+
     public void initializeHomeView(Context context) {
         this.context = context;
         AccountBean accountBean = getAccountInfo();
@@ -66,6 +78,10 @@ public class HomePageJavaFxController extends JavaFxController {
 
         // lvNotifications custom list cell as in AdSearchController
     }
+
+    /**
+     * Initializes the list view of notifications with the user's notifications.
+     */
 
     @FXML
     public void initialize() {
@@ -97,22 +113,24 @@ public class HomePageJavaFxController extends JavaFxController {
         lvNotifications.getItems().addAll("Notifica 1", "Notifica 2", "Notifica 3");
     }
 
+    /**
+     * Handles the user's request to change the account settings.
+     * It loads the account settings form in a modal window and waits for the user to close it.
+     * After the modal window is closed, it updates the home page and the tabs.
+     */
+
     private void handleAccountSettings() {
         try {
-            // Carica il file FXML per la finestra modale
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/accountSettingsForm-view.fxml"));
             Parent root = loader.load();
 
-            // Ottieni il controller dalla finestra modale
             AccountSettingsJavaFxController controller = loader.getController();
             controller.initializeAccountSettingsView(context);
 
-            // Crea e visualizza la finestra modale con il form per le impostazioni dell'account
             Stage popUpStage = new Stage();
             popUpStage.initModality(Modality.APPLICATION_MODAL);
             Scene scene = new Scene(root);
 
-            // Impostare la finestra come non ridimensionabile
             popUpStage.setResizable(false);
             popUpStage.setScene(scene);
             popUpStage.showAndWait();
@@ -120,33 +138,33 @@ public class HomePageJavaFxController extends JavaFxController {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, properties.getProperty("ERROR_ACCOUNT_SETTINGS_WINDOW_MSG"), e);
         }
-
         addNotifications();
     }
 
+    /**
+     * Handles the user's request to change the language settings.
+     * It loads the language settings form in a modal window and waits for the user to close it.
+     * After the modal window is closed, it updates the home page and the tabs.
+     */
+
     private void handleLanguageSettings() {
         try {
-            // Carica il file FXML per la finestra modale
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/languageSettingsForm-view.fxml"));
             Parent root = loader.load();
 
-            // Ottieni il controller dalla finestra modale
             LanguageJavaFxController controller = loader.getController();
             controller.initializeLanguageSettingsView(context);
 
-            // Crea e visualizza la finestra modale con il form per le impostazioni della lingua
             Stage popUpStage = new Stage();
             popUpStage.initModality(Modality.APPLICATION_MODAL);
             Scene scene = new Scene(root);
 
-            // Impostare la finestra come non ridimensionabile
             popUpStage.setResizable(false);
 
-            // Aggiungi un listener per l'evento di chiusura della finestra modale
             popUpStage.setOnCloseRequest(event -> {
-                // Aggiorna le proprietà della lingua
+
                 properties = LanguageLoader.getLanguageProperties();
-                // Dopo che la finestra modale è stata chiusa, esegue il codice per aggiornare la home page e i tab
+
                 if (context.getSessionBean().getRole().equals("owner")) {
                     context.setState(new OwnerHomeJavaFXPage(context));
                 } else {
@@ -162,6 +180,11 @@ public class HomePageJavaFxController extends JavaFxController {
             LOGGER.log(Level.SEVERE, properties.getProperty("ERROR_LANGUAGE_SETTINGS_WINDOW_MSG"), e);
         }
     }
+
+    /**
+     * Handles the user's request to log out.
+     * It sets the initial JavaFX page as the current state and requests the context to update the view.
+     */
 
     @FXML
     private void handleLogout() {

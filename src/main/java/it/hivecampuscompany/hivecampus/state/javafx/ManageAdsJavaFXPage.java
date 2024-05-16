@@ -27,7 +27,7 @@ public class ManageAdsJavaFXPage extends ManageAdsPage {
             controller.initialize(context);
 
         } catch (IOException e) {
-            LOGGER.severe("Error while loading ManageAdsJavaFXPage");
+            LOGGER.severe(context.getLanguage().getProperty("ERROR_HANDLING_MANAGE_ADS_PAGE"));
         }
     }
 }

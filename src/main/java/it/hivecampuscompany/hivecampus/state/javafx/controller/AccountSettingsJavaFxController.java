@@ -7,6 +7,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+/**
+ * The AccountSettingsJavaFxController class represents a controller for the account settings page in the JavaFX user interface.
+ * It extends the JavaFxController class and provides methods for initializing the account settings view and handling user interactions.
+ */
+
 public class AccountSettingsJavaFxController extends JavaFxController {
 
     @FXML
@@ -42,6 +47,14 @@ public class AccountSettingsJavaFxController extends JavaFxController {
         // Default constructor
     }
 
+    /**
+     * Initializes the account settings view with the user's account information.
+     * It sets the labels and text fields with the user's name, surname, email, role, and phone number.
+     * It also sets the button text for changing the profile picture and password.
+     *
+     * @param context The context object for the account settings page.
+     */
+
     public void initializeAccountSettingsView(Context context) {
         this.context = context;
         AccountBean accountBean = getAccountInfo();
@@ -66,9 +79,19 @@ public class AccountSettingsJavaFxController extends JavaFxController {
         btnPsw.setOnAction(event -> handlePasswordChange());
     }
 
+    /**
+     * Handles the user's request to change the profile picture.
+     * It displays a message indicating that the feature is not implemented.
+     */
+
     private void handlePictureChange() {
         showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("NOT_IMPLEMENTED_MSG"));
     }
+
+    /**
+     * Handles the user's request to change the password.
+     * It displays a message indicating that the feature is not implemented.
+     */
 
     private void handlePasswordChange() {
         showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("NOT_IMPLEMENTED_MSG"));
