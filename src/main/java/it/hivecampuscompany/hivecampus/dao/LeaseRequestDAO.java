@@ -47,11 +47,40 @@ public interface LeaseRequestDAO {
      */
     void updateLeaseRequest(LeaseRequest leaseRequest);
 
+    /**
+     * Saves a new lease request in the database.
+     *
+     * @param leaseRequest The lease request object to be saved.
+     */
+
     void saveLeaseRequest(LeaseRequest leaseRequest);
+
+    /**
+     * Checks if a lease request is valid. A lease request sent by a tenant is valid if the tenant has not already
+     * sent a lease request for the advertisement.
+     *
+     * @param email The email of the tenant associated with the lease request.
+     * @param id The ID of the advertisement associated with the lease request.
+     * @return True if the lease request is valid, otherwise false.
+     */
 
     boolean validRequest(String email, int id);
 
+    /**
+     * Retrieves a list of lease requests based on the tenant's email.
+     *
+     * @param sessionBean The SessionBean containing the tenant's email.
+     * @return A list of {@link LeaseRequest} objects that match the tenant's email.
+     *         If no lease requests match the criteria, an empty list is returned.
+     */
+
     List<LeaseRequest> retrieveLeaseRequestsByTenant(SessionBean sessionBean);
 
+    /**
+     * Deletes a lease request from the database.
+     * This operation is typically used when a tenant wants to cancel a lease request.
+     *
+     * @param requestBean The LeaseRequestBean containing the lease request's ID.
+     */
     void deleteLeaseRequest(LeaseRequestBean requestBean);
 }

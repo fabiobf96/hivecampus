@@ -13,15 +13,33 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+/**
+ * The UniversityDAOCSV class provides methods for retrieving university data from a CSV file.
+ * It implements the UniversityDAO interface and retrieves the coordinates of a university by its name and
+ * returns them as a Point2D object.
+ */
+
 public class UniversityDAOCSV implements UniversityDAO {
 
     private final File uni;
     private final Properties properties = LanguageLoader.getLanguageProperties();
     private static final Logger LOGGER = Logger.getLogger(UniversityDAOCSV.class.getName());
 
+    /**
+     * Constructor for the UniversityDAOCSV class.
+     * It initializes the file path of the university data CSV file.
+     */
+
     public UniversityDAOCSV() {
         uni = new File("db/csv/university-table.csv");
     }
+
+    /**
+     * Retrieves the latitude and longitude coordinates of a university by its name.
+     *
+     * @param universityName The name of the university for which to retrieve the coordinates.
+     * @return A Point2D object containing the latitude and longitude coordinates.
+     */
 
     @Override
     public Point2D getUniversityCoordinates(String universityName) {
@@ -39,6 +57,9 @@ public class UniversityDAOCSV implements UniversityDAO {
         return null;
     }
 
+    /**
+     * Inner class containing the indexes of the university attributes in the CSV file.
+     */
 
     private static class UniversityAttributes{
         private static final int INDEX_NAME = 0;

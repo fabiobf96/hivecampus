@@ -43,7 +43,23 @@ public interface AdDAO {
      */
     void updateAd(Ad ad);
 
+    /**
+     * Retrieves a list of ads based on the filters provided by the user.
+     *
+     * @param filtersBean The filters bean containing the user's search criteria.
+     * @param uniCoordinates The coordinates of the university to which the user is affiliated.
+     * @return A list of {@link Ad} objects matching the criteria. If no ads match the criteria,
+     *         an empty list is returned.
+     */
+
     List<Ad> retrieveAdsByFilters(FiltersBean filtersBean, Point2D uniCoordinates);
+
+    /**
+     * Publishes a new advertisement in the database.
+     *
+     * @param ad The advertisement to be published.
+     * @return True if the advertisement was successfully published, otherwise false.
+     */
 
     boolean publishAd(Ad ad);
 }
