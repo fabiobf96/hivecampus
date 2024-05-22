@@ -15,7 +15,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class SignUpCLIPage extends SignUpPage {
 
-    private SignUpCLIPageController controller;
+    private final SignUpCLIPageController controller;
 
     /**
      * Constructs a SignUpCLIPage object with the given context.

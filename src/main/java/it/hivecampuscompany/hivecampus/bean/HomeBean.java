@@ -43,6 +43,18 @@ public class HomeBean {
         return address;
     }
 
+    public String getStreet() {
+        return address.split(",")[0];
+    }
+
+    public String getStreetNumber() {
+        return address.split(",")[1];
+    }
+
+    public String getCity() {
+        return address.split(",")[2];
+    }
+
     public String getType() {
         return type;
     }
@@ -74,8 +86,25 @@ public class HomeBean {
     public int getId() {
         return idHome;
     }
+
     public void setIdHome(int idHome) {
         this.idHome = idHome;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setSurface(int surface) {
+        this.surface = surface;
+    }
+
+    public void setFeatures(Integer[] features) {
+        this.features = features;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setImage(byte[] image) {

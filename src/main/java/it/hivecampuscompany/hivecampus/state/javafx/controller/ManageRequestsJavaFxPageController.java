@@ -53,6 +53,6 @@ public class ManageRequestsJavaFxPageController extends JavaFxController {
         txtEmail.setText(properties.getProperty("EMAIL_MSG") + ": " + leaseRequestBean.getTenant().getEmail());
         txtPhoneNumber.setText(properties.getProperty("PHONE_N_MSG") + ": " + leaseRequestBean.getTenant().getPhoneNumber());
         txtMessage.setText(properties.getProperty("MESSAGE_MSG"));
-        lblMsgContent.setText(Utility.formatText(leaseRequestBean.getMessage()));
+        setLabelText(lblMsgContent, Utility.formatText(leaseRequestBean.getMessage()));
     }
 }

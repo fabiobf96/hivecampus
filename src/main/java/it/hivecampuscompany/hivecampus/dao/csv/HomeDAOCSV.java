@@ -85,12 +85,7 @@ public class HomeDAOCSV implements HomeDAO {
             double homeLatitude = Double.parseDouble(homeRecord[HomeAttributes.INDEX_LATITUDE]);
             // Calculate the distance between the university and the home by Harvesine formula
             if (Utility.calculateDistance(homeLongitude, homeLatitude, uniCoordinates.getX(), uniCoordinates.getY()) <= distance) {
-                Integer[] features = {
-                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_NROOMS]),
-                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_NBATHROOMS]),
-                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_FLOOR]),
-                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_ELEVATOR])
-                };
+                Integer[] features = getFeatures(homeRecord);
                 Home home = new Home(
                         Integer.parseInt(homeRecord[HomeAttributes.INDEX_ID]),
                         new Point2D.Double(homeLongitude, homeLatitude),
@@ -104,6 +99,21 @@ public class HomeDAOCSV implements HomeDAO {
             }
         }
         return homes;
+    }
+
+    /**
+     * Method to retrieve a home feature from a home record.
+     * @param homeRecord The record of the home.
+     * @return An array of integers containing the home features.
+     */
+
+    private static Integer[] getFeatures(String[] homeRecord) {
+        return new Integer[] {
+                Integer.parseInt(homeRecord[HomeAttributes.INDEX_NROOMS]),
+                Integer.parseInt(homeRecord[HomeAttributes.INDEX_NBATHROOMS]),
+                Integer.parseInt(homeRecord[HomeAttributes.INDEX_FLOOR]),
+                Integer.parseInt(homeRecord[HomeAttributes.INDEX_ELEVATOR])
+        };
     }
 
     /**
@@ -213,7 +223,7 @@ public class HomeDAOCSV implements HomeDAO {
     private boolean imageHomeAlreadyExists(String imageName, int idHome) {
         try (CSVReader reader = new CSVReader(new FileReader(homeFile))) {
             List<String[]> imageTable = reader.readAll();
-            imageTable.remove(0);
+            imageTable.removeFirst();
             for (String[] imageRecord : imageTable) {
                 if (Integer.parseInt(imageRecord[1]) == idHome && imageRecord[2].equals(imageName)){
                     return true;

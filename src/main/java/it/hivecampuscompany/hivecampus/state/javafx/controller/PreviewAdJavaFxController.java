@@ -1,11 +1,18 @@
 package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
+import it.hivecampuscompany.hivecampus.bean.HomeBean;
+import it.hivecampuscompany.hivecampus.dao.HomeDAO;
+import it.hivecampuscompany.hivecampus.dao.csv.HomeDAOCSV;
+import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
+import it.hivecampuscompany.hivecampus.manager.AdManager;
 import it.hivecampuscompany.hivecampus.state.Context;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+
+import java.util.List;
 
 /**
  * The PreviewAdJavaFxController represents the controller for the preview ad page in the JavaFX user interface.
@@ -13,6 +20,8 @@ import javafx.scene.image.ImageView;
  */
 
 public class PreviewAdJavaFxController extends JavaFxController {
+
+    private final AdManager manager;
 
     @FXML
     private ImageView imvRoom;
@@ -58,6 +67,8 @@ public class PreviewAdJavaFxController extends JavaFxController {
     @FXML
     Button btnEdit;
     @FXML
+    Button btnRoom;
+    @FXML
     Button btnDelete;
     @FXML
     Label lblAdStatus;
@@ -79,7 +90,7 @@ public class PreviewAdJavaFxController extends JavaFxController {
     private AdBean adBean;
 
     public PreviewAdJavaFxController() {
-        // Default constructor
+        manager = new AdManager();
     }
 
     public void setAdBean(AdBean bean){
@@ -135,8 +146,8 @@ public class PreviewAdJavaFxController extends JavaFxController {
      * It also sets the buttons for editing and deleting the ad.
      */
 
-    public void initializePublishedAds() {
-
+    public void initializePublishedAds(Context context) {
+        this.context = context;
         setLabelText(lblTitle,adBean.getHomeBean().getAddress());
         setLabelText(lblAdStatus, properties.getProperty("AD_STATUS_MSG"));
         setLabelText(lblRoomType, properties.getProperty("TYPE_MSG"));
@@ -150,6 +161,15 @@ public class PreviewAdJavaFxController extends JavaFxController {
         setImage(imvRoom, adBean, "room");
 
         btnEdit.setOnAction(event -> handleEditAd());
+
+        btnRoom.setOnAction(event -> {
+            try {
+                handleAddRoom(adBean.getHomeBean());
+            } catch (InvalidSessionException e) {
+                showAlert(ERROR, ERROR_TITLE_MSG, properties.getProperty("INVALID_SESSION_MSG"));
+            }
+        });
+
         btnDelete.setOnAction(event -> handleDeleteAd());
     }
 
@@ -160,6 +180,36 @@ public class PreviewAdJavaFxController extends JavaFxController {
 
     private void handleEditAd() {
         showAlert(INFORMATION, properties.getProperty("EDIT_AD_MSG"), properties.getProperty("NOT_IMPLEMENTED_MSG"));
+    }
+
+    /**
+     * Handles the add room.
+     * It checks if the maximum number of rooms is reached.
+     * If it is reached, it shows an alert with the message "Warning" and "Maximum rooms reached".
+     * Otherwise, it calls the initializeCreateAd method from the ManageAdsJavaFXPageController class.
+     */
+
+    private void handleAddRoom(HomeBean homeBean) throws InvalidSessionException {
+        List<HomeBean> homeBeans = manager.getHomesByOwner(context.getSessionBean());
+        HomeDAO homeDAO = new HomeDAOCSV();
+        for(HomeBean home : homeBeans){
+            if(home.getId() == homeBean.getId()){
+                homeBean.setType(home.getType());
+                homeBean.setSurface(home.getSurface());
+                homeBean.setFeatures(new Integer[] {home.getNRooms(), home.getNBathrooms(), home.getFloor(), home.getElevator()});
+                homeBean.setDescription(home.getDescription());
+                homeBean.setImage(homeDAO.getHomeImage(homeBean.getId()));
+                break; // Exit the loop once a match is found
+            }
+        }
+
+        if (manager.isMaxRoomsReached(homeBean)){
+            showAlert(WARNING, WARNING_TITLE_MSG, properties.getProperty("MAX_ROOMS_REACHED_MSG"));
+        }
+        else {
+            ManageAdsJavaFXPageController controller = new ManageAdsJavaFXPageController();
+            controller.handleCreateAd(context, homeBean);
+        }
     }
 
     /**

@@ -33,7 +33,7 @@ public class OwnerHomeCLIPage extends OwnerHomePage {
         controller.homePage();
         switch (controller.getChoice()) {
             case 1 -> {
-                AccountSettingsCLIController accountSettingsCLIController = new AccountSettingsCLIController();
+                AccountSettingsCLIController accountSettingsCLIController = new AccountSettingsCLIController(context);
                 accountSettingsCLIController.homePage();
             }
             case 2 -> goToManageAdsPage(new ManageAdsOwnerCLIPage(context));

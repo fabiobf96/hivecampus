@@ -72,7 +72,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
     @FXML
     Label lblHType;
     @FXML
-    ChoiceBox<String> cbxHType;
+    ChoiceBox<String> cbxHType = new ChoiceBox<>();
     @FXML
     Label lblHSurface;
     @FXML
@@ -102,7 +102,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
     @FXML
     Label lblRType;
     @FXML
-    ChoiceBox<String> cbxRType;
+    ChoiceBox<String> cbxRType = new ChoiceBox<>();
     @FXML
     Label lblRSurface;
     @FXML
@@ -114,7 +114,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
     @FXML
     Label lblMonth;
     @FXML
-    ChoiceBox<String> cbxMonth;
+    ChoiceBox<String> cbxMonth = new ChoiceBox<>();
     @FXML
     Label lblServices;
     @FXML
@@ -180,7 +180,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
             lvAds.getItems().add(vbItem);
         }
 
-        btnCreate.setOnAction(event -> handleCreateAd());
+        btnCreate.setOnAction(event -> handleCreateAd(context, null));
     }
 
     /**
@@ -230,10 +230,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         });
 
         // Listener for room type choice box
-        cbxRType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            roomType = newValue;
-            numRooms = cbxRType.getItems().indexOf(newValue) + 1;
-        });
+        cbxRType.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> roomType = newValue);
 
         // Listener for moth choice box
         cbxMonth.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> month = cbxMonth.getItems().indexOf(newValue) + 1);
@@ -242,6 +239,55 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         btnHomeImage.setOnAction(event -> handleChooseHomeImage());
         btnRoomImage.setOnAction(event -> handleChooseRoomImage());
         btnPublish.setOnAction(event -> handlePublish());
+    }
+
+    /**
+     * Sets the home information in the form fields.
+     * It sets the home information in the text fields and choice boxes.
+     * It also sets the home image in the image view.
+     *
+     * @param homeBean The home bean object with the home information.
+     */
+
+    public void setHomeInfo(HomeBean homeBean) {
+        txfStreet.setText(homeBean.getStreet());
+        txfStreet.setEditable(false); // Make the text field non-editable
+
+        txfNumStreet.setText(homeBean.getStreetNumber());
+        txfNumStreet.setEditable(false);
+
+        txfCity.setText(homeBean.getCity());
+        txfCity.setEditable(false);
+
+        cbxHType.setValue(cbxHType.getItems().get(homeBean.getNRooms()-1));
+        cbxHType.setDisable(true); // Disable ChoiceBox
+
+        txfHSurface.setText(String.valueOf(homeBean.getSurface()));
+        txfHSurface.setEditable(false);
+
+        txfNumBath.setText(String.valueOf(homeBean.getNRooms()));
+        txfNumBath.setEditable(false);
+
+        txfFloor.setText(String.valueOf(homeBean.getFloor()));
+        txfFloor.setEditable(false);
+
+        ckbElevator.setSelected(homeBean.getElevator() == 1);
+        ckbElevator.setDisable(true);
+
+        txaHDescription.setText(homeBean.getDescription());
+        txaHDescription.setEditable(false); // Make text area non-editable
+
+        try {
+            imvHome.setImage(byteToImage(homeBean.getImage()));
+            setImageView(imvHome);
+            btnHomeImage.setDisable(true); // Disable button
+        } catch (IOException e) {
+            showAlert(ERROR, ERROR_TITLE_MSG, properties.getProperty("FAILED_READ_IMAGE"));
+        }
+
+        // Change styles to indicate non-editable state
+        cbxHType.setStyle("-fx-opacity: 1.0; -fx-text-fill: black;");
+        ckbElevator.setStyle("-fx-opacity: 1.0; -fx-text-fill: black;");
     }
 
     /**
@@ -259,10 +305,10 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
 
             PreviewAdJavaFxController controller = loader.getController();
             controller.setAdBean(adBean);
-            controller.initializePublishedAds();
+            controller.initializePublishedAds(context);
 
             return vbox;
-        } catch (Exception e) {
+        } catch (IOException e) {
             LOGGER.severe(properties.getProperty("ERROR_CREATING_AD_CARD"));
         }
         return null;
@@ -273,12 +319,16 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      * and sets the controller with the context and manage ads page.
      */
 
-    private void handleCreateAd() {
+    public void handleCreateAd(Context context, HomeBean homeBean) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/createAdForm-view.fxml"));
             context.getTab(0).setContent(loader.load());
             ManageAdsJavaFXPageController controller = loader.getController();
             controller.initializeCreateAd(context, new ManageAdsJavaFXPage(context));
+
+            if (homeBean != null) {
+                controller.setHomeInfo(homeBean);
+            }
 
         } catch (Exception e) {
             LOGGER.severe(properties.getProperty("ERROR_CREATING_AD_CARD"));

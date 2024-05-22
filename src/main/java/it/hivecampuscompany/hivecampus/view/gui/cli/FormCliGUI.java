@@ -1,31 +1,16 @@
 package it.hivecampuscompany.hivecampus.view.gui.cli;
 
+import it.hivecampuscompany.hivecampus.model.Month;
+import it.hivecampuscompany.hivecampus.model.Permanence;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class FormCliGUI extends CliGUI{
 
-    List<String> months = Arrays.asList(
-            properties.getProperty("JANUARY_MSG"),
-            properties.getProperty("FEBRUARY_MSG"),
-            properties.getProperty("MARCH_MSG"),
-            properties.getProperty("APRIL_MSG"),
-            properties.getProperty("MAY_MSG"),
-            properties.getProperty("JUNE_MSG"),
-            properties.getProperty("JULY_MSG"),
-            properties.getProperty("AUGUST_MSG"),
-            properties.getProperty("SEPTEMBER_MSG"),
-            properties.getProperty("OCTOBER_MSG"),
-            properties.getProperty("NOVEMBER_MSG"),
-            properties.getProperty("DECEMBER_MSG")
-    );
+    List<Permanence> permanenceList = Arrays.asList(Permanence.values());
 
-    List<String> typesPermanence = Arrays.asList(
-            properties.getProperty("SIX_MONTHS_MSG"),
-            properties.getProperty("TWELVE_MONTHS_MSG"),
-            properties.getProperty("TWENTY_FOUR_MONTHS_MSG"),
-            properties.getProperty("THIRTY_SIX_MONTHS_MSG")
-    );
+    List<Month> monthList = Arrays.asList(Month.values());
 
     List<String> typesHome = Arrays.asList(
             properties.getProperty("STUDIO_APARTMENT_MSG"), // Monolocale
@@ -40,14 +25,14 @@ public class FormCliGUI extends CliGUI{
     );
 
     public void displayMonths() {
-        for (String month : months) {
-            displayMessage(months.indexOf(month) + 1 + ". " + month);
+        for (Month month : monthList) {
+            displayMessage(monthList.indexOf(month) + 1 + ") " +  month.toString());
         }
     }
 
     public void displayTypesPermanence() {
-        for (String type : typesPermanence) {
-            displayMessage(typesPermanence.indexOf(type) + 1 + ") " + type);
+        for (Permanence permanence : permanenceList) {
+            displayMessage(permanenceList.indexOf(permanence) + 1 + ") " + permanence.toString());
         }
     }
 

@@ -35,7 +35,7 @@ public class TenantHomeCLIPage extends TenantHomePage {
         controller.homePage();
         switch (controller.getChoice()) {
             case 1 -> {
-                AccountSettingsCLIController accountSettingsCLIController = new AccountSettingsCLIController();
+                AccountSettingsCLIController accountSettingsCLIController = new AccountSettingsCLIController(context);
                 accountSettingsCLIController.homePage();
             }
             case 2 -> goToAdSearchPage(new AdSearchCLIPage(context));

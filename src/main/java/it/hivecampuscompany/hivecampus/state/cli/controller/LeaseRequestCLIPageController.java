@@ -41,7 +41,7 @@ public class LeaseRequestCLIPageController extends CLIController {
         formView.displayWelcomeMessage(properties.getProperty("LEASE_REQUEST_FORM_MSG").toUpperCase());
         formView.displayMessage(properties.getProperty("STAY_TYPE_MSG"));
         formView.displayTypesPermanence();
-        formView.displayMessage(properties.getProperty("START_STAY_MSG"));
+        formView.displayMessage("\n" + properties.getProperty("START_STAY_MSG"));
         formView.displayMonths();
     }
 
@@ -56,7 +56,7 @@ public class LeaseRequestCLIPageController extends CLIController {
      */
 
     public boolean leaseRequestForm(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
-        int typePermanence = convertTypePermanence(formView.getIntUserInput(properties.getProperty("PERMANENCE_TYPE_MSG")));
+        int typePermanence = convertTypePermanence(formView.getIntUserInput("\n" + properties.getProperty("PERMANENCE_TYPE_MSG")));
         int startPermanence = convertStartPermanence(formView.getIntUserInput(properties.getProperty("START_PERMANENCE_MSG")));
         String message = formView.getStringUserInput(properties.getProperty("MESSAGE_FOR_OWNER_MSG"));
 
@@ -90,14 +90,11 @@ public class LeaseRequestCLIPageController extends CLIController {
 
     private int convertTypePermanence(int inputNumber) {
         List<Integer> typesPermanence = Arrays.asList(6, 12, 24, 36);
-        try {
-            if (inputNumber >= 1 && inputNumber <= 4) {
-                return typesPermanence.get(inputNumber - 1);
-            }
-        } catch (NumberFormatException e) {
-            formView.displayMessage(properties.getProperty("INVALID_INPUT_MSG"));
+
+        while (inputNumber < 1 || inputNumber > 4) {
+            inputNumber = formView.getIntUserInput(properties.getProperty("PERMANENCE_TYPE_MSG"));
         }
-        return convertTypePermanence(formView.getIntUserInput(properties.getProperty("PERMANENCE_TYPE_MSG")));
+        return typesPermanence.get(inputNumber - 1);
     }
 
     /**
@@ -109,13 +106,9 @@ public class LeaseRequestCLIPageController extends CLIController {
      */
 
     private int convertStartPermanence(int inputNumber) {
-        try {
-            if (inputNumber >= 1 && inputNumber <= 12) {
-                return inputNumber;
-            }
-        } catch (NumberFormatException e) {
-            formView.displayMessage(properties.getProperty("INVALID_INPUT_MSG"));
+        while (inputNumber < 1 || inputNumber > 12) {
+            inputNumber = formView.getIntUserInput(properties.getProperty("START_PERMANENCE_MSG"));
         }
-        return convertStartPermanence(formView.getIntUserInput(properties.getProperty("START_PERMANENCE_MSG")));
+        return inputNumber;
     }
 }
