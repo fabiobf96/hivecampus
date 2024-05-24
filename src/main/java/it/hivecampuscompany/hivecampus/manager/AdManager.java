@@ -124,7 +124,7 @@ public class AdManager {
      */
 
     public void saveHomeImage(HomeBean homeBean) {
-        if (homeBean.getImage() != null) {
+        if (homeBean.getImage() != null && homeBean.getImageName() != null) {
             HomeDAO homeDAO = new HomeDAOCSV();
             String imageName = homeBean.getImageName();
             String imageType = imageName.substring(imageName.lastIndexOf('.') + 1);

@@ -33,6 +33,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -154,6 +155,8 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
     int month;
     int numRooms;
 
+    private HomeBean hBean;
+
     public ManageAdsJavaFXPageController() {
         this.manager = new AdManager();
     }
@@ -250,6 +253,9 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      */
 
     public void setHomeInfo(HomeBean homeBean) {
+
+        this.hBean = homeBean;
+
         txfStreet.setText(homeBean.getStreet());
         txfStreet.setEditable(false); // Make the text field non-editable
 
@@ -413,6 +419,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      */
 
     private void handlePublish() {
+        HomeBean homeBean;
 
         //Check if all fields are filled
         if (!checkFields()) {
@@ -426,43 +433,13 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
             return;
         }
 
-        // Retrieve data from the form
-        String street = txfStreet.getText();
-        String numStreet = txfNumStreet.getText();
-        String city = txfCity.getText();
-        int hSurface = Integer.parseInt(txfHSurface.getText());
-        int numBath = Integer.parseInt(txfNumBath.getText());
-        int floor = Integer.parseInt(txfFloor.getText());
-        boolean elevator = ckbElevator.isSelected();
-        String hDescription = txaHDescription.getText();
-        int rSurface = Integer.parseInt(txfRSurface.getText());
+        // Retrieve data from the form and create home bean
+        homeBean = Objects.requireNonNullElseGet(hBean, this::getHomeDataForm);
+
+        // Retrieve data from the form and create room bean
+        RoomBean roomBean = getRoomDataForm();
+
         int price = Integer.parseInt(txfPrice.getText());
-        String rDescription = txaRDescription.getText();
-        boolean privateBath = ckbBath.isSelected();
-        boolean balcony = ckbBalcony.isSelected();
-        boolean conditioner = ckbConditioner.isSelected();
-        boolean tvConnection = ckbTV.isSelected();
-
-        //Save filename
-        String homeFileName = homeFile.getName();
-        String roomFileName = roomFile.getName();
-
-        // Create beans
-        String address = street + ", " + numStreet + ", " + city;
-        int lift = elevator ? 1 : 0;
-        Integer[] features = new Integer[]{numRooms, numBath, floor, lift};
-        HomeBean homeBean = new HomeBean(address, homeType, hSurface, features, hDescription);
-
-        // Save home image
-        homeBean.setImage(homeBytes);
-        homeBean.setImageName(homeFileName);
-
-        boolean[] services = new boolean[]{privateBath, balcony, conditioner, tvConnection};
-        RoomBean roomBean = new RoomBean(roomType, rSurface, services, rDescription);
-
-        // Save room image
-        roomBean.setImage(roomBytes);
-        roomBean.setImageName(roomFileName);
 
         // Publish ad
         boolean res = manager.publishAd(context.getSessionBean(),homeBean, roomBean, price, Month.fromInt(month));
@@ -473,6 +450,64 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         } else {
             showAlert(ERROR, String.valueOf(Alert.AlertType.ERROR), properties.getProperty("FAILED_PUBLISH_AD"));
         }
+    }
+
+    /**
+     * Retrieves the home information from the form fields.
+     * It retrieves the home information from the text fields and check boxes.
+     * It creates a home bean with the home information and returns the home bean.
+     *
+     * @return The home bean object with the home information.
+     */
+
+    private HomeBean getHomeDataForm() {
+        String street = txfStreet.getText();
+        String numStreet = txfNumStreet.getText();
+        String city = txfCity.getText();
+        int hSurface = Integer.parseInt(txfHSurface.getText());
+        int numBath = Integer.parseInt(txfNumBath.getText());
+        int floor = Integer.parseInt(txfFloor.getText());
+        boolean elevator = ckbElevator.isSelected();
+        String hDescription = txaHDescription.getText();
+
+        String homeFileName = homeFile.getName();
+
+        String address = street + ", " + numStreet + ", " + city;
+        int lift = elevator ? 1 : 0;
+        Integer[] features = new Integer[]{numRooms, numBath, floor, lift};
+        HomeBean homeBean = new HomeBean(address, homeType, hSurface, features, hDescription);
+
+        homeBean.setImage(homeBytes);
+        homeBean.setImageName(homeFileName);
+
+        return homeBean;
+    }
+
+    /**
+     * Retrieves the room information from the form fields.
+     * It retrieves the room information from the text fields and check boxes.
+     * It creates a room bean with the room information and returns the room bean.
+     *
+     * @return The room bean object with the room information.
+     */
+
+    private RoomBean getRoomDataForm() {
+        int rSurface = Integer.parseInt(txfRSurface.getText());
+        String rDescription = txaRDescription.getText();
+        boolean privateBath = ckbBath.isSelected();
+        boolean balcony = ckbBalcony.isSelected();
+        boolean conditioner = ckbConditioner.isSelected();
+        boolean tvConnection = ckbTV.isSelected();
+
+        String roomFileName = roomFile.getName();
+
+        boolean[] services = new boolean[]{privateBath, balcony, conditioner, tvConnection};
+        RoomBean roomBean = new RoomBean(roomType, rSurface, services, rDescription);
+
+        roomBean.setImage(roomBytes);
+        roomBean.setImageName(roomFileName);
+
+        return roomBean;
     }
 
     /**
