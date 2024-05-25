@@ -7,6 +7,7 @@ import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.dao.RoomDAO;
+import it.hivecampuscompany.hivecampus.dao.mysql.HomeDAOMySql;
 import it.hivecampuscompany.hivecampus.model.Ad;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
 import it.hivecampuscompany.hivecampus.model.Home;
@@ -138,7 +139,7 @@ public class AdDAOCSV implements AdDAO {
     @Override
     public List<Ad> retrieveAdsByFilters(FiltersBean filtersBean, Point2D uniCoordinates) {
         AccountDAO accountDAO = new AccountDAOCSV();
-        HomeDAO homeDAO = new HomeDAOCSV();
+        HomeDAO homeDAO = new HomeDAOMySql(); // HomeDAOCSV() or HomeDAOMySql()
         RoomDAO roomDAO = new RoomDAOCSV();
 
         if (uniCoordinates == null) {

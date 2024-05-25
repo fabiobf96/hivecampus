@@ -6,7 +6,8 @@ import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.UserDAO;
 import it.hivecampuscompany.hivecampus.dao.csv.AccountDAOCSV;
-import it.hivecampuscompany.hivecampus.dao.csv.UserDAOCSV;
+import it.hivecampuscompany.hivecampus.dao.mysql.AccountDAOMySql;
+import it.hivecampuscompany.hivecampus.dao.mysql.UserDAOMySql;
 import it.hivecampuscompany.hivecampus.exception.AuthenticateException;
 import it.hivecampuscompany.hivecampus.exception.DuplicateRowException;
 import it.hivecampuscompany.hivecampus.model.Account;
@@ -17,8 +18,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class LoginManager {
     public void signup(UserBean userBean, AccountBean accountBean) throws DuplicateRowException, NoSuchAlgorithmException {
-        AccountDAO accountDAO = new AccountDAOCSV(); // AccountDAOMySql() or AccountDAOCSV()
-        UserDAO userDAO = new UserDAOCSV(); // UserDAOMySql() or UserDAOCSV()
+        AccountDAO accountDAO = new AccountDAOMySql(); // AccountDAOMySql() or AccountDAOCSV()
+        UserDAO userDAO = new UserDAOMySql(); // UserDAOMySql() or UserDAOCSV()
 
         User user = new User(userBean);
         userDAO.saveUser(user);
@@ -28,7 +29,7 @@ public class LoginManager {
     }
 
     public SessionBean login(UserBean userBean) throws AuthenticateException, NoSuchAlgorithmException {
-        UserDAO userDAO = new UserDAOCSV(); // UserDAOMySql() or UserDAOCSV()
+        UserDAO userDAO = new UserDAOMySql(); // UserDAOMySql() or UserDAOCSV()
 
         User user = userDAO.verifyCredentials(new User(userBean));
 
@@ -47,7 +48,7 @@ public class LoginManager {
      */
 
     public AccountBean getAccountInfo(SessionBean sessionBean) {
-        AccountDAO accountDAO = new AccountDAOCSV(); // AccountDAOMySql() or AccountDAOCSV()
+        AccountDAO accountDAO = new AccountDAOMySql(); // AccountDAOMySql() or AccountDAOCSV()
         Account account = accountDAO.retrieveAccountInformationByEmail(sessionBean.getEmail());
         return account.toBasicBean();
     }
