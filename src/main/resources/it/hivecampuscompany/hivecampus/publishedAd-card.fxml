@@ -15,16 +15,14 @@
          <VBox>
             <children>
                <VBox>
-                  <children>
-                     <Label fx:id="lblTitle" text="Label">
-                        <font>
-                           <Font name="System Bold" size="12.0" />
-                        </font>
-                        <padding>
-                           <Insets top="5.0" />
-                        </padding>
-                     </Label>
-                  </children>
+                  <Label fx:id="lblTitle" text="Label">
+                     <font>
+                        <Font name="System Bold" size="12.0"/>
+                     </font>
+                     <padding>
+                        <Insets top="5.0"/>
+                     </padding>
+                  </Label>
                </VBox>
                <HBox spacing="15.0">
                   <padding>
@@ -97,9 +95,7 @@
                </opaqueInsets>
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/edit.png" />
-                     </image>
+                     <Image url="@images/edit.png"/>
                   </ImageView>
                </graphic>
                <padding>
@@ -111,9 +107,7 @@
             <Button fx:id="btnRoom" mnemonicParsing="false" style="-fx-background-radius: 5; -fx-border-radius: 0;">
                <graphic>
                   <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/double-bed.png" />
-                     </image>
+                     <Image url="@images/double-bed.png"/>
                   </ImageView>
                </graphic>
                <padding>
@@ -122,9 +116,7 @@
             <Button fx:id="btnDelete" mnemonicParsing="false" style="-fx-background-radius: 5; -fx-border-radius: 0;">
                <graphic>
                   <ImageView fitHeight="40.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/black_delete.png" />
-                     </image>
+                     <Image url="@images/black_delete.png"/>
                   </ImageView>
                </graphic>
                <padding>

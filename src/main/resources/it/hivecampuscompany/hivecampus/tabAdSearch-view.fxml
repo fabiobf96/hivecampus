@@ -83,9 +83,7 @@
             <Button fx:id="btnSearch" style="-fx-background-radius: 3; -fx-border-radius: 0;">
                <graphic>
                   <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/search.png" />
-                     </image>
+                     <Image url="@images/search.png"/>
                   </ImageView>
                </graphic>
                <padding>
