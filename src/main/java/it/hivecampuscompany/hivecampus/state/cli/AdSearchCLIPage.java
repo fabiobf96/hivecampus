@@ -36,7 +36,8 @@ public class AdSearchCLIPage extends AdSearchPage {
     @Override
     public void handle() throws InvalidSessionException {
         adController.homePage();
-        List<AdBean> adBeans = adController.searchAds();
+        // Modificato per passare il sessionBean
+        List<AdBean> adBeans = adController.searchAds(context.getSessionBean());
         if(adBeans != null && !adBeans.isEmpty()) {
             // Display the preview of the ads
             adBean = adController.showAdsPreview(adBeans);

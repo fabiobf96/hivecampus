@@ -2,6 +2,7 @@ package it.hivecampuscompany.hivecampus.state.cli.controller;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
+import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.manager.AdManager;
 import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
 import java.util.Collections;
@@ -42,7 +43,8 @@ public class AdSearchCLIPageController extends CLIController {
      * @return List of ads that match the filters.
      */
 
-    public List<AdBean> searchAds() {
+    // Modificato per ricevere il sessionBean
+    public List<AdBean> searchAds(SessionBean sessionBean) {
         String university = getField(properties.getProperty("UNIVERSITY_FIELD_REQUEST_MSG"), false);
         float maxDistance = getValidatedInput(properties.getProperty("MAX_DISTANCE_FIELD_REQUEST_MSG"), 15F);
         int maxPrice = getValidatedInput(properties.getProperty("MAX_PRICE_FIELD_REQUEST_MSG"), 1000F).intValue();
@@ -53,7 +55,8 @@ public class AdSearchCLIPageController extends CLIController {
 
         FiltersBean filtersBean = new FiltersBean(university, maxDistance, maxPrice, privateBath, balcony, conditioner, tvConnection);
 
-        List<AdBean> adBeans = manager.searchAdsByFilters(filtersBean);
+        // Modificato per passare il sessionBean
+        List<AdBean> adBeans = manager.searchAdsByFilters(sessionBean, filtersBean);
         if (adBeans.isEmpty()) {
             view.displayMessage("\n" + properties.getProperty("ERROR_SEARCH_MSG"));
             pause();

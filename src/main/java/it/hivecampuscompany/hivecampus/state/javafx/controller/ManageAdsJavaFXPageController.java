@@ -565,7 +565,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
 
     private List<AdBean> retrieveAds(SessionBean sessionBean) {
         try {
-            return manager.getDecoratedAdsByOwner(sessionBean, new AdBean(null));
+            return manager.searchAdsByOwner(sessionBean, new AdBean(null));
         } catch (Exception e) {
             LOGGER.severe(properties.getProperty("ERROR_RETRIEVING_ADS"));
             return Collections.emptyList();

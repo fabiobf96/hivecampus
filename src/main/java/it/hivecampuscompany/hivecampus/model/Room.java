@@ -1,15 +1,16 @@
 package it.hivecampuscompany.hivecampus.model;
 
 import it.hivecampuscompany.hivecampus.bean.RoomBean;
+import it.hivecampuscompany.hivecampus.model.pattern_decorator.Component;
 
-public class Room {
+public class Room extends Component<RoomBean> {
     private final int idRoom;
     private final int idHome;
     private final int surface;
     private final String typeRoom;
     private final boolean[] services;
     private final String description;
-    private byte[] roomImage;
+    private byte[] roomImage;   // PROVARE A TOGLIERLO
 
     public Room(int idRoom, int idHome, int surface, String typeRoom, boolean[] services, String description) {
         this.idRoom = idRoom;
@@ -26,9 +27,19 @@ public class Room {
     public RoomBean toBasicBean() {
         return new RoomBean(idRoom, typeRoom);
     }
+
+    /*
     public RoomBean toBean() {
         return new RoomBean(idRoom, surface, typeRoom, services, description);
     }
+    */
+
+    // Nuovo metodo toBean
+    @Override
+    public RoomBean toBean() {
+        return new RoomBean(idRoom, surface, typeRoom, services, description);
+    }
+
     public RoomBean toBeanWithImage() {
         RoomBean roomBean = toBean();
         roomBean.setImage(roomImage);

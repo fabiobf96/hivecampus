@@ -7,43 +7,47 @@ import it.hivecampuscompany.hivecampus.dao.csv.*;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.exception.MockOpenStreetMapAPIException;
 import it.hivecampuscompany.hivecampus.model.*;
+import it.hivecampuscompany.hivecampus.model.pattern_decorator.ImageDecorator;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AdManager {
+
+    // Nuova Versione
     public List<AdBean> searchAdsByOwner(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
         AdDAO adDAO = new AdDAOCSV();
-        if (sessionManager.validSession(sessionBean)) {
-            List<Ad> adList = adDAO.retrieveAdsByOwner(sessionBean, adBean.getAdStatus());
-            List<AdBean> adBeanList = new ArrayList<>();
-            for (Ad ad : adList) {
-                if (sessionBean.getClient() == SessionBean.Client.CLI) {
-                    adBeanList.add(ad.toBean());
-                } else {
-                    adBeanList.add(ad.toBeanWithImage());
-                }
-            }
-            return adBeanList;
+
+        if (!sessionManager.validSession(sessionBean)) {
+            throw new InvalidSessionException();
         }
-        throw new InvalidSessionException();
+
+        List<Ad> adList = adDAO.retrieveAdsByOwner(sessionBean, adBean.getAdStatus());
+        List<AdBean> adBeanList = new ArrayList<>();
+
+        for (Ad ad : adList) {
+            if (sessionBean.getClient() == SessionBean.Client.CLI) {
+                adBeanList.add(ad.toBean());
+            } else {
+                return getDecoratedAdsByOwner(adList);
+            }
+        }
+        return adBeanList;
     }
 
-    /**
-     * Method to retrieve the decorated ads by owner. It retrieves the ads by owner
-     * and then retrieves the images of the rooms and homes of the ads.
-     *
-     * @param sessionBean The session of the user
-     * @param adBean The ad object
-     * @return The list of decorated ads owned by the user
-     * @throws InvalidSessionException If the session is invalid
-     */
-
-    public List<AdBean> getDecoratedAdsByOwner(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
-        List<AdBean> adBeanList = searchAdsByOwner(sessionBean, adBean);
-        return getAdBeansWithImage(adBeanList);
+    // Nuova Versione
+    public List<AdBean> getDecoratedAdsByOwner(List<Ad> adList) {
+        List<AdBean> adBeanList = new ArrayList<>();
+        List<Ad> decoratedAds = getDecoratedAds(adList); // Apply pattern decorator
+        for (Ad ad : decoratedAds) {
+            AdBean adBean = ad.toBean();
+            adBeanList.add(adBean); // Convert the ad to a bean
+        }
+        return adBeanList;
     }
 
     /**
@@ -92,7 +96,6 @@ public class AdManager {
             Account owner = accountDAO.retrieveAccountInformationByEmail(sessionBean.getEmail());
 
             if (owner != null) {
-
                 Home home = homeDAO.saveHome(homeBean, owner.getEmail());
 
                 if (home != null) {
@@ -148,50 +151,69 @@ public class AdManager {
         }
     }
 
-    /**
-     * Method to retrieve the ads by filters. It retrieves the coordinates of the university,
-     * retrieves the ads by filters and calculates the distance between the home and the university.
-     * Then it creates the adBean object and adds it to the list of adBean objects.
-     *
-     * @param filtersBean The filters to apply to the search
-     * @return The list of ads that match the filters
-     */
-
-    public List<AdBean> searchAdsByFilters(FiltersBean filtersBean) {
+    // Nuova versione con pattern decorator
+    public List<AdBean> searchAdsByFilters(SessionBean sessionBean, FiltersBean filtersBean) {
         UniversityDAO universityDAO = new UniversityDAOCSV();
         AdDAOCSV adDAO = new AdDAOCSV();
         Point2D uniCoordinates = universityDAO.getUniversityCoordinates(filtersBean.getUniversity());
-        List<AdBean> adBeanList = new ArrayList<>();
+
+        // Calcoliamo la distanza per ciascun annuncio una sola volta
         List<Ad> ads = adDAO.retrieveAdsByFilters(filtersBean, uniCoordinates);
+        List<AdBean> adBeanList = new ArrayList<>();
+        Map<Integer, Double> adDistanceMap = new HashMap<>();
         for (Ad ad : ads) {
             double distance = ad.getHome().calculateDistance(uniCoordinates);
-            AdBean adBean = new AdBean(ad, filtersBean.getUniversity(), distance);
+            adDistanceMap.put(ad.getId(), distance);
+        }
+        // Applichiamo il pattern decorator solo se il client è diverso dal CLI
+        if (sessionBean.getClient() != SessionBean.Client.CLI) {
+            ads = new ArrayList<>(getDecoratedAds(ads));
+        }
+        // Costruiamo gli oggetti AdBean utilizzando i valori calcolati precedentemente
+        for (Ad ad : ads) {
+            AdBean adBean = ad.toBean();
+            adBean.setUniversity(filtersBean.getUniversity());
+            double distance = adDistanceMap.get(ad.getId());
+            adBean.setDistance(distance);
             adBeanList.add(adBean);
         }
         return adBeanList;
     }
 
-    /**
-     * Method to retrieve the decorated ads by filters. It retrieves the ads by filters
-     * and then retrieves the images of the rooms and homes of the ads.
-     *
-     * @param filtersBean The filters to apply to the search
-     * @return The list of decorated ads that match the filters
-     */
+    // Nuovo metodo per applicare il pattern decorator
+    private List<Ad> getDecoratedAds(List<Ad> adList) {
+        for (Ad ad : adList) {
+            // Retrieve the images from persistence and apply pattern decorator to add the images to the room and home
+            ImageDecorator<RoomBean> decoratedRoom = getDecoratedRoom(ad.getRoom());
+            ImageDecorator<HomeBean> decoratedHome = getDecoratedHome(ad.getHome());
 
-    public List<AdBean> searchDecoratedAdsByFilters(FiltersBean filtersBean) {
-        List<AdBean> adBeanList = searchAdsByFilters(filtersBean);
-        return getAdBeansWithImage(adBeanList);
+            if (decoratedRoom != null && decoratedHome != null) {
+                ad.setRoom(decoratedRoom); // Set the decorated room to the ad
+                ad.setHome(decoratedHome); // Set the decorated home to the ad
+            }
+        }
+        return adList;
+    }
+    // Nuovo metodo per applicare il pattern decorator
+    private ImageDecorator<RoomBean> getDecoratedRoom(Room room) {
+        RoomDAO roomDAO = new RoomDAOCSV();
+        byte[] roomBytes = roomDAO.getRoomImage(room.getIdRoom(), room.getIdHome());
+        if (roomBytes != null) {
+            return new ImageDecorator<>(room, roomBytes);
+        }
+        return null;
+    }
+    // Nuovo metodo per applicare il pattern decorator
+    private ImageDecorator<HomeBean> getDecoratedHome(Home home) {
+        HomeDAO homeDAO = new HomeDAOCSV();
+        byte[] homeBytes = homeDAO.getHomeImage(home.getId());
+        if (homeBytes != null) {
+            return new ImageDecorator<>(home, homeBytes);
+        }
+        return null;
     }
 
-    /**
-     * Method to retrieve the decorated ads by owner. It retrieves the ads by owner
-     * and then retrieves the images of the rooms and homes of the ads.
-     *
-     * @param adBeanList The list of ads to decorate
-     * @return The list of decorated ads
-     */
-
+    /*
     private List<AdBean> getAdBeansWithImage(List<AdBean> adBeanList) {
         RoomDAO roomDAO = new RoomDAOCSV();
         HomeDAO homeDAO = new HomeDAOCSV();
@@ -205,6 +227,7 @@ public class AdManager {
         }
         return adBeanList;
     }
+    */
 
     /**
      * Method to retrieve the map of the home. It checks if the session is valid,

@@ -32,6 +32,10 @@ module it.hivecampuscompany.hivecampus {
     exports it.hivecampuscompany.hivecampus.model;
     opens it.hivecampuscompany.hivecampus.model to javafx.fxml;
 
+    // Add the following two lines
+    exports it.hivecampuscompany.hivecampus.model.pattern_decorator;
+    opens it.hivecampuscompany.hivecampus.model.pattern_decorator to javafx.fxml;
+
     exports it.hivecampuscompany.hivecampus.exception;
     opens it.hivecampuscompany.hivecampus.exception to javafx.fxml;
 

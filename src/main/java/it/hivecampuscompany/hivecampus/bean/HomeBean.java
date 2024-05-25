@@ -39,6 +39,15 @@ public class HomeBean {
         this.description = home.getDescription();
     }
 
+    public HomeBean(int id, String address, String homeType, int surface, Integer[] features, String description) {
+        this.idHome = id;
+        this.address = address;
+        this.type = homeType;
+        this.surface = surface;
+        this.features = features;
+        this.description = description;
+    }
+
     public String getAddress() {
         return address;
     }

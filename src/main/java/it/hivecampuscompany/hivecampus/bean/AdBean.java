@@ -46,6 +46,12 @@ public class AdBean {
         this.distance = distance;
     }
 
+    // Aggiunto per far funzionare il metodo toBean in AD
+    public AdBean(int id, AccountBean ownerBean, HomeBean homeBean, RoomBean roomBean, int price, int adStatus, int adStart) {
+        this(id, homeBean, roomBean, price, adStatus, adStart);
+        this.ownerBean = ownerBean;
+    }
+
     public int getId() {
         return id;
     }
@@ -113,6 +119,15 @@ public class AdBean {
     public String adTitle() {
         return " " + roomBean.getType() + " - " + homeBean.getAddress() + " - " + price + " €";
     }
+
+    // Aggiunti con la nuova versione
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+    public void setUniversity(String university) {
+        this.university = university;
+    }
+
 
     public String getPreview() {
         return  adTitle() + "\n\n" +

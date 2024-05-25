@@ -50,10 +50,12 @@ public class AdDAOCSV implements AdDAO {
         }
     }
 
+    // Modificato aggiunto accountDAO per il recupero delle info owner in AD
     @Override
     public List<Ad> retrieveAdsByOwner(SessionBean sessionBean, AdStatus adStatus) {
         HomeDAO homeDAO = new HomeDAOCSV();
         RoomDAO roomDAO = new RoomDAOCSV();
+        AccountDAO accountDAO = new AccountDAOCSV();
         List<String[]> adTable = CSVUtility.readAll(fd);
         adTable.removeFirst(); // Rimuove l'header
         return adTable.stream()
@@ -64,6 +66,7 @@ public class AdDAOCSV implements AdDAO {
                         // Pass the actual values from adRecord to retrieveHomeByID and retrieveRoomByID
                         new Ad(
                                 Integer.parseInt(adRecord[AdAttributes.INDEX_ID]),
+                                accountDAO.retrieveAccountInformationByEmail(adRecord[AdAttributes.INDEX_OWNER]),
                                 homeDAO.retrieveHomeByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME])),
                                 roomDAO.retrieveRoomByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME]), Integer.parseInt(adRecord[AdAttributes.INDEX_ROOM])),
                                 adStatus == null ? Integer.parseInt(adRecord[AdAttributes.INDEX_STATUS]) : -1,
