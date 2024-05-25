@@ -51,6 +51,8 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
     @FXML
     Button btnCreate;
     @FXML
+    Label lblCreate;
+    @FXML
     ListView<Node> lvAds;
     @FXML
     Button btnBack;
@@ -170,6 +172,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
 
     public void initialize(Context context) {
         this.context = context;
+        lblCreate.setText(properties.getProperty("CREATE_AD_MSG"));
 
         List<AdBean> adBeans = retrieveAds(context.getSessionBean());
 
@@ -198,6 +201,37 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
     public void initializeCreateAd(Context context, ManageAdsPage manageAdsPage) {
         this.context = context;
         this.manageAdsPage = manageAdsPage;
+
+        btnBack.setText(properties.getProperty("GO_BACK_MSG"));
+        lblTitle.setText(properties.getProperty("CREATE_AD_FORM_MSG").toUpperCase());
+
+        lblHInfo.setText(properties.getProperty("HOME_INFO_MSG"));
+        lblStreet.setText(properties.getProperty("STREET_FIELD_REQUEST_MSG"));
+        lblNumStreet.setText(properties.getProperty("STREET_NUMBER_FIELD_REQUEST_MSG"));
+        lblCity.setText(properties.getProperty("CITY_FIELD_REQUEST_MSG"));
+        lblHType.setText(properties.getProperty("TYPE_FIELD_REQUEST_MSG"));
+        lblHSurface.setText(properties.getProperty("SURFACE_FIELD_REQUEST_MSG"));
+        lblNumBath.setText(properties.getProperty("NUM_BATH_FIELD_REQUEST_MSG"));
+        lblFloor.setText(properties.getProperty("FLOOR_FIELD_REQUEST_MSG"));
+        ckbElevator.setText(properties.getProperty("LIFT_MSG"));
+        lblHImage.setText(properties.getProperty("IMAGE_MSG"));
+        lblHDescription.setText(properties.getProperty("DESCRIPTION_MSG"));
+
+        lblRInfo.setText(properties.getProperty("ROOM_INFO_MSG"));
+        lblRType.setText(properties.getProperty("TYPE_FIELD_REQUEST_MSG"));
+        lblRSurface.setText(properties.getProperty("SURFACE_FIELD_REQUEST_MSG"));
+        lblPrice.setText(properties.getProperty("PRICE_FIELD_REQUEST_MSG"));
+        lblMonth.setText(properties.getProperty("MONTH_AVAILABLE_FIELD_REQUEST_MSG"));
+        lblServices.setText(properties.getProperty("SERVICES_MSG"));
+        lblRDescription.setText(properties.getProperty("DESCRIPTION_MSG"));
+        lblRImage.setText(properties.getProperty("IMAGE_MSG"));
+
+        ckbBath.setText(properties.getProperty("PRIVATE_BATH_MSG"));
+        ckbBalcony.setText(properties.getProperty("BALCONY_MSG"));
+        ckbConditioner.setText(properties.getProperty("CONDITIONER_MSG"));
+        ckbTV.setText(properties.getProperty("TV_CONNECTION_MSG"));
+
+        btnPublish.setText(properties.getProperty("PUBLISH_AD_MSG"));
 
         cbxHType.getItems().addAll(
                 properties.getProperty("STUDIO_APARTMENT_MSG"),

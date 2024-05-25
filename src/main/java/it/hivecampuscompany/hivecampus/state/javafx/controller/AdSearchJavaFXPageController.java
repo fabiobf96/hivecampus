@@ -80,7 +80,6 @@ public class AdSearchJavaFXPageController extends JavaFxController {
         lblRentalPrice.setText(properties.getProperty("RENTAL_PRICE_MSG"));
         lblDistance.setText(properties.getProperty("DISTANCE_MSG"));
         searchField.setPromptText(properties.getProperty("SEARCH_BAR_MSG"));
-        btnSearch.setText(properties.getProperty("SEARCH_MSG"));
 
         // Check if there are results in context
         if (context.getFiltersBean() != null) {

@@ -204,7 +204,7 @@ public class PreviewAdJavaFxController extends JavaFxController {
         }
 
         if (manager.isMaxRoomsReached(homeBean)){
-            showAlert(WARNING, WARNING_TITLE_MSG, properties.getProperty("MAX_ROOMS_REACHED_MSG"));
+            showAlert(WARNING, properties.getProperty(WARNING_TITLE_MSG), properties.getProperty("MAX_ROOMS_REACHED_MSG"));
         }
         else {
             ManageAdsJavaFXPageController controller = new ManageAdsJavaFXPageController();
