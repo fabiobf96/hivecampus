@@ -216,6 +216,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         ckbElevator.setText(properties.getProperty("LIFT_MSG"));
         lblHImage.setText(properties.getProperty("IMAGE_MSG"));
         lblHDescription.setText(properties.getProperty("DESCRIPTION_MSG"));
+        txaHDescription.setPromptText(properties.getProperty("HOME_DESCRIPTION_PROMPT_MSG"));
 
         lblRInfo.setText(properties.getProperty("ROOM_INFO_MSG"));
         lblRType.setText(properties.getProperty("TYPE_FIELD_REQUEST_MSG"));
@@ -224,6 +225,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         lblMonth.setText(properties.getProperty("MONTH_AVAILABLE_FIELD_REQUEST_MSG"));
         lblServices.setText(properties.getProperty("SERVICES_MSG"));
         lblRDescription.setText(properties.getProperty("DESCRIPTION_MSG"));
+        txaRDescription.setPromptText(properties.getProperty("ROOM_DESCRIPTION_PROMPT_MSG"));
         lblRImage.setText(properties.getProperty("IMAGE_MSG"));
 
         ckbBath.setText(properties.getProperty("PRIVATE_BATH_MSG"));
