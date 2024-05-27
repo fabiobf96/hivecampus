@@ -139,7 +139,7 @@ public class AdDAOCSV implements AdDAO {
     @Override
     public List<Ad> retrieveAdsByFilters(FiltersBean filtersBean, Point2D uniCoordinates) {
         AccountDAO accountDAO = new AccountDAOCSV();
-        HomeDAO homeDAO = new HomeDAOMySql(); // HomeDAOCSV() or HomeDAOMySql()
+        HomeDAO homeDAO = new HomeDAOCSV();
         RoomDAO roomDAO = new RoomDAOCSV();
 
         if (uniCoordinates == null) {

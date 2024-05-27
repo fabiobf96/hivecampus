@@ -169,7 +169,7 @@ public class RoomDAOCSV implements RoomDAO {
             if (roomTable.isEmpty()) {
                 return roomCount; // Se la lista di camere è vuota, il conteggio è già zero
             }
-            roomTable.remove(0); // Rimuovi l'intestazione
+            roomTable.removeFirst(); // Rimuovi l'intestazione
             for (String[] roomRecord : roomTable) {
                 if (Integer.parseInt(roomRecord[RoomDAOCSV.RoomAttributes.INDEX_ID_HOME]) == homeID) {
                     roomCount++;
@@ -195,7 +195,7 @@ public class RoomDAOCSV implements RoomDAO {
     private boolean imageRoomAlreadyExists(String imageName, int idRoom, int idHome) {
         try (CSVReader reader = new CSVReader(new FileReader(roomFile))) {
             List<String[]> imageTable = reader.readAll();
-            imageTable.remove(0);
+            imageTable.removeFirst();
             for (String[] imageRecord : imageTable) {
                 if (Integer.parseInt(imageRecord[1]) == idRoom && Integer.parseInt(imageRecord[2]) == idHome && imageRecord[3].equals(imageName)){
                     return true;

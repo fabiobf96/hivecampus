@@ -167,7 +167,6 @@ public class HomeDAOMySql implements HomeDAO {
     public void saveHomeImage(String imageName, String imageType, byte[] byteArray, int idHome) {
         // Check if the image already exists
         if (imageHomeAlreadyExists(imageName, idHome)) {
-            System.out.println("Image already exists");
             return;
         }
 
