@@ -19,20 +19,10 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * LeaseRequestDAOCSV class for managing lease request data in a CSV file.
- * It implements the LeaseRequestDAO interface and provides methods to retrieve, save, update, and delete lease requests.
- */
-
 public class LeaseRequestDAOCSV implements LeaseRequestDAO {
     private File fd;
     private static final Logger LOGGER = Logger.getLogger(LeaseRequestDAOCSV.class.getName());
     private Properties properties;
-
-    /**
-     * Constructor for the LeaseRequestDAOCSV class.
-     * It initializes the file path of the lease request data CSV file.
-     */
 
     public LeaseRequestDAOCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")) {
@@ -108,17 +98,9 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
         }
     }
 
-    /**
-     * Method to save a lease request to the CSV file. It finds the last index from the file by calling the
-     * findLastRowIndex method and increments it by 1 to assign a new index to the lease request.
-     * Then it writes the lease request to the file by creating a new record and appending it to the end of the file.
-     *
-     * @param leaseRequest The lease request to save.
-     */
-
     @Override
     public void saveLeaseRequest(LeaseRequest leaseRequest) {
-
+        // Find the last index in the file and increment it by 1
         int lastId = CSVUtility.findLastRowIndex(fd);
         try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
             String[] leaseRequestRecord = new String[7];
@@ -136,33 +118,14 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
         }
     }
 
-    /**
-     * Method to check if a lease request is valid.
-     * It reads all the records from the file and checks if the tenant has already sent a request for the same ad.
-     * If the tenant has already sent a request for the same ad, it returns false, otherwise true.
-     *
-     * @param email The email of the tenant.
-     * @param id The ID of the ad.
-     * @return True if the lease request is valid, otherwise false.
-     */
-
-
     @Override
     public boolean validRequest(String email, int id) {
+        // Check if the tenant has already sent a request for the same ad
         List<String[]> leaseRequestTable = CSVUtility.readAll(fd);
         leaseRequestTable.removeFirst();
         return leaseRequestTable.stream()
                 .noneMatch(leaseRequestRecord -> leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT].equals(email) && Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_AD]) == id);
     }
-
-    /**
-     * Method to retrieve all the lease requests of a tenant.
-     * It reads all the records from the file and filters the records by the tenant's email.
-     * It then maps the records to LeaseRequest objects and returns a list of LeaseRequest objects.
-     *
-     * @param sessionBean The session bean from which to retrieve the tenant's email.
-     * @return List of LeaseRequest objects.
-     */
 
     @Override
     public List<LeaseRequest> retrieveLeaseRequestsByTenant(SessionBean sessionBean) {
@@ -183,15 +146,6 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
                 ))
                 .toList();
     }
-
-    /**
-     * Method to delete a lease request from the CSV file.
-     * It reads all the records from the file and filters the records by the lease request's ID.
-     * It then removes the record from the list and writes the updated list to a temporary file.
-     * Finally, it moves the temporary file to the original file to update the file.
-     *
-     * @param requestBean The lease request to delete.
-     */
 
     @Override
     public void deleteLeaseRequest(LeaseRequestBean requestBean) {

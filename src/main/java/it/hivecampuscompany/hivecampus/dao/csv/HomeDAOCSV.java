@@ -19,21 +19,11 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * The HomeDAOCSV class provides methods for managing home data stored in a CSV file.
- * It allows the application to retrieve homes by their ID, by distance from a university, by owner, and to save a new home.
- */
-
 public class HomeDAOCSV implements HomeDAO {
     private File fd;
     private File homeFile;
     private final Properties languageProperties = LanguageLoader.getLanguageProperties();
     private static final Logger LOGGER = Logger.getLogger(HomeDAOCSV.class.getName());
-
-    /**
-     * Constructor for the HomeDAOCSV class.
-     * It initializes the file paths of the home data CSV file and the home images CSV file.
-     */
 
     public HomeDAOCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")) {
@@ -65,16 +55,6 @@ public class HomeDAOCSV implements HomeDAO {
 
     }
 
-    /**
-     * Method to retrieve all homes within a specified distance from a university.
-     * The method reads the homes from the CSV file and calculates the distance between
-     * each home and the university using the Harvesine formula.
-     *
-     * @param uniCoordinates The coordinates of the university.
-     * @param distance       The maximum distance from the university.
-     * @return A list of homes within the specified distance from the university.
-     */
-
     @Override
     public List<Home> retrieveHomesByDistance(Point2D uniCoordinates, double distance) {
         List<Home> homes = new ArrayList<>();
@@ -101,12 +81,6 @@ public class HomeDAOCSV implements HomeDAO {
         return homes;
     }
 
-    /**
-     * Method to retrieve a home feature from a home record.
-     * @param homeRecord The record of the home.
-     * @return An array of integers containing the home features.
-     */
-
     private static Integer[] getFeatures(String[] homeRecord) {
         return new Integer[] {
                 Integer.parseInt(homeRecord[HomeAttributes.INDEX_NROOMS]),
@@ -115,14 +89,6 @@ public class HomeDAOCSV implements HomeDAO {
                 Integer.parseInt(homeRecord[HomeAttributes.INDEX_ELEVATOR])
         };
     }
-
-    /**
-     * Method to retrieve all homes owned by a specific user.
-     * The method reads the homes from the CSV file and filters the homes by the owner's email.
-     *
-     * @param ownerEmail The email of the user who owns the homes.
-     * @return A list of homes owned by the specified user.
-     */
 
     @Override
     public List<Home> retrieveHomesByOwner(String ownerEmail) {
@@ -151,17 +117,6 @@ public class HomeDAOCSV implements HomeDAO {
         return homes;
     }
 
-    /**
-     * Method to save a home to the CSV file.
-     * The method checks if the home already exists in the file calling the isHomeAlreadyExists method.
-     * If the home does not exist, the method retrieves the coordinates of the address using the OpenStreetMap API.
-     * The method then writes the home to the CSV file and returns the home object.
-     *
-     * @param homeBean The bean containing the home data.
-     * @param ownerEmail The email of the user who owns the home.
-     * @return The home object saved to the CSV file.
-     */
-
     @Override
     public Home saveHome(HomeBean homeBean, String ownerEmail) {
         // Check if the home already exists
@@ -172,6 +127,7 @@ public class HomeDAOCSV implements HomeDAO {
 
         int lastId = CSVUtility.findLastRowIndex(fd);
 
+        // If the home does not exist, the method retrieves the coordinates of the address using the OpenStreetMap API.
         Point2D coordinates;
         try {
             coordinates = OpenStreetMapApiBoundary.getCoordinates(homeBean.getAddress());
@@ -210,16 +166,6 @@ public class HomeDAOCSV implements HomeDAO {
         }
     }
 
-    /**
-     * Method to check if an image of a home already exists in the CSV file.
-     * The method reads the images from the CSV file and compares the fields of each image with the fields of the image to check.
-     * If the image already exists, the method returns true, else it returns false.
-     *
-     * @param imageName The name of the image to check.
-     * @param idHome The ID of the home to which the image belongs.
-     * @return Boolean True if the image already exists, false if it does not exist.
-     */
-
     private boolean imageHomeAlreadyExists(String imageName, int idHome) {
         try (CSVReader reader = new CSVReader(new FileReader(homeFile))) {
             List<String[]> imageTable = reader.readAll();
@@ -238,17 +184,6 @@ public class HomeDAOCSV implements HomeDAO {
         }
         return false;
     }
-
-    /**
-     * Method to save an image of a home to the CSV file.
-     * The method checks if the image already exists in the file calling the imageHomeAlreadyExists method.
-     * If the image does not exist, the method writes the image to the CSV file.
-     *
-     * @param imageName The name of the image.
-     * @param imageType The type of the image.
-     * @param byteArray The image as a byte array.
-     * @param idHome The ID of the home to which the image belongs.
-     */
 
     public void saveHomeImage (String imageName, String imageType, byte[] byteArray, int idHome) {
         // Check if the image already exists
@@ -272,14 +207,6 @@ public class HomeDAOCSV implements HomeDAO {
         }
     }
 
-    /**
-     * Method to retrieve an image of a home from the CSV file.
-     * The method reads the image from the CSV file and returns it as a byte array.
-     *
-     * @param idHome The ID of the home to which the image belongs.
-     * @return The image as a byte array.
-     */
-
     @Override
     public byte[] getHomeImage(int idHome) {
         try (CSVReader reader = new CSVReader(new FileReader(homeFile))) {
@@ -297,15 +224,6 @@ public class HomeDAOCSV implements HomeDAO {
         }
         return new byte[0];
     }
-
-    /**
-     * Method to check if a home already exists in the CSV file.
-     * It reads the homes from the CSV file and compares the fields of each home with the fields of the home to check.
-     * If the home already exists, the method returns the ID of the existing home, else it returns -1.
-     *
-     * @param homeBean The bean containing the home data to check.
-     * @return Integer The ID of the existing home, or -1 if the home does not exist.
-     */
 
     private int isHomeAlreadyExists(HomeBean homeBean) {
         try (CSVReader reader = new CSVReader(new FileReader(fd))) {
@@ -344,10 +262,6 @@ public class HomeDAOCSV implements HomeDAO {
         private static final int INDEX_ELEVATOR = 10;
         private static final int INDEX_DESCRIPTION = 11;
     }
-
-    /**
-     * Static inner class containing some indexes of the fields in the CSV image file.
-     */
 
     private static class ImageAttributes {
         private static final int INDEX_ID_HOME = 1;

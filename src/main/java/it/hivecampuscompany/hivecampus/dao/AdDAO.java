@@ -56,6 +56,8 @@ public interface AdDAO {
 
     /**
      * Publishes a new advertisement in the database.
+     * The owner enters the information via a form dedicated to creating the ad.
+     * The advertisement is then published and made available to potential tenants.
      *
      * @param ad The advertisement to be published.
      * @return True if the advertisement was successfully published, otherwise false.

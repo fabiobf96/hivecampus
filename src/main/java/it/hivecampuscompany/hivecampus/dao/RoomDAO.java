@@ -8,7 +8,8 @@ import java.util.List;
 
 /**
  * RoomDAO interface for managing room data within homes.
- * Provides an operation for retrieving a room by its unique identifiers within a home context.
+ * Provides an operation for retrieving a room by its unique identifiers within a home context
+ * and filtering rooms by various criteria, as well as saving a new room.
  */
 public interface RoomDAO {
 

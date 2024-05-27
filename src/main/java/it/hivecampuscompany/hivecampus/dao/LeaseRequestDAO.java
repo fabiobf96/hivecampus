@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * LeaseRequestDAO interface for managing lease request data.
- * Provides operations for retrieving and updating lease requests.
+ * Provides methods to retrieve, save, update, and delete lease requests.
  */
 public interface LeaseRequestDAO {
 

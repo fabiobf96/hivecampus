@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * HomeDAO interface for managing home data.
- * Provides an operation for retrieving a home by its ID.
+ * Provides an operation for retrieving homes by their ID, by distance from a university, by owner, and for saving a new home.
  */
 public interface HomeDAO {
 
@@ -21,7 +21,8 @@ public interface HomeDAO {
     Home retrieveHomeByID(int id);
 
     /**
-     * Retrieves homes by distance from a specified university.
+     * Retrieves all homes within a specified distance from a university
+     * by calculating the distance between each home and the university using the Haversine formula.
      *
      * @param unicoordinates The coordinates of the university.
      * @param distance The distance from the point.

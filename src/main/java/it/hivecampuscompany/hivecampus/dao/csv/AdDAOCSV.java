@@ -23,21 +23,10 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * The AdDAOCSV class provides methods for managing ad data stored in a CSV file.
- * It allows the application to retrieve ads by owner, retrieve ads by filters, retrieve an ad by its ID,
- * update an ad, publish an ad, and filter available ads.
- */
-
 public class AdDAOCSV implements AdDAO {
     private File fd;
     private static final Logger LOGGER = Logger.getLogger(AdDAOCSV.class.getName());
     Properties languageProperties = LanguageLoader.getLanguageProperties();
-
-    /**
-     * Constructor for the AdDAOCSV class.
-     * It initializes the file path of the ad data from the CSV properties file.
-     */
 
     public AdDAOCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")) {
@@ -123,18 +112,6 @@ public class AdDAOCSV implements AdDAO {
         return adRecord;
     }
 
-    /**
-     * Method to retrieve ads by filters. It retrieves all the homes within the specified distance from the university
-     * by calling the retrieveHomesByDistance method of the HomeDAOCSV class. Then, for each home, it retrieves all the
-     * rooms that match the filters by calling the retrieveRoomsByFilters method of the RoomDAOCSV class. Finally, it reads
-     * the ad table and filters the ads that match the home and room IDs. It creates an Ad object for each ad record and
-     * adds it to the ads list. It returns the list of available ads by calling the filterAvailableAds method.
-     *
-     * @param filtersBean The filters to apply to the ads.
-     * @param uniCoordinates The coordinates of the university.
-     * @return The list of ads that match the filters.
-     */
-
     @Override
     public List<Ad> retrieveAdsByFilters(FiltersBean filtersBean, Point2D uniCoordinates) {
         AccountDAO accountDAO = new AccountDAOCSV();
@@ -147,12 +124,15 @@ public class AdDAOCSV implements AdDAO {
 
         List<Ad> ads = new ArrayList<>();
 
+        // Retrieve homes within the specified distance from the university
         List<Home> homes = homeDAO.retrieveHomesByDistance(uniCoordinates, filtersBean.getDistance());
         for (Home home : homes) {
+            // Retrieve rooms that match the filters for each home
             List<Room> rooms = roomDAO.retrieveRoomsByFilters(home.getId(), filtersBean);
             for (Room room : rooms) {
                 List<String[]> adTable = CSVUtility.readAll(fd);
                 adTable.removeFirst();
+                // Filter ads that match the home and room IDs
                 List<Ad> adsForRoom = adTable.stream()
                         .filter(adRecord -> Integer.parseInt(adRecord[AdAttributes.INDEX_HOME]) == home.getId() && Integer.parseInt(adRecord[AdAttributes.INDEX_ROOM]) == room.getIdRoom())
                         .map(adRecord -> new Ad(
@@ -167,22 +147,15 @@ public class AdDAOCSV implements AdDAO {
                 ads.addAll(adsForRoom);
             }
         }
+        // Return the list of available ads
         return filterAvailableAds(ads);
     }
 
-    /**
-     * Method to publish an ad. It retrieves the last ID from the ad table by calling the findLastRowIndex method of the
-     * CSVUtility class. It creates a new ad record with the last ID incremented by 1, the owner email, the home ID, the
-     * room ID, the ad status ID, the month availability, and the price. It writes the ad record to the ad table and returns
-     * true if the operation is successful, otherwise false.
-     *
-     * @param ad The ad to publish.
-     * @return True if the ad is published successfully, otherwise false.
-     */
-
     @Override
     public boolean publishAd(Ad ad) {
+        // Retrieve the last ID from the ad table
         int lastID = CSVUtility.findLastRowIndex(fd);
+        // Create a new ad record with the last ID incremented by 1
         try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
             String[] adRecord = new String[7];
             adRecord[AdAttributes.INDEX_ID] = String.valueOf(lastID + 1);
@@ -192,6 +165,7 @@ public class AdDAOCSV implements AdDAO {
             adRecord[AdAttributes.INDEX_STATUS] = String.valueOf(ad.getAdStatus().getId());
             adRecord[AdAttributes.INDEX_MONTH_AVAILABILITY] = String.valueOf(ad.getAdStart().getMonth());
             adRecord[AdAttributes.INDEX_PRICE] = String.valueOf(ad.getPrice());
+            // Write the ad record to the ad table
             writer.writeNext(adRecord);
             return true;
         } catch (IOException e) {
@@ -200,16 +174,8 @@ public class AdDAOCSV implements AdDAO {
         }
     }
 
-    /**
-     * Method to filter available ads. It creates a new list of ads
-     * and adds the ads that have the status AVAILABLE to it.
-     * It returns the list of available ads.
-     *
-     * @param ads The list of ads to filter.
-     * @return The list of available ads.
-     */
-
     private List<Ad> filterAvailableAds(List<Ad> ads) {
+        // Create a new list of ads that have the status AVAILABLE to it.
         List<Ad> availableAds = new ArrayList<>();
         for (Ad ad : ads) {
             if (ad.getAdStatus() == AdStatus.AVAILABLE) {
