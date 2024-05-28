@@ -33,6 +33,7 @@ public class LanguageJavaFxController extends JavaFxController {
      * It sets the text for the language title and buttons based on the current language.
      *
      * @param context The context object for the language settings page.
+     * @author Marina Sotiropoulos
      */
 
     public void initializeLanguageSettingsView(Context context) {
@@ -50,6 +51,7 @@ public class LanguageJavaFxController extends JavaFxController {
      * It loads the language properties file and sets the context language.
      *
      * @param choice The user's choice for the language.
+     * @author Marina Sotiropoulos
      */
 
     private void handleChangeLanguage(int choice) {

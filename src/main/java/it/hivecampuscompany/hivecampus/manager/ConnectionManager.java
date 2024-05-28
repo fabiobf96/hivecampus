@@ -24,8 +24,8 @@ public class ConnectionManager {
     private static final Properties properties;
     private static final Logger LOGGER = Logger.getLogger(ConnectionManager.class.getName());
 
+    // Prevent instantiation of the utility class with a private constructor
     private ConnectionManager() {
-        //Private Constructor
     }
 
     static {
@@ -42,6 +42,7 @@ public class ConnectionManager {
      * If a connection has not been established, it creates a new connection.
      *
      * @return The connection to the database.
+     * @author Marina Sotiropoulos
      */
 
     public static Connection getConnection() {
@@ -70,6 +71,7 @@ public class ConnectionManager {
      * This method closes the connection to the database.
      *
      * @throws SQLException if an error occurs while closing the connection.
+     * @author Marina Sotiropoulos
      */
 
     public static void closeConnection() throws SQLException {

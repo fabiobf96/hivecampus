@@ -53,6 +53,7 @@ public class AccountSettingsJavaFxController extends JavaFxController {
      * It also sets the button text for changing the profile picture and password.
      *
      * @param context The context object for the account settings page.
+     * @author Marina Sotiropoulos
      */
 
     public void initializeAccountSettingsView(Context context) {
@@ -82,6 +83,8 @@ public class AccountSettingsJavaFxController extends JavaFxController {
     /**
      * Handles the user's request to change the profile picture.
      * It displays a message indicating that the feature is not implemented.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private void handlePictureChange() {
@@ -91,6 +94,8 @@ public class AccountSettingsJavaFxController extends JavaFxController {
     /**
      * Handles the user's request to change the password.
      * It displays a message indicating that the feature is not implemented.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private void handlePasswordChange() {

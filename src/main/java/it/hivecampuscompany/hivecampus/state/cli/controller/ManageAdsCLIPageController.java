@@ -56,6 +56,7 @@ public class ManageAdsCLIPageController extends CLIController {
 
     /**
      * Method to display the home page. It displays a welcome message.
+     * @author Marina Sotiropoulos
      */
 
     @Override
@@ -68,6 +69,7 @@ public class ManageAdsCLIPageController extends CLIController {
      * Method to show manage ads options.
      * @param sessionBean SessionBean object.
      * @throws InvalidSessionException If the session is invalid.
+     * @author Marina Sotiropoulos
      */
 
     public void showManageAdsOptions(SessionBean sessionBean) throws InvalidSessionException {
@@ -81,6 +83,7 @@ public class ManageAdsCLIPageController extends CLIController {
     /**
      * Method to get the user's choice.
      * @return int value that represents the user's choice.
+     * @author Marina Sotiropoulos
      */
 
     public int getChoice() {
@@ -94,6 +97,7 @@ public class ManageAdsCLIPageController extends CLIController {
      * @param sessionBean SessionBean object.
      * @return boolean value that represents if the ad is created.
      * @throws InvalidSessionException If the session is invalid.
+     * @author Marina Sotiropoulos
      */
 
     public boolean createAdOptions(SessionBean sessionBean) throws InvalidSessionException {
@@ -128,6 +132,7 @@ public class ManageAdsCLIPageController extends CLIController {
      *
      * @param homeBean HomeBean object.
      * @return boolean value that represents if the ad is created.
+     * @author Marina Sotiropoulos
      */
 
     public boolean adCreationForm(HomeBean homeBean) {
@@ -187,6 +192,7 @@ public class ManageAdsCLIPageController extends CLIController {
      * It publishes the ad using the AdManager class.
      *
      * @param sessionBean SessionBean object.
+     * @author Marina Sotiropoulos
      */
 
     public void publishAd(SessionBean sessionBean) {
@@ -218,6 +224,7 @@ public class ManageAdsCLIPageController extends CLIController {
      *
      * @param sessionBean SessionBean object.
      * @throws InvalidSessionException If the session is invalid.
+     * @author Marina Sotiropoulos
      */
 
     public void viewAds(SessionBean sessionBean) throws InvalidSessionException {
@@ -234,6 +241,7 @@ public class ManageAdsCLIPageController extends CLIController {
      * @param sessionBean SessionBean object.
      * @return int value that represents the user's choice.
      * @throws InvalidSessionException If the session is invalid.
+     * @author Marina Sotiropoulos
      */
 
     public int viewHomes(SessionBean sessionBean) throws InvalidSessionException {
@@ -254,6 +262,7 @@ public class ManageAdsCLIPageController extends CLIController {
      * @param type String value that specifies the type of house
      *             and allows you to associate the correct number of rooms.
      * @return String value that represents the type of home.
+     * @author Marina Sotiropoulos
      */
 
     public String convertTypeHome(String type) {
@@ -286,6 +295,7 @@ public class ManageAdsCLIPageController extends CLIController {
      *
      * @param type String value that specifies the type of room.
      * @return String value that represents the type of room.
+     * @author Marina Sotiropoulos
      */
 
     public String convertTypeRoom(String type) {

@@ -21,6 +21,7 @@ public class AdSearchCLIPage extends AdSearchPage {
     /**
      * Constructs an AdSearchCLIPage object with the given context.
      * @param context The context object for the ad search page.
+     * @author Marina Sotiropoulos
      */
 
     protected AdSearchCLIPage(Context context) {
@@ -31,6 +32,7 @@ public class AdSearchCLIPage extends AdSearchPage {
     /**
      * Displays the ad search page and handles user input.
      * @throws InvalidSessionException if the session is invalid.
+     * @author Marina Sotiropoulos
      */
 
     @Override
@@ -55,6 +57,7 @@ public class AdSearchCLIPage extends AdSearchPage {
     /**
      * Handles the display of ad details and user input.
      * @throws InvalidSessionException if the session is invalid.
+     * @author Marina Sotiropoulos
      */
 
     private void handleAdDetails() throws InvalidSessionException {
@@ -68,6 +71,7 @@ public class AdSearchCLIPage extends AdSearchPage {
 
     /**
      * Handles the display of the lease request form and user input.
+     * @author Marina Sotiropoulos
      */
 
      private void handleLeaseRequest() throws InvalidSessionException {

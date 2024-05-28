@@ -4,14 +4,16 @@ package it.hivecampuscompany.hivecampus.state.utility;
  * Utility class provides some useful methods to perform operations on data.
  * Particularly, it provides a method to calculate the distance between two geographic coordinates,
  * a method to format a text in a more readable way and a method to round a double number.
+ *
+ * @author Marina Sotiropoulos
  */
 
 public class Utility {
 
     private static final double EARTH_RADIUS_KM = 6371.0;  // Raggio della Terra in chilometri
 
+    // Prevent instantiation of the utility class with a private constructor
     private Utility() {
-        // Default constructor
     }
 
     /**
@@ -23,6 +25,8 @@ public class Utility {
      * @param lon2 Longitude of the second point
      * @param lat2 Latitude of the second point
      * @return The distance between the two points in kilometers
+     *
+     * @author Marina Sotiropoulos
      */
 
     public static double calculateDistance (double lon1, double lat1, double lon2, double lat2) {
@@ -42,6 +46,8 @@ public class Utility {
      *
      * @param text The text to format
      * @return The formatted text
+     *
+     * @author Marina Sotiropoulos
      */
 
     public static String formatText(String text) {
@@ -69,6 +75,8 @@ public class Utility {
      *
      * @param value The double number to round
      * @return The rounded number
+     *
+     * @author Marina Sotiropoulos
      */
 
     public static double roundingDouble (double value) {

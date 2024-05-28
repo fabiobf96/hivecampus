@@ -16,6 +16,7 @@ public class ManageAdsOwnerCLIPage extends ManageAdsPage {
     /**
      * Constructs a ManageAdsOwnerCLIPage object with the given context.
      * @param context The context object for the manage ads page.
+     * @author Fabio Barchiesi
      */
 
     protected ManageAdsOwnerCLIPage(Context context) {
@@ -27,6 +28,9 @@ public class ManageAdsOwnerCLIPage extends ManageAdsPage {
      * Displays the manage ads page and handles user input for navigate
      * between the options such as create, edit, and delete an ad.
      * At this moment, only the create option is implemented.
+     *
+     * @throws InvalidSessionException if the session is invalid.
+     * @author Marina Sotirpoulos
      */
 
     @Override

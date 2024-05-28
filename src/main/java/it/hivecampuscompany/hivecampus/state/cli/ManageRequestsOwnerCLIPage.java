@@ -23,6 +23,7 @@ public class ManageRequestsOwnerCLIPage extends ManageRequestsPage {
      * Constructs a ManageRequestsOwnerCLIPage object with the given context.
      *
      * @param context The context object for the owner's manage requests page.
+     * author Fabio Barchiesi
      */
     public ManageRequestsOwnerCLIPage(Context context) {
         super(context);
@@ -34,6 +35,7 @@ public class ManageRequestsOwnerCLIPage extends ManageRequestsPage {
      * It displays the home page, prompts the user for input, and performs actions based on the user's choice.
      *
      * @throws InvalidSessionException if the session is invalid.
+     * author Fabio Barchiesi
      */
     @Override
     public void handle() throws InvalidSessionException {
@@ -54,9 +56,10 @@ public class ManageRequestsOwnerCLIPage extends ManageRequestsPage {
 
     /**
      * Prompts the owner to select a lease request.
-     * It retrieves the lease requests associated with the selected ad and prompts the owner to select one for decision making.
+     * It retrieves the lease requests associated with the selected ad and prompts the owner to select one for decision-making.
      *
      * @throws InvalidSessionException if the session is invalid.
+     * author Fabio Barchiesi
      */
     private void selectLeaseRequest() throws InvalidSessionException {
         controller.homePage();
@@ -70,10 +73,11 @@ public class ManageRequestsOwnerCLIPage extends ManageRequestsPage {
     }
 
     /**
-     * Handles the decision making for the selected lease request.
+     * Handles the decision-making for the selected lease request.
      * It prompts the owner to accept, reject, or go back to select another lease request.
      *
      * @throws InvalidSessionException if the session is invalid.
+     * author Fabio Barchiesi
      */
     private void makeDecision() throws InvalidSessionException {
         controller.homePage();

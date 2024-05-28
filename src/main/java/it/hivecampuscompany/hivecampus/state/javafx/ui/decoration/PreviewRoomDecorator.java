@@ -37,7 +37,6 @@ public class PreviewRoomDecorator extends Decorator {
             controller.setAdBean(adBean);
             controller.initializePreviewFeatures(context);
 
-            //se devo passare un sessionBean devo ottenere il controller e chiamare initialize(sessionBean)
             vBox.getChildren().addAll(root, child);
             return vBox;
         } catch (IOException e) {

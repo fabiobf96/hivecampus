@@ -65,6 +65,7 @@ public class AdSearchJavaFXPageController extends JavaFxController {
      * and show the results if present.
      *
      * @param context The context object for the ad search page.
+     * @author Marina Sotiropoulos
      */
 
     public void initialize(Context context) {
@@ -99,6 +100,8 @@ public class AdSearchJavaFXPageController extends JavaFxController {
      * It saves the results in the session bean and sets the results in the list view.
      * If no ads are found, it displays an error message.
      * For each search results it sets the filter bean in the context.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private void handleSearch() {
@@ -131,6 +134,8 @@ public class AdSearchJavaFXPageController extends JavaFxController {
      *
      * @param filtersBean The FiltersBean object representing the filters.
      * @return List of ads that match the filters.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private List<AdBean> retrieveAdsByFilters(FiltersBean filtersBean) {
@@ -149,6 +154,8 @@ public class AdSearchJavaFXPageController extends JavaFxController {
      *
      * @param adBean The AdBean object representing the ad.
      * @return The Node object representing the preview card.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private Node createPreviewAd(AdBean adBean) {
@@ -175,6 +182,7 @@ public class AdSearchJavaFXPageController extends JavaFxController {
      * It sets the on click event for each preview card to handle the ad details.
      *
      * @param results The List of AdBean objects representing the search results.
+     * @author Marina Sotiropoulos
      */
 
     private void setResults(List<AdBean> results) {
@@ -193,6 +201,7 @@ public class AdSearchJavaFXPageController extends JavaFxController {
      * It loads the ad details view and sets the controller with the ad bean.
      *
      * @param adBean The AdBean object representing the ad.
+     * @author Marina Sotiropoulos
      */
 
     private void handlePreviewAd(AdBean adBean) {
@@ -219,6 +228,7 @@ public class AdSearchJavaFXPageController extends JavaFxController {
      * @param input The String representing the input.
      * @param defaultValue The float representing the default value.
      * @return The Float representing the validated input.
+     * @author Marina Sotiropoulos
      */
 
     private Float validateNumericInput(String input, float defaultValue) {

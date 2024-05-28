@@ -26,6 +26,8 @@ public class ManageRequestsTenantCLIPageController extends CLIController {
     /**
      * Method to display the home page.
      * It displays a welcome message with "MANAGE_REQUEST_MSG" property in uppercase.
+     *
+     * @author Marina Sotiropoulos
      */
 
     @Override
@@ -37,6 +39,7 @@ public class ManageRequestsTenantCLIPageController extends CLIController {
     /**
      * Method to get the user's choice.
      * @return int value that represents the user's choice.
+     * @author Marina Sotiropoulos
      */
 
     public int getChoice() {
@@ -49,6 +52,7 @@ public class ManageRequestsTenantCLIPageController extends CLIController {
      *
      * @param sessionBean The session bean of the user.
      * @return The LeaseRequestBean object representing the selected lease request.
+     * @author Marina Sotiropoulos
      */
 
     public LeaseRequestBean showLeaseRequests(SessionBean sessionBean) {
@@ -65,6 +69,7 @@ public class ManageRequestsTenantCLIPageController extends CLIController {
      * It displays the details of a lease request and the options to cancel the request or go back.
      *
      * @param requestBean The LeaseRequestBean object representing the lease request.
+     * @author Marina Sotiropoulos
      */
 
     public void showLeaseRequestDetails(LeaseRequestBean requestBean) {
@@ -80,6 +85,7 @@ public class ManageRequestsTenantCLIPageController extends CLIController {
      * It deletes the selected lease request of a tenant.
      *
      * @param requestBean The LeaseRequestBean object representing the lease request.
+     * @author Marina Sotiropoulos
      */
 
     public void deleteLeaseRequest(LeaseRequestBean requestBean) {
@@ -95,6 +101,7 @@ public class ManageRequestsTenantCLIPageController extends CLIController {
      *
      * @param requestBean The LeaseRequestBean object representing the lease request.
      * @return True if the lease request is still in the processing status, false otherwise.
+     * @author Marina Sotiropoulos
      */
 
     public boolean checkRequestStatus(LeaseRequestBean requestBean) {

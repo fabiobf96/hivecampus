@@ -19,11 +19,28 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * The ManageLeaseTenantJavaFXPage class represents the manage lease tenant page in the JavaFX user interface.
+ * It extends the ManageLeasePage class and provides methods for displaying the manage lease tenant page and handling user input.
+ */
 public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
+
+    /**
+     * Constructs a ManageLeaseTenantJavaFXPage object with the given context.
+     * @param context The context object for the manage lease tenant page.
+     * @author Fabio Barchiesi
+     */
     public ManageLeaseTenantJavaFXPage(Context context) {
         super(context);
     }
 
+    /**
+     * Handles the display and management of an unsigned lease for the tenant.
+     * This method sets up the UI components for viewing, downloading, and signing the lease contract.
+     *
+     * @throws InvalidSessionException if the session is invalid
+     * @author Fabio Barchiesi
+     */
     @Override
     public void handle() throws InvalidSessionException {
         LeaseBean leaseBean = getUnSignedLease();

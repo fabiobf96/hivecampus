@@ -16,6 +16,8 @@ import java.util.List;
  * The ManageLeasePage abstract class serves as a base class for pages related to managing leases in the application.
  * It implements the State interface and provides methods for managing leases, such as retrieving processing ads,
  * obtaining lease request information, uploading leases, signing contracts, and navigating to home pages.
+ *
+ * @author Fabio Barchiesi
  */
 public abstract class ManageLeasePage implements State {
 
@@ -25,6 +27,7 @@ public abstract class ManageLeasePage implements State {
      * Constructs a ManageLeasePage object with the given context.
      *
      * @param context The context object for the manage lease page.
+     * @author Fabio Barchiesi
      */
     protected ManageLeasePage(Context context) {
         this.context = context;
@@ -35,6 +38,7 @@ public abstract class ManageLeasePage implements State {
      *
      * @return The list of AdBean objects representing processing ads.
      * @throws InvalidSessionException if the session is invalid.
+     * @author Fabio Barchiesi
      */
     public List<AdBean> getProcessingAds() throws InvalidSessionException {
         AdManager adManager = new AdManager();
@@ -48,6 +52,7 @@ public abstract class ManageLeasePage implements State {
      * @param adBean The AdBean object for which lease request information is required.
      * @return The LeaseRequestBean object representing lease request information.
      * @throws InvalidSessionException if the session is invalid.
+     * @author Fabio Barchiesi
      */
     public LeaseRequestBean getLeaseRequestInformation(AdBean adBean) throws InvalidSessionException {
         LeaseRequestManager leaseRequestManager = new LeaseRequestManager();
@@ -60,6 +65,7 @@ public abstract class ManageLeasePage implements State {
      *
      * @param leaseBean The LeaseBean object representing the lease to be uploaded.
      * @throws InvalidSessionException if the session is invalid.
+     * @author Fabio Barchiesi
      */
     public void uploadLease(LeaseBean leaseBean) throws InvalidSessionException {
         LeaseManager leaseManager = new LeaseManager();
@@ -71,6 +77,7 @@ public abstract class ManageLeasePage implements State {
      *
      * @throws InvalidSessionException if the session is invalid.
      * @throws MockOpenAPIException    if there is an issue with the mock OpenAPI.
+     * @author Fabio Barchiesi
      */
     public void signContract() throws InvalidSessionException, MockOpenAPIException {
         LeaseManager leaseManager = new LeaseManager();
@@ -82,6 +89,7 @@ public abstract class ManageLeasePage implements State {
      *
      * @return The LeaseBean object representing the unsigned lease.
      * @throws InvalidSessionException if the session is invalid.
+     * @author Fabio Barchiesi
      */
     public LeaseBean getUnSignedLease() throws InvalidSessionException {
         LeaseManager leaseManager = new LeaseManager();
@@ -92,6 +100,7 @@ public abstract class ManageLeasePage implements State {
      * Navigates to the owner's home page by updating the context's state.
      *
      * @param ownerHomePage The OwnerHomePage object representing the owner's home page.
+     * @author Fabio Barchiesi
      */
     public void goToOwnerHomePage(OwnerHomePage ownerHomePage) {
         context.setState(ownerHomePage);
@@ -101,6 +110,7 @@ public abstract class ManageLeasePage implements State {
      * Navigates to the tenant's home page by updating the context's state and making a request.
      *
      * @param tenantHomePage The TenantHomePage object representing the tenant's home page.
+     * @author Fabio Barchiesi
      */
     public void goToTenantHomePage(TenantHomePage tenantHomePage) {
         context.setState(tenantHomePage);

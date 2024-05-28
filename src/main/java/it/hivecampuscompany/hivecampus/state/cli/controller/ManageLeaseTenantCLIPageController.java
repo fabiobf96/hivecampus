@@ -11,6 +11,8 @@ public class ManageLeaseTenantCLIPageController extends CLIController {
     /**
      * Overrides the homePage method to display the manage lease page for the tenant.
      * This method clears the view and displays a welcome message with "MANAGE_LEASE_MSG" property in uppercase.
+     *
+     * @author Fabio Barchiesi
      */
     @Override
     public void homePage() {
@@ -22,6 +24,7 @@ public class ManageLeaseTenantCLIPageController extends CLIController {
      * Displays the menu for lease management by the tenant and retrieves user's choice.
      *
      * @return The integer representing the user's choice.
+     * @author Fabio Barchiesi
      */
     public int getChoice() {
         view.displayMessage("1. " + properties.getProperty("SIGN_LEASE_MSG"));
@@ -37,6 +40,7 @@ public class ManageLeaseTenantCLIPageController extends CLIController {
      *
      * @param leaseBean The LeaseBean object representing the lease to be signed.
      * @return True if the lease is successfully signed, false otherwise.
+     * @author Fabio Barchiesi
      */
     public boolean manageSignContract(LeaseBean leaseBean) {
         if (leaseBean == null) {

@@ -16,6 +16,7 @@ public class OwnerHomeCLIPage extends OwnerHomePage {
      * Constructs an OwnerHomeCLIPage object with the given context.
      *
      * @param context The context object for the owner's home page.
+     * @author Fabio Barchiesi
      */
     protected OwnerHomeCLIPage(Context context) {
         super(context);
@@ -26,6 +27,7 @@ public class OwnerHomeCLIPage extends OwnerHomePage {
      * It displays the home page, prompts the user for input, and navigates to the corresponding page based on the user's choice.
      *
      * @throws InvalidSessionException if the session is invalid.
+     * @author Fabio Barchiesi
      */
     @Override
     public void handle() throws InvalidSessionException {

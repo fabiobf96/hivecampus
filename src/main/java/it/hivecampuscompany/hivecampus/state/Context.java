@@ -17,6 +17,7 @@ import java.util.Properties;
 
 /**
  * The Context class represents the context of the application, including the current state, session information, tabs, language properties, and filters.
+ * @author Fabio Barchiesi
  */
 public class Context {
 
@@ -31,6 +32,7 @@ public class Context {
      * Sets the state of the context.
      *
      * @param state The state to set.
+     * @author Fabio Barchiesi
      */
     public void setState(State state) {
         this.state = state;
@@ -40,6 +42,7 @@ public class Context {
      * Gets the session bean.
      *
      * @return The session bean.
+     * @author Fabio Barchiesi
      */
     public SessionBean getSessionBean() {
         return sessionBean;
@@ -49,6 +52,7 @@ public class Context {
      * Sets the session bean.
      *
      * @param sessionBean The session bean to set.
+     * @author Fabio Barchiesi
      */
     public void setSessionBean(SessionBean sessionBean) {
         this.sessionBean = sessionBean;
@@ -65,6 +69,7 @@ public class Context {
      * Gets the stage.
      *
      * @return The stage.
+     * @author Fabio Barchiesi
      */
     public Stage getStage() {
         return stage;
@@ -74,6 +79,7 @@ public class Context {
      * Sets the stage.
      *
      * @param stage The stage to set.
+     * @author Fabio Barchiesi
      */
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -84,6 +90,7 @@ public class Context {
      *
      * @param index The index of the tab.
      * @return The tab at the specified index.
+     * @author Marina Sotiropoulos
      */
     public Tab getTab(int index) {
         return tabs.get(index);
@@ -93,6 +100,7 @@ public class Context {
      * Sets the tabs.
      *
      * @param tabs The tabs to set.
+     * @author Marina Sotiropoulos
      */
     public void setTabs(List<Tab> tabs) {
         this.tabs = tabs;
@@ -102,6 +110,7 @@ public class Context {
      * Gets the language properties.
      *
      * @return The language properties.
+     * @author Marina Sotiropoulos
      */
     public Properties getLanguage() {
         return properties;
@@ -111,6 +120,7 @@ public class Context {
      * Sets the language properties.
      *
      * @param properties The language properties to set.
+     * @author Marina Sotiropoulos
      */
     public void setLanguage(Properties properties) {
         this.properties = properties;
@@ -120,6 +130,7 @@ public class Context {
      * Gets the filters bean.
      *
      * @return The filters bean.
+     * @author Marina Sotiropoulos
      */
     public FiltersBean getFiltersBean() {
         return filtersBean;
@@ -129,6 +140,7 @@ public class Context {
      * Sets the filters bean.
      *
      * @param filtersBean The filters bean to set.
+     * @author Marina Sotiropoulos
      */
     public void setFiltersBean(FiltersBean filtersBean) {
         this.filtersBean = filtersBean;
@@ -137,6 +149,9 @@ public class Context {
     /**
      * Requests handling of the current state.
      * If an invalid session exception occurs, it handles it by deleting the session and setting the state to the initial CLI page.
+     * Otherwise, it handles the current state.
+     *
+     * @author Fabio Barchiesi
      */
     public void request() {
         try {
@@ -154,6 +169,8 @@ public class Context {
 
     /**
      * Handles the invalid session exception by displaying a warning alert and setting the state to the initial JavaFX page.
+     *
+     * @author Fabio Barchiesi
      */
     public void invalidSessionExceptionHandle() {
         Alert alert = new Alert(Alert.AlertType.WARNING);

@@ -42,6 +42,7 @@ public class ManageRequestsJavaFxPageController extends JavaFxController {
      * It sets the text fields with the information of the lease request.
      *
      * @param leaseRequestBean the lease request bean
+     * @author Fabio Barchiesi
      */
 
     @FXML

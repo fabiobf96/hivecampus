@@ -15,6 +15,8 @@ public class TenantHomeCLIPageController extends CLIController {
      * Overrides the homePage method to display the home page for the tenant.
      * This method clears the view and displays a welcome message with "HOME_PAGE_MSG" property,
      * along with various options available to the tenant.
+     *
+     * @author Marina Sotiropoulos
      */
 
     @Override
@@ -32,6 +34,7 @@ public class TenantHomeCLIPageController extends CLIController {
     /**
      * Gets the tenant's choice from the home page options.
      * @return int value that represents the user's choice.
+     * @author Marina Sotiropoulos
      */
 
     public int getChoice() {

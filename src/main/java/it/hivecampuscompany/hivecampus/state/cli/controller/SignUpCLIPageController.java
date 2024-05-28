@@ -13,7 +13,10 @@ import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
 public class SignUpCLIPageController extends CLIController {
 
     /**
-     * Displays the sign-up page with a welcome message.
+     * Overrides the homePage method to display the sign-up page.
+     * This method clears the view and displays a welcome message with "SIGN_UP_MSG" property in uppercase.
+     *
+     * @author Fabio Barchiesi
      */
     @Override
     public void homePage() {
@@ -27,6 +30,7 @@ public class SignUpCLIPageController extends CLIController {
      * @return The UserBean object containing user information.
      * @throws InvalidEmailException     if the email provided is invalid.
      * @throws PasswordMismatchException if the passwords provided do not match.
+     * @author Fabio Barchiesi
      */
     public UserBean getUserInformation() throws InvalidEmailException, PasswordMismatchException, EmptyFieldsException {
         UserBean userBean = new UserBean();
@@ -40,6 +44,7 @@ public class SignUpCLIPageController extends CLIController {
      * Retrieves account information required for sign-up.
      *
      * @return The AccountBean object containing account information.
+     * @author Fabio Barchiesi
      */
     public AccountBean getAccountInformation(String email) {
         AccountBean accountBean = new AccountBean();
@@ -54,6 +59,7 @@ public class SignUpCLIPageController extends CLIController {
      * Retrieve role information required for sing-up
      *
      * @return String that represent the role of user into the application
+     * @author Fabio Barchiesi
      */
     private String getRole() {
         while (true) {

@@ -26,6 +26,8 @@ public class AccountSettingsCLIController extends CLIController {
      * Method to display the home page.
      * It displays a welcome message and the options to change the language,
      * view the profile, or go back.
+     *
+     * @author Marina Sotiropoulos
      */
 
     @Override
@@ -55,6 +57,9 @@ public class AccountSettingsCLIController extends CLIController {
      * It displays the user's account information and options to change the password or go back.
      *
      * @param context The context object for the account settings page.
+     *                It contains the session bean with the user's information.
+     *
+     * @author Marina Sotiropoulos
      */
 
     public void accountSettingsPage(Context context) {

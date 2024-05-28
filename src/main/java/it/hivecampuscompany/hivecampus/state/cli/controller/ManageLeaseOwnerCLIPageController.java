@@ -16,6 +16,8 @@ public class ManageLeaseOwnerCLIPageController extends CLIController {
     /**
      * Overrides the homePage method to display the manage lease page for the owner.
      * This method clears the view and displays a welcome message with "MANAGE_LEASE_MSG" property in uppercase.
+     *
+     * @author Fabio Barchiesi
      */
     @Override
     public void homePage() {
@@ -27,6 +29,7 @@ public class ManageLeaseOwnerCLIPageController extends CLIController {
      * Displays the menu for lease management by the owner and retrieves user's choice.
      *
      * @return The integer representing the user's choice.
+     * @author Fabio Barchiesi
      */
     public int getChoice() {
         view.displayMessage("1. " + properties.getProperty("UPLOAD_LEASE_MSG"));
@@ -40,6 +43,7 @@ public class ManageLeaseOwnerCLIPageController extends CLIController {
      *
      * @param adBeanList The list of advertisement beans to choose from.
      * @return The selected AdBean object.
+     * @author Fabio Barchiesi
      */
     public AdBean selectAd(List<AdBean> adBeanList) {
         view.displayMessage(properties.getProperty("SELECT_AD_LEASE_MSG"));
@@ -52,6 +56,7 @@ public class ManageLeaseOwnerCLIPageController extends CLIController {
      * @param adBean            The selected advertisement.
      * @param leaseRequestBean  The lease request bean containing necessary information.
      * @return The LeaseBean object representing the lease.
+     * @author Fabio Barchiesi
      */
     public LeaseBean getLease(AdBean adBean, LeaseRequestBean leaseRequestBean) {
         while (true) {

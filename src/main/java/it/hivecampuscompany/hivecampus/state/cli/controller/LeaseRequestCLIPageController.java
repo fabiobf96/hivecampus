@@ -32,6 +32,8 @@ public class LeaseRequestCLIPageController extends CLIController {
     /**
      * Method to display the home page.
      * It displays a welcome message and the lease request form.
+     *
+     * @author Marina Sotiropoulos
      */
 
     @Override
@@ -52,6 +54,7 @@ public class LeaseRequestCLIPageController extends CLIController {
      * @param adBean The ad bean of the ad.
      * @return True if the lease request is sent, false otherwise.
      * @throws InvalidSessionException If the session is invalid.
+     * @author Marina Sotiropoulos
      */
 
     public boolean leaseRequestForm(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
@@ -85,6 +88,7 @@ public class LeaseRequestCLIPageController extends CLIController {
      *
      * @param inputNumber The input number.
      * @return The type of permanence.
+     * @author Marina Sotiropoulos
      */
 
     private int convertTypePermanence(int inputNumber) {
@@ -102,6 +106,7 @@ public class LeaseRequestCLIPageController extends CLIController {
      *
      * @param inputNumber The input number.
      * @return The start of permanence.
+     * @author Marina Sotiropoulos
      */
 
     private int convertStartPermanence(int inputNumber) {

@@ -58,6 +58,7 @@ public class HomePageJavaFxController extends JavaFxController {
      * It sets the labels and buttons with the user's name, notifications, and account settings.
      *
      * @param context The context object for the home page.
+     * @author Marina Sotiropoulos
      */
 
     public void initializeHomeView(Context context) {
@@ -81,6 +82,8 @@ public class HomePageJavaFxController extends JavaFxController {
 
     /**
      * Initializes the list view of notifications with the user's notifications.
+     *
+     * @author Marina Sotiropoulos
      */
 
     @FXML
@@ -117,6 +120,8 @@ public class HomePageJavaFxController extends JavaFxController {
      * Handles the user's request to change the account settings.
      * It loads the account settings form in a modal window and waits for the user to close it.
      * After the modal window is closed, it updates the home page and the tabs.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private void handleAccountSettings() {
@@ -145,6 +150,8 @@ public class HomePageJavaFxController extends JavaFxController {
      * Handles the user's request to change the language settings.
      * It loads the language settings form in a modal window and waits for the user to close it.
      * After the modal window is closed, it updates the home page and the tabs.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private void handleLanguageSettings() {
@@ -184,6 +191,8 @@ public class HomePageJavaFxController extends JavaFxController {
     /**
      * Handles the user's request to log out.
      * It sets the initial JavaFX page as the current state and requests the context to update the view.
+     *
+     * @author Marina Sotiropoulos
      */
 
     @FXML

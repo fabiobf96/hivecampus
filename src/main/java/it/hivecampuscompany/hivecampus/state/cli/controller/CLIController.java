@@ -41,6 +41,8 @@ public abstract class CLIController {
      * prompts the user to press any key to continue, clears the screen, and
      * then returns to the home page. This method is intended to be used when
      * a user makes a selection that is not recognized by the program.
+     *
+     * @author Fabio Barchiesi
      */
     public void invalidChoice() {
         view.displayMessage(properties.getProperty("INVALID_OPTION_MSG"));
@@ -58,6 +60,8 @@ public abstract class CLIController {
      *                  even if it is empty. If false, the method will repeatedly prompt the user until a non-empty string is entered.
      * @return The user input string for the specified field. If isNull is true and the user enters an empty string, it returns the empty string.
      * Otherwise, it returns the first non-empty string entered by the user.
+     *
+     * @author Fabio Barchiesi
      */
     protected String getField(String nameField, boolean isNull) {
         String field;
@@ -79,6 +83,8 @@ public abstract class CLIController {
      * Safely exits the application after performing any necessary session cleanup.
      * If a sessionBean is present, it deletes the session before displaying a goodbye message
      * and terminating the application.
+     *
+     * @author Fabio Barchiesi
      */
     public void exit() {
         if (sessionBean != null) {
@@ -112,6 +118,8 @@ public abstract class CLIController {
      *                 The list must not be {@code null} and should include at least one item.
      * @return the item of type {@code T} selected by the user, or {@code null} if the user
      * chooses to "Go Back" by selecting the last option or if the selected item is {@code null}.
+     *
+     * @author Fabio Barchiesi
      */
     protected <T> T selectFromList(List<T> itemList, String format) {
         itemList.add(null);
@@ -140,6 +148,7 @@ public abstract class CLIController {
      * This method retrieves the error message from the properties file based on the provided key.
      *
      * @param message The key corresponding to the error message in the properties file.
+     * @author Fabio Barchiesi
      */
     public void displayError(String message) {
         view.displayMessage(properties.getProperty(message));
@@ -149,6 +158,8 @@ public abstract class CLIController {
     /**
      * Displays a message indicating that the functionality is not yet implemented and waits for user input to continue.
      * This method retrieves the "not implemented" message from the properties file.
+     *
+     * @author Fabio Barchiesi
      */
     public void notImplementedYet() {
         view.displayMessage(properties.getProperty("NOT_IMPLEMENTED_MSG"));
@@ -157,6 +168,8 @@ public abstract class CLIController {
 
     /**
      * Pauses the execution by waiting for user input.
+     *
+     * @author Fabio Barchiesi
      */
     public void pause() {
         view.getStringUserInput("\n" + PRESS_ANY_KEY);
@@ -165,6 +178,8 @@ public abstract class CLIController {
     /**
      * Displays a session expiration message to the user and waits for user input to continue.
      * This method retrieves the session expiration message from the properties file.
+     *
+     * @author Fabio Barchiesi
      */
     public void sessionExpired() {
         view.displayMessage(properties.getProperty("INVALID_SESSION_MSG"));
@@ -176,6 +191,7 @@ public abstract class CLIController {
      * This method retrieves the success message from the properties file based on the provided type.
      *
      * @param type The type of success message to display. It is used to construct the key for retrieving the message.
+     * @author Fabio Barchiesi
      */
     public void successMessage(String type) {
         view.displayMessage(properties.getProperty("SUCCESS_MSG_" + type));
@@ -185,6 +201,8 @@ public abstract class CLIController {
     /**
      * Abstract method that defines the behavior of the home page in the CLI application.
      * Implementing classes should provide the specific logic to display and handle the home page.
+     *
+     * @author Fabio Barchiesi
      */
     public abstract void homePage();
 }

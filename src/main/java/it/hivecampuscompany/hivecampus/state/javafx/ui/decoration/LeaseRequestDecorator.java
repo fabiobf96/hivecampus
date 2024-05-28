@@ -9,11 +9,35 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+/**
+ * The LeaseRequestDecorator class is a concrete decorator class that extends the Decorator class.
+ * It adds lease request-specific functionality to the JavaFX node by decorating it with buttons for actions such as accept and reject.
+ * The lease request-specific functionality is determined by the type of lease request (accept or reject).
+ *
+ * @author Fabio Barchiesi
+ */
 public class LeaseRequestDecorator extends Decorator {
+
+    /**
+     * The constructor for the LeaseRequestDecorator class.
+     * It takes a Component object as a parameter and assigns it to the component field.
+     *
+     * @param component the component to be decorated
+     * @author Fabio Barchiesi
+     */
     public LeaseRequestDecorator(Component component) {
         super(component);
     }
 
+    /**
+     * The applyLeaseRequestDecoration method adds lease request-specific functionality to the JavaFX node.
+     * It creates buttons for accept and reject actions and adds them to a VBox.
+     * The VBox is then added to an HBox along with the original JavaFX node.
+     *
+     * @param child the original JavaFX node
+     * @return the decorated JavaFX node with lease request-specific functionality added
+     * @author Fabio Barchiesi
+     */
     protected Node applyLeaseRequestDecoration(Node child) {
         // Creation of VBox that will contain the buttons
         VBox vBox = new VBox();
@@ -42,6 +66,13 @@ public class LeaseRequestDecorator extends Decorator {
         return hBox;
     }
 
+    /**
+     * The setup method is overridden from the Decorator class.
+     * It calls the applyLeaseRequestDecoration method and returns the result.
+     *
+     * @return the JavaFX node with lease request-specific functionality added
+     * @author Fabio Barchiesi
+     */
     @Override
     public Node setup() {
         return this.applyLeaseRequestDecoration(super.setup());

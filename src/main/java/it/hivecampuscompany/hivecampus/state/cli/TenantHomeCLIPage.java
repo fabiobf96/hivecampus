@@ -16,6 +16,7 @@ public class TenantHomeCLIPage extends TenantHomePage {
     /**
      * Constructs a TenantHomeCLIPage object with the given context.
      * @param context The context object for the tenant's home page.
+     * @author Marina Sotiropoulos
      */
 
     protected TenantHomeCLIPage(Context context) {
@@ -27,6 +28,7 @@ public class TenantHomeCLIPage extends TenantHomePage {
      * It displays the home page, prompts the user for input, and navigates to the corresponding page based on the user's choice.
      *
      * @throws InvalidSessionException if the session is invalid.
+     * @author Marina Sotiropoulos
      */
 
     @Override

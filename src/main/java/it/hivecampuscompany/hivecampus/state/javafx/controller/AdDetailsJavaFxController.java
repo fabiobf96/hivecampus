@@ -143,6 +143,7 @@ public class AdDetailsJavaFxController extends JavaFxController{
      * @param context The context object for the ad details page.
      * @param adSearchPage The ad search page object.
      * @param adBean The ad bean object.
+     * @author Marina Sotiropoulos
      */
 
     public void initialize(Context context, AdSearchPage adSearchPage, AdBean adBean) {
@@ -213,6 +214,7 @@ public class AdDetailsJavaFxController extends JavaFxController{
      *
      * @param text The text to format.
      * @return The formatted text.
+     * @author Marina Sotiropoulos
      */
 
     private String formatText(String text) {
@@ -239,6 +241,7 @@ public class AdDetailsJavaFxController extends JavaFxController{
      * It displays the lease request form and handles the user's input.
      *
      * @param adBean The ad bean object.
+     * @author Marina Sotiropoulos
      */
 
     public void handleRequest(AdBean adBean) {
@@ -269,6 +272,7 @@ public class AdDetailsJavaFxController extends JavaFxController{
      *
      * @param map The map image.
      * @param address The address of the home.
+     * @author Marina Sotiropoulos
      */
 
     private void setMap(byte[] map, String address) {
@@ -283,6 +287,8 @@ public class AdDetailsJavaFxController extends JavaFxController{
 
     /**
      * Handles the user's request to go back to the ad search page.
+     *
+     * @author Marina Sotiropoulos
      */
 
     public void handleBack() {

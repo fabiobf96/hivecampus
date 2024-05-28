@@ -8,14 +8,30 @@ import javafx.fxml.FXMLLoader;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+/**
+ * The ManageRequestsTenantJavaFXPage class represents the manage requests page in the JavaFX user interface for tenants.
+ * It extends the ManageRequestsPage class and provides methods for displaying the manage requests page and handling user input.
+ */
 public class ManageRequestsTenantJavaFXPage extends ManageRequestsPage {
 
     private static final Logger LOGGER = Logger.getLogger(ManageRequestsTenantJavaFXPage.class.getName());
 
+    /**
+     * Constructs a ManageRequestsTenantJavaFXPage object with the given context.
+     * @param context The context object for the manage requests page.
+     * @author Marina Sotiropoulos
+     */
     public ManageRequestsTenantJavaFXPage(Context context) {
         super(context);
     }
 
+    /**
+     * Handles the setup and display of the manage requests page in the application.
+     * This method loads the manage requests view, initializes the corresponding controller,
+     * and displays the scene on the main stage.
+     *
+     * @author Marina Sotiropoulos
+     */
     @Override
     public void handle() {
         try{

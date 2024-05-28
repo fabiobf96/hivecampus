@@ -9,6 +9,8 @@ public class InitialCLIPageController extends CLIController {
     /**
      * Displays the home page of the CLI interface.
      * This method clears the view, then displays welcome message and menu options.
+     *
+     * @author Fabio Barchiesi
      */
     public void homePage() {
         view.clean();
@@ -23,6 +25,7 @@ public class InitialCLIPageController extends CLIController {
      * Gets the user's choice from the CLI interface.
      *
      * @return The integer representing the user's choice.
+     * @author Fabio Barchiesi
      */
     public int getChoice() {
         return view.getIntUserInput(properties.getProperty("CHOICE_MSG"));

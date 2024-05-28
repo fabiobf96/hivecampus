@@ -13,15 +13,30 @@ import javafx.stage.Stage;
 
 import java.util.Properties;
 
-
+/**
+ * The TenantHomeJavaFXPage class represents the tenant home page in the JavaFX user interface.
+ * It extends the TenantHomePage class and provides methods for displaying the tenant home page and handling user input.
+ */
 public class TenantHomeJavaFXPage extends TenantHomePage {
 
     Properties properties = LanguageLoader.getLanguageProperties();
 
+    /**
+     * Constructs a TenantHomeJavaFXPage object with the given context.
+     * @param context The context object for the tenant home page.
+     * @author Marina Sotiropoulos
+     */
     public TenantHomeJavaFXPage(Context context) {
         super(context);
     }
 
+    /**
+     * Handles the setup and display of the main tabbed interface in the application.
+     * This method initializes the tabs for searching ads, managing requests, and managing leases,
+     * sets up the corresponding tab pages, and displays the main stage.
+     *
+     * @author Marina Sotiropoulos
+     */
     @Override
     public void handle() {
 

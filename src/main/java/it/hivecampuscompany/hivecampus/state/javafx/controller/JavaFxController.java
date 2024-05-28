@@ -46,6 +46,7 @@ public abstract class JavaFxController {
      * @param typeAlert The type of alert dialog (ERROR, WARNING, INFORMATION).
      * @param title The title of the alert dialog.
      * @param message The message to display in the alert dialog.
+     * @author Marina Sotiropoulos
      */
 
     protected void showAlert(String typeAlert, String title, String message) {
@@ -61,6 +62,7 @@ public abstract class JavaFxController {
      *
      * @param label The label to set the text and color.
      * @param text The text to set in the label.
+     * @author Marina Sotiropoulos
      */
 
     protected void setLabelText(Label label, String text) {
@@ -74,6 +76,7 @@ public abstract class JavaFxController {
      *
      * @param imvLang The image view of the current language flag.
      * @param imvLangChange The image view of the other language flag.
+     * @author Marina Sotiropoulos
      */
 
     protected void setLanguageImage(ImageView imvLang, ImageView imvLangChange) {
@@ -94,6 +97,7 @@ public abstract class JavaFxController {
      * Then it loads the selected language and updates the context.
      *
      * @param imvLangChange The image view of the selected language flag.
+     * @author Marina Sotiropoulos
      */
 
     protected void handleLanguageChange(ImageView imvLangChange) {
@@ -117,6 +121,7 @@ public abstract class JavaFxController {
      * @param imageView The image view to set the image.
      * @param adBean The AdBean object representing the ad.
      * @param choice The choice of the image to set (room or home).
+     * @author Marina Sotiropoulos
      */
 
     protected void setImage (ImageView imageView, AdBean adBean, String choice) {
@@ -136,6 +141,7 @@ public abstract class JavaFxController {
      * Retrieves the account information of the current user.
      *
      * @return The AccountBean object representing the account information.
+     * @author Marina Sotiropoulos
      */
 
     protected AccountBean getAccountInfo() {

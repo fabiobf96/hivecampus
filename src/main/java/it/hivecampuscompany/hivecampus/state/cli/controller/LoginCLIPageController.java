@@ -12,6 +12,7 @@ public class LoginCLIPageController extends CLIController {
     /**
      * Overrides the homePage method to display the login page.
      * This method clears the view and displays a welcome message with "LOGIN_MSG".
+     * @author Fabio Barchiesi
      */
     @Override
     public void homePage() {
@@ -24,6 +25,7 @@ public class LoginCLIPageController extends CLIController {
      *
      * @return The UserBean object containing the user's email and password.
      * @throws InvalidEmailException if the email entered by the user is invalid.
+     * @author Fabio Barchiesi
      */
     public UserBean getCredentials() throws InvalidEmailException {
         UserBean userBean = new UserBean();
