@@ -55,22 +55,12 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
 
     @Override
     public LeaseRequest retrieveLeaseRequestByID(LeaseRequestBean leaseRequestBean) {
-        AccountDAO accountDAO = new AccountDAOCSV();
-        AdDAO adDAO = new AdDAOCSV();
         List<String[]> leaseRequestTable = CSVUtility.readAll(fd);
         leaseRequestTable.removeFirst();
         return leaseRequestTable.stream()
                 .filter(leaseRequestRecord -> Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]) == leaseRequestBean.getId())
                 .findFirst()
-                .map(leaseRequestRecord -> new LeaseRequest(
-                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]),
-                        adDAO.retrieveAdByID(Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_AD])),
-                        accountDAO.retrieveAccountInformationByEmail(leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT]),
-                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_START]),
-                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_DURATION]),
-                        leaseRequestRecord[LeaseRequestAttributes.INDEX_MESSAGE],
-                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_STATUS])
-                ))
+                .map(this::fillLeaseRequest)
                 .orElse(null);
 
     }
@@ -131,21 +121,11 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
 
     @Override
     public List<LeaseRequest> retrieveLeaseRequestsByTenant(SessionBean sessionBean) {
-        AccountDAO accountDAO = new AccountDAOCSV();
-        AdDAO adDAO = new AdDAOCSV();
         List<String[]> leaseRequestTable = CSVUtility.readAll(fd);
         leaseRequestTable.removeFirst();
         return leaseRequestTable.stream()
                 .filter(leaseRequestRecord -> leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT].equals(sessionBean.getEmail()))
-                .map(leaseRequestRecord -> new LeaseRequest(
-                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]),
-                        adDAO.retrieveAdByID(Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_AD])),
-                        accountDAO.retrieveAccountInformationByEmail(leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT]),
-                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_START]),
-                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_DURATION]),
-                        leaseRequestRecord[LeaseRequestAttributes.INDEX_MESSAGE],
-                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_STATUS])
-                ))
+                .map(this::fillLeaseRequest)
                 .toList();
     }
 
@@ -180,6 +160,20 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
         requestRecord[LeaseRequestAttributes.INDEX_DURATION] = String.valueOf(request.getDuration().getPermanence());
         requestRecord[LeaseRequestAttributes.INDEX_MESSAGE] = request.getMessage();
         return requestRecord;
+    }
+
+    private LeaseRequest fillLeaseRequest(String[] leaseRequestRecord) {
+        AdDAO adDAO = new AdDAOCSV();
+        AccountDAO accountDAO = new AccountDAOCSV();
+        return new LeaseRequest(
+                Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]),
+                adDAO.retrieveAdByID(Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_AD])),
+                accountDAO.retrieveAccountInformationByEmail(leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT]),
+                Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_START]),
+                Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_DURATION]),
+                leaseRequestRecord[LeaseRequestAttributes.INDEX_MESSAGE],
+                Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_STATUS])
+        );
     }
 
     private static class LeaseRequestAttributes {
