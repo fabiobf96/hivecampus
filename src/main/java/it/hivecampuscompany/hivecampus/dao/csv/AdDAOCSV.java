@@ -15,8 +15,6 @@ import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.awt.geom.Point2D;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -84,26 +82,10 @@ public class AdDAOCSV implements AdDAO {
 
     @Override
     public void updateAd(Ad ad) {
-        File fdTmp = new File(fd.getAbsolutePath() + ".tmp");
         List<String[]> adTable = CSVUtility.readAll(fd);
-        String[] header = adTable.getFirst();
-        adTable.removeFirst();
+        String[] header = adTable.removeFirst();
         adTable.replaceAll(adRecord -> Integer.parseInt(adRecord[AdAttributes.INDEX_ID]) == ad.getId() ? updateAdRecord(adRecord, ad) : adRecord);
-        adTable.addFirst(header);
-        // scrivi la tabella sul file temporaneo
-        try (CSVWriter writer = new CSVWriter(new FileWriter(fdTmp))) {
-            writer.writeAll(adTable);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format("failure to write to temporary file %s", fdTmp), e);
-            System.exit(4);
-        }
-        // Sostituisci il file originale con il file temporaneo aggiornato
-        try {
-            Files.move(fdTmp.toPath(), fd.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format("Failed to move file from %s to %s", fdTmp, fd), e);
-            System.exit(4);
-        }
+        CSVUtility.updateFile(fd, header, adTable);
     }
 
     private String[] updateAdRecord(String[] adRecord, Ad ad) {

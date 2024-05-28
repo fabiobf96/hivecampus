@@ -12,8 +12,6 @@ import it.hivecampuscompany.hivecampus.model.LeaseRequest;
 import it.hivecampuscompany.hivecampus.model.LeaseRequestStatus;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -22,11 +20,10 @@ import java.util.logging.Logger;
 public class LeaseRequestDAOCSV implements LeaseRequestDAO {
     private File fd;
     private static final Logger LOGGER = Logger.getLogger(LeaseRequestDAOCSV.class.getName());
-    private Properties properties;
 
     public LeaseRequestDAOCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")) {
-            properties = new Properties();
+            Properties properties = new Properties();
             properties.load(input);
             fd = new File(properties.getProperty("LEASE_REQUEST_PATH"));
         } catch (IOException e) {
@@ -60,45 +57,18 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
 
     @Override
     public void updateLeaseRequest(LeaseRequest leaseRequest) {
-        File fdTmp = new File(fd.getAbsolutePath() + ".tmp");
-        try (CSVWriter writer = new CSVWriter(new FileWriter(fdTmp))) {
-            List<String[]> leaseRequestTable = CSVUtility.readAll(fd);
-            String[] header = leaseRequestTable.getFirst();
-            leaseRequestTable.removeFirst();
-            leaseRequestTable.replaceAll(leaseRequestRecord -> Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]) == leaseRequest.getID() ? updateLeaseRequestRecord(leaseRequestRecord, leaseRequest): leaseRequestRecord);
-            leaseRequestTable.addFirst(header);
-            writer.writeAll(leaseRequestTable);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_ACCESS"), fdTmp), e);
-            System.exit(3);
-        }
-        // Sostituisci il file originale con il file temporaneo aggiornato
-        try {
-            Files.move(fdTmp.toPath(), fd.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format("Failed to move file from %s to %s", fdTmp, fd), e);
-            System.exit(4);
-        }
+        List<String[]> leaseRequestTable = CSVUtility.readAll(fd);
+        String[] header = leaseRequestTable.removeFirst();
+        leaseRequestTable.replaceAll(leaseRequestRecord -> Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]) == leaseRequest.getID() ? updateLeaseRequestRecord(leaseRequestRecord, leaseRequest) : leaseRequestRecord);
+        CSVUtility.updateFile(fd, header, leaseRequestTable);
     }
+
     @Override
     public void deleteLeaseRequest(LeaseRequestBean requestBean) {
-        File fdTmp = new File(fd.getAbsolutePath() + ".tmp");
-        try (CSVWriter writer = new CSVWriter(new FileWriter(fdTmp))) {
-            List<String[]> leaseRequestTable = CSVUtility.readAll(fd);
-            String[] header = leaseRequestTable.getFirst();
-            leaseRequestTable.removeFirst();
-            leaseRequestTable.removeIf(leaseRequestRecord -> Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]) == requestBean.getId());
-            leaseRequestTable.addFirst(header);
-            writer.writeAll(leaseRequestTable);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_ACCESS"), fdTmp), e);
-            System.exit(3);
-        }
-        try {
-            Files.move(fdTmp.toPath(), fd.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format("Failed to move file from %s to %s", fdTmp, fd), e);
-            System.exit(4);
+        List<String[]> leaseRequestTable = CSVUtility.readAll(fd);
+        String[] header = leaseRequestTable.removeFirst();
+        if (leaseRequestTable.removeIf(leaseRequestRecord -> Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]) == requestBean.getId())) {
+            CSVUtility.updateFile(fd, header, leaseRequestTable);
         }
     }
 

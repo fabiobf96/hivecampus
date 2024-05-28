@@ -11,12 +11,9 @@ public class LeaseRequest {
     private final String message;
     private LeaseRequestStatus status;
 
-    public LeaseRequest(int id, Account tenant, int month, int duration, String message) {
+    public LeaseRequest(int id, Account tenant, int month, int duration, int status, String message) {
         this(tenant, month, duration, message);
         this.id = id;
-    }
-    public LeaseRequest(int id, Account tenant, int month, int duration, int status, String message) {
-        this(id, tenant, month, duration, message);
         this.status = LeaseRequestStatus.fromInt(status);
     }
 
@@ -25,7 +22,7 @@ public class LeaseRequest {
         this.ad = ad;
     }
 
-    public LeaseRequest(Account tenant, int month, int duration, String message) {
+    private LeaseRequest(Account tenant, int month, int duration, String message) {
         this.tenant = tenant;
         this.month = Month.fromInt(month);
         this.duration = Permanence.fromInt(duration);
