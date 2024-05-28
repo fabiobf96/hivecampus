@@ -37,19 +37,12 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
 
     @Override
     public List<LeaseRequest> retrieveLeaseRequestsByAdID(AdBean adBean) {
-        AccountDAO accountDAO = new AccountDAOCSV();
         List<String[]> leaseRequestList = CSVUtility.readAll(fd);
         leaseRequestList.removeFirst();
         LeaseRequestStatus leaseRequestStatus = adBean.getAdStatus() == AdStatus.AVAILABLE ? LeaseRequestStatus.PROCESSING : LeaseRequestStatus.ACCEPTED;
         return leaseRequestList.stream()
                 .filter(leaseRequestRecord -> Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_AD]) == adBean.getId() && LeaseRequestStatus.fromInt(Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_STATUS])) == leaseRequestStatus)
-                .map(leaseRequestRecord -> new LeaseRequest(
-                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]),
-                        accountDAO.retrieveAccountInformationByEmail(leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT]),
-                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_START]),
-                        Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_DURATION]),
-                        leaseRequestRecord[LeaseRequestAttributes.INDEX_MESSAGE]
-                ))
+                .map(leaseRequestRecord -> fillLeaseRequest(leaseRequestRecord, false))
                 .toList();
     }
 
@@ -60,7 +53,7 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
         return leaseRequestTable.stream()
                 .filter(leaseRequestRecord -> Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]) == leaseRequestBean.getId())
                 .findFirst()
-                .map(this::fillLeaseRequest)
+                .map(leaseRequestRecord -> fillLeaseRequest(leaseRequestRecord, true))
                 .orElse(null);
 
     }
@@ -87,14 +80,27 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
             System.exit(4);
         }
     }
-
-    /**
-     * Method to save a lease request to the CSV file. It finds the last index from the file by calling the
-     * findLastRowIndex method and increments it by 1 to assign a new index to the lease request.
-     * Then it writes the lease request to the file by creating a new record and appending it to the end of the file.
-     *
-     * @param leaseRequest The lease request to save.
-     */
+    @Override
+    public void deleteLeaseRequest(LeaseRequestBean requestBean) {
+        File fdTmp = new File(fd.getAbsolutePath() + ".tmp");
+        try (CSVWriter writer = new CSVWriter(new FileWriter(fdTmp))) {
+            List<String[]> leaseRequestTable = CSVUtility.readAll(fd);
+            String[] header = leaseRequestTable.getFirst();
+            leaseRequestTable.removeFirst();
+            leaseRequestTable.removeIf(leaseRequestRecord -> Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]) == requestBean.getId());
+            leaseRequestTable.addFirst(header);
+            writer.writeAll(leaseRequestTable);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_ACCESS"), fdTmp), e);
+            System.exit(3);
+        }
+        try {
+            Files.move(fdTmp.toPath(), fd.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, String.format("Failed to move file from %s to %s", fdTmp, fd), e);
+            System.exit(4);
+        }
+    }
 
     @Override
     public void saveLeaseRequest(LeaseRequest leaseRequest) {
@@ -125,30 +131,8 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
         leaseRequestTable.removeFirst();
         return leaseRequestTable.stream()
                 .filter(leaseRequestRecord -> leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT].equals(sessionBean.getEmail()))
-                .map(this::fillLeaseRequest)
+                .map(leaseRequestRecord -> fillLeaseRequest(leaseRequestRecord, true))
                 .toList();
-    }
-
-    @Override
-    public void deleteLeaseRequest(LeaseRequestBean requestBean) {
-        File fdTmp = new File(fd.getAbsolutePath() + ".tmp");
-        try (CSVWriter writer = new CSVWriter(new FileWriter(fdTmp))) {
-            List<String[]> leaseRequestTable = CSVUtility.readAll(fd);
-            String[] header = leaseRequestTable.getFirst();
-            leaseRequestTable.removeFirst();
-            leaseRequestTable.removeIf(leaseRequestRecord -> Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]) == requestBean.getId());
-            leaseRequestTable.addFirst(header);
-            writer.writeAll(leaseRequestTable);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_ACCESS"), fdTmp), e);
-            System.exit(3);
-        }
-        try {
-            Files.move(fdTmp.toPath(), fd.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format("Failed to move file from %s to %s", fdTmp, fd), e);
-            System.exit(4);
-        }
     }
 
     private String[] updateLeaseRequestRecord(String[] requestRecord, LeaseRequest request) {
@@ -162,17 +146,17 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
         return requestRecord;
     }
 
-    private LeaseRequest fillLeaseRequest(String[] leaseRequestRecord) {
+    private LeaseRequest fillLeaseRequest(String[] leaseRequestRecord, boolean isFull) {
         AdDAO adDAO = new AdDAOCSV();
         AccountDAO accountDAO = new AccountDAOCSV();
         return new LeaseRequest(
                 Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]),
-                adDAO.retrieveAdByID(Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_AD])),
+                isFull ? adDAO.retrieveAdByID(Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_AD])) : null,
                 accountDAO.retrieveAccountInformationByEmail(leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT]),
                 Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_START]),
                 Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_DURATION]),
                 leaseRequestRecord[LeaseRequestAttributes.INDEX_MESSAGE],
-                Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_STATUS])
+                isFull ? Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_STATUS]) : -1
         );
     }
 
