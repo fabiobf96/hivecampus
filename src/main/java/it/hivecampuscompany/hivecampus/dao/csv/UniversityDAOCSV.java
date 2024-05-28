@@ -1,32 +1,22 @@
 package it.hivecampuscompany.hivecampus.dao.csv;
 
-import com.opencsv.CSVReader;
-import com.opencsv.exceptions.CsvException;
 import it.hivecampuscompany.hivecampus.dao.UniversityDAO;
-import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.awt.geom.Point2D;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.List;
-import java.util.Properties;
-import java.util.logging.Logger;
 
 public class UniversityDAOCSV implements UniversityDAO {
 
-    private final File uni;
-    private final Properties properties = LanguageLoader.getLanguageProperties();
-    private static final Logger LOGGER = Logger.getLogger(UniversityDAOCSV.class.getName());
+    private final File fd;
 
     public UniversityDAOCSV() {
-        uni = new File("db/csv/university-table.csv");
+        fd = new File("db/csv/university-table.csv");
     }
 
     @Override
     public Point2D getUniversityCoordinates(String universityName) {
-        try (CSVReader reader = new CSVReader(new FileReader(uni))) {
-            List<String[]> universityTable = reader.readAll();
+            List<String[]> universityTable = CSVUtility.readAll(fd);
             universityTable.removeFirst();
             // Find the university record by name and return its coordinates as a Point2D object
             return universityTable.stream()
@@ -34,10 +24,6 @@ public class UniversityDAOCSV implements UniversityDAO {
                     .findFirst()
                     .map(universityRecord -> new Point2D.Double(Double.parseDouble(universityRecord[UniversityDAOCSV.UniversityAttributes.INDEX_LONGITUDE]), Double.parseDouble(universityRecord[UniversityDAOCSV.UniversityAttributes.INDEX_LATITUDE])))
                     .orElse(null);
-        } catch (IOException | CsvException e) {
-            LOGGER.severe(properties.getProperty("FAILED_LOADING_CSV_PROPERTIES"));
-        }
-        return null;
     }
 
     private static class UniversityAttributes{

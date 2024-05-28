@@ -16,6 +16,8 @@ import java.util.logging.Logger;
 
 /**
  * Utility class for handling CSV files and Base64 encoding/decoding operations.
+ *
+ * @author Fabio Barchiesi
  */
 public class CSVUtility {
     private static Properties properties;
@@ -40,6 +42,7 @@ public class CSVUtility {
      *
      * @param content the byte array to encode
      * @return the encoded Base64 string
+     * @author Fabio Barchiesi
      */
     public static String encodeBytesToBase64(byte[] content) {
         return Base64.getEncoder().encodeToString(content);
@@ -50,6 +53,7 @@ public class CSVUtility {
      *
      * @param content the Base64 string to decode
      * @return the decoded byte array
+     * @author Fabio Barchiesi
      */
     public static byte[] decodeBase64ToBytes(String content) {
         return Base64.getDecoder().decode(content);
@@ -60,6 +64,7 @@ public class CSVUtility {
      *
      * @param fd the file descriptor of the CSV file
      * @return the last row index, or 1 if the table is empty
+     * @author Marina Sotiropoulos
      */
     public static int findLastRowIndex(File fd) {
         List<String[]> table = readAll(fd);
@@ -85,6 +90,8 @@ public class CSVUtility {
      * IOException or CsvException, it logs the error and exits the application
      * with an appropriate status code. If an error occurs, the method returns an
      * empty list.</p>
+     *
+     * @author Fabio Barchiesi
      */
     public static synchronized List<String[]> readAll(File fd) {
         try (CSVReader reader = new CSVReader(new FileReader(fd))) {
@@ -112,6 +119,8 @@ public class CSVUtility {
      * <p>Note: This method is synchronized to ensure thread safety. In case of any
      * IOException or CsvException, it logs the error and exits the application
      * with an appropriate status code.</p>
+     *
+     * @author Fabio Barchiesi
      */
     public static synchronized void updateFile(File fd, String[] header, List<String[]> table) {
         File fdTmp = new File(fd.getAbsolutePath() + ".tmp");

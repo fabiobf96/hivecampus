@@ -108,10 +108,10 @@ public class RoomDAOCSV implements RoomDAO {
                 roomRecord[RoomAttributes.INDEX_ID_HOME] = String.valueOf(room.getIdHome());
                 roomRecord[RoomAttributes.INDEX_TYPE] = room.getTypeRoom();
                 roomRecord[RoomAttributes.INDEX_SURFACE] = String.valueOf(room.getSurface());
-                roomRecord[RoomAttributes.INDEX_BATHROOM] = room.getBathroom() ? "1" : "0";
-                roomRecord[RoomAttributes.INDEX_BALCONY] = room.getBalcony() ? "1" : "0";
-                roomRecord[RoomAttributes.INDEX_CONDITIONER] = room.getConditioner() ? "1" : "0";
-                roomRecord[RoomAttributes.INDEX_TV] = room.getTV() ? "1" : "0";
+                roomRecord[RoomAttributes.INDEX_BATHROOM] = room.getServices()[0] ? "1" : "0";
+                roomRecord[RoomAttributes.INDEX_BALCONY] = room.getServices()[1] ? "1" : "0";
+                roomRecord[RoomAttributes.INDEX_CONDITIONER] = room.getServices()[2] ? "1" : "0";
+                roomRecord[RoomAttributes.INDEX_TV] = room.getServices()[3] ? "1" : "0";
                 roomRecord[RoomAttributes.INDEX_DESCRIPTION] = room.getDescription();
                 writer.writeNext(roomRecord);
                 return room;

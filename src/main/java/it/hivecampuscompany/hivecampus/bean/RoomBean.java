@@ -35,7 +35,7 @@ public class RoomBean {
     }
 
     public RoomBean(Room room) {
-        this(room.getTypeRoom(), room.getSurface(), new boolean[]{room.getBathroom(), room.getBalcony(), room.getConditioner(), room.getTV()}, room.getDescription());
+        this(room.getTypeRoom(), room.getSurface(), new boolean[]{room.getServices()[0], room.getServices()[1], room.getServices()[2], room.getServices()[3]}, room.getDescription());
         this.idRoom = room.getIdRoom();
         this.idHome = room.getIdHome();
     }

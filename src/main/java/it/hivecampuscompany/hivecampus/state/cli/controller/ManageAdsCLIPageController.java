@@ -9,6 +9,11 @@ import it.hivecampuscompany.hivecampus.manager.AdManager;
 import it.hivecampuscompany.hivecampus.model.Month;
 import it.hivecampuscompany.hivecampus.state.cli.ui.FormCliGUI;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,12 +37,14 @@ public class ManageAdsCLIPageController extends CLIController {
     String floor;
     boolean elevator;
     String homeDescription;
+    String homeImagePath;
     String roomType;
     boolean privateBath;
     boolean balcony;
     boolean conditioner;
     boolean tvConnection;
     String roomDescription;
+    String roomImagePath;
     int homeSurface;
     int roomSurface;
     int price;
@@ -155,6 +162,8 @@ public class ManageAdsCLIPageController extends CLIController {
             floor = getField(properties.getProperty("FLOOR_FIELD_REQUEST_MSG"), false);
             elevator = getBooleanInput(properties.getProperty("ELEVATOR_FIELD_REQUEST_MSG"));
             homeDescription = getField(properties.getProperty("DESCRIPTION_FIELD_REQUEST_MSG"), false);
+
+            homeImagePath = getField(properties.getProperty("IMAGE_PATH_REQUEST_MSG"), false);
         }
 
         else {
@@ -178,6 +187,8 @@ public class ManageAdsCLIPageController extends CLIController {
         formView.displayMonths();
         monthAvailable = Integer.parseInt(getField(properties.getProperty("MONTH_CHOICE_MSG"), false));
         roomDescription = getField(properties.getProperty("DESCRIPTION_FIELD_REQUEST_MSG"), false);
+
+        roomImagePath = getField(properties.getProperty("IMAGE_PATH_REQUEST_MSG"), false);
 
         formView.displayMessage("1. " + properties.getProperty("PUBLISH_AD_MSG"));
         formView.displayMessage("2. " + properties.getProperty("CANCEL_GO_BACK_MSG"));
@@ -206,8 +217,14 @@ public class ManageAdsCLIPageController extends CLIController {
         }
         else homeBean = hBean;
 
+        // Set the image of the home
+        setImage(homeBean, homeImagePath);
+
         boolean[] services = new boolean[]{privateBath, balcony, conditioner, tvConnection};
         RoomBean roomBean = new RoomBean(roomType, roomSurface, services, roomDescription);
+
+        // Set the image of the room
+        setImage(roomBean, roomImagePath);
 
         boolean res  = manager.publishAd(sessionBean, homeBean, roomBean, price, Month.fromInt(monthAvailable));
 
@@ -216,6 +233,22 @@ public class ManageAdsCLIPageController extends CLIController {
         }
         else formView.displayMessage(properties.getProperty("FAILED_PUBLISH_AD"));
         pause();
+    }
+
+    private void setImage(Object bean, String path) {
+        try {
+            Path p = Paths.get(path);
+            if (bean instanceof RoomBean roomBean) {
+                roomBean.setImage(Files.readAllBytes(p));
+                roomBean.setImageName(new File(path).getName());
+            }
+            else if (bean instanceof HomeBean homeBean) {
+                homeBean.setImage(Files.readAllBytes(p));
+                homeBean.setImageName(new File(path).getName());
+            }
+        } catch (IOException e) {
+            formView.displayMessage(properties.getProperty("IMAGE_NOT_FOUND_MSG"));
+        }
     }
 
     /**

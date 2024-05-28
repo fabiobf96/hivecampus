@@ -23,9 +23,9 @@ public class FormCliGUI extends CliGUI {
     // List of home types loaded from properties
     List<String> typesHome = Arrays.asList(
             properties.getProperty("STUDIO_APARTMENT_MSG"), // Studio Apartment
-            properties.getProperty("ONE_BEDROOM_APARTMENT_MSG"), // One-Bedroom Apartment
-            properties.getProperty("TWO_BEDROOM_APARTMENT_MSG"), // Two-Bedroom Apartment
-            properties.getProperty("THREE_BEDROOM_APARTMENT_MSG") // Three-Bedroom Apartment
+            properties.getProperty("TWO_BEDROOM_APARTMENT_MSG"), // One-Bedroom Apartment
+            properties.getProperty("THREE_BEDROOM_APARTMENT_MSG"), // Two-Bedroom Apartment
+            properties.getProperty("FOUR_BEDROOM_APARTMENT_MSG") // Three-Bedroom Apartment
     );
 
     // List of room types loaded from properties
