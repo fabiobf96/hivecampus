@@ -1,6 +1,6 @@
 package it.hivecampuscompany.hivecampus.model;
 
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.util.Properties;
 

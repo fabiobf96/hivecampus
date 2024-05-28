@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import it.hivecampuscompany.hivecampus.exception.MockOpenStreetMapAPIException;
 import it.hivecampuscompany.hivecampus.mockapi.MockAPI;
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 import org.apache.http.client.fluent.Request;
 
 import java.awt.geom.Point2D;
@@ -20,6 +20,8 @@ import java.util.Properties;
 /**
  * The OpenStreetMapApiBoundary class provides methods for interacting with the OpenStreetMap Nominatim API.
  * It allows the application to retrieve the coordinates of a given address and to obtain a map image of the location.
+ *
+ * @author Marina Sotiropoulos
  */
 
 public class OpenStreetMapApiBoundary {
@@ -31,6 +33,7 @@ public class OpenStreetMapApiBoundary {
      * @param address The address for which to retrieve the coordinates.
      * @return A Point2D object containing the latitude and longitude coordinates.
      * @throws IOException if an error occurs while connecting to the API.
+     * @author Marina Sotiropoulos
      */
 
     public static Point2D getCoordinates(String address) throws IOException {
@@ -69,18 +72,19 @@ public class OpenStreetMapApiBoundary {
     }
 
     /**
-     * Retrieves a map image of a given address using the OpenStreetMap Nominatim API.
+     * Retrieves a map image of a given address using mock OpenStreetMap API.
      *
      * @param address The address for which to retrieve the map image.
      * @return A byte array containing the map image.
      * @throws MockOpenStreetMapAPIException if an error occurs while connecting to the API.
+     * @author Marina Sotiropoulos
      */
 
     public byte[] getMap(String address) throws MockOpenStreetMapAPIException {
         MockAPI.start();
         MockAPI.mockOpenStreetMapAPI();
         try {
-            return  Request.Get("http://localhost:8080/get-map")
+            return Request.Get("http://localhost:8080/get-map")
                     .execute().returnContent().asBytes();
         } catch (IOException e) {
             throw new MockOpenStreetMapAPIException(properties.getProperty("FAILED_TO_CONNECT_TO_SERVER") + address);

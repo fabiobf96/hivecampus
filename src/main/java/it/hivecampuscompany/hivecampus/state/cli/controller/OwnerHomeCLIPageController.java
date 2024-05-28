@@ -1,7 +1,5 @@
 package it.hivecampuscompany.hivecampus.state.cli.controller;
 
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
-
 /**
  * The OwnerHomeCLIPageController class represents a controller for the home page of the owner in the command-line interface (CLI).
  * It extends the CLIController class and provides methods for displaying owner-specific options and collecting user input.

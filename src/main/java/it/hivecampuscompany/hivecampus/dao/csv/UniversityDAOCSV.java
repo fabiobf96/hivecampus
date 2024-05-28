@@ -3,7 +3,7 @@ package it.hivecampuscompany.hivecampus.dao.csv;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import it.hivecampuscompany.hivecampus.dao.UniversityDAO;
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.awt.geom.Point2D;
 import java.io.File;

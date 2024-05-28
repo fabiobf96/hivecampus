@@ -7,8 +7,7 @@ import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.manager.AdManager;
 import it.hivecampuscompany.hivecampus.model.Month;
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
-import it.hivecampuscompany.hivecampus.view.gui.cli.FormCliGUI;
+import it.hivecampuscompany.hivecampus.state.cli.ui.FormCliGUI;
 
 import java.util.ArrayList;
 import java.util.List;

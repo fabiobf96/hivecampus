@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
-import it.hivecampuscompany.hivecampus.view.utility.Utility;
+import it.hivecampuscompany.hivecampus.state.utility.Utility;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.text.Text;
@@ -49,7 +49,7 @@ public class ManageRequestsJavaFxPageController extends JavaFxController {
         txtName.setText(leaseRequestBean.getTenant().getName());
         txtSurname.setText(leaseRequestBean.getTenant().getSurname());
         txtStart.setText(properties.getProperty("MONTH_MSG") + ": " + leaseRequestBean.getLeaseMonth());
-        txtDuration.setText(properties.getProperty("DURATION_MSG") + ": " + leaseRequestBean.getDuration() + " " + properties.getProperty("MONTHS_MSG"));
+        txtDuration.setText(properties.getProperty("DURATION_MSG") + ": " + leaseRequestBean.getDuration());
         txtEmail.setText(properties.getProperty("EMAIL_MSG") + ": " + leaseRequestBean.getTenant().getEmail());
         txtPhoneNumber.setText(properties.getProperty("PHONE_N_MSG") + ": " + leaseRequestBean.getTenant().getPhoneNumber());
         txtMessage.setText(properties.getProperty("MESSAGE_MSG"));

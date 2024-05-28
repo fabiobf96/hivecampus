@@ -5,7 +5,7 @@ import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.manager.SessionManager;
 import it.hivecampuscompany.hivecampus.state.javafx.InitialJavaFXPage;
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Tab;
 import it.hivecampuscompany.hivecampus.state.cli.InitialCLIPage;

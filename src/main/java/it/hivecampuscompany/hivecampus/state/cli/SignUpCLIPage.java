@@ -38,7 +38,7 @@ public class SignUpCLIPage extends SignUpPage {
         try {
             controller.homePage();
             UserBean userBean = controller.getUserInformation();
-            AccountBean accountBean = controller.getAccountInformation();
+            AccountBean accountBean = controller.getAccountInformation(userBean.getEmail());
             registerUser(userBean, accountBean);
             controller.successMessage("SIGN_UP");
             goToInitialPage(new InitialCLIPage(context));

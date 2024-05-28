@@ -1,8 +1,8 @@
-package it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration;
+package it.hivecampuscompany.hivecampus.state.javafx.ui.decoration;
 
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.javafx.controller.HomePageJavaFxController;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.component.Component;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.Priority;

@@ -1,6 +1,6 @@
-package it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration;
+package it.hivecampuscompany.hivecampus.state.javafx.ui.decoration;
 
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.component.Component;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;

@@ -1,7 +1,5 @@
 package it.hivecampuscompany.hivecampus.state.cli.controller;
 
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
-
 /**
  * The TenantHomeCLIPageController class represents a controller for the home page of the tenant in the command-line interface (CLI).
  * It extends the CLIController class and provides methods for displaying tenant-specific options and collecting user input.

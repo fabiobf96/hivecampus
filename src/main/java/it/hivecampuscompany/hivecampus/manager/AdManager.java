@@ -13,12 +13,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AdManager {
+    /**
+     * Searches for ads owned by the session owner.
+     *
+     * @param sessionBean The session bean representing the current session.
+     * @param adBean      The ad bean containing search criteria.
+     * @return A list of ad beans matching the search criteria.
+     * @throws InvalidSessionException If the session is invalid or expired.
+     * @author Fabio Barchiesi
+     */
     public List<AdBean> searchAdsByOwner(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
         AdDAO adDAO = new AdDAOCSV();
+
         if (sessionManager.validSession(sessionBean)) {
             List<Ad> adList = adDAO.retrieveAdsByOwner(sessionBean, adBean.getAdStatus());
             List<AdBean> adBeanList = new ArrayList<>();
+
             for (Ad ad : adList) {
                 if (sessionBean.getClient() == SessionBean.Client.CLI) {
                     adBeanList.add(ad.toBean());
@@ -28,6 +39,7 @@ public class AdManager {
             }
             return adBeanList;
         }
+
         throw new InvalidSessionException();
     }
 
@@ -36,9 +48,10 @@ public class AdManager {
      * and then retrieves the images of the rooms and homes of the ads.
      *
      * @param sessionBean The session of the user
-     * @param adBean The ad object
+     * @param adBean      The ad object
      * @return The list of decorated ads owned by the user
      * @throws InvalidSessionException If the session is invalid
+     * @author Fabio Barchiesi
      */
 
     public List<AdBean> getDecoratedAdsByOwner(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
@@ -53,6 +66,7 @@ public class AdManager {
      * @param sessionBean The session of the user
      * @return The list of homes owned by the user
      * @throws InvalidSessionException If the session is invalid
+     * @author Marina Sotiropoulos
      */
 
     public List<HomeBean> getHomesByOwner(SessionBean sessionBean) throws InvalidSessionException {
@@ -78,6 +92,7 @@ public class AdManager {
      *
      * @param sessionBean The session of the user
      * @return The list of rooms owned by the user
+     * @author Marina Sotiropoulos
      */
 
     public boolean publishAd(SessionBean sessionBean, HomeBean homeBean, RoomBean roomBean, int price, Month adStart) {
@@ -121,6 +136,7 @@ public class AdManager {
      * retrieves the image name and type, and saves the image in the database.
      *
      * @param homeBean The home object
+     * @author Marina Sotiropoulos
      */
 
     public void saveHomeImage(HomeBean homeBean) {
@@ -137,6 +153,7 @@ public class AdManager {
      * retrieves the image name and type, and saves the image in the database.
      *
      * @param roomBean The room object
+     * @author Marina Sotiropoulos
      */
 
     public void saveRoomImage(RoomBean roomBean) {
@@ -155,6 +172,7 @@ public class AdManager {
      *
      * @param filtersBean The filters to apply to the search
      * @return The list of ads that match the filters
+     * @author Marina Sotiropoulos
      */
 
     public List<AdBean> searchAdsByFilters(FiltersBean filtersBean) {
@@ -177,6 +195,7 @@ public class AdManager {
      *
      * @param filtersBean The filters to apply to the search
      * @return The list of decorated ads that match the filters
+     * @author Marina Sotiropoulos
      */
 
     public List<AdBean> searchDecoratedAdsByFilters(FiltersBean filtersBean) {
@@ -190,6 +209,7 @@ public class AdManager {
      *
      * @param adBeanList The list of ads to decorate
      * @return The list of decorated ads
+     * @author Marina Sotiropoulos
      */
 
     private List<AdBean> getAdBeansWithImage(List<AdBean> adBeanList) {
@@ -211,9 +231,10 @@ public class AdManager {
      * retrieves the map of the home and sets it in the adBean object.
      *
      * @param sessionBean The session of the user
-     * @param adBean The ad object
-     * @throws InvalidSessionException If the session is invalid
+     * @param adBean      The ad object
+     * @throws InvalidSessionException       If the session is invalid
      * @throws MockOpenStreetMapAPIException If the OpenStreetMap API is not available
+     * @author Marina Sotiropoulos
      */
 
     public void getHomeMap(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException, MockOpenStreetMapAPIException {
@@ -236,6 +257,7 @@ public class AdManager {
      *
      * @param homeBean The home object
      * @return True if the maximum number of rooms is reached, false otherwise
+     * @author Marina Sotiropoulos
      */
 
     public boolean isMaxRoomsReached(HomeBean homeBean) {

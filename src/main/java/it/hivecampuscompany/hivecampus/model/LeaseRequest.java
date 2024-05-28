@@ -46,14 +46,14 @@ public class LeaseRequest {
         this.status = status;
     }
 
-    public String[] toCSVString() {
-        return new String[]{String.valueOf(id), String.valueOf(ad.getId()), tenant.getEmail(), String.valueOf(status.getId()), String.valueOf(month.getMonth()), String.valueOf(duration.getPermanence()), message};
-    }
     public LeaseRequestBean toBasicBean() {
         return new LeaseRequestBean(id, ad != null ? ad.toBasicBean() : null, tenant != null ? tenant.toBasicBean() : null, month.getMonth(), duration.getPermanence(), message, status);
     }
     public int getID() {
         return id;
+    }
+    public void setID(int id) {
+        this.id = id;
     }
 
     public Account getTenant() {

@@ -8,8 +8,8 @@ import it.hivecampuscompany.hivecampus.bean.HomeBean;
 import it.hivecampuscompany.hivecampus.boundary.OpenStreetMapApiBoundary;
 import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.model.Home;
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
-import it.hivecampuscompany.hivecampus.view.utility.Utility;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
+import it.hivecampuscompany.hivecampus.state.utility.Utility;
 
 import java.awt.geom.Point2D;
 import java.io.*;

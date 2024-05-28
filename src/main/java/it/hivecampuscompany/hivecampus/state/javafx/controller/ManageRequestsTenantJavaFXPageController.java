@@ -3,7 +3,7 @@ package it.hivecampuscompany.hivecampus.state.javafx.controller;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
 import it.hivecampuscompany.hivecampus.manager.LeaseRequestManager;
 import it.hivecampuscompany.hivecampus.state.Context;
-import it.hivecampuscompany.hivecampus.view.utility.CustomListCell;
+import it.hivecampuscompany.hivecampus.state.utility.CustomListCell;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;

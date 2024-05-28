@@ -6,8 +6,7 @@ import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.manager.LeaseRequestManager;
 import it.hivecampuscompany.hivecampus.model.LeaseRequestStatus;
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
-import it.hivecampuscompany.hivecampus.view.gui.cli.FormCliGUI;
+import it.hivecampuscompany.hivecampus.state.cli.ui.FormCliGUI;
 
 import java.util.Arrays;
 import java.util.List;

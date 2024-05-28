@@ -1,4 +1,4 @@
-package it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component;
+package it.hivecampuscompany.hivecampus.state.javafx.ui.component;
 
 import javafx.scene.Node;
 import javafx.scene.layout.VBox;

@@ -2,7 +2,6 @@ package it.hivecampuscompany.hivecampus.state.cli.controller;
 
 import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
 
 /**
  * The LoginCLIPageController class represents a controller for the login page of the command-line interface (CLI).

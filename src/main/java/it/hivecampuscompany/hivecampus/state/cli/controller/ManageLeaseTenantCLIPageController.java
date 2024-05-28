@@ -1,7 +1,6 @@
 package it.hivecampuscompany.hivecampus.state.cli.controller;
 
 import it.hivecampuscompany.hivecampus.bean.LeaseBean;
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
 
 /**
  * The ManageLeaseTenantCLIPageController class represents a controller for managing leases by the tenant in the command-line interface (CLI).

@@ -1,4 +1,4 @@
-package it.hivecampuscompany.hivecampus.view.utility;
+package it.hivecampuscompany.hivecampus.state.utility;
 
 /**
  * Utility class provides some useful methods to perform operations on data.

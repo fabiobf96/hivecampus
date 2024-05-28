@@ -1,9 +1,9 @@
-package it.hivecampuscompany.hivecampus.view.controller.cli;
+package it.hivecampuscompany.hivecampus.state.cli.controller;
 
 import it.hivecampuscompany.hivecampus.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.manager.LoginManager;
 import it.hivecampuscompany.hivecampus.state.Context;
-import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
+import it.hivecampuscompany.hivecampus.state.cli.ui.CliGUI;
 
 import java.util.logging.Logger;
 

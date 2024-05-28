@@ -1,4 +1,4 @@
-package it.hivecampuscompany.hivecampus.view.utility;
+package it.hivecampuscompany.hivecampus.state.utility;
 
 import java.io.FileInputStream;
 import java.io.IOException;

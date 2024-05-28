@@ -1,6 +1,6 @@
-package it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration;
+package it.hivecampuscompany.hivecampus.state.javafx.ui.decoration;
 
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.Component;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.component.Component;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -21,12 +21,12 @@ public class LeaseDecorator extends Decorator {
         Button btnUpload = new Button("Upload");
         btnUpload.setId("btnUpload");
         btnUpload.setPrefWidth(75);
-        btnUpload.setStyle("-fx-background-color: #007bff; -fx-text-fill: white;"); // Blue button with white text
+        btnUpload.setStyle("-fx-background-color: #007bff; -fx-text-fill: white;");
 
         Button btnDelete = new Button("Delete");
         btnDelete.setId("btnDelete");
         btnDelete.setPrefWidth(75);
-        btnDelete.setStyle("-fx-background-color: #dc3545; -fx-text-fill: white;"); // Red button with white text
+        btnDelete.setStyle("-fx-background-color: #dc3545; -fx-text-fill: white;");
 
         vBox.getChildren().addAll(btnUpload, btnDelete);
 
@@ -37,13 +37,14 @@ public class LeaseDecorator extends Decorator {
         VBox vBox = createVBox();
 
         Button btnSign = new Button("Sign");
+        btnSign.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white;");
         btnSign.setId("btnSign");
         btnSign.setPrefWidth(75);
 
         Button btnDownload = new Button("Download");
         btnDownload.setId("btnDownload");
         btnDownload.setPrefWidth(75);
-        btnDownload.setStyle("-fx-background-color: #007bff; -fx-text-fill: white;"); // Yellow button with white text
+        btnDownload.setStyle("-fx-background-color: #007bff; -fx-text-fill: white;");
 
         vBox.getChildren().addAll(btnSign, btnDownload);
 

@@ -1,7 +1,5 @@
 package it.hivecampuscompany.hivecampus.state.cli.controller;
 
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
-
 /**
  * The InitialCLIPageController class represents a controller for the initial command-line interface (CLI) page.
  * It extends the CLIController class and provides methods for displaying the home page and getting user input.

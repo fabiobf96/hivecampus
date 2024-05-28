@@ -4,7 +4,7 @@ import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.InitialPage;
 import it.hivecampuscompany.hivecampus.state.cli.controller.InitialCLIPageController;
-import it.hivecampuscompany.hivecampus.view.controller.cli.LanguageCLIController;
+import it.hivecampuscompany.hivecampus.state.cli.controller.LanguageCLIController;
 
 /**
  * The InitialCLIPage class represents the initial page of the command-line interface (CLI).

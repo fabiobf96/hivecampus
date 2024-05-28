@@ -82,7 +82,7 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
             List<String[]> leaseRequestTable = CSVUtility.readAll(fd);
             String[] header = leaseRequestTable.getFirst();
             leaseRequestTable.removeFirst();
-            leaseRequestTable.replaceAll(leaseRequestRecord -> Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]) == leaseRequest.getID() ? leaseRequest.toCSVString() : leaseRequestRecord);
+            leaseRequestTable.replaceAll(leaseRequestRecord -> Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]) == leaseRequest.getID() ? updateLeaseRequestRecord(leaseRequestRecord, leaseRequest): leaseRequestRecord);
             leaseRequestTable.addFirst(header);
             writer.writeAll(leaseRequestTable);
         } catch (IOException e) {
@@ -98,20 +98,22 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
         }
     }
 
+    /**
+     * Method to save a lease request to the CSV file. It finds the last index from the file by calling the
+     * findLastRowIndex method and increments it by 1 to assign a new index to the lease request.
+     * Then it writes the lease request to the file by creating a new record and appending it to the end of the file.
+     *
+     * @param leaseRequest The lease request to save.
+     */
+
     @Override
     public void saveLeaseRequest(LeaseRequest leaseRequest) {
         // Find the last index in the file and increment it by 1
         int lastId = CSVUtility.findLastRowIndex(fd);
         try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
             String[] leaseRequestRecord = new String[7];
-            leaseRequestRecord[LeaseRequestAttributes.INDEX_ID] = String.valueOf(lastId + 1);
-            leaseRequestRecord[LeaseRequestAttributes.INDEX_AD] = String.valueOf(leaseRequest.getAd().getId());
-            leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT] = leaseRequest.getTenant().getEmail();
-            leaseRequestRecord[LeaseRequestAttributes.INDEX_STATUS] = String.valueOf(leaseRequest.getStatus().getId());
-            leaseRequestRecord[LeaseRequestAttributes.INDEX_START] = String.valueOf(leaseRequest.getLeaseMonth().getMonth());
-            leaseRequestRecord[LeaseRequestAttributes.INDEX_DURATION] = String.valueOf(leaseRequest.getDuration().getPermanence());
-            leaseRequestRecord[LeaseRequestAttributes.INDEX_MESSAGE] = leaseRequest.getMessage();
-            writer.writeNext(leaseRequestRecord);
+            leaseRequest.setID(lastId + 1);
+            writer.writeNext(updateLeaseRequestRecord(leaseRequestRecord, leaseRequest));
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to save lease request", e);
             System.exit(2);
@@ -167,6 +169,17 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
             LOGGER.log(Level.SEVERE, String.format("Failed to move file from %s to %s", fdTmp, fd), e);
             System.exit(4);
         }
+    }
+
+    private String[] updateLeaseRequestRecord(String[] requestRecord, LeaseRequest request) {
+        requestRecord[LeaseRequestAttributes.INDEX_ID] = String.valueOf(request.getID());
+        requestRecord[LeaseRequestAttributes.INDEX_AD] = String.valueOf(request.getAd().getId());
+        requestRecord[LeaseRequestAttributes.INDEX_TENANT] = request.getTenant().getEmail();
+        requestRecord[LeaseRequestAttributes.INDEX_STATUS] = String.valueOf(request.getStatus().getId());
+        requestRecord[LeaseRequestAttributes.INDEX_START] = String.valueOf(request.getLeaseMonth().getMonth());
+        requestRecord[LeaseRequestAttributes.INDEX_DURATION] = String.valueOf(request.getDuration().getPermanence());
+        requestRecord[LeaseRequestAttributes.INDEX_MESSAGE] = request.getMessage();
+        return requestRecord;
     }
 
     private static class LeaseRequestAttributes {

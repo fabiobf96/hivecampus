@@ -4,7 +4,7 @@ import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.TenantHomePage;
 import it.hivecampuscompany.hivecampus.state.cli.controller.TenantHomeCLIPageController;
-import it.hivecampuscompany.hivecampus.view.controller.cli.AccountSettingsCLIController;
+import it.hivecampuscompany.hivecampus.state.cli.controller.AccountSettingsCLIController;
 
 /**
  * The TenantHomeCLIPage class represents the tenant's home page in the command-line interface (CLI).

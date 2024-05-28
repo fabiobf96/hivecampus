@@ -4,7 +4,6 @@ import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.manager.LeaseRequestManager;
 import it.hivecampuscompany.hivecampus.model.LeaseRequestStatus;
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
 
 import java.util.List;
 

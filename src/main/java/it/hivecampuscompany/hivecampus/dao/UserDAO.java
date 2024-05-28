@@ -16,6 +16,7 @@ public interface UserDAO {
      *
      * @param user The user to be saved.
      * @throws DuplicateRowException If the user already exists in the database.
+     * @author Fabio Barchiesi
      */
 
     void saveUser(User user) throws DuplicateRowException;
@@ -27,6 +28,7 @@ public interface UserDAO {
      * @param user The user to be verified.
      * @return The verified user.
      * @throws AuthenticateException If the user does not exist or the credentials do not match.
+     * @author Fabio Barchiesi
      */
 
     User verifyCredentials(User user) throws AuthenticateException;

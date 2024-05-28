@@ -5,7 +5,6 @@ import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.exception.EmptyFieldsException;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
 
 /**
  * The SignUpCLIPageController class represents a controller for the sign-up page in the command-line interface (CLI).
@@ -42,8 +41,9 @@ public class SignUpCLIPageController extends CLIController {
      *
      * @return The AccountBean object containing account information.
      */
-    public AccountBean getAccountInformation() {
+    public AccountBean getAccountInformation(String email) {
         AccountBean accountBean = new AccountBean();
+        accountBean.setEmail(email);
         accountBean.setName(getField(properties.getProperty("NAME_MSG"), false));
         accountBean.setSurname(getField(properties.getProperty("SURNAME_MSG"), false));
         accountBean.setPhoneNumber(getField(properties.getProperty("PHONE_N_MSG"), false));

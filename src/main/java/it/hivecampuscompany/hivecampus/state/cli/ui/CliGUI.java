@@ -1,6 +1,6 @@
-package it.hivecampuscompany.hivecampus.view.gui.cli;
+package it.hivecampuscompany.hivecampus.state.cli.ui;
 
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.io.IOException;
 import java.util.InputMismatchException;

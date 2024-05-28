@@ -4,7 +4,7 @@ import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.OwnerHomePage;
 import it.hivecampuscompany.hivecampus.state.cli.controller.OwnerHomeCLIPageController;
-import it.hivecampuscompany.hivecampus.view.controller.cli.AccountSettingsCLIController;
+import it.hivecampuscompany.hivecampus.state.cli.controller.AccountSettingsCLIController;
 
 /**
  * The OwnerHomeCLIPage class represents the owner's home page in the command-line interface (CLI).

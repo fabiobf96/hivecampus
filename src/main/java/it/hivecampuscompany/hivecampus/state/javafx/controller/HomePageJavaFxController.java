@@ -5,7 +5,7 @@ import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.javafx.InitialJavaFXPage;
 import it.hivecampuscompany.hivecampus.state.javafx.OwnerHomeJavaFXPage;
 import it.hivecampuscompany.hivecampus.state.javafx.TenantHomeJavaFXPage;
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

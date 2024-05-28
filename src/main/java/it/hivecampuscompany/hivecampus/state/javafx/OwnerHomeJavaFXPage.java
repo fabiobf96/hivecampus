@@ -2,9 +2,9 @@ package it.hivecampuscompany.hivecampus.state.javafx;
 
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.OwnerHomePage;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.BarDecorator;
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.component.BasicComponent;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.decoration.BarDecorator;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;

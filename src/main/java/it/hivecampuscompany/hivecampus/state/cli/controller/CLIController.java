@@ -1,11 +1,11 @@
-package it.hivecampuscompany.hivecampus.view.controller.cli;
+package it.hivecampuscompany.hivecampus.state.cli.controller;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.manager.SessionManager;
-import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import it.hivecampuscompany.hivecampus.state.cli.ui.CliGUI;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.util.List;
 import java.util.Properties;

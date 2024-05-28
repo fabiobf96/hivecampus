@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.bean;
 
 import it.hivecampuscompany.hivecampus.model.Home;
-import it.hivecampuscompany.hivecampus.view.utility.Utility;
+import it.hivecampuscompany.hivecampus.state.utility.Utility;
 
 public class HomeBean {
     private int idHome;

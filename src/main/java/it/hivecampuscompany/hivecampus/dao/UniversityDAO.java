@@ -14,6 +14,7 @@ public interface UniversityDAO {
      *
      * @param universityName The name of the university to retrieve.
      * @return The {@link Point2D} object with the coordinates if found, otherwise null.
+     * @author Marina Sotiropoulos
      */
 
     Point2D getUniversityCoordinates(String universityName);

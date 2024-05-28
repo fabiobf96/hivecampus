@@ -1,4 +1,4 @@
-package it.hivecampuscompany.hivecampus.view.gui.cli;
+package it.hivecampuscompany.hivecampus.state.cli.ui;
 
 import it.hivecampuscompany.hivecampus.model.Month;
 import it.hivecampuscompany.hivecampus.model.Permanence;

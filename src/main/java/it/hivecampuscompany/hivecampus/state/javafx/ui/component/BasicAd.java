@@ -1,4 +1,4 @@
-package it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component;
+package it.hivecampuscompany.hivecampus.state.javafx.ui.component;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.state.Context;
