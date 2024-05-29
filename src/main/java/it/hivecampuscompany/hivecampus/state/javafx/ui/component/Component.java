@@ -28,6 +28,13 @@ public abstract class Component {
      */
     public abstract Node setup();
 
+    /**
+     * This method displays an alert to the user in case of a graphic error.
+     * It is used to notify the user that some GUI elements may be corrupted or missing.
+     * The application is then terminated with an exit code of 10.
+     *
+     * @author Fabio Barchiesi
+     */
     public void displayGraphicErrorAlert() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Graphic User Interface Error");

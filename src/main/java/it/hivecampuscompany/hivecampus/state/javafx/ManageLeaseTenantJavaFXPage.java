@@ -44,7 +44,7 @@ public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
     @Override
     public void handle() throws InvalidSessionException {
         LeaseBean leaseBean = getUnSignedLease();
-        BasicAd basicAd = new BasicAd(leaseBean.getAdBean(), context);
+        BasicAd basicAd = new BasicAd(leaseBean.getAdBean());
         LeaseDecorator leaseDecorator = new LeaseDecorator(basicAd, LeaseDecorator.Type.TENANT);
         CssDecoration cssDecoration = new CssDecoration(leaseDecorator);
         Node root = cssDecoration.setup();

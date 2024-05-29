@@ -55,7 +55,7 @@ public class ManageLeaseOwnerJavaFXPage extends ManageLeasePage {
             BasicRequest basicRequest = new BasicRequest(leaseRequestBean);
             LeaseDecorator leaseDecorator = new LeaseDecorator(basicRequest, LeaseDecorator.Type.OWNER);
             CssDecoration cssDecoration = new CssDecoration(leaseDecorator);
-            PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(cssDecoration, adBean, context);
+            PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(cssDecoration, adBean);
             CssDecoration decoration = new CssDecoration(previewRoomDecorator);
             Node root = decoration.setup();
             Button btnUpload = (Button) root.lookup("#btnUpload");

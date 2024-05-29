@@ -18,18 +18,15 @@ import java.io.IOException;
  */
 public class BasicAd extends Component {
     private AdBean adBean;
-    private Context context;
 
     /**
      * Constructor for the BasicAd class.
      *
      * @param adBean the ad bean to be used as the basic ad component
-     * @param context the context of the ad component
      * @author Fabio Barchiesi
      */
-    public BasicAd(AdBean adBean, Context context) {
+    public BasicAd(AdBean adBean) {
         this.adBean = adBean;
-        this.context = context;
     }
 
     /**
@@ -45,7 +42,7 @@ public class BasicAd extends Component {
             Node ad = loader.load();
             PreviewAdJavaFxController controller = loader.getController();
             controller.setAdBean(adBean);
-            controller.initializePreviewFeatures(context);
+            controller.initializePreviewFeatures();
             return ad;
         } catch (IOException | IllegalStateException e) {
             displayGraphicErrorAlert();

@@ -48,7 +48,7 @@ public class ManageRequestsOwnerJavaFXPage extends ManageRequestsPage {
         List<AdBean> adBeanList = retrieveAvailableAds();
         ListView<Node> listView = new ListView<>();
         for (AdBean adBean : adBeanList) {
-            BasicAd basicAd = new BasicAd(adBean, context);
+            BasicAd basicAd = new BasicAd(adBean);
             listView.getItems().add(basicAd.setup());
         }
         listView.setOnMouseClicked(event -> {
@@ -75,7 +75,7 @@ public class ManageRequestsOwnerJavaFXPage extends ManageRequestsPage {
      * @throws InvalidSessionException if the session is invalid
      */
     public void manageLeaseRequests(AdBean adBean) throws InvalidSessionException {
-        BasicAd basicAd = new BasicAd(adBean, context);
+        BasicAd basicAd = new BasicAd(adBean);
         ListView<Node> listView = new ListView<>();
         CompositeVBox composite = new CompositeVBox();
         Button btnGoBack = new Button("Go Back");
