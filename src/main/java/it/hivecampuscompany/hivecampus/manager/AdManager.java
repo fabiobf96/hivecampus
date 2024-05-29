@@ -26,7 +26,6 @@ public class AdManager {
      * @author Fabio Barchiesi
      */
 
-    // Nuova Versione
     public List<AdBean> searchAdsByOwner(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
         AdDAO adDAO = new AdDAOCSV();
@@ -48,7 +47,6 @@ public class AdManager {
         return adBeanList;
     }
 
-    // Nuova Versione
     public List<AdBean> getDecoratedAdsByOwner(List<Ad> adList) {
         List<AdBean> adBeanList = new ArrayList<>();
         List<Ad> decoratedAds = getDecoratedAds(adList); // Apply pattern decorator
@@ -58,7 +56,6 @@ public class AdManager {
         }
         return adBeanList;
     }
-
 
     /**
      * Method to retrieve the homes owned by the user.
@@ -176,7 +173,6 @@ public class AdManager {
      * @author Marina Sotiropoulos
      */
 
-    // Nuova versione con pattern decorator
     public List<AdBean> searchAdsByFilters(SessionBean sessionBean, FiltersBean filtersBean) {
         UniversityDAO universityDAO = new UniversityDAOCSV();
         AdDAOCSV adDAO = new AdDAOCSV();
@@ -205,7 +201,15 @@ public class AdManager {
         return adBeanList;
     }
 
-    // Nuovo metodo per applicare il pattern decorator
+    /**
+     * Method to apply the pattern decorator to the ads.
+     * It retrieves the images of the room and the home and applies the pattern decorator
+     * to add the images to the room and the home.
+     *
+     * @param adList The list of ads
+     * @return The list of ads with the images of the room and the home added to them
+     * @author Marina Sotiropoulos
+     */
     private List<Ad> getDecoratedAds(List<Ad> adList) {
         for (Ad ad : adList) {
             // Retrieve the images from persistence and apply pattern decorator to add the images to the room and home
@@ -219,7 +223,15 @@ public class AdManager {
         }
         return adList;
     }
-    // Nuovo metodo per applicare il pattern decorator
+
+    /**
+     * Method to retrieve the images of the room.
+     * It retrieves the image of the room from the persistence layer and returns it as a decorated object.
+     *
+     * @param room The room object
+     * @return The decorated room object with the image added to it, or null if the image is not found
+     * @author Marina Sotiropoulos
+     */
     private ImageDecorator<RoomBean> getDecoratedRoom(Room room) {
         RoomDAO roomDAO = new RoomDAOCSV();
         byte[] roomBytes = roomDAO.getRoomImage(room);
@@ -228,7 +240,15 @@ public class AdManager {
         }
         return null;
     }
-    // Nuovo metodo per applicare il pattern decorator
+
+    /**
+     * Method to retrieve the images of the home.
+     * It retrieves the image of the home from the persistence layer and returns it as a decorated object.
+     *
+     * @param home The home object
+     * @return The decorated home object with the image added to it, or null if the image is not found
+     * @author Marina Sotiropoulos
+     */
     private ImageDecorator<HomeBean> getDecoratedHome(Home home) {
         HomeDAO homeDAO = new HomeDAOCSV();
         byte[] homeBytes = homeDAO.getHomeImage(home.getId());

@@ -45,7 +45,7 @@ public class LeaseRequestManager {
             List<LeaseRequestBean> leaseRequestBeanList = new ArrayList<>();
 
             for (LeaseRequest leaseRequest : leaseRequestList) {
-                leaseRequestBeanList.add(leaseRequest.toBasicBean());
+                leaseRequestBeanList.add(leaseRequest.toBean());
             }
             return leaseRequestBeanList;
         }
@@ -136,7 +136,7 @@ public class LeaseRequestManager {
         List<LeaseRequest> leaseRequestList = leaseRequestDAO.retrieveLeaseRequestsByTenant(sessionBean, false);
         List<LeaseRequestBean> leaseRequestBeanList = new ArrayList<>();
         for (LeaseRequest leaseRequest : leaseRequestList) {
-            leaseRequestBeanList.add(leaseRequest.toBasicBean());
+            leaseRequestBeanList.add(leaseRequest.toBean());
         }
         return leaseRequestBeanList;
     }

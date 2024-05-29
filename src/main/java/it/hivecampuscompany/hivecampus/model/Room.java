@@ -10,7 +10,6 @@ public class Room extends Component<RoomBean> {
     private final String typeRoom;
     private final boolean[] services;
     private final String description;
-    private byte[] roomImage;   // PROVARE A TOGLIERLO
 
     public Room(int idRoom, int idHome, int surface, String typeRoom, boolean[] services, String description) {
         this.idRoom = idRoom;
@@ -20,25 +19,12 @@ public class Room extends Component<RoomBean> {
         this.services = services;
         this.description = description;
     }
-    public Room(int idRoom, int idHome, int surface, String typeRoom, boolean[] services, String description, byte[] roomImage) {
-        this (idRoom, idHome, surface, typeRoom, services, description);
-        this.roomImage = roomImage;
-    }
-    public RoomBean toBasicBean() {
-        return new RoomBean(idRoom, typeRoom);
-    }
 
-    // Nuovo metodo toBean
     @Override
     public RoomBean toBean() {
         return new RoomBean(idRoom, surface, typeRoom, services, description);
     }
 
-    public RoomBean toBeanWithImage() {
-        RoomBean roomBean = toBean();
-        roomBean.setImage(roomImage);
-        return roomBean;
-    }
     public int getIdRoom() {
         return idRoom;
     }

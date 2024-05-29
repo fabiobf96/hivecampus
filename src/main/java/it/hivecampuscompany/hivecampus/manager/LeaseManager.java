@@ -43,15 +43,12 @@ public class LeaseManager {
         }
         LeaseDAO leaseDAO = new LeaseDAOCSV();
         Lease lease = leaseDAO.retrieveUnsignedLeaseByTenant(sessionBean.getEmail(), sessionBean.getClient().equals(SessionBean.Client.JAVA_FX));
-        if (lease != null && sessionBean.getClient() == SessionBean.Client.CLI) {
+        if (lease != null) {
             return lease.toBean();
-        } else if (lease != null && sessionBean.getClient() == SessionBean.Client.JAVA_FX) {
-            return lease.toBeanWithImage();
         }
-        else {
-            return null;
-        }
+        else return null;
     }
+
     public void signContract(SessionBean sessionBean) throws InvalidSessionException, MockOpenAPIException {
         SessionManager sessionManager = SessionManager.getInstance();
         if (!sessionManager.validSession(sessionBean)){

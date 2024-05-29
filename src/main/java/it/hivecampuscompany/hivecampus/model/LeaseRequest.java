@@ -43,8 +43,8 @@ public class LeaseRequest {
         this.status = status;
     }
 
-    public LeaseRequestBean toBasicBean() {
-        return new LeaseRequestBean(id, ad != null ? ad.toBasicBean() : null, tenant != null ? tenant.toBasicBean() : null, month.getMonth(), duration.getPermanence(), message, status);
+    public LeaseRequestBean toBean() {
+        return new LeaseRequestBean(id, ad != null ? ad.toBean() : null, tenant != null ? tenant.toBean() : null, month.getMonth(), duration.getPermanence(), message, status);
     }
     public int getID() {
         return id;
