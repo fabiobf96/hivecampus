@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+
 import java.io.IOException;
 import java.util.logging.Logger;
 
@@ -15,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author Marina Sotiropoulos
  */
-public class LogoDecorator extends Decorator{
+public class LogoDecorator extends Decorator {
     private static final Logger LOGGER = Logger.getLogger(LogoDecorator.class.getName());
 
     /**
@@ -48,9 +49,9 @@ public class LogoDecorator extends Decorator{
             VBox.setVgrow(child, Priority.ALWAYS);
             HBox.setHgrow(child, Priority.ALWAYS);
             return hBox;
-        } catch (IOException e) {
-            LOGGER.severe("Error while applying LogoDecorator");
-            return child;
+        } catch (IOException | IllegalStateException e) {
+            displayGraphicErrorAlert();
+            return null;
         }
     }
 

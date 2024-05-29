@@ -37,7 +37,8 @@ public class AdDAOCSV implements AdDAO {
             properties.load(input);
             fd = new File(properties.getProperty("AD_PATH"));
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
+            Properties languageProperties = LanguageLoader.getLanguageProperties();
+            LOGGER.log(Level.SEVERE, languageProperties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), e);
             System.exit(1);
         }
     }

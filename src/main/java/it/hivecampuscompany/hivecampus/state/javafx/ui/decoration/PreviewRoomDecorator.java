@@ -39,11 +39,12 @@ public class PreviewRoomDecorator extends Decorator {
 
             vBox.getChildren().addAll(root, child);
             return vBox;
-        } catch (IOException e) {
-            LOGGER.severe("Error while applying PreviewRoomDecorator");
-            return child;
+        } catch (IOException | IllegalStateException e) {
+            displayGraphicErrorAlert();
+            return null;
         }
     }
+
     @Override
     public Node setup() {
         return this.applyPreviewRoomDecoration(super.setup());

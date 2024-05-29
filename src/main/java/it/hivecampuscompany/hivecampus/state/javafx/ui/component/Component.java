@@ -1,6 +1,7 @@
 package it.hivecampuscompany.hivecampus.state.javafx.ui.component;
 
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 
 /**
  * In the context of JavaFX UI development, the Decorator pattern was used to create custom components in the UI
@@ -26,4 +27,12 @@ public abstract class Component {
      * @author Fabio Barchiesi
      */
     public abstract Node setup();
+
+    public void displayGraphicErrorAlert() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Graphic User Interface Error");
+        alert.setContentText("Some GUI elements may be corrupted or missing. Try to restart the application");
+        alert.showAndWait();
+        System.exit(10);
+    }
 }

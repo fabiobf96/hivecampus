@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author Marina Sotiropoulos
  */
-public class BarDecorator extends Decorator{
+public class BarDecorator extends Decorator {
 
     private static final Logger LOGGER = Logger.getLogger(BarDecorator.class.getName());
 
@@ -28,12 +28,12 @@ public class BarDecorator extends Decorator{
      * It takes a Component object as a parameter and assigns it to the component field.
      *
      * @param component the component to be decorated
-     * @param context the context to be passed to the controller
+     * @param context   the context to be passed to the controller
      * @author Marina Sotiropoulos
      */
     public BarDecorator(Component component, Context context) {
         super(component);
-        this.context =  context;
+        this.context = context;
     }
 
     /**
@@ -56,9 +56,9 @@ public class BarDecorator extends Decorator{
             vBox.getChildren().addAll(root, child);
             VBox.setVgrow(child, Priority.ALWAYS);
             return vBox;
-        } catch (IOException e) {
-            LOGGER.severe("Error while applying BarDecorator");
-            return child;
+        } catch (IOException | IllegalStateException e) {
+            displayGraphicErrorAlert();
+            return null;
         }
     }
 

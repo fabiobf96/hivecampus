@@ -3,6 +3,7 @@ package it.hivecampuscompany.hivecampus.dao.csv;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -32,7 +33,7 @@ public class CSVUtility {
             properties = new Properties();
             properties.load(input);
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), e);
             System.exit(1);
         }
     }
@@ -134,7 +135,7 @@ public class CSVUtility {
         try {
             Files.move(fdTmp.toPath(), fd.toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format("Failed to move file from %s to %s", fdTmp, fd), e);
+            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERR_MOVE_FILE"), fdTmp, fd), e);
             System.exit(4);
         }
     }

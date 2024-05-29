@@ -10,6 +10,7 @@ import it.hivecampuscompany.hivecampus.dao.LeaseRequestDAO;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
 import it.hivecampuscompany.hivecampus.model.LeaseRequest;
 import it.hivecampuscompany.hivecampus.model.LeaseRequestStatus;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.io.*;
 import java.util.List;
@@ -27,7 +28,8 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
             properties.load(input);
             fd = new File(properties.getProperty("LEASE_REQUEST_PATH"));
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
+            Properties languageProperties = LanguageLoader.getLanguageProperties();
+            LOGGER.log(Level.SEVERE, languageProperties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), e);
             System.exit(1);
         }
     }

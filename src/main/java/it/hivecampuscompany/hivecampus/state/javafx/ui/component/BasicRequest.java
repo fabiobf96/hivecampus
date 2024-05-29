@@ -41,8 +41,9 @@ public class BasicRequest extends Component{
             ManageRequestsJavaFxPageController controller = loader.getController();
             controller.initialize(leaseRequestBean);
             return root;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | IllegalStateException e) {
+            displayGraphicErrorAlert();
+            return null;
         }
     }
 }

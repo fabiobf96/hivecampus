@@ -41,14 +41,15 @@ public class BasicAd extends Component {
     @Override
     public Node setup() {
         try {
-            FXMLLoader loader = new FXMLLoader(ManageRequestsOwnerJavaFXPage.class.getResource("/it/hivecampuscompany/hivecampus/previewRoom-card.fxml"));
+            FXMLLoader loader = new FXMLLoader(ManageRequestsOwnerJavaFXPage.class.getResource("/it/hivecampuscompany/hivecampus/preview-card.fxml"));
             Node ad = loader.load();
             PreviewAdJavaFxController controller = loader.getController();
             controller.setAdBean(adBean);
             controller.initializePreviewFeatures(context);
             return ad;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (IOException | IllegalStateException e) {
+            displayGraphicErrorAlert();
+            return null;
         }
     }
 }

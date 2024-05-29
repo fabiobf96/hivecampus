@@ -4,6 +4,7 @@ import com.opencsv.CSVWriter;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
 import it.hivecampuscompany.hivecampus.dao.LeaseDAO;
 import it.hivecampuscompany.hivecampus.model.Lease;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.io.*;
 import java.time.Instant;
@@ -23,7 +24,8 @@ public class LeaseDAOCSV implements LeaseDAO {
             properties.load(input);
             fd = new File(properties.getProperty("LEASE_PATH"));
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load CSV properties", e);
+            Properties languageProperties = LanguageLoader.getLanguageProperties();
+            LOGGER.log(Level.SEVERE, languageProperties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), e);
             System.exit(1);
         }
     }

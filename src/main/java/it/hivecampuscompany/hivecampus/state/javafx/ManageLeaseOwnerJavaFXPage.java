@@ -10,10 +10,12 @@ import it.hivecampuscompany.hivecampus.state.javafx.ui.component.BasicRequest;
 import it.hivecampuscompany.hivecampus.state.javafx.ui.decoration.CssDecoration;
 import it.hivecampuscompany.hivecampus.state.javafx.ui.decoration.LeaseDecorator;
 import it.hivecampuscompany.hivecampus.state.javafx.ui.decoration.PreviewRoomDecorator;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -47,6 +49,7 @@ public class ManageLeaseOwnerJavaFXPage extends ManageLeasePage {
     public void handle() throws InvalidSessionException {
         List<AdBean> adBeanList = getProcessingAds();
         ScrollPane scrollPane = new ScrollPane();
+        VBox vBox = new VBox(10);
         for (AdBean adBean : adBeanList) {
             LeaseRequestBean leaseRequestBean = getLeaseRequestInformation(adBean);
             BasicRequest basicRequest = new BasicRequest(leaseRequestBean);
@@ -74,8 +77,10 @@ public class ManageLeaseOwnerJavaFXPage extends ManageLeasePage {
                     context.invalidSessionExceptionHandle();
                 }
             });
-            scrollPane.setContent(root);
+            vBox.getChildren().add(root);
         }
+        scrollPane.setContent(vBox);
+        scrollPane.setPadding(new Insets(5));
         scrollPane.fitToWidthProperty().setValue(true);
         context.getTab(2).setContent(scrollPane);
     }
