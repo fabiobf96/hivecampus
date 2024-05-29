@@ -49,9 +49,9 @@ public class RoomDAOCSV implements RoomDAO {
                         Integer.parseInt(roomRecord[RoomAttributes.INDEX_SURFACE]),
                         roomRecord[RoomAttributes.INDEX_TYPE],
                         new boolean[]{Integer.parseInt(roomRecord[RoomAttributes.INDEX_BATHROOM]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_BALCONY]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_CONDITIONER]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_TV]) == 1},
-                        roomRecord[RoomAttributes.INDEX_DESCRIPTION],
-                        getRoomImage(Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]), Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]))
-                ))
+                        roomRecord[RoomAttributes.INDEX_DESCRIPTION])
+                        //getRoomImage(Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]), Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]))
+                )
                 .orElse(null);
     }
 
@@ -188,13 +188,13 @@ public class RoomDAOCSV implements RoomDAO {
     }
 
     @Override
-    public byte[] getRoomImage(int idRoom, int idHome) {
+    public byte[] getRoomImage(Room room) {
         // Read the CSV file and filter the image records based on the roomID and homeID
         try (CSVReader reader = new CSVReader(new FileReader(roomFile))) {
             List<String[]> imageTable = reader.readAll();
             imageTable.removeFirst();
             String[] imageRecord = imageTable.stream()
-                    .filter(image -> Integer.parseInt(image[ImageAttributes.INDEX_ID_HOME]) == idHome && Integer.parseInt(image[ImageAttributes.INDEX_ID_ROOM]) == idRoom)
+                    .filter(image -> Integer.parseInt(image[ImageAttributes.INDEX_ID_HOME]) == room.getIdHome() && Integer.parseInt(image[ImageAttributes.INDEX_ID_ROOM]) == room.getIdRoom())
                     .findFirst()
                     .orElse(null);
             // If an image record is found, decode the base64 image and return it as a byte array

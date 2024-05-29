@@ -61,13 +61,12 @@ public interface RoomDAO {
     /**
      * Retrieves the image of a room by its unique identifiers, specified by a home ID and a room ID.
      *
-     * @param idRoom The ID of the room for which to retrieve the image.
-     * @param idHome The ID of the home in which the room is located.
+     * @param room  The room for which to retrieve the image.
      * @return The byte array representing the image of the room if found, otherwise null.
      * @author Marina Sotiropoulos
      */
 
-    byte[] getRoomImage(int idRoom, int idHome);
+    byte[] getRoomImage(Room room);
 
     /**
      * Retrieves the number of rooms already present in a home.
