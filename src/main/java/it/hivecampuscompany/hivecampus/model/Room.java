@@ -28,12 +28,6 @@ public class Room extends Component<RoomBean> {
         return new RoomBean(idRoom, typeRoom);
     }
 
-    /*
-    public RoomBean toBean() {
-        return new RoomBean(idRoom, surface, typeRoom, services, description);
-    }
-    */
-
     // Nuovo metodo toBean
     @Override
     public RoomBean toBean() {

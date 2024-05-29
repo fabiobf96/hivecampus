@@ -3,7 +3,6 @@ package it.hivecampuscompany.hivecampus.model;
 import it.hivecampuscompany.hivecampus.bean.HomeBean;
 import it.hivecampuscompany.hivecampus.state.utility.Utility;
 import it.hivecampuscompany.hivecampus.model.pattern_decorator.Component;
-import it.hivecampuscompany.hivecampus.view.utility.Utility;
 
 import java.awt.geom.Point2D;
 
@@ -90,13 +89,6 @@ public class Home extends Component<HomeBean> {
     public HomeBean toBasicBean() {
         return new HomeBean(id, address);
     }
-
-    /*
-    public HomeBean toBean() {
-        return new HomeBean(this);
-    }
-
-     */
 
     // Nuovo metodo toBean
     @Override
