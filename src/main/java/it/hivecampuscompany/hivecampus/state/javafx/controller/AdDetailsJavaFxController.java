@@ -244,7 +244,7 @@ public class AdDetailsJavaFxController extends JavaFxController{
             Stage popUpStage = new Stage();
             popUpStage.initModality(Modality.APPLICATION_MODAL);
             popUpStage.setTitle(properties.getProperty("LEASE_REQUEST_FORM_MSG"));
-            Scene scene = new Scene(root, 500, 500);
+            Scene scene = new Scene(root, 550, 500);
             popUpStage.setResizable(false);
             popUpStage.setScene(scene);
 

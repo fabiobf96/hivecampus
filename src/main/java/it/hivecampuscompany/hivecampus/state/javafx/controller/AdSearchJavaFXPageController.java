@@ -156,7 +156,7 @@ public class AdSearchJavaFXPageController extends JavaFxController {
             previewAdJavaFxController.initializePreviewDistance();
 
             BasicComponent basicComponent = new BasicComponent(root);
-            PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(basicComponent, adBean, context);
+            PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(basicComponent, adBean);
             return previewRoomDecorator.setup();
         } catch (IOException e) {
             LOGGER.severe(properties.getProperty("FAILED_LOADING_PREVIEW_AD"));

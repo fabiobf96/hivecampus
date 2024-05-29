@@ -2,7 +2,6 @@ package it.hivecampuscompany.hivecampus.dao.csv;
 
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvException;
 import com.opencsv.exceptions.CsvValidationException;
 import it.hivecampuscompany.hivecampus.bean.HomeBean;
 import it.hivecampuscompany.hivecampus.boundary.OpenStreetMapApiBoundary;
@@ -82,7 +81,7 @@ public class HomeDAOCSV implements HomeDAO {
     }
 
     private static Integer[] getFeatures(String[] homeRecord) {
-        return new Integer[] {
+        return new Integer[]{
                 Integer.parseInt(homeRecord[HomeAttributes.INDEX_NROOMS]),
                 Integer.parseInt(homeRecord[HomeAttributes.INDEX_NBATHROOMS]),
                 Integer.parseInt(homeRecord[HomeAttributes.INDEX_FLOOR]),
@@ -167,25 +166,17 @@ public class HomeDAOCSV implements HomeDAO {
     }
 
     private boolean imageHomeAlreadyExists(String imageName, int idHome) {
-        try (CSVReader reader = new CSVReader(new FileReader(homeFile))) {
-            List<String[]> imageTable = reader.readAll();
-            imageTable.removeFirst();
-            for (String[] imageRecord : imageTable) {
-                if (Integer.parseInt(imageRecord[1]) == idHome && imageRecord[2].equals(imageName)){
-                    return true;
-                }
+        List<String[]> imageTable = CSVUtility.readAll(fd);
+        imageTable.removeFirst();
+        for (String[] imageRecord : imageTable) {
+            if (Integer.parseInt(imageRecord[1]) == idHome && imageRecord[2].equals(imageName)) {
+                return true;
             }
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format(languageProperties.getProperty("ERROR_ACCESS"), homeFile), e);
-            System.exit(3);
-        } catch (CsvException e) {
-            LOGGER.log(Level.SEVERE, String.format(languageProperties.getProperty("ERROR_PARSER"), homeFile), e);
-            System.exit(3);
         }
         return false;
     }
 
-    public void saveHomeImage (String imageName, String imageType, byte[] byteArray, int idHome) {
+    public void saveHomeImage(String imageName, String imageType, byte[] byteArray, int idHome) {
         // Check if the image already exists
         if (imageHomeAlreadyExists(imageName, idHome)) {
             return;
@@ -209,18 +200,14 @@ public class HomeDAOCSV implements HomeDAO {
 
     @Override
     public byte[] getHomeImage(int idHome) {
-        try (CSVReader reader = new CSVReader(new FileReader(homeFile))) {
-            List<String[]> imageTable = reader.readAll();
-            imageTable.removeFirst();
-            String[] imageRecord = imageTable.stream()
-                    .filter(image -> Integer.parseInt(image[ImageAttributes.INDEX_ID_HOME]) == idHome)
-                    .findFirst()
-                    .orElse(null);
-            if (imageRecord != null) {
-                return CSVUtility.decodeBase64ToBytes(imageRecord[ImageAttributes.INDEX_IMAGE]);
-            }
-        } catch (IOException | CsvException e) {
-            LOGGER.log(Level.SEVERE, languageProperties.getProperty("FAILED_LOADING_CSV_IMAGE"), e);
+        List<String[]> imageTable = CSVUtility.readAll(homeFile);
+        imageTable.removeFirst();
+        String[] imageRecord = imageTable.stream()
+                .filter(image -> Integer.parseInt(image[ImageAttributes.INDEX_ID_HOME]) == idHome)
+                .findFirst()
+                .orElse(null);
+        if (imageRecord != null) {
+            return CSVUtility.decodeBase64ToBytes(imageRecord[ImageAttributes.INDEX_IMAGE]);
         }
         return new byte[0];
     }

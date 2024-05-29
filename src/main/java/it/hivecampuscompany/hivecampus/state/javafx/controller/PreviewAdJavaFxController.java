@@ -106,8 +106,7 @@ public class PreviewAdJavaFxController extends JavaFxController {
      */
 
 
-    public void initializePreviewFeatures(Context context) {
-        this.context = context;
+    public void initializePreviewFeatures() {
 
         setLabelText(lblTitle, properties.getProperty("ROOM_TYPE_MSG") + adBean.adTitle() + properties.getProperty("MONTHLY_PRICE_MSG"));
         setLabelText(lblFeatures, properties.getProperty("ROOM_FEATURES_MSG"));

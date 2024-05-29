@@ -1,17 +1,33 @@
 package it.hivecampuscompany.hivecampus.dao.csv;
 
 import it.hivecampuscompany.hivecampus.dao.UniversityDAO;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.awt.geom.Point2D;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class UniversityDAOCSV implements UniversityDAO {
 
-    private final File fd;
+    private File fd;
+    private static final Logger LOGGER = Logger.getLogger(UniversityDAOCSV.class.getName());
 
     public UniversityDAOCSV() {
-        fd = new File("db/csv/university-table.csv");
+        try (InputStream input = new FileInputStream("properties/csv.properties")) {
+            Properties properties = new Properties();
+            properties.load(input);
+            fd = new File(properties.getProperty("UNIVERSITY_PATH"));
+        } catch (IOException e) {
+            Properties languageProperties = LanguageLoader.getLanguageProperties();
+            LOGGER.log(Level.SEVERE, languageProperties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), e);
+            System.exit(1);
+        }
     }
 
     @Override

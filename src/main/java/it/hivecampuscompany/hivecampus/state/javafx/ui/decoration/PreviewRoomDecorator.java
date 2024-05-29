@@ -14,14 +14,11 @@ import java.util.logging.Logger;
 
 public class PreviewRoomDecorator extends Decorator {
 
-    private static final Logger LOGGER = Logger.getLogger(PreviewRoomDecorator.class.getName());
-    private final AdBean adBean;
-    private final Context context;
+       private final AdBean adBean;
 
-    public PreviewRoomDecorator(Component component, AdBean adBean, Context context) {
+    public PreviewRoomDecorator(Component component, AdBean adBean) {
         super(component);
         this.adBean = adBean;
-        this.context = context;
     }
 
     protected Node applyPreviewRoomDecoration(Node child) {
@@ -35,7 +32,7 @@ public class PreviewRoomDecorator extends Decorator {
 
             PreviewAdJavaFxController controller = loader.getController();
             controller.setAdBean(adBean);
-            controller.initializePreviewFeatures(context);
+            controller.initializePreviewFeatures();
 
             vBox.getChildren().addAll(root, child);
             return vBox;
