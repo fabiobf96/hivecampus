@@ -3,7 +3,7 @@ package it.hivecampuscompany.hivecampus.dao.csv;
 import com.opencsv.CSVWriter;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.model.Account;
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.io.*;
 import java.util.List;

@@ -7,9 +7,13 @@ import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.manager.AdManager;
 import it.hivecampuscompany.hivecampus.model.Month;
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
-import it.hivecampuscompany.hivecampus.view.gui.cli.FormCliGUI;
+import it.hivecampuscompany.hivecampus.state.cli.ui.FormCliGUI;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +37,14 @@ public class ManageAdsCLIPageController extends CLIController {
     String floor;
     boolean elevator;
     String homeDescription;
+    String homeImagePath;
     String roomType;
     boolean privateBath;
     boolean balcony;
     boolean conditioner;
     boolean tvConnection;
     String roomDescription;
+    String roomImagePath;
     int homeSurface;
     int roomSurface;
     int price;
@@ -57,6 +63,7 @@ public class ManageAdsCLIPageController extends CLIController {
 
     /**
      * Method to display the home page. It displays a welcome message.
+     * @author Marina Sotiropoulos
      */
 
     @Override
@@ -69,6 +76,7 @@ public class ManageAdsCLIPageController extends CLIController {
      * Method to show manage ads options.
      * @param sessionBean SessionBean object.
      * @throws InvalidSessionException If the session is invalid.
+     * @author Marina Sotiropoulos
      */
 
     public void showManageAdsOptions(SessionBean sessionBean) throws InvalidSessionException {
@@ -82,6 +90,7 @@ public class ManageAdsCLIPageController extends CLIController {
     /**
      * Method to get the user's choice.
      * @return int value that represents the user's choice.
+     * @author Marina Sotiropoulos
      */
 
     public int getChoice() {
@@ -95,6 +104,7 @@ public class ManageAdsCLIPageController extends CLIController {
      * @param sessionBean SessionBean object.
      * @return boolean value that represents if the ad is created.
      * @throws InvalidSessionException If the session is invalid.
+     * @author Marina Sotiropoulos
      */
 
     public boolean createAdOptions(SessionBean sessionBean) throws InvalidSessionException {
@@ -129,6 +139,7 @@ public class ManageAdsCLIPageController extends CLIController {
      *
      * @param homeBean HomeBean object.
      * @return boolean value that represents if the ad is created.
+     * @author Marina Sotiropoulos
      */
 
     public boolean adCreationForm(HomeBean homeBean) {
@@ -151,6 +162,8 @@ public class ManageAdsCLIPageController extends CLIController {
             floor = getField(properties.getProperty("FLOOR_FIELD_REQUEST_MSG"), false);
             elevator = getBooleanInput(properties.getProperty("ELEVATOR_FIELD_REQUEST_MSG"));
             homeDescription = getField(properties.getProperty("DESCRIPTION_FIELD_REQUEST_MSG"), false);
+
+            homeImagePath = getField(properties.getProperty("IMAGE_PATH_REQUEST_MSG"), false);
         }
 
         else {
@@ -175,6 +188,8 @@ public class ManageAdsCLIPageController extends CLIController {
         monthAvailable = Integer.parseInt(getField(properties.getProperty("MONTH_CHOICE_MSG"), false));
         roomDescription = getField(properties.getProperty("DESCRIPTION_FIELD_REQUEST_MSG"), false);
 
+        roomImagePath = getField(properties.getProperty("IMAGE_PATH_REQUEST_MSG"), false);
+
         formView.displayMessage("1. " + properties.getProperty("PUBLISH_AD_MSG"));
         formView.displayMessage("2. " + properties.getProperty("CANCEL_GO_BACK_MSG"));
 
@@ -188,6 +203,7 @@ public class ManageAdsCLIPageController extends CLIController {
      * It publishes the ad using the AdManager class.
      *
      * @param sessionBean SessionBean object.
+     * @author Marina Sotiropoulos
      */
 
     public void publishAd(SessionBean sessionBean) {
@@ -201,8 +217,14 @@ public class ManageAdsCLIPageController extends CLIController {
         }
         else homeBean = hBean;
 
+        // Set the image of the home
+        setImage(homeBean, homeImagePath);
+
         boolean[] services = new boolean[]{privateBath, balcony, conditioner, tvConnection};
         RoomBean roomBean = new RoomBean(roomType, roomSurface, services, roomDescription);
+
+        // Set the image of the room
+        setImage(roomBean, roomImagePath);
 
         boolean res  = manager.publishAd(sessionBean, homeBean, roomBean, price, Month.fromInt(monthAvailable));
 
@@ -213,12 +235,29 @@ public class ManageAdsCLIPageController extends CLIController {
         pause();
     }
 
+    private void setImage(Object bean, String path) {
+        try {
+            Path p = Paths.get(path);
+            if (bean instanceof RoomBean roomBean) {
+                roomBean.setImage(Files.readAllBytes(p));
+                roomBean.setImageName(new File(path).getName());
+            }
+            else if (bean instanceof HomeBean homeBean) {
+                homeBean.setImage(Files.readAllBytes(p));
+                homeBean.setImageName(new File(path).getName());
+            }
+        } catch (IOException e) {
+            formView.displayMessage(properties.getProperty("IMAGE_NOT_FOUND_MSG"));
+        }
+    }
+
     /**
      * Method to view ads.
      * It retrieves the ads from the database and displays them.
      *
      * @param sessionBean SessionBean object.
      * @throws InvalidSessionException If the session is invalid.
+     * @author Marina Sotiropoulos
      */
 
     public void viewAds(SessionBean sessionBean) throws InvalidSessionException {
@@ -235,6 +274,7 @@ public class ManageAdsCLIPageController extends CLIController {
      * @param sessionBean SessionBean object.
      * @return int value that represents the user's choice.
      * @throws InvalidSessionException If the session is invalid.
+     * @author Marina Sotiropoulos
      */
 
     public int viewHomes(SessionBean sessionBean) throws InvalidSessionException {
@@ -255,6 +295,7 @@ public class ManageAdsCLIPageController extends CLIController {
      * @param type String value that specifies the type of house
      *             and allows you to associate the correct number of rooms.
      * @return String value that represents the type of home.
+     * @author Marina Sotiropoulos
      */
 
     public String convertTypeHome(String type) {
@@ -287,6 +328,7 @@ public class ManageAdsCLIPageController extends CLIController {
      *
      * @param type String value that specifies the type of room.
      * @return String value that represents the type of room.
+     * @author Marina Sotiropoulos
      */
 
     public String convertTypeRoom(String type) {

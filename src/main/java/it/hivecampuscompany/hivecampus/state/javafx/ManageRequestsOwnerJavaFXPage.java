@@ -6,12 +6,12 @@ import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.model.LeaseRequestStatus;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.ManageRequestsPage;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicAd;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicRequest;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.CompositeVBox;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.CssDecoration;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.LeaseRequestDecorator;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.component.BasicAd;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.component.BasicComponent;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.component.BasicRequest;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.composite.CompositeVBox;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.decoration.CssDecoration;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.decoration.LeaseRequestDecorator;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -20,27 +20,43 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
+/**
+ * The ManageRequestsOwnerJavaFXPage class represents the manage requests owner page in the JavaFX user interface.
+ * It extends the ManageRequestsPage class and provides methods for displaying the manage requests owner page and handling user input.
+ */
 public class ManageRequestsOwnerJavaFXPage extends ManageRequestsPage {
 
+    /**
+     * Constructs a ManageRequestsOwnerJavaFXPage object with the given context.
+     * @param context The context object for the manage requests owner page.
+     * @author Fabio Barchiesi
+     */
     public ManageRequestsOwnerJavaFXPage(Context context) {
         super(context);
     }
 
+    /**
+     * Handles the processing and display of lease requests for the owner.
+     * This method retrieves the list of available ads, creates the necessary UI components
+     * for each ad, and sets up the functionality for managing lease requests.
+     *
+     * @throws InvalidSessionException if the session is invalid
+     * @author Fabio Barchiesi
+     */
     @Override
     public void handle() throws InvalidSessionException {
         List<AdBean> adBeanList = retrieveAvailableAds();
         ListView<Node> listView = new ListView<>();
         for (AdBean adBean : adBeanList) {
-            BasicAd basicAd = new BasicAd(adBean, context);
+            BasicAd basicAd = new BasicAd(adBean);
             listView.getItems().add(basicAd.setup());
         }
         listView.setOnMouseClicked(event -> {
-            // Ottieni l'indice dell'elemento selezionato
             int index = listView.getSelectionModel().getSelectedIndex();
-            if (index != -1) { // Controlla se l'indice è valido
-                AdBean adBean = adBeanList.get(index); // Recupera l'AdBean associato
+            if (index != -1) {
+                AdBean adBean = adBeanList.get(index);
                 try {
-                    manageLeaseRequests(adBean); // Chiama il metodo con il bean corrispondente
+                    manageLeaseRequests(adBean);
                 } catch (InvalidSessionException e) {
                     context.invalidSessionExceptionHandle();
                 }
@@ -50,8 +66,16 @@ public class ManageRequestsOwnerJavaFXPage extends ManageRequestsPage {
         context.getTab(1).setContent(listView);
     }
 
+    /**
+     * Manages the lease requests for a given advertisement.
+     * This method sets up the GUI components, retrieves lease requests, and handles
+     * the accept and reject actions for each request.
+     *
+     * @param adBean the advertisement bean containing details of the advertisement
+     * @throws InvalidSessionException if the session is invalid
+     */
     public void manageLeaseRequests(AdBean adBean) throws InvalidSessionException {
-        BasicAd basicAd = new BasicAd(adBean, context);
+        BasicAd basicAd = new BasicAd(adBean);
         ListView<Node> listView = new ListView<>();
         CompositeVBox composite = new CompositeVBox();
         Button btnGoBack = new Button("Go Back");

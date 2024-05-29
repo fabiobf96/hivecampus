@@ -102,11 +102,11 @@ public class PreviewAdJavaFxController extends JavaFxController {
      * It sets the text fields with the information of the ad.
      *
      * @param context the context
+     * @author Marina Sotiropoulos
      */
 
 
-    public void initializePreviewFeatures(Context context) {
-        this.context = context;
+    public void initializePreviewFeatures() {
 
         setLabelText(lblTitle, properties.getProperty("ROOM_TYPE_MSG") + adBean.adTitle() + properties.getProperty("MONTHLY_PRICE_MSG"));
         setLabelText(lblFeatures, properties.getProperty("ROOM_FEATURES_MSG"));
@@ -128,6 +128,8 @@ public class PreviewAdJavaFxController extends JavaFxController {
      * Initializes the preview distance of the ad.
      * It sets the text fields with the information of the ad
      * by calling the setLabelText method.
+     *
+     * @author Marina Sotiropoulos
      */
 
     public void initializePreviewDistance() {
@@ -144,6 +146,8 @@ public class PreviewAdJavaFxController extends JavaFxController {
      * Initializes the published ads.
      * It sets the text fields with the information of the ad.
      * It also sets the buttons for editing and deleting the ad.
+     *
+     * @author Marina Sotiropoulos
      */
 
     public void initializePublishedAds(Context context) {
@@ -176,6 +180,8 @@ public class PreviewAdJavaFxController extends JavaFxController {
     /**
      * Handles the edit ad.
      * It shows an alert with the message "Edit ad" and "Not implemented".
+     *
+     * @author Marina Sotiropoulos
      */
 
     private void handleEditAd() {
@@ -187,6 +193,8 @@ public class PreviewAdJavaFxController extends JavaFxController {
      * It checks if the maximum number of rooms is reached.
      * If it is reached, it shows an alert with the message "Warning" and "Maximum rooms reached".
      * Otherwise, it calls the initializeCreateAd method from the ManageAdsJavaFXPageController class.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private void handleAddRoom(HomeBean homeBean) throws InvalidSessionException {
@@ -215,6 +223,8 @@ public class PreviewAdJavaFxController extends JavaFxController {
     /**
      * Handles the delete ad.
      * It shows an alert with the message "Delete ad" and "Not implemented".
+     *
+     * @author Marina Sotiropoulos
      */
 
     private void handleDeleteAd() {

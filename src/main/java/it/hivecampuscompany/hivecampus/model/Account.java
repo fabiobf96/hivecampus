@@ -34,7 +34,7 @@ public class Account {
         return phoneNumber;
     }
 
-    public AccountBean toBasicBean() {
+    public AccountBean toBean() {
         return new AccountBean(email, name, surname, phoneNumber);
     }
 }

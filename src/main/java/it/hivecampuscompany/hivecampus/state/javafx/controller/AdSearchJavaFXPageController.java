@@ -2,12 +2,13 @@ package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
+import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.manager.AdManager;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.javafx.AdSearchJavaFXPage;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.PreviewRoomDecorator;
-import it.hivecampuscompany.hivecampus.view.utility.CustomListCell;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.component.BasicComponent;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.decoration.PreviewRoomDecorator;
+import it.hivecampuscompany.hivecampus.state.utility.CustomListCell;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -83,7 +84,8 @@ public class AdSearchJavaFXPageController extends JavaFxController {
 
         // Check if there are results in context
         if (context.getFiltersBean() != null) {
-            List<AdBean> adBeans = retrieveAdsByFilters(context.getFiltersBean());
+            // Modificato per passare il sessionBean
+            List<AdBean> adBeans = retrieveAdsByFilters(context.getSessionBean(), context.getFiltersBean());
             setResults(adBeans);
         }
 
@@ -117,24 +119,17 @@ public class AdSearchJavaFXPageController extends JavaFxController {
 
         FiltersBean filtersBean = new FiltersBean(university,maxDistance,maxPrice,privateBath,balcony,conditioner,tvConnection);
 
-        List<AdBean> adBeans = retrieveAdsByFilters(filtersBean);
+        // Modificato per passare il sessionBean
+        List<AdBean> adBeans = retrieveAdsByFilters(context.getSessionBean(), filtersBean);
 
         context.setFiltersBean(filtersBean);
 
         setResults(adBeans);
     }
 
-    /**
-     * Retrieves the ads that match the filters from the database.
-     * It searches the ads by the filters and returns the list of ads.
-     * If no ads are found, it displays an error message.
-     *
-     * @param filtersBean The FiltersBean object representing the filters.
-     * @return List of ads that match the filters.
-     */
-
-    private List<AdBean> retrieveAdsByFilters(FiltersBean filtersBean) {
-        List<AdBean> adBeans = manager.searchDecoratedAdsByFilters(filtersBean);
+    // Nuova versione del metodo retrieveAdsByFilters
+    private List<AdBean> retrieveAdsByFilters(SessionBean sessionBean, FiltersBean filtersBean) {
+        List<AdBean> adBeans = manager.searchAdsByFilters(sessionBean, filtersBean);
         if (adBeans == null || adBeans.isEmpty()) {
             showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("NO_ADS_FOUND_MSG"));
             return Collections.emptyList();
@@ -161,7 +156,7 @@ public class AdSearchJavaFXPageController extends JavaFxController {
             previewAdJavaFxController.initializePreviewDistance();
 
             BasicComponent basicComponent = new BasicComponent(root);
-            PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(basicComponent, adBean, context);
+            PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(basicComponent, adBean);
             return previewRoomDecorator.setup();
         } catch (IOException e) {
             LOGGER.severe(properties.getProperty("FAILED_LOADING_PREVIEW_AD"));

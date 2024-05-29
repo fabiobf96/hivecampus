@@ -4,7 +4,7 @@ import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.InitialPage;
 import it.hivecampuscompany.hivecampus.state.cli.controller.InitialCLIPageController;
-import it.hivecampuscompany.hivecampus.view.controller.cli.LanguageCLIController;
+import it.hivecampuscompany.hivecampus.state.cli.controller.LanguageCLIController;
 
 /**
  * The InitialCLIPage class represents the initial page of the command-line interface (CLI).
@@ -16,6 +16,7 @@ public class InitialCLIPage extends InitialPage {
      * Constructs an InitialCLIPage object with the given context.
      *
      * @param context The context object for the CLI page.
+     * author Fabio Barchiesi
      */
     public InitialCLIPage(Context context) {
         super(context);
@@ -26,6 +27,7 @@ public class InitialCLIPage extends InitialPage {
      * It displays the home page, prompts the user for input, and navigates to the appropriate page based on the user's choice.
      *
      * @throws InvalidSessionException if the session is invalid.
+     * @author Fabio Barchiesi
      */
     @Override
     public void handle() throws InvalidSessionException {

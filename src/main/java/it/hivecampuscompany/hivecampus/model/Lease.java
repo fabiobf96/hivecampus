@@ -65,17 +65,16 @@ public class Lease {
     public Instant getTimeStamp() {
         return timeStamp;
     }
-    public void setSigned(boolean signed){
+
+    public void setSigned(boolean signed) {
         this.signed = signed;
     }
+
     public void setTimeStamp(Instant timeStamp) {
         this.timeStamp = timeStamp;
     }
+
     public LeaseBean toBean() {
         return new LeaseBean(ad.toBean(), starting, duration, contract);
-    }
-
-    public LeaseBean toBeanWithImage() {
-        return new LeaseBean(ad.toBeanWithImage(), starting, duration, contract);
     }
 }

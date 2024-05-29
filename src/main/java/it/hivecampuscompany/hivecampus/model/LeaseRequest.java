@@ -11,12 +11,9 @@ public class LeaseRequest {
     private final String message;
     private LeaseRequestStatus status;
 
-    public LeaseRequest(int id, Account tenant, int month, int duration, String message) {
+    public LeaseRequest(int id, Account tenant, int month, int duration, int status, String message) {
         this(tenant, month, duration, message);
         this.id = id;
-    }
-    public LeaseRequest(int id, Account tenant, int month, int duration, int status, String message) {
-        this(id, tenant, month, duration, message);
         this.status = LeaseRequestStatus.fromInt(status);
     }
 
@@ -25,7 +22,7 @@ public class LeaseRequest {
         this.ad = ad;
     }
 
-    public LeaseRequest(Account tenant, int month, int duration, String message) {
+    private LeaseRequest(Account tenant, int month, int duration, String message) {
         this.tenant = tenant;
         this.month = Month.fromInt(month);
         this.duration = Permanence.fromInt(duration);
@@ -46,14 +43,14 @@ public class LeaseRequest {
         this.status = status;
     }
 
-    public String[] toCSVString() {
-        return new String[]{String.valueOf(id), String.valueOf(ad.getId()), tenant.getEmail(), String.valueOf(status.getId()), String.valueOf(month.getMonth()), String.valueOf(duration.getPermanence()), message};
-    }
-    public LeaseRequestBean toBasicBean() {
-        return new LeaseRequestBean(id, ad != null ? ad.toBasicBean() : null, tenant != null ? tenant.toBasicBean() : null, month.getMonth(), duration.getPermanence(), message, status);
+    public LeaseRequestBean toBean() {
+        return new LeaseRequestBean(id, ad != null ? ad.toBean() : null, tenant != null ? tenant.toBean() : null, month.getMonth(), duration.getPermanence(), message, status);
     }
     public int getID() {
         return id;
+    }
+    public void setID(int id) {
+        this.id = id;
     }
 
     public Account getTenant() {

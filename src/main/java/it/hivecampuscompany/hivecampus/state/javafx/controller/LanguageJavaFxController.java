@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import it.hivecampuscompany.hivecampus.state.Context;
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -33,6 +33,7 @@ public class LanguageJavaFxController extends JavaFxController {
      * It sets the text for the language title and buttons based on the current language.
      *
      * @param context The context object for the language settings page.
+     * @author Marina Sotiropoulos
      */
 
     public void initializeLanguageSettingsView(Context context) {
@@ -50,6 +51,7 @@ public class LanguageJavaFxController extends JavaFxController {
      * It loads the language properties file and sets the context language.
      *
      * @param choice The user's choice for the language.
+     * @author Marina Sotiropoulos
      */
 
     private void handleChangeLanguage(int choice) {

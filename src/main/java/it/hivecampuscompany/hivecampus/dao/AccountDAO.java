@@ -12,6 +12,7 @@ public interface AccountDAO {
      * Saves an account in the database.
      *
      * @param account The account to be saved.
+     * @author Fabio Barchiesi
      */
     void saveAccount(Account account);
 
@@ -20,6 +21,7 @@ public interface AccountDAO {
      *
      * @param email The email associated with the account to retrieve.
      * @return The retrieved account if present, otherwise null.
+     * @author Fabio Barchiesi
      */
     Account retrieveAccountInformationByEmail(String email);
 }

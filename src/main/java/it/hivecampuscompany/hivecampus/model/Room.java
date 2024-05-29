@@ -1,15 +1,15 @@
 package it.hivecampuscompany.hivecampus.model;
 
 import it.hivecampuscompany.hivecampus.bean.RoomBean;
+import it.hivecampuscompany.hivecampus.model.pattern_decorator.Component;
 
-public class Room {
+public class Room extends Component<RoomBean> {
     private final int idRoom;
     private final int idHome;
     private final int surface;
     private final String typeRoom;
     private final boolean[] services;
     private final String description;
-    private byte[] roomImage;
 
     public Room(int idRoom, int idHome, int surface, String typeRoom, boolean[] services, String description) {
         this.idRoom = idRoom;
@@ -19,21 +19,12 @@ public class Room {
         this.services = services;
         this.description = description;
     }
-    public Room(int idRoom, int idHome, int surface, String typeRoom, boolean[] services, String description, byte[] roomImage) {
-        this (idRoom, idHome, surface, typeRoom, services, description);
-        this.roomImage = roomImage;
-    }
-    public RoomBean toBasicBean() {
-        return new RoomBean(idRoom, typeRoom);
-    }
+
+    @Override
     public RoomBean toBean() {
         return new RoomBean(idRoom, surface, typeRoom, services, description);
     }
-    public RoomBean toBeanWithImage() {
-        RoomBean roomBean = toBean();
-        roomBean.setImage(roomImage);
-        return roomBean;
-    }
+
     public int getIdRoom() {
         return idRoom;
     }
@@ -50,24 +41,11 @@ public class Room {
         return typeRoom;
     }
 
-    public boolean getBathroom() {
-        return services[0];
-    }
-
-    public boolean getBalcony() {
-        return services[1];
-    }
-
-    public boolean getConditioner() {
-        return services[2];
-    }
-
-    public boolean getTV() {
-        return services[3];
+    public boolean[] getServices() {
+        return services;
     }
 
     public String getDescription() {
         return description;
     }
-
 }

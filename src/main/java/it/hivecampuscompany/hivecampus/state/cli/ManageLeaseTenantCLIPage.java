@@ -17,6 +17,7 @@ public class ManageLeaseTenantCLIPage extends ManageLeasePage {
      * Constructs a ManageLeaseTenantCLIPage object with the given context.
      *
      * @param context The context object for the tenant's manage lease page.
+     * @author Fabio Barchiesi
      */
     protected ManageLeaseTenantCLIPage(Context context) {
         super(context);
@@ -27,6 +28,7 @@ public class ManageLeaseTenantCLIPage extends ManageLeasePage {
      * It displays the home page, prompts the user for input, and performs actions based on the user's choice.
      *
      * @throws InvalidSessionException if the session is invalid.
+     * @author Fabio Barchiesi
      */
     @Override
     public void handle() throws InvalidSessionException {
@@ -52,6 +54,7 @@ public class ManageLeaseTenantCLIPage extends ManageLeasePage {
      * It prompts the user to sign the lease and proceeds to sign the contract if the user agrees.
      *
      * @throws InvalidSessionException if the session is invalid.
+     * @author Fabio Barchiesi
      */
     private void sign() throws InvalidSessionException {
         controller.homePage();

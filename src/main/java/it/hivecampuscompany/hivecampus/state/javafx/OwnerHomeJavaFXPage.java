@@ -2,9 +2,9 @@ package it.hivecampuscompany.hivecampus.state.javafx;
 
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.OwnerHomePage;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicComponent;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.BarDecorator;
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.component.BasicComponent;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.decoration.BarDecorator;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
@@ -13,14 +13,30 @@ import javafx.stage.Stage;
 
 import java.util.Properties;
 
-
+/**
+ * The OwnerHomeJavaFXPage class represents the owner home page in the JavaFX user interface.
+ * It extends the OwnerHomePage class and provides methods for displaying the owner home page and handling user input.
+ */
 public class OwnerHomeJavaFXPage extends OwnerHomePage {
 
     Properties properties = LanguageLoader.getLanguageProperties();
 
+    /**
+     * Constructs an OwnerHomeJavaFXPage object with the given context.
+     * @param context The context object for the owner home page.
+     * @author Marina Sotiropoulos
+     */
     public OwnerHomeJavaFXPage(Context context) {
         super(context);
     }
+
+    /**
+     * Handles the setup and display of the main tabbed interface in the application.
+     * This method initializes the tabs for managing ads, requests, and leases,
+     * sets up the corresponding tab pages, and displays the main stage.
+     *
+     * @author Marina Sotiropoulos
+     */
     @Override
     public void handle() {
 

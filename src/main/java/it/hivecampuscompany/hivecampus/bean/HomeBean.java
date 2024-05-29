@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.bean;
 
 import it.hivecampuscompany.hivecampus.model.Home;
-import it.hivecampuscompany.hivecampus.view.utility.Utility;
+import it.hivecampuscompany.hivecampus.state.utility.Utility;
 
 public class HomeBean {
     private int idHome;
@@ -37,6 +37,15 @@ public class HomeBean {
         this.surface = home.getSurface();
         this.features = new Integer[]{home.getNRooms(), home.getNBathrooms(), home.getFloor(), home.getElevator()};
         this.description = home.getDescription();
+    }
+
+    public HomeBean(int id, String address, String homeType, int surface, Integer[] features, String description) {
+        this.idHome = id;
+        this.address = address;
+        this.type = homeType;
+        this.surface = surface;
+        this.features = features;
+        this.description = description;
     }
 
     public String getAddress() {

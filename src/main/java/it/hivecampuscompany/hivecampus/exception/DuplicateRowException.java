@@ -1,7 +1,10 @@
 package it.hivecampuscompany.hivecampus.exception;
 
-public class DuplicateRowException extends Exception{
-    public DuplicateRowException(String message){
+/**
+ * Exception thrown when a duplicate row is encountered during a database insertion.
+ */
+public class DuplicateRowException extends Exception {
+    public DuplicateRowException(String message) {
         super(message);
     }
 }

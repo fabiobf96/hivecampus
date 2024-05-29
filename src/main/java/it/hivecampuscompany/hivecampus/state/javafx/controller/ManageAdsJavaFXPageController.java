@@ -168,6 +168,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      * It retrieves the ads from the database and displays them in the list view.
      *
      * @param context The context object for the manage ads page.
+     * @author Marina Sotiropoulos
      */
 
     public void initialize(Context context) {
@@ -196,6 +197,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      *
      * @param context The context object for the create ad form.
      * @param manageAdsPage The manage ads page object.
+     * @author Marina Sotiropoulos
      */
 
     public void initializeCreateAd(Context context, ManageAdsPage manageAdsPage) {
@@ -286,6 +288,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      * It also sets the home image in the image view.
      *
      * @param homeBean The home bean object with the home information.
+     * @author Marina Sotiropoulos
      */
 
     public void setHomeInfo(HomeBean homeBean) {
@@ -338,6 +341,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      *
      * @param adBean The ad bean object with the ad information.
      * @return The VBox object with the ad card.
+     * @author Marina Sotiropoulos
      */
 
     private VBox createPublishedAdCard(AdBean adBean) {
@@ -359,6 +363,8 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
     /**
      * Handles the create ad event. It loads the create ad form in a new tab
      * and sets the controller with the context and manage ads page.
+     *
+     * @author Marina Sotiropoulos
      */
 
     public void handleCreateAd(Context context, HomeBean homeBean) {
@@ -381,6 +387,8 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      * Handles the choice of the home image.
      * It opens a file chooser dialog to select the home image.
      * It reads the bytes from the file and sets the image in the image view.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private void handleChooseHomeImage() {
@@ -416,6 +424,8 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      * Handles the choice of the room image.
      * It opens a file chooser dialog to select the room image.
      * It reads the bytes from the file and sets the image in the image view.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private void handleChooseRoomImage() {
@@ -452,6 +462,8 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      * It retrieves the information from the form fields and creates the home and room beans.
      * It saves the images and filenames in the beans and publishes the ad.
      * If the ad is published successfully, it shows a success message and goes back to the owner home page.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private void handlePublish() {
@@ -494,6 +506,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      * It creates a home bean with the home information and returns the home bean.
      *
      * @return The home bean object with the home information.
+     * @author Marina Sotiropoulos
      */
 
     private HomeBean getHomeDataForm() {
@@ -525,6 +538,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      * It creates a room bean with the room information and returns the room bean.
      *
      * @return The room bean object with the room information.
+     * @author Marina Sotiropoulos
      */
 
     private RoomBean getRoomDataForm() {
@@ -548,6 +562,8 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
 
     /**
      * Handles the back event. It goes back to the owner home page.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private void handleBack() {
@@ -561,11 +577,12 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      *
      * @param sessionBean The session bean object for the user.
      * @return List of ads by the owner.
+     * @author Marina Sotiropoulos
      */
 
     private List<AdBean> retrieveAds(SessionBean sessionBean) {
         try {
-            return manager.getDecoratedAdsByOwner(sessionBean, new AdBean(null));
+            return manager.searchAdsByOwner(sessionBean, new AdBean(null));
         } catch (Exception e) {
             LOGGER.severe(properties.getProperty("ERROR_RETRIEVING_ADS"));
             return Collections.emptyList();
@@ -577,6 +594,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      * It sets the image of the delete button and the style.
      *
      * @return The Button object representing the delete button.
+     * @author Marina Sotiropoulos
      */
 
     private Button createDeleteButton() {
@@ -606,6 +624,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      * @param imageView The image view object representing the image.
      * @param deleteButton The delete button object.
      * @return The StackPane object with the image view and delete button.
+     * @author Marina Sotiropoulos
      */
 
     private StackPane createStackPane(ImageView imageView, Button deleteButton) {
@@ -621,6 +640,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      * It sets the fit width and height of the image view.
      *
      * @param imageView The image view object to set the image.
+     * @author Marina Sotiropoulos
      */
 
     private void setImageView(ImageView imageView) {
@@ -635,6 +655,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      *
      * @param vbox The VBox object representing the container of the image.
      * @param stackPane The StackPane object with the image view and delete button.
+     * @author Marina Sotiropoulos
      */
 
     private void deleteImage(VBox vbox, StackPane stackPane) {
@@ -646,6 +667,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      * It sets the title and extension filters for the file chooser.
      *
      * @return The File object representing the selected image file.
+     * @author Marina Sotiropoulos
      */
 
     private File openFileChooser() {
@@ -662,6 +684,8 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      * @param bytes The byte array representing the image.
      * @return The Image object created from the byte array.
      * @throws IOException If an I/O error occurs.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private Image byteToImage(byte[] bytes) throws IOException {
@@ -678,6 +702,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
      * It checks if all the text fields and text areas are filled.
      *
      * @return True if all fields are filled, false otherwise.
+     * @author Marina Sotiropoulos
      */
 
     private boolean checkFields() {

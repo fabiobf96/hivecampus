@@ -3,7 +3,7 @@ package it.hivecampuscompany.hivecampus.state.javafx.controller;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
 import it.hivecampuscompany.hivecampus.manager.LeaseRequestManager;
 import it.hivecampuscompany.hivecampus.state.Context;
-import it.hivecampuscompany.hivecampus.view.utility.CustomListCell;
+import it.hivecampuscompany.hivecampus.state.utility.CustomListCell;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -39,6 +39,7 @@ public class ManageRequestsTenantJavaFXPageController extends JavaFxController {
      * It adds the cards to the list view.
      *
      * @param context the context
+     * @author Marina Sotiropoulos
      */
 
     public void initialize(Context context) {
@@ -65,6 +66,7 @@ public class ManageRequestsTenantJavaFXPageController extends JavaFxController {
      *
      * @param requestBean the lease request bean
      * @return the lease request card
+     * @author Marina Sotiropoulos
      */
 
     private HBox createLeaseRequestCard(LeaseRequestBean requestBean) {
@@ -123,6 +125,7 @@ public class ManageRequestsTenantJavaFXPageController extends JavaFxController {
      * If the user confirms the deletion, it removes the lease request from the list of lease requests.
      *
      * @param requestBean The lease request to be deleted.
+     * @author Marina Sotiropoulos
      */
 
     private void handleDeleteAd(LeaseRequestBean requestBean) {

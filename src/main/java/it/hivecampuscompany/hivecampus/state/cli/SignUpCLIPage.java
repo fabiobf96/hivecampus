@@ -21,6 +21,7 @@ public class SignUpCLIPage extends SignUpPage {
      * Constructs a SignUpCLIPage object with the given context.
      *
      * @param context The context object for the sign-up page.
+     * @author Fabio Barchiesi
      */
     protected SignUpCLIPage(Context context) {
         super(context);
@@ -32,13 +33,14 @@ public class SignUpCLIPage extends SignUpPage {
      * It prompts the user for information, registers the user, and navigates to the initial page upon successful registration.
      *
      * @throws InvalidSessionException if the session is invalid.
+     * @author Fabio Barchiesi
      */
     @Override
     public void handle() throws InvalidSessionException {
         try {
             controller.homePage();
             UserBean userBean = controller.getUserInformation();
-            AccountBean accountBean = controller.getAccountInformation();
+            AccountBean accountBean = controller.getAccountInformation(userBean.getEmail());
             registerUser(userBean, accountBean);
             controller.successMessage("SIGN_UP");
             goToInitialPage(new InitialCLIPage(context));

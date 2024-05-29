@@ -17,20 +17,24 @@ module it.hivecampuscompany.hivecampus {
     exports it.hivecampuscompany.hivecampus;
     opens it.hivecampuscompany.hivecampus to javafx.fxml;
 
-    exports it.hivecampuscompany.hivecampus.view.utility;
-    opens it.hivecampuscompany.hivecampus.view.utility to javafx.fxml;
+    exports it.hivecampuscompany.hivecampus.state.utility;
+    opens it.hivecampuscompany.hivecampus.state.utility to javafx.fxml;
 
-    exports it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component;
-    opens it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component to javafx.fxml;
+    exports it.hivecampuscompany.hivecampus.state.javafx.ui.component;
+    opens it.hivecampuscompany.hivecampus.state.javafx.ui.component to javafx.fxml;
 
-    exports it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration;
-    opens it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration to javafx.fxml;
+    exports it.hivecampuscompany.hivecampus.state.javafx.ui.decoration;
+    opens it.hivecampuscompany.hivecampus.state.javafx.ui.decoration to javafx.fxml;
 
     exports it.hivecampuscompany.hivecampus.bean;
     opens it.hivecampuscompany.hivecampus.bean to javafx.fxml;
 
     exports it.hivecampuscompany.hivecampus.model;
     opens it.hivecampuscompany.hivecampus.model to javafx.fxml;
+
+    // Add the following two lines
+    exports it.hivecampuscompany.hivecampus.model.pattern_decorator;
+    opens it.hivecampuscompany.hivecampus.model.pattern_decorator to javafx.fxml;
 
     exports it.hivecampuscompany.hivecampus.exception;
     opens it.hivecampuscompany.hivecampus.exception to javafx.fxml;
@@ -46,4 +50,6 @@ module it.hivecampuscompany.hivecampus {
 
     exports it.hivecampuscompany.hivecampus.state.javafx;
     opens it.hivecampuscompany.hivecampus.state.javafx to javafx.fxml;
+    exports it.hivecampuscompany.hivecampus.state.javafx.ui.composite;
+    opens it.hivecampuscompany.hivecampus.state.javafx.ui.composite to javafx.fxml;
 }

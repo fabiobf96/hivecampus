@@ -5,9 +5,9 @@ import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.exception.MockOpenAPIException;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.ManageLeasePage;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.component.BasicAd;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.CssDecoration;
-import it.hivecampuscompany.hivecampus.view.controller.javafx.uidecorator.decoration.LeaseDecorator;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.component.BasicAd;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.decoration.CssDecoration;
+import it.hivecampuscompany.hivecampus.state.javafx.ui.decoration.LeaseDecorator;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -19,15 +19,32 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * The ManageLeaseTenantJavaFXPage class represents the manage lease tenant page in the JavaFX user interface.
+ * It extends the ManageLeasePage class and provides methods for displaying the manage lease tenant page and handling user input.
+ */
 public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
+
+    /**
+     * Constructs a ManageLeaseTenantJavaFXPage object with the given context.
+     * @param context The context object for the manage lease tenant page.
+     * @author Fabio Barchiesi
+     */
     public ManageLeaseTenantJavaFXPage(Context context) {
         super(context);
     }
 
+    /**
+     * Handles the display and management of an unsigned lease for the tenant.
+     * This method sets up the UI components for viewing, downloading, and signing the lease contract.
+     *
+     * @throws InvalidSessionException if the session is invalid
+     * @author Fabio Barchiesi
+     */
     @Override
     public void handle() throws InvalidSessionException {
         LeaseBean leaseBean = getUnSignedLease();
-        BasicAd basicAd = new BasicAd(leaseBean.getAdBean(), context);
+        BasicAd basicAd = new BasicAd(leaseBean.getAdBean());
         LeaseDecorator leaseDecorator = new LeaseDecorator(basicAd, LeaseDecorator.Type.TENANT);
         CssDecoration cssDecoration = new CssDecoration(leaseDecorator);
         Node root = cssDecoration.setup();

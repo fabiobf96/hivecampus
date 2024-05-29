@@ -1,7 +1,5 @@
 package it.hivecampuscompany.hivecampus.state.cli.controller;
 
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
-
 /**
  * The InitialCLIPageController class represents a controller for the initial command-line interface (CLI) page.
  * It extends the CLIController class and provides methods for displaying the home page and getting user input.
@@ -11,6 +9,8 @@ public class InitialCLIPageController extends CLIController {
     /**
      * Displays the home page of the CLI interface.
      * This method clears the view, then displays welcome message and menu options.
+     *
+     * @author Fabio Barchiesi
      */
     public void homePage() {
         view.clean();
@@ -25,6 +25,7 @@ public class InitialCLIPageController extends CLIController {
      * Gets the user's choice from the CLI interface.
      *
      * @return The integer representing the user's choice.
+     * @author Fabio Barchiesi
      */
     public int getChoice() {
         return view.getIntUserInput(properties.getProperty("CHOICE_MSG"));

@@ -29,7 +29,7 @@ public class LeaseManager {
         AccountDAO accountDAO = new AccountDAOCSV();
         LeaseDAO leaseDAO = new LeaseDAOCSV();
         LeaseRequestBean leaseRequestBean = leaseBean.getLeaseRequestBean();
-        Ad ad = adDAO.retrieveAdByID(leaseRequestBean.getAdBean().getId());
+        Ad ad = adDAO.retrieveAdByID(leaseRequestBean.getAdBean().getId(), sessionBean.getClient().equals(SessionBean.Client.JAVA_FX));
         ad.setAdStatus(AdStatus.RESERVED);
         adDAO.updateAd(ad);
         Account tenant = accountDAO.retrieveAccountInformationByEmail(leaseRequestBean.getTenant().getEmail());
@@ -42,23 +42,20 @@ public class LeaseManager {
             throw new InvalidSessionException();
         }
         LeaseDAO leaseDAO = new LeaseDAOCSV();
-        Lease lease = leaseDAO.retrieveUnsignedLeaseByTenant(sessionBean.getEmail());
-        if (lease != null && sessionBean.getClient() == SessionBean.Client.CLI) {
+        Lease lease = leaseDAO.retrieveUnsignedLeaseByTenant(sessionBean.getEmail(), sessionBean.getClient().equals(SessionBean.Client.JAVA_FX));
+        if (lease != null) {
             return lease.toBean();
-        } else if (lease != null && sessionBean.getClient() == SessionBean.Client.JAVA_FX) {
-            return lease.toBeanWithImage();
         }
-        else {
-            return null;
-        }
+        else return null;
     }
+
     public void signContract(SessionBean sessionBean) throws InvalidSessionException, MockOpenAPIException {
         SessionManager sessionManager = SessionManager.getInstance();
         if (!sessionManager.validSession(sessionBean)){
             throw new InvalidSessionException();
         }
         LeaseDAO leaseDAO = new LeaseDAOCSV();
-        Lease lease = leaseDAO.retrieveUnsignedLeaseByTenant(sessionBean.getEmail());
+        Lease lease = leaseDAO.retrieveUnsignedLeaseByTenant(sessionBean.getEmail(), false);
         try {
             OpenApiBoundary openApiBoundary = new OpenApiBoundary();
             lease.setSigned(openApiBoundary.signContract(lease.getContract()));
