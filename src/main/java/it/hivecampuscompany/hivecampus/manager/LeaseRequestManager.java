@@ -66,7 +66,7 @@ public class LeaseRequestManager {
 
         if (sessionManager.validSession(sessionBean)) {
             LeaseRequestDAO leaseRequestDAO = new LeaseRequestDAOCSV();
-            LeaseRequest leaseRequest = leaseRequestDAO.retrieveLeaseRequestByID(leaseRequestBean);
+            LeaseRequest leaseRequest = leaseRequestDAO.retrieveLeaseRequestByID(leaseRequestBean, sessionBean.getClient().equals(SessionBean.Client.JAVA_FX));
             leaseRequest.setStatus(leaseRequestBean.getStatus());
 
             if (leaseRequestBean.getStatus() == LeaseRequestStatus.ACCEPTED) {
@@ -103,7 +103,7 @@ public class LeaseRequestManager {
             leaseRequestBean.setTenant(new AccountBean(tenant));
 
             AdDAOCSV adDAO = new AdDAOCSV();
-            Ad ad = adDAO.retrieveAdByID(leaseRequestBean.getAdBean().getId());
+            Ad ad = adDAO.retrieveAdByID(leaseRequestBean.getAdBean().getId(), sessionBean.getClient().equals(SessionBean.Client.JAVA_FX));
 
             LeaseRequestDAO leaseRequestDAO = new LeaseRequestDAOCSV();
             LeaseRequest leaseRequest = new LeaseRequest(
@@ -133,7 +133,7 @@ public class LeaseRequestManager {
 
     public List<LeaseRequestBean> searchTenantRequests(SessionBean sessionBean) {
         LeaseRequestDAO leaseRequestDAO = new LeaseRequestDAOCSV();
-        List<LeaseRequest> leaseRequestList = leaseRequestDAO.retrieveLeaseRequestsByTenant(sessionBean);
+        List<LeaseRequest> leaseRequestList = leaseRequestDAO.retrieveLeaseRequestsByTenant(sessionBean, false);
         List<LeaseRequestBean> leaseRequestBeanList = new ArrayList<>();
         for (LeaseRequest leaseRequest : leaseRequestList) {
             leaseRequestBeanList.add(leaseRequest.toBasicBean());

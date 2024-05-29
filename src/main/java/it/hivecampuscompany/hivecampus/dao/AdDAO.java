@@ -37,7 +37,7 @@ public interface AdDAO {
      * @return The {@link Ad} object if found, otherwise null.
      * @author Fabio Barchiesi
      */
-    Ad retrieveAdByID(int id);
+    Ad retrieveAdByID(int id, boolean isDecorated);
 
     /**
      * Updates an existing advertisement's information in the database.

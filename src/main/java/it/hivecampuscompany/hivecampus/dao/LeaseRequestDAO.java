@@ -39,7 +39,7 @@ public interface LeaseRequestDAO {
      * @return The {@link LeaseRequest} object if found, otherwise null.
      * @author Fabio Barchiesi
      */
-    LeaseRequest retrieveLeaseRequestByID(LeaseRequestBean leaseRequestBean);
+    LeaseRequest retrieveLeaseRequestByID(LeaseRequestBean leaseRequestBean, boolean isDecorated);
 
     /**
      * Updates an existing lease request's information in the database.
@@ -77,7 +77,7 @@ public interface LeaseRequestDAO {
      * @author Marina Sotiropoulos
      */
 
-    List<LeaseRequest> retrieveLeaseRequestsByTenant(SessionBean sessionBean);
+    List<LeaseRequest> retrieveLeaseRequestsByTenant(SessionBean sessionBean, boolean isDecorated);
 
     /**
      * Deletes a lease request from the database.

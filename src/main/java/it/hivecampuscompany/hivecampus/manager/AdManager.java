@@ -222,7 +222,7 @@ public class AdManager {
     // Nuovo metodo per applicare il pattern decorator
     private ImageDecorator<RoomBean> getDecoratedRoom(Room room) {
         RoomDAO roomDAO = new RoomDAOCSV();
-        byte[] roomBytes = roomDAO.getRoomImage(room.getIdRoom(), room.getIdHome());
+        byte[] roomBytes = roomDAO.getRoomImage(room);
         if (roomBytes != null) {
             return new ImageDecorator<>(room, roomBytes);
         }

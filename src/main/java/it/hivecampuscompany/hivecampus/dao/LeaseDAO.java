@@ -20,11 +20,12 @@ public interface LeaseDAO {
      * Retrieves an unsigned lease contract for a given tenant, identified by their email.
      *
      * @param email the email of the tenant
+     * @param isDecorated a boolean indicating if the lease object should be decorated
      * @return the unsigned lease contract corresponding to the tenant,
      * or null if there is no unsigned lease for that email
      * @author Fabio Barchiesi
      */
-    Lease retrieveUnsignedLeaseByTenant(String email);
+    Lease retrieveUnsignedLeaseByTenant(String email, boolean isDecorated);
 
     /**
      * Updates a lease contract in the system.

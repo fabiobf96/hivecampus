@@ -48,7 +48,7 @@ public class LeaseDAOCSV implements LeaseDAO {
     }
 
     @Override
-    public Lease retrieveUnsignedLeaseByTenant(String email) {
+    public Lease retrieveUnsignedLeaseByTenant(String email, boolean isDecorated) {
         AdDAO adDAO = new AdDAOCSV();
         List<String[]> leaseTable = CSVUtility.readAll(fd);
         return leaseTable.stream()
@@ -56,7 +56,7 @@ public class LeaseDAOCSV implements LeaseDAO {
                 .findFirst()
                 .map(leaseRecord -> new Lease(
                         Integer.parseInt(leaseRecord[LeaseAttributes.GET_INDEX_ID]),
-                        adDAO.retrieveAdByID(Integer.parseInt(leaseRecord[LeaseAttributes.GET_INDEX_AD])),
+                        adDAO.retrieveAdByID(Integer.parseInt(leaseRecord[LeaseAttributes.GET_INDEX_AD]), isDecorated),
                         leaseRecord[LeaseAttributes.GET_INDEX_STARTING],
                         leaseRecord[LeaseAttributes.GET_INDEX_DURATION],
                         CSVUtility.decodeBase64ToBytes(leaseRecord[LeaseAttributes.GET_INDEX_CONTRACT]),

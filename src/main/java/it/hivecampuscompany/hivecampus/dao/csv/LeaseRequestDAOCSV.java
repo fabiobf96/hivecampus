@@ -39,18 +39,18 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
         LeaseRequestStatus leaseRequestStatus = adBean.getAdStatus() == AdStatus.AVAILABLE ? LeaseRequestStatus.PROCESSING : LeaseRequestStatus.ACCEPTED;
         return leaseRequestList.stream()
                 .filter(leaseRequestRecord -> Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_AD]) == adBean.getId() && LeaseRequestStatus.fromInt(Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_STATUS])) == leaseRequestStatus)
-                .map(leaseRequestRecord -> fillLeaseRequest(leaseRequestRecord, false))
+                .map(leaseRequestRecord -> fillLeaseRequest(leaseRequestRecord, false, false))
                 .toList();
     }
 
     @Override
-    public LeaseRequest retrieveLeaseRequestByID(LeaseRequestBean leaseRequestBean) {
+    public LeaseRequest retrieveLeaseRequestByID(LeaseRequestBean leaseRequestBean, boolean isDecorated) {
         List<String[]> leaseRequestTable = CSVUtility.readAll(fd);
         leaseRequestTable.removeFirst();
         return leaseRequestTable.stream()
                 .filter(leaseRequestRecord -> Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]) == leaseRequestBean.getId())
                 .findFirst()
-                .map(leaseRequestRecord -> fillLeaseRequest(leaseRequestRecord, true))
+                .map(leaseRequestRecord -> fillLeaseRequest(leaseRequestRecord, true, isDecorated))
                 .orElse(null);
 
     }
@@ -96,12 +96,12 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
     }
 
     @Override
-    public List<LeaseRequest> retrieveLeaseRequestsByTenant(SessionBean sessionBean) {
+    public List<LeaseRequest> retrieveLeaseRequestsByTenant(SessionBean sessionBean, boolean isDecorated) {
         List<String[]> leaseRequestTable = CSVUtility.readAll(fd);
         leaseRequestTable.removeFirst();
         return leaseRequestTable.stream()
                 .filter(leaseRequestRecord -> leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT].equals(sessionBean.getEmail()))
-                .map(leaseRequestRecord -> fillLeaseRequest(leaseRequestRecord, true))
+                .map(leaseRequestRecord -> fillLeaseRequest(leaseRequestRecord, true, isDecorated))
                 .toList();
     }
 
@@ -116,12 +116,12 @@ public class LeaseRequestDAOCSV implements LeaseRequestDAO {
         return requestRecord;
     }
 
-    private LeaseRequest fillLeaseRequest(String[] leaseRequestRecord, boolean isFull) {
+    private LeaseRequest fillLeaseRequest(String[] leaseRequestRecord, boolean isFull, boolean isDecorated) {
         AdDAO adDAO = new AdDAOCSV();
         AccountDAO accountDAO = new AccountDAOCSV();
         return new LeaseRequest(
                 Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_ID]),
-                isFull ? adDAO.retrieveAdByID(Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_AD])) : null,
+                isFull ? adDAO.retrieveAdByID(Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_AD]), isDecorated) : null,
                 accountDAO.retrieveAccountInformationByEmail(leaseRequestRecord[LeaseRequestAttributes.INDEX_TENANT]),
                 Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_START]),
                 Integer.parseInt(leaseRequestRecord[LeaseRequestAttributes.INDEX_DURATION]),

@@ -2,6 +2,7 @@ package it.hivecampuscompany.hivecampus.dao.csv;
 
 import com.opencsv.CSVWriter;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
+import it.hivecampuscompany.hivecampus.bean.RoomBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
@@ -11,8 +12,12 @@ import it.hivecampuscompany.hivecampus.model.Ad;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
 import it.hivecampuscompany.hivecampus.model.Home;
 import it.hivecampuscompany.hivecampus.model.Room;
+import it.hivecampuscompany.hivecampus.model.pattern_decorator.Component;
+import it.hivecampuscompany.hivecampus.model.pattern_decorator.Decorator;
+import it.hivecampuscompany.hivecampus.model.pattern_decorator.ImageDecorator;
 import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.io.*;
 import java.util.ArrayList;
@@ -65,7 +70,7 @@ public class AdDAOCSV implements AdDAO {
     }
 
     @Override
-    public Ad retrieveAdByID(int id) {
+    public Ad retrieveAdByID(int id, boolean isDecorated) {
         RoomDAO roomDAO = new RoomDAOCSV();
         HomeDAO homeDAO = new HomeDAOCSV();
         List<String[]> adTable = CSVUtility.readAll(fd);
@@ -73,12 +78,19 @@ public class AdDAOCSV implements AdDAO {
         return adTable.stream()
                 .filter(adRecord -> Integer.parseInt(adRecord[AdAttributes.INDEX_ID]) == id)
                 .findFirst()
-                .map(adRecord -> new Ad(
-                        Integer.parseInt(adRecord[AdAttributes.INDEX_ID]),
-                        homeDAO.retrieveHomeByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME])),
-                        roomDAO.retrieveRoomByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME]), Integer.parseInt(adRecord[AdAttributes.INDEX_ROOM])),
-                        Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE])
-                ))
+                .map(adRecord -> {
+                    Component<RoomBean> room = roomDAO.retrieveRoomByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME]), Integer.parseInt(adRecord[AdAttributes.INDEX_ROOM]));
+                    if (isDecorated) {
+                        byte[] image = roomDAO.getRoomImage((Room) room);
+                        room = new ImageDecorator<>(room, image);
+                    }
+                    return new Ad(
+                            Integer.parseInt(adRecord[AdAttributes.INDEX_ID]),
+                            homeDAO.retrieveHomeByID(Integer.parseInt(adRecord[AdAttributes.INDEX_HOME])),
+                            room,
+                            Integer.parseInt(adRecord[AdAttributes.INDEX_PRICE])
+                    );
+                })
                 .orElse(null);
 
     }
