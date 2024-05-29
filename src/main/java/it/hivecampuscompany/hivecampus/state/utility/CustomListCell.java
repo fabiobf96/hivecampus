@@ -1,10 +1,11 @@
-package it.hivecampuscompany.hivecampus.view.utility;
+package it.hivecampuscompany.hivecampus.state.utility;
 
 import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 
 /**
  * Class for customizing the cells of a ListView.
+ * @author Marina Sotiropoulos
  */
 
 public class CustomListCell extends ListCell<Node> {
@@ -17,6 +18,7 @@ public class CustomListCell extends ListCell<Node> {
      *
      * @param item the item to be displayed
      * @param empty whether the cell is empty
+     * @author Marina Sotiropoulos
      */
     @Override
     protected void updateItem(Node item, boolean empty) {

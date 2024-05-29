@@ -2,7 +2,6 @@ package it.hivecampuscompany.hivecampus.state.cli.controller;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
 
 import java.util.List;
 
@@ -15,6 +14,8 @@ public class ManageRequestsOwnerCLIPageController extends CLIController {
     /**
      * Overrides the homePage method to display the manage requests page for the owner.
      * This method clears the view and displays a welcome message with "MANAGE_REQUEST_MSG" property.
+     *
+     * @author Fabio Barchiesi
      */
     @Override
     public void homePage() {
@@ -27,6 +28,7 @@ public class ManageRequestsOwnerCLIPageController extends CLIController {
      *
      * @param adBeanList The list of advertisement beans to choose from.
      * @return The selected AdBean object.
+     * @author Fabio Barchiesi
      */
     public AdBean selectAd(List<AdBean> adBeanList) {
         view.displayMessage(properties.getProperty("SELECT_AD_REQUEST_MSG"));
@@ -38,6 +40,7 @@ public class ManageRequestsOwnerCLIPageController extends CLIController {
      *
      * @param leaseRequestBeanList The list of lease request beans to choose from.
      * @return The selected LeaseRequestBean object.
+     * @author Fabio Barchiesi
      */
     public LeaseRequestBean selectRequest(List<LeaseRequestBean> leaseRequestBeanList) {
         view.displayMessage(properties.getProperty("SELECT_LEASE_MSG"));
@@ -51,6 +54,7 @@ public class ManageRequestsOwnerCLIPageController extends CLIController {
      * @param adBean           The selected advertisement.
      * @param leaseRequestBean The selected lease request.
      * @return The integer representing the user's choice.
+     * @author Fabio Barchiesi
      */
     public int getChoice(AdBean adBean, LeaseRequestBean leaseRequestBean) {
         view.displayMessage(adBean.toString());

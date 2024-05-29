@@ -4,7 +4,7 @@ import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.manager.AdManager;
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -28,6 +28,8 @@ public class AdSearchCLIPageController extends CLIController {
 
     /**
      * Method to display the home page. It displays a welcome message.
+     *
+     * @author Marina Sotiropoulos
      */
 
     @Override
@@ -41,6 +43,7 @@ public class AdSearchCLIPageController extends CLIController {
      * It gets the user's input for the filters and returns a list of ads that match the filters.
      *
      * @return List of ads that match the filters.
+     * @author Marina Sotiropoulos
      */
 
     // Modificato per ricevere il sessionBean
@@ -69,6 +72,7 @@ public class AdSearchCLIPageController extends CLIController {
      * Method to display the ad preview.
      * @param adBeans List of ads to display.
      * @return AdBean object.
+     * @author Marina Sotiropoulos
      */
 
     public AdBean showAdsPreview(List<AdBean> adBeans) {
@@ -78,6 +82,7 @@ public class AdSearchCLIPageController extends CLIController {
     /**
      * Method to call the showAdDetails method and display the options to send lease request or go back.
      * @param adBean AdBean object to display.
+     * @author Marina Sotiropoulos
      */
 
     public void showAdDetails(AdBean adBean) {
@@ -91,6 +96,7 @@ public class AdSearchCLIPageController extends CLIController {
     /**
      * Method to display the ad details.
      * @param adBean AdBean object to display.
+     * @author Marina Sotiropoulos
      */
 
     private void displayAdDetails(AdBean adBean) {
@@ -104,6 +110,7 @@ public class AdSearchCLIPageController extends CLIController {
     /**
      * Method to get the user's choice.
      * @return int value that represents the user's choice.
+     * @author Marina Sotiropoulos
      */
 
     public int getChoice() {
@@ -117,6 +124,7 @@ public class AdSearchCLIPageController extends CLIController {
      * @param message Message to display.
      * @param defaultValue Default value to compare with.
      * @return Float value.
+     * @author Marina Sotiropoulos
      */
 
     private Float getValidatedInput(String message, float defaultValue) {
@@ -135,6 +143,7 @@ public class AdSearchCLIPageController extends CLIController {
      * @param input User input.
      * @param defaultValue Default value to compare with.
      * @return null if the input is invalid, otherwise the float value or defaultValue.
+     * @author Marina Sotiropoulos
      */
 
     private Float validateNumericInput(String input, float defaultValue) {

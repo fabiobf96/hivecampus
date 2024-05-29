@@ -7,7 +7,7 @@ import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.bean.RoomBean;
 import it.hivecampuscompany.hivecampus.dao.RoomDAO;
 import it.hivecampuscompany.hivecampus.model.Room;
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.io.*;
 import java.util.Collections;
@@ -16,21 +16,12 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- * RoomDAOCSV class for managing room data in a CSV file.
- * Implements the RoomDAO interface and provides operations to retrieve, save, and filter rooms.
- */
 
 public class RoomDAOCSV implements RoomDAO {
     private File fd;
     private File roomFile;
     private Properties properties;
     private static final Logger LOGGER = Logger.getLogger(RoomDAOCSV.class.getName());
-
-    /**
-     * Constructor for the RoomDAOCSV class.
-     * It initializes the file paths of the room data CSV file and the room images CSV file.
-     */
 
     public RoomDAOCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")) {
@@ -64,19 +55,9 @@ public class RoomDAOCSV implements RoomDAO {
                 .orElse(null);
     }
 
-    /**
-     * Method to retrieve a list of rooms that match the filters.
-     * It reads the CSV file and filters the rooms based on the filters.
-     * If a filter is not specified, it is not applied, otherwise it is applied.
-     * Then it maps the filtered records to Room objects and returns them as a list.
-     *
-     * @param homeID The ID of the home to search for rooms.
-     * @param filtersBean The filters to apply to the search.
-     * @return List of rooms that match the filters.
-     */
-
     @Override
     public List<Room> retrieveRoomsByFilters(int homeID, FiltersBean filtersBean) {
+        // Read the CSV file and filter the rooms based on the filters
         try (CSVReader reader = new CSVReader(new FileReader(fd))) {
             List<String[]> roomTable = reader.readAll();
             roomTable.removeFirst();
@@ -101,22 +82,11 @@ public class RoomDAOCSV implements RoomDAO {
         return Collections.emptyList();
     }
 
-    /**
-     * Method to save a room in the CSV file.
-     * It reads the CSV file to get the last ID of the rooms for the home.
-     * Then it creates a new Room object with the new ID and the data from the RoomBean.
-     * Finally, it writes the new room to the CSV file and returns it.
-     *
-     * @param homeID The ID of the home to which the room belongs.
-     * @param roomBean The RoomBean object containing the data of the room to save.
-     * @return The Room object saved in the CSV file.
-     */
-
     @Override
     public Room saveRoom(int homeID, RoomBean roomBean) {
 
         Room room = null;
-
+        // Read the CSV file to get the last ID of the rooms for the home
         try (CSVReader reader = new CSVReader(new FileReader(fd))) {
             List<String[]> roomTable = reader.readAll();
             roomTable.removeFirst();
@@ -138,10 +108,10 @@ public class RoomDAOCSV implements RoomDAO {
                 roomRecord[RoomAttributes.INDEX_ID_HOME] = String.valueOf(room.getIdHome());
                 roomRecord[RoomAttributes.INDEX_TYPE] = room.getTypeRoom();
                 roomRecord[RoomAttributes.INDEX_SURFACE] = String.valueOf(room.getSurface());
-                roomRecord[RoomAttributes.INDEX_BATHROOM] = room.getBathroom() ? "1" : "0";
-                roomRecord[RoomAttributes.INDEX_BALCONY] = room.getBalcony() ? "1" : "0";
-                roomRecord[RoomAttributes.INDEX_CONDITIONER] = room.getConditioner() ? "1" : "0";
-                roomRecord[RoomAttributes.INDEX_TV] = room.getTV() ? "1" : "0";
+                roomRecord[RoomAttributes.INDEX_BATHROOM] = room.getServices()[0] ? "1" : "0";
+                roomRecord[RoomAttributes.INDEX_BALCONY] = room.getServices()[1] ? "1" : "0";
+                roomRecord[RoomAttributes.INDEX_CONDITIONER] = room.getServices()[2] ? "1" : "0";
+                roomRecord[RoomAttributes.INDEX_TV] = room.getServices()[3] ? "1" : "0";
                 roomRecord[RoomAttributes.INDEX_DESCRIPTION] = room.getDescription();
                 writer.writeNext(roomRecord);
                 return room;
@@ -152,24 +122,16 @@ public class RoomDAOCSV implements RoomDAO {
         return null;
     }
 
-    /**
-     * Method to retrieve the number of rooms already present in the CSV file for a home.
-     * It reads the CSV file and counts the number of rooms that have the same homeID.
-     * If the list of rooms is empty, it returns 0. Otherwise, it returns the count.
-     *
-     * @param homeID The ID of the home for which to count the rooms.
-     * @return long value representing the number of rooms already present.
-     */
-
     @Override
     public long getRoomsAlreadyPresent(int homeID) {
         long roomCount = 0;
+        // Read the CSV file and count the number of rooms that have the same homeID
         try (CSVReader reader = new CSVReader(new FileReader(fd))) {
             List<String[]> roomTable = reader.readAll();
             if (roomTable.isEmpty()) {
                 return roomCount; // Se la lista di camere è vuota, il conteggio è già zero
             }
-            roomTable.remove(0); // Rimuovi l'intestazione
+            roomTable.removeFirst(); // Rimuovi l'intestazione
             for (String[] roomRecord : roomTable) {
                 if (Integer.parseInt(roomRecord[RoomDAOCSV.RoomAttributes.INDEX_ID_HOME]) == homeID) {
                     roomCount++;
@@ -181,21 +143,11 @@ public class RoomDAOCSV implements RoomDAO {
         return roomCount;
     }
 
-    /**
-     * Method to check if an image of a room already exists in the CSV file.
-     * It reads the CSV file and filters the image records based on the roomID and homeID.
-     * If an image record is found, it returns true, otherwise it returns false.
-     *
-     * @param imageName The name of the image file.
-     * @param idRoom The ID of the room to which the image belongs.
-     * @param idHome The ID of the home to which the room belongs.
-     * @return boolean value representing if the image already exists.
-     */
-
-    private boolean imageRoomAlreadyExists(String imageName, int idRoom, int idHome) {
+     private boolean imageRoomAlreadyExists(String imageName, int idRoom, int idHome) {
+        // Read the CSV file and filter the image records based on the roomID and homeID
         try (CSVReader reader = new CSVReader(new FileReader(roomFile))) {
             List<String[]> imageTable = reader.readAll();
-            imageTable.remove(0);
+            imageTable.removeFirst();
             for (String[] imageRecord : imageTable) {
                 if (Integer.parseInt(imageRecord[1]) == idRoom && Integer.parseInt(imageRecord[2]) == idHome && imageRecord[3].equals(imageName)){
                     return true;
@@ -210,18 +162,6 @@ public class RoomDAOCSV implements RoomDAO {
         }
         return false;
     }
-
-    /**
-     * Method to save an image of a room in the CSV file.
-     * It checks if the image already exists in the CSV file.
-     * If the image does not exist, it creates a new image record with the image data and writes it to the CSV file.
-     *
-     * @param imageName The name of the image file.
-     * @param imageType The type of the image file.
-     * @param byteArray Byte array containing the image data.
-     * @param idRoom The ID of the room to which the image belongs.
-     * @param idHome The ID of the home to which the room belongs.
-     */
 
     public void saveRoomImage (String imageName, String imageType, byte[] byteArray, int idRoom, int idHome) {
         // Check if the image already exists
@@ -247,20 +187,9 @@ public class RoomDAOCSV implements RoomDAO {
         }
     }
 
-    /**
-     * Method to retrieve the image of a room from the CSV file.
-     * It reads the CSV file and filters the image records based on the roomID and homeID.
-     * If an image record is found, it decodes the base64 image and returns it as a byte array.
-     * Otherwise, it returns an empty byte array.
-     *
-     * @param idRoom The ID of the room for which to retrieve the image.
-     * @param idHome The ID of the home to which the room belongs.
-     * @return Byte array containing the image of the room.
-     */
-
-
     @Override
     public byte[] getRoomImage(int idRoom, int idHome) {
+        // Read the CSV file and filter the image records based on the roomID and homeID
         try (CSVReader reader = new CSVReader(new FileReader(roomFile))) {
             List<String[]> imageTable = reader.readAll();
             imageTable.removeFirst();
@@ -268,6 +197,7 @@ public class RoomDAOCSV implements RoomDAO {
                     .filter(image -> Integer.parseInt(image[ImageAttributes.INDEX_ID_HOME]) == idHome && Integer.parseInt(image[ImageAttributes.INDEX_ID_ROOM]) == idRoom)
                     .findFirst()
                     .orElse(null);
+            // If an image record is found, decode the base64 image and return it as a byte array
             if (imageRecord != null) {
                 return CSVUtility.decodeBase64ToBytes(imageRecord[ImageAttributes.INDEX_IMAGE]);
             }
@@ -289,10 +219,6 @@ public class RoomDAOCSV implements RoomDAO {
         private static final int INDEX_TV = 7;
         private static final int INDEX_DESCRIPTION = 8;
     }
-
-    /**
-     * Static inner class containing some indexes of the fields in the CSV image file.
-     */
 
     private static class ImageAttributes {
         private static final int INDEX_ID_ROOM = 1;

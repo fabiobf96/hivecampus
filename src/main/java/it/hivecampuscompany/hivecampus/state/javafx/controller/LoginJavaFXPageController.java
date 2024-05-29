@@ -60,6 +60,7 @@ public class LoginJavaFXPageController extends JavaFxController {
      *
      * @param context The context object for the login page.
      * @param loginPage The login page object.
+     * @author Marina Sotiropoulos
      */
 
     public void initialize(Context context, LoginPage loginPage) {
@@ -89,6 +90,8 @@ public class LoginJavaFXPageController extends JavaFxController {
      * Handles the login process based on the user's email and password.
      * It authenticates the user and sets the session bean into the context.
      * It shows the correct homepage based on the account type.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private void handleLogin() {
@@ -115,6 +118,8 @@ public class LoginJavaFXPageController extends JavaFxController {
     /**
      * Handles the user's request to sign up.
      * It redirects the user to the sign-up page.
+     *
+     * @author Marina Sotiropoulos
      */
 
     public void handleSignUp() {
@@ -124,6 +129,8 @@ public class LoginJavaFXPageController extends JavaFxController {
     /**
      * Handles the user's request to log in with Google.
      * It displays a message indicating that the feature is not implemented.
+     *
+     * @author Marina Sotiropoulos
      */
 
     public void handleGoogleLogin() {
@@ -135,6 +142,7 @@ public class LoginJavaFXPageController extends JavaFxController {
      * It redirects the user to the owner or tenant homepage.
      *
      * @param sessionBean The session bean object for the user.
+     * @author Marina Sotiropoulos
      */
 
     private void showHomePage(SessionBean sessionBean) {
@@ -153,6 +161,8 @@ public class LoginJavaFXPageController extends JavaFxController {
 
     /**
      * Clears the email and password fields.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private void clearFields() {

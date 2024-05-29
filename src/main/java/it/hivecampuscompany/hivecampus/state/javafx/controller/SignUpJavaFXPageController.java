@@ -70,6 +70,7 @@ public class SignUpJavaFXPageController extends JavaFxController {
      *
      * @param context The context of the application
      * @param signUpPage The sign-up page
+     * @author Marina Sotiropoulos
      */
 
     public void initializeSignUpView(Context context, SignUpPage signUpPage) {
@@ -100,6 +101,8 @@ public class SignUpJavaFXPageController extends JavaFxController {
     /**
      * Initializes the listener for the CheckBoxes.
      * If the Owner CheckBox is selected, the Tenant CheckBox is deselected and vice versa.
+     *
+     * @author Marina Sotiropoulos
      */
 
     @FXML
@@ -124,6 +127,8 @@ public class SignUpJavaFXPageController extends JavaFxController {
      * It registers the user with the sign-up page.
      * If the registration is successful, it shows a success message and clears the fields.
      * If there is an error, it shows an error message.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private void handleSignUp() {
@@ -167,8 +172,9 @@ public class SignUpJavaFXPageController extends JavaFxController {
     }
 
     /**
-     * Handles the login of the user.
-     * It goes to the login page.
+     * Handles the login of the user. It goes to the login page.
+     *
+     * @author Marina Sotiropoulos
      */
 
     public void handleLogHere() {
@@ -177,6 +183,8 @@ public class SignUpJavaFXPageController extends JavaFxController {
 
     /**
      * Clears the fields of the text fields and deselects the CheckBoxes.
+     *
+     * @author Marina Sotiropoulos
      */
 
     private void clearFields() {

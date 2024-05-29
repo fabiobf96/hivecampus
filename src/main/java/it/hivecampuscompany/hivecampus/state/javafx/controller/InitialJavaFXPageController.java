@@ -33,6 +33,7 @@ public class InitialJavaFXPageController extends JavaFxController {
      *
      * @param context The context object for the initial page.
      * @param initialJavaFXPage The initial JavaFX page object.
+     * @author Marina Sotiropoulos
      */
 
     public void initialize(Context context, InitialJavaFXPage initialJavaFXPage) {

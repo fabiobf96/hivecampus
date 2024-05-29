@@ -8,6 +8,11 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Manages user sessions within the system.
+ *
+ * @author Fabio Barchiesi
+ */
 public class SessionManager {
     private final HashMap<Integer, Session> sessionHashMap;
     private static SessionManager instance;
@@ -22,31 +27,64 @@ public class SessionManager {
         }
     }
 
-    private SessionManager(){
+    /**
+     * Private constructor to prevent direct instantiation.
+     *
+     * @author Fabio Barchiesi
+     */
+    private SessionManager() {
         sessionHashMap = new HashMap<>();
     }
 
-    public static SessionManager getInstance(){
-        if (instance == null){
+    /**
+     * Retrieves the singleton instance of SessionManager.
+     *
+     * @return The SessionManager instance.
+     * @author Fabio Barchiesi
+     */
+    public static SessionManager getInstance() {
+        if (instance == null) {
             instance = new SessionManager();
         }
         return instance;
     }
 
-    public Session createSession(User user){
+    /**
+     * Creates a new session for the given user.
+     *
+     * @param user The user for whom the session is created.
+     * @return The created session.
+     * @author Fabio Barchiesi
+     */
+    public Session createSession(User user) {
         Session session = new Session(user);
-        if (sessionHashMap.get(session.getId()) == null){
+        if (sessionHashMap.get(session.getId()) == null) {
             sessionHashMap.put(session.getId(), session);
             return session;
+        } else {
+            return sessionHashMap.get(session.getId());
         }
-        else return sessionHashMap.get(session.getId());
     }
 
-    public boolean validSession(SessionBean sessionBean){
+    /**
+     * Checks if the provided session is valid.
+     *
+     * @param sessionBean The session bean to be validated.
+     * @return true if the session is valid, false otherwise.
+     * @author Fabio Barchiesi
+     */
+    public boolean validSession(SessionBean sessionBean) {
         return sessionHashMap.get(sessionBean.getId()).isValid();
     }
 
-    public void deleteSession(SessionBean sessionBean){
+    /**
+     * Deletes the session associated with the provided session bean.
+     *
+     * @param sessionBean The session bean representing the session to be deleted.
+     * @author Fabio Barchiesi
+     */
+    public void deleteSession(SessionBean sessionBean) {
         sessionHashMap.remove(sessionBean.getId());
     }
 }
+

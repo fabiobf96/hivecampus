@@ -1,6 +1,9 @@
 package it.hivecampuscompany.hivecampus.manager;
 
-import it.hivecampuscompany.hivecampus.bean.*;
+import it.hivecampuscompany.hivecampus.bean.AccountBean;
+import it.hivecampuscompany.hivecampus.bean.AdBean;
+import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
+import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
 import it.hivecampuscompany.hivecampus.dao.LeaseRequestDAO;
@@ -9,7 +12,7 @@ import it.hivecampuscompany.hivecampus.dao.csv.AdDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.csv.LeaseRequestDAOCSV;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.model.*;
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,28 +25,50 @@ import java.util.Properties;
 
 public class LeaseRequestManager {
 
-    Properties properties = LanguageLoader.getLanguageProperties();
+    private Properties properties = LanguageLoader.getLanguageProperties();
 
-    public List<LeaseRequestBean> searchLeaseRequestsByAd (SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
+    /**
+     * Searches for lease requests associated with a given ad.
+     *
+     * @param sessionBean The session bean representing the current session.
+     * @param adBean      The ad bean containing search criteria.
+     * @return A list of lease request beans associated with the given ad.
+     * @throws InvalidSessionException If the session is invalid or expired.
+     * @author Fabio Barchiesi
+     */
+    public List<LeaseRequestBean> searchLeaseRequestsByAd(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
-        if(sessionManager.validSession(sessionBean)) {
+
+        if (sessionManager.validSession(sessionBean)) {
             LeaseRequestDAO leaseRequestDAO = new LeaseRequestDAOCSV();
             List<LeaseRequest> leaseRequestList = leaseRequestDAO.retrieveLeaseRequestsByAdID(adBean);
             List<LeaseRequestBean> leaseRequestBeanList = new ArrayList<>();
+
             for (LeaseRequest leaseRequest : leaseRequestList) {
                 leaseRequestBeanList.add(leaseRequest.toBasicBean());
             }
             return leaseRequestBeanList;
         }
+
         throw new InvalidSessionException();
     }
 
+    /**
+     * Modifies a lease request, updating its status.
+     *
+     * @param sessionBean      The session bean representing the current session.
+     * @param leaseRequestBean The lease request bean containing the updated information.
+     * @throws InvalidSessionException If the session is invalid or expired.
+     * @author Fabio Barchiesi
+     */
     public void modifyLeaseRequest(SessionBean sessionBean, LeaseRequestBean leaseRequestBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
-        if(sessionManager.validSession(sessionBean)) {
+
+        if (sessionManager.validSession(sessionBean)) {
             LeaseRequestDAO leaseRequestDAO = new LeaseRequestDAOCSV();
             LeaseRequest leaseRequest = leaseRequestDAO.retrieveLeaseRequestByID(leaseRequestBean);
             leaseRequest.setStatus(leaseRequestBean.getStatus());
+
             if (leaseRequestBean.getStatus() == LeaseRequestStatus.ACCEPTED) {
                 AdDAO adDAO = new AdDAOCSV();
                 Ad ad = leaseRequest.getAd();
@@ -51,23 +76,27 @@ public class LeaseRequestManager {
                 adDAO.updateAd(ad);
             }
             leaseRequestDAO.updateLeaseRequest(leaseRequest);
-        } else throw new InvalidSessionException();
+        } else {
+            throw new InvalidSessionException();
+        }
     }
+
 
     /**
      * Method to send a lease request to the owner of an ad.
      * It checks if the tenant has already sent a request for the same ad.
      * If the request is valid, it saves the lease request in the database.
      *
-     * @param sessionBean The session of the tenant.
+     * @param sessionBean      The session of the tenant.
      * @param leaseRequestBean The lease request to be sent.
      * @return A message indicating the result of the operation.
      * @throws InvalidSessionException If the session is invalid.
+     * @author Marina Sotiropoulos
      */
 
     public String sendLeaseRequest(SessionBean sessionBean, LeaseRequestBean leaseRequestBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
-        if(sessionManager.validSession(sessionBean)) {
+        if (sessionManager.validSession(sessionBean)) {
             AccountDAO accountDAO = new AccountDAOCSV();
 
             Account tenant = accountDAO.retrieveAccountInformationByEmail(sessionBean.getEmail());
@@ -90,8 +119,7 @@ public class LeaseRequestManager {
                 return properties.getProperty("SUCCESS_MSG_SEND_REQUEST");
             }
             return properties.getProperty("REQUEST_ALREADY_SENT_MSG");
-        }
-        else throw new InvalidSessionException();
+        } else throw new InvalidSessionException();
     }
 
     /**
@@ -100,6 +128,7 @@ public class LeaseRequestManager {
      *
      * @param sessionBean The session of the tenant.
      * @return A list of lease requests sent by the tenant.
+     * @author Marina Sotiropoulos
      */
 
     public List<LeaseRequestBean> searchTenantRequests(SessionBean sessionBean) {
@@ -117,6 +146,7 @@ public class LeaseRequestManager {
      * It removes the lease request from the database.
      *
      * @param requestBean The lease request to be deleted.
+     * @author Marina Sotiropoulos
      */
 
     public void deleteLeaseRequest(LeaseRequestBean requestBean) {

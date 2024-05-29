@@ -4,7 +4,7 @@ import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.TenantHomePage;
 import it.hivecampuscompany.hivecampus.state.cli.controller.TenantHomeCLIPageController;
-import it.hivecampuscompany.hivecampus.view.controller.cli.AccountSettingsCLIController;
+import it.hivecampuscompany.hivecampus.state.cli.controller.AccountSettingsCLIController;
 
 /**
  * The TenantHomeCLIPage class represents the tenant's home page in the command-line interface (CLI).
@@ -16,6 +16,7 @@ public class TenantHomeCLIPage extends TenantHomePage {
     /**
      * Constructs a TenantHomeCLIPage object with the given context.
      * @param context The context object for the tenant's home page.
+     * @author Marina Sotiropoulos
      */
 
     protected TenantHomeCLIPage(Context context) {
@@ -27,6 +28,7 @@ public class TenantHomeCLIPage extends TenantHomePage {
      * It displays the home page, prompts the user for input, and navigates to the corresponding page based on the user's choice.
      *
      * @throws InvalidSessionException if the session is invalid.
+     * @author Marina Sotiropoulos
      */
 
     @Override

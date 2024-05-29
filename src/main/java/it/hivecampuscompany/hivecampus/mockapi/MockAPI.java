@@ -12,13 +12,31 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 public class MockAPI {
     private static final Logger LOGGER = Logger.getLogger(MockAPI.class.getName());
     private static final WireMockServer wireMockServer = new WireMockServer(8080);
+
+    /**
+     * Private constructor to prevent instantiation of the utility class.
+     *
+     * @author Fabio Barchiesi
+     */
     private MockAPI() {
         throw new IllegalStateException("Utility class");
     }
+
+    /**
+     * Starts the WireMock server.
+     *
+     * @author Fabio Barchiesi
+     */
     public static void start() {
         wireMockServer.start();
     }
 
+    /**
+     * Mocks the OpenAPI for signing documents.
+     * It responds with a successful message when a POST request is made to /sign-document.
+     *
+     * @author Fabio Barchiesi
+     */
     public static void mockOpenAPI() {
         stubFor(post(urlEqualTo("/sign-document"))
                 .willReturn(aResponse()
@@ -27,10 +45,13 @@ public class MockAPI {
                         .withBody("true")));
     }
 
+
     /**
      * Method to mock the OpenStreetMap API.
      * It returns a map image when a GET request is made to /get-map.
      * The image is read from the resources' folder.
+     *
+     * @author Marina Sotiropoulos
      */
 
     public static void mockOpenStreetMapAPI() {
@@ -48,6 +69,11 @@ public class MockAPI {
         }
     }
 
+    /**
+     * Shuts down the WireMock server.
+     *
+     * @author Fabio Barchiesi
+     */
     public static void shutdown() {
         wireMockServer.shutdown();
     }

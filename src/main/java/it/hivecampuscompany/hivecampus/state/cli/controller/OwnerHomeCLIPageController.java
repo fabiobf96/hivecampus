@@ -1,7 +1,5 @@
 package it.hivecampuscompany.hivecampus.state.cli.controller;
 
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
-
 /**
  * The OwnerHomeCLIPageController class represents a controller for the home page of the owner in the command-line interface (CLI).
  * It extends the CLIController class and provides methods for displaying owner-specific options and collecting user input.
@@ -11,6 +9,8 @@ public class OwnerHomeCLIPageController extends CLIController {
      * Overrides the homePage method to display the home page for the owner.
      * This method clears the view and displays a welcome message with "HOME_PAGE_MSG" property in uppercase,
      * along with various options available to the owner.
+     *
+     * @author Fabio Barchiesi
      */
     @Override
     public void homePage() {
@@ -28,6 +28,7 @@ public class OwnerHomeCLIPageController extends CLIController {
      * Gets the owner's choice from the home page options.
      *
      * @return The integer representing the user's choice.
+     * @author Fabio Barchiesi
      */
     public int getChoice() {
         return view.getIntUserInput(properties.getProperty("CHOICE_MSG"));

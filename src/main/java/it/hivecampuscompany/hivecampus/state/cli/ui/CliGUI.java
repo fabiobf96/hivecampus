@@ -1,6 +1,6 @@
-package it.hivecampuscompany.hivecampus.view.gui.cli;
+package it.hivecampuscompany.hivecampus.state.cli.ui;
 
-import it.hivecampuscompany.hivecampus.view.utility.LanguageLoader;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.io.IOException;
 import java.util.InputMismatchException;
@@ -30,6 +30,7 @@ public class CliGUI {
      * the title will not be correctly centered.
      *
      * @param title The title or message to be displayed at the center of the frame.
+     * @author Fabio Barchiesi
      */
     public void displayWelcomeMessage(String title) {
         int totalWidth = 40;
@@ -55,6 +56,7 @@ public class CliGUI {
      *
      * @param prompt The message displayed to the user as a prompt for input.
      * @return The string input received from the user.
+     * @author Fabio Barchiesi
      */
     public String getStringUserInput(String prompt) {
         Scanner scanner = new Scanner(System.in);
@@ -70,6 +72,7 @@ public class CliGUI {
      * @return The integer input received from the user.
      * @throws InputMismatchException if the next token does not match the Integer regular expression,
      *                                or is out of range for the Integer type.
+     * @author Fabio Barchiesi
      */
     public int getIntUserInput(String prompt) {
         try {
@@ -87,6 +90,8 @@ public class CliGUI {
      * variable is not set, simulates clearing by printing 50 new lines as a fallback.
      * Handles {@link IOException} for command execution issues and {@link InterruptedException}
      * for thread interruptions, re-interrupting the thread in the latter case.
+     *
+     * @author Fabio Barchiesi
      */
     public void clean() {
         String term = System.getenv("TERM");
@@ -96,12 +101,12 @@ public class CliGUI {
 
         if (term != null && !term.isEmpty()) {
             try {
-                String operatingSystem = System.getProperty("os.name"); // Controlla il sistema operativo
+                String operatingSystem = System.getProperty("os.name"); // Check the OS
 
                 if (operatingSystem.contains("Windows")) {
-                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); // Comando per Windows
+                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor(); // Windows command
                 } else {
-                    new ProcessBuilder("clear").inheritIO().start().waitFor(); // Comando per Unix/Linux/macOS
+                    new ProcessBuilder("clear").inheritIO().start().waitFor(); // Unix/Linux/macOS command
                 }
             } catch (IOException e) {
                 LOGGER.log(Level.SEVERE, "An I/O error occurred during terminal cleanup: ", e);
@@ -118,6 +123,7 @@ public class CliGUI {
      * Prints a message to the standard output with a newline at the end.
      *
      * @param message The message to be displayed to the user.
+     * @author Fabio Barchiesi
      */
     public void displayMessage(String message) {
         System.out.println(message);
@@ -128,6 +134,7 @@ public class CliGUI {
      * for printing prompts to which the user is expected to provide an input on the same line.
      *
      * @param message The message to be displayed to the user.
+     * @author Fabio Barchiesi
      */
     private void printMessage(String message) {
         System.out.print(message);

@@ -12,13 +12,14 @@ import it.hivecampuscompany.hivecampus.state.cli.controller.ManageLeaseOwnerCLIP
  * It extends the ManageLeasePage class and provides methods for handling user interactions on the CLI owner's manage lease page.
  */
 public class ManageLeaseOwnerCLIPage extends ManageLeasePage {
-    private ManageLeaseOwnerCLIPageController controller;
+    private final ManageLeaseOwnerCLIPageController controller;
     private AdBean adBean;
 
     /**
      * Constructs a ManageLeaseOwnerCLIPage object with the given context.
      *
      * @param context The context object for the owner's manage lease page.
+     * author Fabio Barchiesi
      */
     public ManageLeaseOwnerCLIPage(Context context) {
         super(context);
@@ -30,6 +31,7 @@ public class ManageLeaseOwnerCLIPage extends ManageLeasePage {
      * It displays the home page, prompts the user for input, and performs actions based on the user's choice.
      *
      * @throws InvalidSessionException if the session is invalid.
+     * author Fabio Barchiesi
      */
     @Override
     public void handle() throws InvalidSessionException {
@@ -58,6 +60,7 @@ public class ManageLeaseOwnerCLIPage extends ManageLeasePage {
      * It prompts the user to select an ad and proceeds to create a new lease if an ad is chosen.
      *
      * @throws InvalidSessionException if the session is invalid.
+     * author Fabio Barchiesi
      */
     private void choiceAd() throws InvalidSessionException {
         controller.homePage();
@@ -74,6 +77,7 @@ public class ManageLeaseOwnerCLIPage extends ManageLeasePage {
      * It prompts the user for lease information and uploads the lease to the system.
      *
      * @throws InvalidSessionException if the session is invalid.
+     * author Fabio Barchiesi
      */
     private void createNewLease() throws InvalidSessionException {
         controller.homePage();

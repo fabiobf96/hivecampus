@@ -61,24 +61,11 @@ public class Room extends Component<RoomBean> {
         return typeRoom;
     }
 
-    public boolean getBathroom() {
-        return services[0];
-    }
-
-    public boolean getBalcony() {
-        return services[1];
-    }
-
-    public boolean getConditioner() {
-        return services[2];
-    }
-
-    public boolean getTV() {
-        return services[3];
+    public boolean[] getServices() {
+        return services;
     }
 
     public String getDescription() {
         return description;
     }
-
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * HomeDAO interface for managing home data.
- * Provides an operation for retrieving a home by its ID.
+ * Provides an operation for retrieving homes by their ID, by distance from a university, by owner, and for saving a new home.
  */
 public interface HomeDAO {
 
@@ -17,15 +17,18 @@ public interface HomeDAO {
      *
      * @param id The unique identifier of the home to retrieve.
      * @return The {@link Home} object if found, otherwise null.
+     * @author Fabio Barchiesi
      */
     Home retrieveHomeByID(int id);
 
     /**
-     * Retrieves homes by distance from a specified university.
+     * Retrieves all homes within a specified distance from a university
+     * by calculating the distance between each home and the university using the Haversine formula.
      *
      * @param unicoordinates The coordinates of the university.
-     * @param distance The distance from the point.
+     * @param distance       The distance from the point.
      * @return A list of {@link Home} objects if found, otherwise an empty list.
+     * @author Marina Sotiropoulos
      */
 
     List<Home> retrieveHomesByDistance(Point2D unicoordinates, double distance);
@@ -35,6 +38,7 @@ public interface HomeDAO {
      *
      * @param ownerEmail The email of the owner.
      * @return A list of {@link Home} objects if found, otherwise an empty list.
+     * @author Marina Sotiropoulos
      */
 
     List<Home> retrieveHomesByOwner(String ownerEmail);
@@ -42,9 +46,10 @@ public interface HomeDAO {
     /**
      * Saves a home in the database.
      *
-     * @param homeBean The home to be saved.
+     * @param homeBean   The home to be saved.
      * @param ownerEmail The email of the owner.
      * @return The saved {@link Home} object.
+     * @author Marina Sotiropoulos
      */
 
     Home saveHome(HomeBean homeBean, String ownerEmail);
@@ -55,16 +60,18 @@ public interface HomeDAO {
      * @param imageName The name of the image.
      * @param imageType The type of the image.
      * @param byteArray The byte array representing the image.
-     * @param idHome The unique identifier of the home.
+     * @param idHome    The unique identifier of the home.
+     * @author Marina Sotiropoulos
      */
 
-    void saveHomeImage (String imageName, String imageType, byte[] byteArray, int idHome);
+    void saveHomeImage(String imageName, String imageType, byte[] byteArray, int idHome);
 
     /**
      * Retrieves the image of a home.
      *
      * @param idHome The unique identifier of the home.
      * @return The image of the home if found, otherwise null.
+     * @author Marina Sotiropoulos
      */
 
     byte[] getHomeImage(int idHome);

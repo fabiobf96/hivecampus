@@ -15,6 +15,8 @@ import java.util.logging.Logger;
  * It uses the Singleton pattern to ensure that only one connection is created.
  * The connection is established using the properties file db.properties.
  * The properties file contains the connection URL, driver class name and credentials for the database.
+ *
+ * @author Marina Sotiropoulos
  */
 
 public class ConnectionManager {
@@ -22,8 +24,8 @@ public class ConnectionManager {
     private static final Properties properties;
     private static final Logger LOGGER = Logger.getLogger(ConnectionManager.class.getName());
 
-    private ConnectionManager(){
-        //Private Constructor
+    // Prevent instantiation of the utility class with a private constructor
+    private ConnectionManager() {
     }
 
     static {
@@ -38,7 +40,9 @@ public class ConnectionManager {
     /**
      * This method returns a connection to the database.
      * If a connection has not been established, it creates a new connection.
+     *
      * @return The connection to the database.
+     * @author Marina Sotiropoulos
      */
 
     public static Connection getConnection() {
@@ -65,7 +69,9 @@ public class ConnectionManager {
 
     /**
      * This method closes the connection to the database.
+     *
      * @throws SQLException if an error occurs while closing the connection.
+     * @author Marina Sotiropoulos
      */
 
     public static void closeConnection() throws SQLException {

@@ -1,9 +1,9 @@
-package it.hivecampuscompany.hivecampus.view.controller.cli;
+package it.hivecampuscompany.hivecampus.state.cli.controller;
 
 import it.hivecampuscompany.hivecampus.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.manager.LoginManager;
 import it.hivecampuscompany.hivecampus.state.Context;
-import it.hivecampuscompany.hivecampus.view.gui.cli.CliGUI;
+import it.hivecampuscompany.hivecampus.state.cli.ui.CliGUI;
 
 import java.util.logging.Logger;
 
@@ -26,6 +26,8 @@ public class AccountSettingsCLIController extends CLIController {
      * Method to display the home page.
      * It displays a welcome message and the options to change the language,
      * view the profile, or go back.
+     *
+     * @author Marina Sotiropoulos
      */
 
     @Override
@@ -55,6 +57,9 @@ public class AccountSettingsCLIController extends CLIController {
      * It displays the user's account information and options to change the password or go back.
      *
      * @param context The context object for the account settings page.
+     *                It contains the session bean with the user's information.
+     *
+     * @author Marina Sotiropoulos
      */
 
     public void accountSettingsPage(Context context) {

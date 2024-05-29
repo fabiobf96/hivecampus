@@ -16,6 +16,15 @@ import it.hivecampuscompany.hivecampus.model.User;
 import java.security.NoSuchAlgorithmException;
 
 public class LoginManager {
+    /**
+     * Signs up a new user and creates an account.
+     *
+     * @param userBean    The user bean containing the user information.
+     * @param accountBean The account bean containing the account information.
+     * @throws DuplicateRowException    If attempting to create a user or account that already exists.
+     * @throws NoSuchAlgorithmException If an algorithm required for password hashing is not available.
+     * @author Fabio Barchiesi
+     */
     public void signup(UserBean userBean, AccountBean accountBean) throws DuplicateRowException, NoSuchAlgorithmException {
         AccountDAO accountDAO = new AccountDAOCSV(); // AccountDAOMySql() or AccountDAOCSV()
         UserDAO userDAO = new UserDAOCSV(); // UserDAOMySql() or UserDAOCSV()
@@ -27,6 +36,15 @@ public class LoginManager {
         accountDAO.saveAccount(account);
     }
 
+    /**
+     * Logs in a user and creates a session.
+     *
+     * @param userBean The user bean containing the user credentials.
+     * @return A session bean representing the user's session.
+     * @throws AuthenticateException    If the user authentication fails.
+     * @throws NoSuchAlgorithmException If an algorithm required for password hashing is not available.
+     * @author Fabio Barchiesi
+     */
     public SessionBean login(UserBean userBean) throws AuthenticateException, NoSuchAlgorithmException {
         UserDAO userDAO = new UserDAOCSV(); // UserDAOMySql() or UserDAOCSV()
 
@@ -37,6 +55,7 @@ public class LoginManager {
         return new SessionBean(session);
     }
 
+
     /**
      * Method to retrieve the account information of the user.
      * It uses the email of the user to retrieve the account information.
@@ -44,6 +63,7 @@ public class LoginManager {
      *
      * @param sessionBean The session of the user.
      * @return The account information of the user.
+     * @author Marina Sotiropoulos
      */
 
     public AccountBean getAccountInfo(SessionBean sessionBean) {

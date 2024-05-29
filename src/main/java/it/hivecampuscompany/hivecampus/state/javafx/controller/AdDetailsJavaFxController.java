@@ -5,6 +5,7 @@ import it.hivecampuscompany.hivecampus.state.AdSearchPage;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.javafx.AdSearchJavaFXPage;
 import it.hivecampuscompany.hivecampus.state.javafx.TenantHomeJavaFXPage;
+import it.hivecampuscompany.hivecampus.state.utility.Utility;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -143,6 +144,7 @@ public class AdDetailsJavaFxController extends JavaFxController{
      * @param context The context object for the ad details page.
      * @param adSearchPage The ad search page object.
      * @param adBean The ad bean object.
+     * @author Marina Sotiropoulos
      */
 
     public void initialize(Context context, AdSearchPage adSearchPage, AdBean adBean) {
@@ -159,42 +161,12 @@ public class AdDetailsJavaFxController extends JavaFxController{
         lblUniversity.setText(adBean.getUniversity());
 
         lblHFeatures.setText(properties.getProperty("HOME_FEATURES_MSG"));
-        lblHomeType.setText(properties.getProperty("TYPE_MSG"));
-        lblHType.setText(adBean.getHomeBean().getType());
-        lblHomeSurf.setText(properties.getProperty("SURFACE_MSG"));
-        lblHSurface.setText(String.valueOf(adBean.getHomeBean().getSurface()));
-        lblNRooms.setText(properties.getProperty("NUM_ROOMS_MSG"));
-        lblNumRooms.setText(String.valueOf(adBean.getHomeBean().getNRooms()));
-        lblNBaths.setText(properties.getProperty("NUM_BATHROOMS_MSG"));
-        lblNumBathrooms.setText(String.valueOf(adBean.getHomeBean().getNBathrooms()));
-        lblHFloor.setText(properties.getProperty("FLOOR_MSG"));
-        lblFloor.setText(String.valueOf(adBean.getHomeBean().getFloor()));
-        lblHLift.setText(properties.getProperty("ELEVATOR_MSG"));
-        lblElevator.setText(String.valueOf(adBean.getHomeBean().getElevator()));
-        lblHDescription.setText(properties.getProperty("DESCRIPTION_MSG"));
-        txfHDescription.setText(formatText(adBean.getHomeBean().getDescription()));
-        lblContacts.setText(properties.getProperty("CONTACTS_MSG"));
-        lblOwnerEmail.setText(properties.getProperty("EMAIL_MSG"));
-        lblEmail.setText(adBean.getOwnerBean().getEmail());
-        lblOwnerTel.setText(properties.getProperty("PHONE_N_MSG"));
-        lblTelephone.setText(adBean.getOwnerBean().getPhoneNumber());
-        lblRInfo.setText(properties.getProperty("ROOM_INFO_MSG"));
+        setHomeDetails(adBean);
 
+        lblRInfo.setText(properties.getProperty("ROOM_INFO_MSG"));
         lblRFeatures.setText(properties.getProperty("ROOM_FEATURES_MSG"));
-        lblRoomSurf.setText(properties.getProperty("SURFACE_MSG"));
-        lblRSurface.setText(String.valueOf(adBean.getRoomBean().getSurface()));
-        lblPrivateBath.setText(properties.getProperty("PRIVATE_BATH_MSG"));
-        lblBath.setText(String.valueOf(adBean.getRoomBean().getBathroom()));
-        lblBalcony.setText(properties.getProperty("BALCONY_MSG"));
-        lblBalc.setText(String.valueOf(adBean.getRoomBean().getBalcony()));
-        lblConditioner.setText(properties.getProperty("CONDITIONER_MSG"));
-        lblAirCond.setText(String.valueOf(adBean.getRoomBean().getConditioner()));
-        lblTVConnection.setText(properties.getProperty("TV_CONNECTION_MSG"));
-        lblTV.setText(String.valueOf(adBean.getRoomBean().getTV()));
-        lblRDescription.setText(properties.getProperty("DESCRIPTION_MSG"));
-        txfRDescription.setText(formatText(adBean.getRoomBean().getDescription()));
-        lblAvl.setText(properties.getProperty("AVAILABILITY_MSG"));
-        lblAvailability.setText(String.valueOf(adBean.getAdStart()));
+        setRoomDetails(adBean);
+
         btnRequest.setText(properties.getProperty("LEASE_REQUEST_MSG"));
         lblMap.setText(properties.getProperty("MAP_MSG"));
 
@@ -208,30 +180,52 @@ public class AdDetailsJavaFxController extends JavaFxController{
     }
 
     /**
-     * Formats the text to display in the ad details view.
-     * It formats the text to display in the ad details view by splitting the text into lines of 50 characters.
-     *
-     * @param text The text to format.
-     * @return The formatted text.
+     * Sets the home data in the ad details view.
+     * @param adBean The ad bean object.
+     * @author Marina Sotiropoulos
      */
+    private void setHomeDetails(AdBean adBean) {
+        lblHomeType.setText(properties.getProperty("TYPE_MSG"));
+        lblHType.setText(adBean.getHomeBean().getType());
+        lblHomeSurf.setText(properties.getProperty("SURFACE_MSG"));
+        lblHSurface.setText(String.valueOf(adBean.getHomeBean().getSurface()));
+        lblNRooms.setText(properties.getProperty("NUM_ROOMS_MSG"));
+        lblNumRooms.setText(String.valueOf(adBean.getHomeBean().getNRooms()));
+        lblNBaths.setText(properties.getProperty("NUM_BATHROOMS_MSG"));
+        lblNumBathrooms.setText(String.valueOf(adBean.getHomeBean().getNBathrooms()));
+        lblHFloor.setText(properties.getProperty("FLOOR_MSG"));
+        lblFloor.setText(String.valueOf(adBean.getHomeBean().getFloor()));
+        lblHLift.setText(properties.getProperty("ELEVATOR_MSG"));
+        lblElevator.setText(String.valueOf(adBean.getHomeBean().getElevator()));
+        lblHDescription.setText(properties.getProperty("DESCRIPTION_MSG"));
+        txfHDescription.setText(Utility.formatText(adBean.getHomeBean().getDescription()));
+        lblContacts.setText(properties.getProperty("CONTACTS_MSG"));
+        lblOwnerEmail.setText(properties.getProperty("EMAIL_MSG"));
+        lblEmail.setText(adBean.getOwnerBean().getEmail());
+        lblOwnerTel.setText(properties.getProperty("PHONE_N_MSG"));
+        lblTelephone.setText(adBean.getOwnerBean().getPhoneNumber());
+    }
 
-    private String formatText(String text) {
-        StringBuilder formattedText = new StringBuilder();
-        StringBuilder currentLine = new StringBuilder();
-        int charCount = 0;
-
-        for (char c : text.toCharArray()) {
-            currentLine.append(c);
-            charCount++;
-
-            if (charCount >= 50 && (c == ' ' || c == '.' || c == ':')) {
-                formattedText.append(currentLine).append("\n");
-                currentLine.setLength(0);
-                charCount = 0;
-            }
-        }
-        formattedText.append(currentLine);
-        return formattedText.toString();
+    /**
+     * Sets the room data in the ad details view.
+     * @param adBean The ad bean object.
+     * @author Marina Sotiropoulos
+     */
+    private void setRoomDetails(AdBean adBean) {
+        lblRoomSurf.setText(properties.getProperty("SURFACE_MSG"));
+        lblRSurface.setText(String.valueOf(adBean.getRoomBean().getSurface()));
+        lblPrivateBath.setText(properties.getProperty("PRIVATE_BATH_MSG"));
+        lblBath.setText(String.valueOf(adBean.getRoomBean().getBathroom()));
+        lblBalcony.setText(properties.getProperty("BALCONY_MSG"));
+        lblBalc.setText(String.valueOf(adBean.getRoomBean().getBalcony()));
+        lblConditioner.setText(properties.getProperty("CONDITIONER_MSG"));
+        lblAirCond.setText(String.valueOf(adBean.getRoomBean().getConditioner()));
+        lblTVConnection.setText(properties.getProperty("TV_CONNECTION_MSG"));
+        lblTV.setText(String.valueOf(adBean.getRoomBean().getTV()));
+        lblRDescription.setText(properties.getProperty("DESCRIPTION_MSG"));
+        txfRDescription.setText(Utility.formatText(adBean.getRoomBean().getDescription()));
+        lblAvl.setText(properties.getProperty("AVAILABILITY_MSG"));
+        lblAvailability.setText(String.valueOf(adBean.getAdStart()));
     }
 
     /**
@@ -239,6 +233,7 @@ public class AdDetailsJavaFxController extends JavaFxController{
      * It displays the lease request form and handles the user's input.
      *
      * @param adBean The ad bean object.
+     * @author Marina Sotiropoulos
      */
 
     public void handleRequest(AdBean adBean) {
@@ -269,6 +264,7 @@ public class AdDetailsJavaFxController extends JavaFxController{
      *
      * @param map The map image.
      * @param address The address of the home.
+     * @author Marina Sotiropoulos
      */
 
     private void setMap(byte[] map, String address) {
@@ -283,6 +279,8 @@ public class AdDetailsJavaFxController extends JavaFxController{
 
     /**
      * Handles the user's request to go back to the ad search page.
+     *
+     * @author Marina Sotiropoulos
      */
 
     public void handleBack() {

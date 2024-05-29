@@ -5,7 +5,6 @@ import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.exception.EmptyFieldsException;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
 import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
-import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
 
 /**
  * The SignUpCLIPageController class represents a controller for the sign-up page in the command-line interface (CLI).
@@ -14,7 +13,10 @@ import it.hivecampuscompany.hivecampus.view.controller.cli.CLIController;
 public class SignUpCLIPageController extends CLIController {
 
     /**
-     * Displays the sign-up page with a welcome message.
+     * Overrides the homePage method to display the sign-up page.
+     * This method clears the view and displays a welcome message with "SIGN_UP_MSG" property in uppercase.
+     *
+     * @author Fabio Barchiesi
      */
     @Override
     public void homePage() {
@@ -28,6 +30,7 @@ public class SignUpCLIPageController extends CLIController {
      * @return The UserBean object containing user information.
      * @throws InvalidEmailException     if the email provided is invalid.
      * @throws PasswordMismatchException if the passwords provided do not match.
+     * @author Fabio Barchiesi
      */
     public UserBean getUserInformation() throws InvalidEmailException, PasswordMismatchException, EmptyFieldsException {
         UserBean userBean = new UserBean();
@@ -41,9 +44,11 @@ public class SignUpCLIPageController extends CLIController {
      * Retrieves account information required for sign-up.
      *
      * @return The AccountBean object containing account information.
+     * @author Fabio Barchiesi
      */
-    public AccountBean getAccountInformation() {
+    public AccountBean getAccountInformation(String email) {
         AccountBean accountBean = new AccountBean();
+        accountBean.setEmail(email);
         accountBean.setName(getField(properties.getProperty("NAME_MSG"), false));
         accountBean.setSurname(getField(properties.getProperty("SURNAME_MSG"), false));
         accountBean.setPhoneNumber(getField(properties.getProperty("PHONE_N_MSG"), false));
@@ -54,6 +59,7 @@ public class SignUpCLIPageController extends CLIController {
      * Retrieve role information required for sing-up
      *
      * @return String that represent the role of user into the application
+     * @author Fabio Barchiesi
      */
     private String getRole() {
         while (true) {

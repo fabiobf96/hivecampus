@@ -20,6 +20,7 @@ public class LoginCLIPage extends LoginPage {
      * Constructs a LoginCLIPage object with the given context.
      *
      * @param context The context object for the login page.
+     * author Fabio Barchiesi
      */
     protected LoginCLIPage(Context context) {
         super(context);
@@ -31,6 +32,7 @@ public class LoginCLIPage extends LoginPage {
      * and navigates to the appropriate home page based on the user's role.
      *
      * @throws InvalidSessionException if the session is invalid.
+     * @author Fabio Barchiesi
      */
     @Override
     public void handle() throws InvalidSessionException {

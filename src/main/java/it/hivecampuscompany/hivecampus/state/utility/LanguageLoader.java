@@ -1,4 +1,4 @@
-package it.hivecampuscompany.hivecampus.view.utility;
+package it.hivecampuscompany.hivecampus.state.utility;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,25 +8,36 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The LanguageLoader class is responsible for loading language properties from
+ * specified files. It supports loading English and Italian language properties.
+ * The class cannot be instantiated and uses static methods to manage the properties.
+ *
+ * @author Fabio Barchiesi
+ */
+
 public class LanguageLoader {
 
-    // Impediamo l'istanziazione della classe con un costruttore privato
+    // Prevent instantiation of the class with a private constructor
     private LanguageLoader() {
     }
 
-    // Variabile per tenere traccia delle properties caricate
+    // Variable to keep track of the loaded properties
     private static Properties properties;
-    // Logger per registrare messaggi di errore o informazioni
+    // Logger to record error messages or information
     private static final Logger LOGGER = Logger.getLogger(LanguageLoader.class.getName());
     private static int currentLanguage = 0;
 
     /**
-     * Carica il file di properties in base alla lingua selezionata.
+     * Loads the properties file based on the selected language.
      *
-     * @param language codice della lingua (0 per inglese, 1 per italiano)
+     * @param language the language code (0 for English, 1 for Italian)
+     * @throws InputMismatchException if an invalid language code is provided
+     *
+     * @author Fabio Barchiesi
      */
     public static void loadLanguage(int language) throws InputMismatchException{
-        // Inizializza il percorso del file di properties in base alla lingua
+        // Initialize the path of the properties file based on the language
         String languagePath;
         switch (language) {
             case 0 -> {
@@ -40,22 +51,23 @@ public class LanguageLoader {
             default -> throw new InputMismatchException("Invalid language selection");
         }
 
-        // Usa il classloader per caricare il file dalle risorse
+        // Use the classloader to load the file from the resources
         try (InputStream input = new FileInputStream(languagePath)) {
             properties = new Properties();
             properties.load(input);
         } catch (IOException e) {
-            // Log dell'errore e terminazione del programma
+            // Log the error and terminate the program
             LOGGER.log(Level.SEVERE, "Failed to load language properties: ", e);
             System.exit(1);
         }
     }
 
     /**
-     * Restituisce le properties della lingua caricata.
-     * Se le properties non sono state ancora caricate, carica quelle inglesi per default.
+     * Returns the properties of the loaded language.
+     * If the properties have not been loaded yet, it loads the English properties by default.
      *
-     * @return properties della lingua
+     * @return the properties of the loaded language
+     * @author Fabio Barchiesi
      */
     public static Properties getLanguageProperties() {
         if (properties == null) {
@@ -64,6 +76,12 @@ public class LanguageLoader {
         return properties;
     }
 
+    /**
+     * Returns the current language code.
+     *
+     * @return the current language code
+     * @author Fabio Barchiesi
+     */
     public static int getCurrentLanguage() {
         return currentLanguage;
     }
