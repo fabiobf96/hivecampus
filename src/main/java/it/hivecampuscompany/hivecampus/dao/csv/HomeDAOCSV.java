@@ -183,7 +183,7 @@ public class HomeDAOCSV implements HomeDAO {
         }
 
         int idImage = CSVUtility.findLastRowIndex(homeFile) + 1;
-        String[] home = new String[6];
+        String[] home = new String[5];
         home[0] = String.valueOf(idImage);
         home[1] = String.valueOf(idHome);
         home[2] = imageName;
