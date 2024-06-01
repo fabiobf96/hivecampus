@@ -83,7 +83,7 @@ public class AdDAOMySql implements AdDAO {
     @Override   //Fabio
     public void updateAd(Ad ad) {
         try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.UPDATE_AD)) {
-            pst.setInt(1, ad.getAdStatus().getId());
+            pst.setString(1, ad.getAdStatus().toString().toLowerCase());
             pst.setInt(2, ad.getPrice());
             pst.setInt(3, ad.getId());
             pst.executeUpdate();

@@ -10,10 +10,7 @@ import it.hivecampuscompany.hivecampus.dao.queries.StoredProcedures;
 import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import it.hivecampuscompany.hivecampus.model.LeaseRequest;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,17 +23,63 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
 
     @Override  //Fabio
     public List<LeaseRequest> retrieveLeaseRequestsByAdID(AdBean adBean) {
-        return List.of();
+        AccountDAO accountDAO = new AccountDAOMySql();
+        List<LeaseRequest> requestList = new ArrayList<>();
+        try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.RETRIEVE_LEASE_REQUESTS_BY_AD_ID)) {
+            pst.setInt(1, adBean.getId());
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    requestList.add(new LeaseRequest(
+                            rs.getInt("idRequest"),
+                            null,
+                            accountDAO.retrieveAccountInformationByEmail(rs.getString("tenant")),
+                            rs.getInt("startPermanence"),
+                            rs.getInt("typePermanence"),
+                            rs.getString("message"),
+                            -1
+                    ));
+                }
+            }
+
+            return requestList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override   //Fabio
     public LeaseRequest retrieveLeaseRequestByID(LeaseRequestBean leaseRequestBean, boolean isDecorated) {
-        return null;
+        AccountDAO accountDAO = new AccountDAOMySql();
+        AdDAO adDAO = new AdDAOMySql();
+        try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.RETRIEVE_LEASE_REQUEST_BY_ID)) {
+            pst.setInt(1, leaseRequestBean.getId());
+            try (ResultSet rs = pst.executeQuery()) {
+                rs.next();
+                return new LeaseRequest(
+                        rs.getInt("idRequest"),
+                        adDAO.retrieveAdByID(rs.getInt("ad"), isDecorated),
+                        accountDAO.retrieveAccountInformationByEmail(rs.getString("tenant")),
+                        rs.getInt("startPermanence"),
+                        rs.getInt("typePermanence"),
+                        rs.getString("message"),
+                        rs.getInt("requestStatus")
+                );
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override   //Fabio
     public void updateLeaseRequest(LeaseRequest leaseRequest) {
-
+        try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.UPDATE_LEASE_REQUEST)) {
+            pst.setInt(1, leaseRequest.getStatus().getId());
+            pst.setInt(2, leaseRequest.getID());
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override
@@ -64,7 +107,7 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
             cstmt.registerOutParameter(3, java.sql.Types.BOOLEAN);
 
             cstmt.execute();
-            result =  cstmt.getBoolean(3);
+            result = cstmt.getBoolean(3);
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "FAILED_VALID_REQUEST", e);
         }

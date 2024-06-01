@@ -30,7 +30,7 @@ public class StoredProcedures {
     } // retrieveAdsByOwner(SessionBean sessionBean, AdStatus adStatus)
 
     public static final String RETRIEVE_AD_BY_ID = "SELECT idAd, home, room, price FROM Ad WHERE idAd = ?"; // retrieveAdByID(int id)
-    public static final String UPDATE_AD = "UPDATE Ad SET availability = ?, price = ? WHERE id = ?"; // updateAd(Ad ad)
+    public static final String UPDATE_AD = "UPDATE Ad SET availability = ?, price = ? WHERE idAd = ?"; // updateAd(Ad ad)
     public static final String RETRIEVE_ADS_BY_FILTERS = "{CALL retrieveAdsByFilters(?, ?, ?)}";
     public static final String PUBLISH_AD = "{CALL publishAd(?, ?, ?, ?, ?)}"; // publishAd(Ad ad)
 
@@ -58,9 +58,15 @@ public class StoredProcedures {
     public static final String RETRIEVE_UNIVERSITY_COORDINATES = "{CALL retrieveUniversityCoordinates(?)}"; // getUniversityCoordinates(String universityName)
 
     // LeaseRequestDAO
-    public static final String RETRIEVE_LEASE_REQUESTS_BY_AD_ID = "{CALL retrieveLeaseRequestsByAdID(?)}"; // retrieveLeaseRequestsByAdID(AdBean adBean)
-    public static final String RETRIEVE_LEASE_REQUEST_BY_ID = "{CALL retrieveLeaseRequestByID(?)}"; // retrieveLeaseRequestByID(LeaseRequestBean leaseRequestBean)
-    public static final String UPDATE_LEASE_REQUEST = "{CALL updateLeaseRequest(?)}"; // updateLeaseRequest(LeaseRequest leaseRequest)
+    public static final String RETRIEVE_LEASE_REQUESTS_BY_AD_ID =
+            "SELECT idRequest, tenant, startPermanence, typePermanence, message " +
+                    "FROM Lease_Request " +
+                    "WHERE ad = ?";; // retrieveLeaseRequestsByAdID(AdBean adBean)
+    public static final String RETRIEVE_LEASE_REQUEST_BY_ID =
+            "SELECT * " +
+                    "FROM Lease_Request " +
+                    "WHERE idRequest = ?"; // retrieveLeaseRequestByID(LeaseRequestBean leaseRequestBean)
+    public static final String UPDATE_LEASE_REQUEST = "UPDATE Lease_Request SET requestStatus = ? WHERE idRequest = ?"; // updateLeaseRequest(LeaseRequest leaseRequest)
     public static final String SAVE_LEASE_REQUEST = "{CALL saveLeaseRequest(?, ?, ?, ?, ?, ?)}"; // saveLeaseRequest(LeaseRequest leaseRequest)
     public static final String VALID_REQUEST = "{CALL validRequest(?, ?)}"; // validRequest(String email, int id)
     public static final String RETRIEVE_LEASE_REQUESTS_BY_TENANT = "{CALL retrieveLeaseRequestsByTenant(?)}"; // retrieveLeaseRequestsByTenant(SessionBean sessionBean)
