@@ -1,6 +1,7 @@
 package it.hivecampuscompany.hivecampus.dao.mysql;
 
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
+import it.hivecampuscompany.hivecampus.bean.RoomBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
@@ -9,12 +10,11 @@ import it.hivecampuscompany.hivecampus.dao.RoomDAO;
 import it.hivecampuscompany.hivecampus.dao.queries.StoredProcedures;
 import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import it.hivecampuscompany.hivecampus.model.*;
+import it.hivecampuscompany.hivecampus.model.pattern_decorator.Component;
+import it.hivecampuscompany.hivecampus.model.pattern_decorator.ImageDecorator;
 
 import java.awt.geom.Point2D;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -27,17 +27,69 @@ public class AdDAOMySql implements AdDAO {
 
     @Override  //Fabio
     public List<Ad> retrieveAdsByOwner(SessionBean sessionBean, AdStatus adStatus) {
-        return List.of();
+        HomeDAO homeDAO = new HomeDAOMySql();
+        RoomDAO roomDAO = new RoomDAOMySql();
+        AccountDAO accountDAO = new AccountDAOMySql();
+        List<Ad> adList = new ArrayList<>();
+        try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.RETRIEVE_ADS_BY_OWNER(adStatus))) {
+            pst.setString(1, sessionBean.getEmail());
+            if (adStatus != null) {
+                pst.setString(2, adStatus.name());
+            }
+            try (ResultSet rs = pst.executeQuery()) {
+                while (rs.next()) {
+                    adList.add(new Ad(
+                            rs.getInt("idAd"),
+                            accountDAO.retrieveAccountInformationByEmail(sessionBean.getEmail()),
+                            homeDAO.retrieveHomeByID(rs.getInt("home")),
+                            roomDAO.retrieveRoomByID(rs.getInt("home"), rs.getInt("room")),
+                            adStatus == null ? rs.getInt("availability") : -1,
+                            adStatus == null ? rs.getInt("monthAvailability") : -1,
+                            rs.getInt("price")
+                    ));
+                }
+            }
+            return adList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override   //Fabio
-    public Ad retrieveAdByID(int id) {
-        return null;
+    public Ad retrieveAdByID(int id, boolean isDecorated) {
+        HomeDAO homeDAO = new HomeDAOMySql();
+        RoomDAO roomDAO = new RoomDAOMySql();
+        try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.RETRIEVE_AD_BY_ID)) {
+            pst.setInt(1, id);
+            try (ResultSet rs = pst.executeQuery()) {
+                rs.next();
+                Component<RoomBean> room = roomDAO.retrieveRoomByID(rs.getInt("home"), rs.getInt("room"));
+                if (isDecorated) {
+                    byte[] image = roomDAO.getRoomImage((Room) room);
+                    room = new ImageDecorator<>(room, image);
+                }
+                return new Ad(
+                        rs.getInt("idAd"),
+                        homeDAO.retrieveHomeByID(rs.getInt("home")),
+                        room,
+                        rs.getInt("price")
+                );
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override   //Fabio
     public void updateAd(Ad ad) {
-
+        try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.UPDATE_AD)) {
+            pst.setInt(1, ad.getAdStatus().getId());
+            pst.setInt(2, ad.getPrice());
+            pst.setInt(3, ad.getId());
+            pst.executeUpdate();
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     @Override

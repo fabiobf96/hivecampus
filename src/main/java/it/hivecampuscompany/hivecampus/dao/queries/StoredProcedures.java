@@ -1,7 +1,9 @@
 package it.hivecampuscompany.hivecampus.dao.queries;
 
+import it.hivecampuscompany.hivecampus.model.AdStatus;
+
 public class StoredProcedures {
-    private StoredProcedures(){
+    private StoredProcedures() {
         //Default constructor
     }
 
@@ -14,14 +16,29 @@ public class StoredProcedures {
     public static final String RETRIEVE_USER_BY_CREDENTIALS = "SELECT * FROM Users WHERE email = ? AND password = ?";
 
     // AdDAO
-    public static final String RETRIEVE_ADS_BY_OWNER = "{CALL retrieveAdsByOwner(?, ?)}"; // retrieveAdsByOwner(SessionBean sessionBean, AdStatus adStatus)
-    public static final String RETRIEVE_AD_BY_ID = "{CALL retrieveAdByID(?)}"; // retrieveAdByID(int id)
-    public static final String UPDATE_AD = "{CALL updateAd(?)}"; // updateAd(Ad ad)
+    public static String RETRIEVE_ADS_BY_OWNER(AdStatus adStatus) {
+        String sql = "SELECT * " +
+                "FROM Ad " +
+                "WHERE home IN (" +
+                "SELECT idHome " +
+                "FROM home " +
+                "WHERE owner = ?) ";
+        if (adStatus != null) {
+            sql += "AND availability = ?";
+        }
+        return sql;
+    } // retrieveAdsByOwner(SessionBean sessionBean, AdStatus adStatus)
+
+    public static final String RETRIEVE_AD_BY_ID = "SELECT idAd, home, room, price FROM Ad WHERE idAd = ?"; // retrieveAdByID(int id)
+    public static final String UPDATE_AD = "UPDATE Ad SET availability = ?, price = ? WHERE id = ?"; // updateAd(Ad ad)
     public static final String RETRIEVE_ADS_BY_FILTERS = "{CALL retrieveAdsByFilters(?, ?, ?)}";
     public static final String PUBLISH_AD = "{CALL publishAd(?, ?, ?, ?, ?)}"; // publishAd(Ad ad)
 
     // HomeDAO
-    public static final String RETRIEVE_HOME_BY_ID = "{CALL retrieveHomeByID(?)}"; // retrieveHomeByID(int id)
+    public static final String RETRIEVE_HOME_BY_ID =
+            "SELECT idHome, ST_Y(coordinates) AS latitude,ST_X(coordinates) AS longitude, address, homeType, homeSurface, homeDescription " +
+                    "FROM home " +
+                    "WHERE idHome = ?"; // retrieveHomeByID(int id)
     public static final String RETRIEVE_HOMES = "{CALL retrieveHomes()}";
     public static final String RETRIEVE_HOMES_BY_OWNER = "{CALL retrieveHomesByOwner(?)}"; // retrieveHomesByOwner(String ownerEmail)
     public static final String SAVE_HOME = "{CALL saveHome(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}"; // saveHome(HomeBean homeBean, String ownerEmail)
@@ -30,7 +47,7 @@ public class StoredProcedures {
     public static final String RETRIEVE_HOME_IMAGE = "{CALL retrieveHomeImage(?)}"; // getHomeImage(int idHome)
 
     // RoomDAO
-    public static final String RETRIEVE_ROOM_BY_ID = "{CALL retrieveRoomByID(?, ?)}"; // retrieveRoomByID(int homeID, int roomID)
+    public static final String RETRIEVE_ROOM_BY_ID = "SELECT * FROM Room WHERE home = ? AND idRoom = ?"; // retrieveRoomByID(int homeID, int roomID)
     public static final String RETRIEVE_ROOMS_BY_FILTERS = "{CALL retrieveRoomsByFilters(?, ?, ?, ?, ?)}"; // retrieveRoomsByFilters(int homeID, FiltersBean filtersBean)
     public static final String SAVE_ROOM = "{CALL saveRoom(?, ?, ?, ?, ?, ?, ?, ?, ?)}"; // saveRoom(int homeID, RoomBean roomBean)
     public static final String SAVE_ROOM_IMAGE = "{CALL saveRoomImage(?, ?, ?, ?, ?)}"; // saveRoomImage(String imageName, String imageType, byte[] byteArray, int idRoom, int idHome)

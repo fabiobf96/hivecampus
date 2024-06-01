@@ -4,6 +4,10 @@ import it.hivecampuscompany.hivecampus.bean.*;
 import it.hivecampuscompany.hivecampus.boundary.OpenStreetMapApiBoundary;
 import it.hivecampuscompany.hivecampus.dao.*;
 import it.hivecampuscompany.hivecampus.dao.csv.*;
+import it.hivecampuscompany.hivecampus.dao.mysql.AccountDAOMySql;
+import it.hivecampuscompany.hivecampus.dao.mysql.AdDAOMySql;
+import it.hivecampuscompany.hivecampus.dao.mysql.HomeDAOMySql;
+import it.hivecampuscompany.hivecampus.dao.mysql.RoomDAOMySql;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.exception.MockOpenStreetMapAPIException;
 import it.hivecampuscompany.hivecampus.model.*;
@@ -28,7 +32,7 @@ public class AdManager {
 
     public List<AdBean> searchAdsByOwner(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
-        AdDAO adDAO = new AdDAOCSV();
+        AdDAO adDAO = new AdDAOMySql();
 
         if (!sessionManager.validSession(sessionBean)) {
             throw new InvalidSessionException();
@@ -69,7 +73,7 @@ public class AdManager {
 
     public List<HomeBean> getHomesByOwner(SessionBean sessionBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
-        HomeDAO homeDAO = new HomeDAOCSV();
+        HomeDAO homeDAO = new HomeDAOMySql();
         if (sessionManager.validSession(sessionBean)) {
             List<Home> homeList = homeDAO.retrieveHomesByOwner(sessionBean.getEmail());
             List<HomeBean> homeBeanList = new ArrayList<>();
@@ -95,10 +99,10 @@ public class AdManager {
 
     public boolean publishAd(SessionBean sessionBean, HomeBean homeBean, RoomBean roomBean, int price, Month adStart) {
         SessionManager sessionManager = SessionManager.getInstance();
-        HomeDAO homeDAO = new HomeDAOCSV();
-        RoomDAO roomDAO = new RoomDAOCSV();
-        AccountDAO accountDAO = new AccountDAOCSV();
-        AdDAO adDAO = new AdDAOCSV();
+        HomeDAO homeDAO = new HomeDAOMySql();
+        RoomDAO roomDAO = new RoomDAOMySql();
+        AccountDAO accountDAO = new AccountDAOMySql();
+        AdDAO adDAO = new AdDAOMySql();
 
         if (sessionManager.validSession(sessionBean)) {
 

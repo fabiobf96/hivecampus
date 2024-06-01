@@ -4,6 +4,7 @@ import it.hivecampuscompany.hivecampus.bean.*;
 import it.hivecampuscompany.hivecampus.dao.*;
 import it.hivecampuscompany.hivecampus.dao.csv.AdDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.csv.HomeDAOCSV;
+import it.hivecampuscompany.hivecampus.dao.csv.LeaseRequestDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.csv.UniversityDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.mysql.*;
 import it.hivecampuscompany.hivecampus.model.*;
@@ -133,7 +134,27 @@ public class MainSQL {
         }
 
          */
+        User user = new User("marta.rossi@gmail.com", "pippo", "tenant");
+        Session session = new Session(user);
+        SessionBean sessionBean = new SessionBean(session);
+
+        System.out.println("Lato CSV");
+        LeaseRequestDAO leaseRequestDAO = new LeaseRequestDAOCSV();
+//LeaseRequestBean reqBean = new LeaseRequestBean(1, null, null, 9, 6, "message", LeaseRequestStatus.PROCESSING);
+//leaseRequestDAO.deleteLeaseRequest(reqBean);
+
+        List<LeaseRequest> requests = leaseRequestDAO.retrieveLeaseRequestsByTenant(sessionBean, false);
+        for (LeaseRequest request : requests) {
+            System.out.println("ID: " + request.getID() + " Tenant: " + request.getTenant().getEmail() + " Month: " + request.getLeaseMonth().getMonth() + " Duration: " + request.getDuration().getPermanence() + " Message: " + request.getMessage());
         }
 
+
+        System.out.println("Lato MySql");
+        LeaseRequestDAO reqSql = new LeaseRequestDAOMySql();
+        List<LeaseRequest> requests1 = reqSql.retrieveLeaseRequestsByTenant(sessionBean, false);
+        for (LeaseRequest request : requests1) {
+            System.out.println("ID: " + request.getID() + " Tenant: " + request.getTenant().getEmail() + " Month: " + request.getLeaseMonth().getMonth() + " Duration: " + request.getDuration().getPermanence() + " Message: " + request.getMessage());
+        }
+        }
 
 }

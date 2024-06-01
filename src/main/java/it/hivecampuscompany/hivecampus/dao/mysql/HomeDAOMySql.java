@@ -6,14 +6,11 @@ import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.dao.queries.StoredProcedures;
 import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import it.hivecampuscompany.hivecampus.model.Home;
-import it.hivecampuscompany.hivecampus.view.utility.Utility;
+import it.hivecampuscompany.hivecampus.state.utility.Utility;
 
 import java.awt.geom.Point2D;
 import java.io.IOException;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -25,7 +22,22 @@ public class HomeDAOMySql implements HomeDAO {
 
     @Override
     public Home retrieveHomeByID(int id) {
-        return null;
+        try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.RETRIEVE_HOME_BY_ID)) {
+            pst.setInt(1, id);
+            try (ResultSet rs = pst.executeQuery()){
+                rs.next();
+                return new Home(
+                        rs.getInt("idHome"),
+                        new Point2D.Double(rs.getDouble("longitude"), rs.getDouble("latitude")),
+                        rs.getString("address"),
+                        rs.getString("homeType"),
+                        rs.getInt("homeSurface"),
+                        rs.getString("homeDescription")
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

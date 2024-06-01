@@ -7,10 +7,7 @@ import it.hivecampuscompany.hivecampus.dao.queries.StoredProcedures;
 import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import it.hivecampuscompany.hivecampus.model.Room;
 
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,7 +20,23 @@ public class RoomDAOMySql implements RoomDAO {
 
     @Override // Fabio
     public Room retrieveRoomByID(int homeID, int roomID) {
-        return null;
+        try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.RETRIEVE_ROOM_BY_ID)){
+            pst.setInt(1, homeID);
+            pst.setInt(2, roomID);
+            try (ResultSet rs = pst.executeQuery()){
+                rs.next();
+                return new Room(
+                        rs.getInt("idRoom"),
+                        rs.getInt("home"),
+                        rs.getInt("roomSurface"),
+                        rs.getString("roomType"),
+                        new boolean[] {rs.getBoolean("privateBath"), rs.getBoolean("balcony"), rs.getBoolean("conditioner"), rs.getBoolean("tv")},
+                        rs.getString("roomDescription")
+                );
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -130,7 +143,7 @@ public class RoomDAOMySql implements RoomDAO {
     }
 
     @Override
-    public byte[] getRoomImage(int idRoom, int idHome) {
+    public byte[] getRoomImage(Room room) {
         return new byte[0];
     }
 

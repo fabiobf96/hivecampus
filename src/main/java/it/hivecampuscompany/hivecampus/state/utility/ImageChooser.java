@@ -1,4 +1,4 @@
-package it.hivecampuscompany.hivecampus.view.utility;
+package it.hivecampuscompany.hivecampus.state.utility;
 
 import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import javafx.application.Application;
@@ -57,11 +57,11 @@ public class ImageChooser extends Application {
         // Azione quando viene cliccato il pulsante submit
         btnSubmit.setOnAction(e -> {
             // Recupera l'id della stanza e della casa
-            //int idRoom = Integer.parseInt(txfIdRoom.getText());
+            int idRoom = Integer.parseInt(txfIdRoom.getText());
             int idHome = Integer.parseInt(txfIdHome.getText());
 
             // Se è stata selezionata un'immagine e sono stati inseriti l'id della stanza e della casa
-            if (selectedFile != null  && txfIdHome.getText() != null) { // && txfIdRoom.getText() != null
+            if (selectedFile != null  && txfIdHome.getText() != null && txfIdRoom.getText() != null) {
                 try {
                     // Leggi l'immagine come array di byte
                     byte[] imageArray = Files.readAllBytes(selectedFile.toPath());  // <-- funziona per entrambi
@@ -78,7 +78,7 @@ public class ImageChooser extends Application {
 
                     //insertHomeImageIntoDB(imageName, imageType, imageArray, idHome);
 
-                    //insertRoomImageIntoDB(imageName, imageType, imageArray, idRoom, idHome);  // <-- lato database
+                    insertRoomImageIntoDB(imageName, imageType, imageArray, idRoom, idHome);  // <-- lato database
 
                     //new InsertImageIntoCSV().saveRoom(imageName, imageType, imageArray, idRoom, idHome); // <-- lato CSV
 
@@ -102,7 +102,7 @@ public class ImageChooser extends Application {
     }
 
     private void insertRoomImageIntoDB(String imgName, String imgType, byte[] byteArray, int idRoom, int idHome) {
-        String sql = "INSERT INTO hivecampus2.room_images (name, type, image, room, home) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO hivecampus2.Room_Images (name, type, image, room, home) VALUES (?, ?, ?, ?, ?)";
         try (java.sql.PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, imgName);
             pstmt.setString(2, imgType);
@@ -116,7 +116,7 @@ public class ImageChooser extends Application {
     }
 
     private void insertHomeImageIntoDB(String imgName, String imgType, byte[] byteArray, int idHome) {
-        String sql = "INSERT INTO hivecampus2.home_images (name, type, image, home) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO hivecampus2.Home_Images (name, type, image, home) VALUES (?, ?, ?, ?)";
         try (java.sql.PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setString(1, imgName);
             pstmt.setString(2, imgType);

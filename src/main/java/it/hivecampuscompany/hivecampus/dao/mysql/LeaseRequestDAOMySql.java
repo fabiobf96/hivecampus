@@ -30,7 +30,7 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
     }
 
     @Override   //Fabio
-    public LeaseRequest retrieveLeaseRequestByID(LeaseRequestBean leaseRequestBean) {
+    public LeaseRequest retrieveLeaseRequestByID(LeaseRequestBean leaseRequestBean, boolean isDecorated) {
         return null;
     }
 
@@ -72,7 +72,7 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
     }
 
     @Override
-    public List<LeaseRequest> retrieveLeaseRequestsByTenant(SessionBean sessionBean) {
+    public List<LeaseRequest> retrieveLeaseRequestsByTenant(SessionBean sessionBean, boolean isDecorated) {
         AccountDAO accountDAO = new AccountDAOMySql();
         AdDAO adDAO = new AdDAOMySql();
 
@@ -85,7 +85,7 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
                 while (rs.next()) {
                     LeaseRequest leaseRequest = new LeaseRequest(
                             rs.getInt(1),
-                            adDAO.retrieveAdByID(rs.getInt(2)),
+                            adDAO.retrieveAdByID(rs.getInt(2), isDecorated),
                             accountDAO.retrieveAccountInformationByEmail(rs.getString(3)),
                             rs.getInt(5),
                             rs.getInt(6),

@@ -1,4 +1,4 @@
-package it.hivecampuscompany.hivecampus.view.utility;
+package it.hivecampuscompany.hivecampus.state.utility;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
@@ -110,8 +110,8 @@ public class DisplayImage extends Application {
     }
 
     public byte[] getImageBytesFromDB(int idImage) {
-        //String sql = "SELECT image FROM hivecampus2.room_images WHERE id = ?";
-        String sql = "SELECT image FROM hivecampus2.home_images WHERE id = ?"; // <--  funziona
+        String sql = "SELECT image FROM hivecampus2.room_images WHERE id = ?";
+        //String sql = "SELECT image FROM hivecampus2.home_images WHERE id = ?"; // <--  funziona
         //String sql = "SELECT image FROM hivecampus_db.room WHERE idRoom = ?"; // <--  funziona
         // Implementazione per recuperare l'array di byte dell'immagine dal database
         try(java.sql.PreparedStatement pstmt = connection.prepareStatement(sql)) {
