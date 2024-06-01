@@ -61,7 +61,7 @@ public class StoredProcedures {
     public static final String RETRIEVE_LEASE_REQUESTS_BY_AD_ID =
             "SELECT idRequest, tenant, startPermanence, typePermanence, message " +
                     "FROM Lease_Request " +
-                    "WHERE ad = ? AND requestStatus = ?";; // retrieveLeaseRequestsByAdID(AdBean adBean)
+                    "WHERE ad = ? AND requestStatus = ?"; // retrieveLeaseRequestsByAdID(AdBean adBean)
     public static final String RETRIEVE_LEASE_REQUEST_BY_ID =
             "SELECT * " +
                     "FROM Lease_Request " +
@@ -73,7 +73,7 @@ public class StoredProcedures {
     public static final String DELETE_LEASE_REQUEST = "{CALL deleteLeaseRequest(?)}"; // deleteLeaseRequest(LeaseRequest leaseRequest)
 
     // LeaseDAO
-    public static final String SAVE_LEASE = "{CALL saveLease(?)}"; // saveLease(Lease lease)
-    public static final String RETRIEVE_UNSIGNED_LEASE_BY_TENANT = "{CALL retrieveUnsignedLeaseByTenant(?)}"; // retrieveUnsignedLeaseByTenant(String email)
-    public static final String UPDATE_LEASE = "{CALL updateLease(?)}"; // updateLease(Lease lease)
+    public static final String SAVE_LEASE = "INSERT INTO Contracts (ad, tenant, startPermanence, typePermanence, active, data) VALUES (?, ?, ?, ?, ?, ?)"; // saveLease(Lease lease)
+    public static final String RETRIEVE_UNSIGNED_LEASE_BY_TENANT = "SELECT * FROM Contracts WHERE tenant = ? AND active = FALSE"; // retrieveUnsignedLeaseByTenant(String email)
+    public static final String UPDATE_LEASE = "UPDATE Contracts SET active = ? WHERE idContract = ?"; // updateLease(Lease lease)
 }

@@ -4,6 +4,7 @@ import it.hivecampuscompany.hivecampus.bean.*;
 import it.hivecampuscompany.hivecampus.boundary.OpenStreetMapApiBoundary;
 import it.hivecampuscompany.hivecampus.dao.*;
 import it.hivecampuscompany.hivecampus.dao.csv.*;
+import it.hivecampuscompany.hivecampus.dao.facade.DAOFactoryFacade;
 import it.hivecampuscompany.hivecampus.dao.mysql.AccountDAOMySql;
 import it.hivecampuscompany.hivecampus.dao.mysql.AdDAOMySql;
 import it.hivecampuscompany.hivecampus.dao.mysql.HomeDAOMySql;
@@ -32,7 +33,8 @@ public class AdManager {
 
     public List<AdBean> searchAdsByOwner(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
-        AdDAO adDAO = new AdDAOMySql();
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+        AdDAO adDAO = daoFactoryFacade.getAdDAO();
 
         if (!sessionManager.validSession(sessionBean)) {
             throw new InvalidSessionException();
