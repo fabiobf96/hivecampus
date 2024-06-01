@@ -31,6 +31,6 @@ public class LeaseContract extends Lease {
     }
 
     public LeaseContractBean toBean() {
-        return new LeaseContractBean(ad.toBean(), getLeaseMonth().toString(), duration.toString(), contract);
+        return new LeaseContractBean(ad.toBean(), getLeaseMonth().getMonth(), getDuration().getPermanence(), contract);
     }
 }

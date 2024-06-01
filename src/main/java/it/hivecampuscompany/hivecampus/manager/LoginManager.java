@@ -6,7 +6,6 @@ import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.UserDAO;
 import it.hivecampuscompany.hivecampus.dao.facade.DAOFactoryFacade;
-import it.hivecampuscompany.hivecampus.dao.mysql.AccountDAOMySql;
 import it.hivecampuscompany.hivecampus.exception.AuthenticateException;
 import it.hivecampuscompany.hivecampus.exception.DuplicateRowException;
 import it.hivecampuscompany.hivecampus.model.Account;
@@ -69,7 +68,8 @@ public class LoginManager {
      */
 
     public AccountBean getAccountInfo(SessionBean sessionBean) {
-        AccountDAO accountDAO = new AccountDAOMySql(); // AccountDAOMySql() or AccountDAOCSV()
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+        AccountDAO accountDAO = daoFactoryFacade.getAccountDAO();
         Account account = accountDAO.retrieveAccountInformationByEmail(sessionBean.getEmail());
         return account.toBean();
     }

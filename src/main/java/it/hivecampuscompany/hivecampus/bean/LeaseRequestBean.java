@@ -4,20 +4,18 @@ import it.hivecampuscompany.hivecampus.model.Month;
 import it.hivecampuscompany.hivecampus.model.Permanence;
 import it.hivecampuscompany.hivecampus.model.LeaseRequestStatus;
 
-public class LeaseRequestBean {
+public class LeaseRequestBean extends LeaseBean {
     private int id;
-    private AdBean adBean;
     private AccountBean tenant;
-    private Month month;
-    private Permanence permanence;
     private String message;
     private LeaseRequestStatus status;
 
     public LeaseRequestBean(){
-        // Default constructor
+        super(null, null, null);
     }
 
     public LeaseRequestBean(int id, AdBean adBean, AccountBean tenant, int month, int duration, String message, LeaseRequestStatus status) {
+        super(adBean, Month.fromInt(month), Permanence.fromInt(duration));
         this.id = id;
         setAdBean(adBean);
         setTenant(tenant);
@@ -29,9 +27,6 @@ public class LeaseRequestBean {
 
     public int getId() {
         return id;
-    }
-    public AdBean getAdBean() {
-        return adBean;
     }
     public AccountBean getTenant() {
         return tenant;
@@ -50,9 +45,6 @@ public class LeaseRequestBean {
     }
     public void setStatus (LeaseRequestStatus status) {
         this.status = status;
-    }
-    public void setAdBean(AdBean adBean) {
-        this.adBean = adBean;
     }
     public void setTenant(AccountBean tenant) {
         this.tenant = tenant;

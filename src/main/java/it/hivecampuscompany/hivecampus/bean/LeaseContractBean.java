@@ -1,5 +1,8 @@
 package it.hivecampuscompany.hivecampus.bean;
 
+import it.hivecampuscompany.hivecampus.model.Month;
+import it.hivecampuscompany.hivecampus.model.Permanence;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -7,22 +10,21 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.logging.Logger;
 
-public class LeaseContractBean {
+public class LeaseContractBean extends LeaseBean{
     private LeaseRequestBean leaseRequestBean;
-    private AdBean adBean;
-    private String starting;
-    private String duration;
-    private byte[] contract;
+    private final byte[] contract;
+
+
     private static final Logger LOGGER = Logger.getLogger(LeaseContractBean.class.getName());
+
     public LeaseContractBean(LeaseRequestBean leaseRequestBean, String path) throws IOException {
+        super(leaseRequestBean.getAdBean(), leaseRequestBean.getMonth(), leaseRequestBean.getPermanence());
         this.leaseRequestBean = leaseRequestBean;
         this.contract = fromPathToBytes(path);
     }
 
-    public LeaseContractBean(AdBean adBean, String starting, String duration, byte[] contract) {
-        this.adBean = adBean;
-        this.starting = starting;
-        this.duration = duration;
+    public LeaseContractBean(AdBean adBean, int starting, int duration, byte[] contract) {
+        super(adBean, Month.fromInt(starting), Permanence.fromInt(duration));
         this.contract = contract;
     }
 
@@ -46,12 +48,8 @@ public class LeaseContractBean {
         return Files.readAllBytes(Paths.get(path));
     }
 
-    public AdBean getAdBean() {
-        return adBean;
-    }
-
     @Override
     public String toString() {
-        return adBean.toString() + ", " + starting + ", " + duration;
+        return adBean.toString() + ", " +  getMonth() + ", " + getPermanence();
     }
 }

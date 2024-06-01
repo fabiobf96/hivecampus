@@ -7,9 +7,7 @@ import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
 import it.hivecampuscompany.hivecampus.dao.LeaseRequestDAO;
-import it.hivecampuscompany.hivecampus.dao.csv.AccountDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.csv.AdDAOCSV;
-import it.hivecampuscompany.hivecampus.dao.csv.LeaseRequestDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.facade.DAOFactoryFacade;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.model.*;
@@ -99,16 +97,18 @@ public class LeaseRequestManager {
 
     public String sendLeaseRequest(SessionBean sessionBean, LeaseRequestBean leaseRequestBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+
         if (sessionManager.validSession(sessionBean)) {
-            AccountDAO accountDAO = new AccountDAOCSV();
+            AccountDAO accountDAO = daoFactoryFacade.getAccountDAO();
 
             Account tenant = accountDAO.retrieveAccountInformationByEmail(sessionBean.getEmail());
             leaseRequestBean.setTenant(new AccountBean(tenant));
 
-            AdDAOCSV adDAO = new AdDAOCSV();
+            AdDAO adDAO = daoFactoryFacade.getAdDAO();
             Ad ad = adDAO.retrieveAdByID(leaseRequestBean.getAdBean().getId(), sessionBean.getClient().equals(SessionBean.Client.JAVA_FX));
 
-            LeaseRequestDAO leaseRequestDAO = new LeaseRequestDAOCSV();
+            LeaseRequestDAO leaseRequestDAO = daoFactoryFacade.getLeaseRequestDAO();
             LeaseRequest leaseRequest = new LeaseRequest(
                     ad,
                     tenant,
@@ -135,7 +135,8 @@ public class LeaseRequestManager {
      */
 
     public List<LeaseRequestBean> searchTenantRequests(SessionBean sessionBean) {
-        LeaseRequestDAO leaseRequestDAO = new LeaseRequestDAOCSV();
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+        LeaseRequestDAO leaseRequestDAO = daoFactoryFacade.getLeaseRequestDAO();
         List<LeaseRequest> leaseRequestList = leaseRequestDAO.retrieveLeaseRequestsByTenant(sessionBean, false);
         List<LeaseRequestBean> leaseRequestBeanList = new ArrayList<>();
         for (LeaseRequest leaseRequest : leaseRequestList) {
@@ -153,7 +154,8 @@ public class LeaseRequestManager {
      */
 
     public void deleteLeaseRequest(LeaseRequestBean requestBean) {
-        LeaseRequestDAO leaseRequestDAO = new LeaseRequestDAOCSV();
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+        LeaseRequestDAO leaseRequestDAO = daoFactoryFacade.getLeaseRequestDAO();
         leaseRequestDAO.deleteLeaseRequest(requestBean);
     }
 }
