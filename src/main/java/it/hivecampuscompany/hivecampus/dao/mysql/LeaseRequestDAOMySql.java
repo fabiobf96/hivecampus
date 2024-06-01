@@ -75,7 +75,7 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
     public void updateLeaseRequest(LeaseRequest leaseRequest) {
         try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.UPDATE_LEASE_REQUEST)) {
             pst.setInt(1, leaseRequest.getStatus().getId());
-            pst.setInt(2, leaseRequest.getID());
+            pst.setInt(2, leaseRequest.getId());
             pst.executeUpdate();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);

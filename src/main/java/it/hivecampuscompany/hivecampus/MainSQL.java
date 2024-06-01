@@ -2,14 +2,10 @@ package it.hivecampuscompany.hivecampus;
 
 import it.hivecampuscompany.hivecampus.bean.*;
 import it.hivecampuscompany.hivecampus.dao.*;
-import it.hivecampuscompany.hivecampus.dao.csv.AdDAOCSV;
-import it.hivecampuscompany.hivecampus.dao.csv.HomeDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.csv.LeaseRequestDAOCSV;
-import it.hivecampuscompany.hivecampus.dao.csv.UniversityDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.mysql.*;
 import it.hivecampuscompany.hivecampus.model.*;
 
-import java.awt.geom.Point2D;
 import java.util.List;
 
 public class MainSQL {
@@ -145,7 +141,7 @@ public class MainSQL {
 
         List<LeaseRequest> requests = leaseRequestDAO.retrieveLeaseRequestsByTenant(sessionBean, false);
         for (LeaseRequest request : requests) {
-            System.out.println("ID: " + request.getID() + " Tenant: " + request.getTenant().getEmail() + " Month: " + request.getLeaseMonth().getMonth() + " Duration: " + request.getDuration().getPermanence() + " Message: " + request.getMessage());
+            System.out.println("ID: " + request.getId() + " Tenant: " + request.getTenant().getEmail() + " Month: " + request.getLeaseMonth().getMonth() + " Duration: " + request.getDuration().getPermanence() + " Message: " + request.getMessage());
         }
 
 
@@ -153,7 +149,7 @@ public class MainSQL {
         LeaseRequestDAO reqSql = new LeaseRequestDAOMySql();
         List<LeaseRequest> requests1 = reqSql.retrieveLeaseRequestsByTenant(sessionBean, false);
         for (LeaseRequest request : requests1) {
-            System.out.println("ID: " + request.getID() + " Tenant: " + request.getTenant().getEmail() + " Month: " + request.getLeaseMonth().getMonth() + " Duration: " + request.getDuration().getPermanence() + " Message: " + request.getMessage());
+            System.out.println("ID: " + request.getId() + " Tenant: " + request.getTenant().getEmail() + " Month: " + request.getLeaseMonth().getMonth() + " Duration: " + request.getDuration().getPermanence() + " Message: " + request.getMessage());
         }
         }
 

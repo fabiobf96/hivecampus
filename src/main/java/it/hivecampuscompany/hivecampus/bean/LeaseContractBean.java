@@ -7,19 +7,19 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.logging.Logger;
 
-public class LeaseBean {
+public class LeaseContractBean {
     private LeaseRequestBean leaseRequestBean;
     private AdBean adBean;
     private String starting;
     private String duration;
     private byte[] contract;
-    private static final Logger LOGGER = Logger.getLogger(LeaseBean.class.getName());
-    public LeaseBean(LeaseRequestBean leaseRequestBean, String path) throws IOException {
+    private static final Logger LOGGER = Logger.getLogger(LeaseContractBean.class.getName());
+    public LeaseContractBean(LeaseRequestBean leaseRequestBean, String path) throws IOException {
         this.leaseRequestBean = leaseRequestBean;
         this.contract = fromPathToBytes(path);
     }
 
-    public LeaseBean(AdBean adBean, String starting, String duration, byte[] contract) {
+    public LeaseContractBean(AdBean adBean, String starting, String duration, byte[] contract) {
         this.adBean = adBean;
         this.starting = starting;
         this.duration = duration;

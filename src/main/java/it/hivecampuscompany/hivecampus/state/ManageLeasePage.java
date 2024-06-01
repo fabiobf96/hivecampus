@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.state;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
-import it.hivecampuscompany.hivecampus.bean.LeaseBean;
+import it.hivecampuscompany.hivecampus.bean.LeaseContractBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.exception.MockOpenAPIException;
@@ -63,13 +63,13 @@ public abstract class ManageLeasePage implements State {
     /**
      * Uploads the given lease to the system.
      *
-     * @param leaseBean The LeaseBean object representing the lease to be uploaded.
+     * @param leaseContractBean The LeaseBean object representing the lease to be uploaded.
      * @throws InvalidSessionException if the session is invalid.
      * @author Fabio Barchiesi
      */
-    public void uploadLease(LeaseBean leaseBean) throws InvalidSessionException {
+    public void uploadLease(LeaseContractBean leaseContractBean) throws InvalidSessionException {
         LeaseManager leaseManager = new LeaseManager();
-        leaseManager.loadLease(context.getSessionBean(), leaseBean);
+        leaseManager.loadLease(context.getSessionBean(), leaseContractBean);
     }
 
     /**
@@ -91,7 +91,7 @@ public abstract class ManageLeasePage implements State {
      * @throws InvalidSessionException if the session is invalid.
      * @author Fabio Barchiesi
      */
-    public LeaseBean getUnSignedLease() throws InvalidSessionException {
+    public LeaseContractBean getUnSignedLease() throws InvalidSessionException {
         LeaseManager leaseManager = new LeaseManager();
         return leaseManager.searchUnsignedLease(context.getSessionBean());
     }

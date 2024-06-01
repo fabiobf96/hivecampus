@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.state.cli.controller;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
-import it.hivecampuscompany.hivecampus.bean.LeaseBean;
+import it.hivecampuscompany.hivecampus.bean.LeaseContractBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
 
 import java.io.IOException;
@@ -58,7 +58,7 @@ public class ManageLeaseOwnerCLIPageController extends CLIController {
      * @return The LeaseBean object representing the lease.
      * @author Fabio Barchiesi
      */
-    public LeaseBean getLease(AdBean adBean, LeaseRequestBean leaseRequestBean) {
+    public LeaseContractBean getLease(AdBean adBean, LeaseRequestBean leaseRequestBean) {
         while (true) {
             try {
                 view.displayMessage(properties.getProperty("GET_LEASE_PATH_MSG"));
@@ -70,7 +70,7 @@ public class ManageLeaseOwnerCLIPageController extends CLIController {
                     return null;
                 }
                 leaseRequestBean.setAdBean(adBean);
-                return new LeaseBean(leaseRequestBean, path);
+                return new LeaseContractBean(leaseRequestBean, path);
             } catch (IOException e) {
                 displayError(properties.getProperty("ERROR_PATH_MSG"));
             }

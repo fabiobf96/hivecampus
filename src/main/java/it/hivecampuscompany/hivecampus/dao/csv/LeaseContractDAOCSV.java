@@ -2,25 +2,23 @@ package it.hivecampuscompany.hivecampus.dao.csv;
 
 import com.opencsv.CSVWriter;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
-import it.hivecampuscompany.hivecampus.dao.LeaseDAO;
-import it.hivecampuscompany.hivecampus.model.Lease;
+import it.hivecampuscompany.hivecampus.dao.LeaseContractDAO;
+import it.hivecampuscompany.hivecampus.model.LeaseContract;
 import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.io.*;
-import java.time.Instant;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class LeaseDAOCSV implements LeaseDAO {
+public class LeaseContractDAOCSV implements LeaseContractDAO {
     private File fd;
-    private static final Logger LOGGER = Logger.getLogger(LeaseDAOCSV.class.getName());
-    private Properties properties;
+    private static final Logger LOGGER = Logger.getLogger(LeaseContractDAOCSV.class.getName());
 
-    public LeaseDAOCSV() {
+    public LeaseContractDAOCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")) {
-            properties = new Properties();
+            Properties properties = new Properties();
             properties.load(input);
             fd = new File(properties.getProperty("LEASE_PATH"));
         } catch (IOException e) {
@@ -31,16 +29,15 @@ public class LeaseDAOCSV implements LeaseDAO {
     }
 
     @Override
-    public void saveLease(Lease lease) {
-        String[] leaseRecord = new String[8];
+    public void saveLease(LeaseContract leaseContract) {
+        String[] leaseRecord = new String[7];
         leaseRecord[LeaseAttributes.GET_INDEX_ID] = String.valueOf(CSVUtility.findLastRowIndex(fd));
-        leaseRecord[LeaseAttributes.GET_INDEX_AD] = String.valueOf(lease.getAd().getId());
-        leaseRecord[LeaseAttributes.GET_INDEX_TENANT] = lease.getTenant().getEmail();
-        leaseRecord[LeaseAttributes.GET_INDEX_STARTING] = lease.getStarting();
-        leaseRecord[LeaseAttributes.GET_INDEX_DURATION] = lease.getDuration();
-        leaseRecord[LeaseAttributes.GET_INDEX_SIGNED] = String.valueOf(lease.isSigned());
-        leaseRecord[LeaseAttributes.GET_INDEX_TIMESTAMP] = lease.getTimeStamp().toString();
-        leaseRecord[LeaseAttributes.GET_INDEX_CONTRACT] = CSVUtility.encodeBytesToBase64(lease.getContract());
+        leaseRecord[LeaseAttributes.GET_INDEX_AD] = String.valueOf(leaseContract.getAd().getId());
+        leaseRecord[LeaseAttributes.GET_INDEX_TENANT] = leaseContract.getTenant().getEmail();
+        leaseRecord[LeaseAttributes.GET_INDEX_STARTING] = String.valueOf(leaseContract.getLeaseMonth().getMonth());
+        leaseRecord[LeaseAttributes.GET_INDEX_DURATION] = String.valueOf(leaseContract.getDuration().getPermanence());
+        leaseRecord[LeaseAttributes.GET_INDEX_SIGNED] = String.valueOf(leaseContract.isSigned());
+        leaseRecord[LeaseAttributes.GET_INDEX_CONTRACT] = CSVUtility.encodeBytesToBase64(leaseContract.getContract());
         try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
             writer.writeNext(leaseRecord);
         } catch (IOException e) {
@@ -50,35 +47,33 @@ public class LeaseDAOCSV implements LeaseDAO {
     }
 
     @Override
-    public Lease retrieveUnsignedLeaseByTenant(String email, boolean isDecorated) {
+    public LeaseContract retrieveUnsignedLeaseByTenant(String email, boolean isDecorated) {
         AdDAO adDAO = new AdDAOCSV();
         List<String[]> leaseTable = CSVUtility.readAll(fd);
         return leaseTable.stream()
                 .filter(leaseRecord -> leaseRecord[LeaseAttributes.GET_INDEX_TENANT].equals(email) && !Boolean.parseBoolean(leaseRecord[LeaseAttributes.GET_INDEX_SIGNED]))
                 .findFirst()
-                .map(leaseRecord -> new Lease(
+                .map(leaseRecord -> new LeaseContract(
                         Integer.parseInt(leaseRecord[LeaseAttributes.GET_INDEX_ID]),
                         adDAO.retrieveAdByID(Integer.parseInt(leaseRecord[LeaseAttributes.GET_INDEX_AD]), isDecorated),
-                        leaseRecord[LeaseAttributes.GET_INDEX_STARTING],
-                        leaseRecord[LeaseAttributes.GET_INDEX_DURATION],
+                        Integer.parseInt(leaseRecord[LeaseAttributes.GET_INDEX_STARTING]),
+                        Integer.parseInt(leaseRecord[LeaseAttributes.GET_INDEX_DURATION]),
                         CSVUtility.decodeBase64ToBytes(leaseRecord[LeaseAttributes.GET_INDEX_CONTRACT]),
-                        Boolean.parseBoolean(leaseRecord[LeaseAttributes.GET_INDEX_SIGNED]),
-                        Instant.parse(leaseRecord[LeaseAttributes.GET_INDEX_TIMESTAMP])
+                        Boolean.parseBoolean(leaseRecord[LeaseAttributes.GET_INDEX_SIGNED])
                 ))
                 .orElse(null);
     }
 
     @Override
-    public void updateLease(Lease lease) {
+    public void updateLease(LeaseContract leaseContract) {
         List<String[]> leaseTable = CSVUtility.readAll(fd);
         String[] header = leaseTable.removeFirst();
-        leaseTable.replaceAll(leaseRecord -> Integer.parseInt(leaseRecord[LeaseAttributes.GET_INDEX_ID]) == lease.getId() ? updateLeaseRecord(leaseRecord, lease) : leaseRecord);
+        leaseTable.replaceAll(leaseRecord -> Integer.parseInt(leaseRecord[LeaseAttributes.GET_INDEX_ID]) == leaseContract.getId() ? updateLeaseRecord(leaseRecord, leaseContract) : leaseRecord);
         CSVUtility.updateFile(fd, header, leaseTable);
     }
 
-    private String[] updateLeaseRecord(String[] leaseRecord, Lease lease) {
-        leaseRecord[LeaseAttributes.GET_INDEX_SIGNED] = String.valueOf(lease.isSigned());
-        leaseRecord[LeaseAttributes.GET_INDEX_TIMESTAMP] = lease.getTimeStamp().toString();
+    private String[] updateLeaseRecord(String[] leaseRecord, LeaseContract leaseContract) {
+        leaseRecord[LeaseAttributes.GET_INDEX_SIGNED] = String.valueOf(leaseContract.isSigned());
         return leaseRecord;
     }
 
@@ -89,7 +84,6 @@ public class LeaseDAOCSV implements LeaseDAO {
         static final int GET_INDEX_STARTING = 3;
         static final int GET_INDEX_DURATION = 4;
         static final int GET_INDEX_SIGNED = 5;
-        static final int GET_INDEX_TIMESTAMP = 6;
-        static final int GET_INDEX_CONTRACT = 7;
+        static final int GET_INDEX_CONTRACT = 6;
     }
 }
