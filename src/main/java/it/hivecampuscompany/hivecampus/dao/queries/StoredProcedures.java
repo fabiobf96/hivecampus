@@ -11,7 +11,7 @@ public class StoredProcedures {
 
     // UserDAO
     public static final String INSERT_USER = "{CALL insertUser(?, ?, ?)}"; // saveUser(User user)
-    public static final String RETRIEVE_USER_BY_CREDENTIALS = "{CALL retrieveUserByCredentials(?, ?)}"; // verifyCredentials(User user)
+    public static final String RETRIEVE_USER_BY_CREDENTIALS = "SELECT * FROM Users WHERE email = ? AND password = ?";
 
     // AdDAO
     public static final String RETRIEVE_ADS_BY_OWNER = "{CALL retrieveAdsByOwner(?, ?)}"; // retrieveAdsByOwner(SessionBean sessionBean, AdStatus adStatus)
