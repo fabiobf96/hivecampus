@@ -61,7 +61,7 @@ public class StoredProcedures {
     public static final String RETRIEVE_LEASE_REQUESTS_BY_AD_ID =
             "SELECT idRequest, tenant, startPermanence, typePermanence, message " +
                     "FROM Lease_Request " +
-                    "WHERE ad = ?";; // retrieveLeaseRequestsByAdID(AdBean adBean)
+                    "WHERE ad = ? AND requestStatus = ?";; // retrieveLeaseRequestsByAdID(AdBean adBean)
     public static final String RETRIEVE_LEASE_REQUEST_BY_ID =
             "SELECT * " +
                     "FROM Lease_Request " +

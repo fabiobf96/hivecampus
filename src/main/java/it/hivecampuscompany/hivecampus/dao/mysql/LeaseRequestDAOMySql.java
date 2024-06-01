@@ -8,7 +8,9 @@ import it.hivecampuscompany.hivecampus.dao.AdDAO;
 import it.hivecampuscompany.hivecampus.dao.LeaseRequestDAO;
 import it.hivecampuscompany.hivecampus.dao.queries.StoredProcedures;
 import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
+import it.hivecampuscompany.hivecampus.model.AdStatus;
 import it.hivecampuscompany.hivecampus.model.LeaseRequest;
+import it.hivecampuscompany.hivecampus.model.LeaseRequestStatus;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,8 +27,10 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
     public List<LeaseRequest> retrieveLeaseRequestsByAdID(AdBean adBean) {
         AccountDAO accountDAO = new AccountDAOMySql();
         List<LeaseRequest> requestList = new ArrayList<>();
+        LeaseRequestStatus leaseRequestStatus = adBean.getAdStatus() == AdStatus.AVAILABLE ? LeaseRequestStatus.PROCESSING : LeaseRequestStatus.ACCEPTED;
         try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.RETRIEVE_LEASE_REQUESTS_BY_AD_ID)) {
             pst.setInt(1, adBean.getId());
+            pst.setInt(2, leaseRequestStatus.getId());
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) {
                     requestList.add(new LeaseRequest(
