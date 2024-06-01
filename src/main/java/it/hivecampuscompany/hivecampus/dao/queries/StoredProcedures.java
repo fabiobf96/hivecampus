@@ -73,7 +73,7 @@ public class StoredProcedures {
     public static final String DELETE_LEASE_REQUEST = "{CALL deleteLeaseRequest(?)}"; // deleteLeaseRequest(LeaseRequest leaseRequest)
 
     // LeaseDAO
-    public static final String SAVE_LEASE = "INSERT INTO Contracts (ad, tenant, startPermanence, typePermanence, active, data) VALUES (?, ?, ?, ?, ?, ?)"; // saveLease(Lease lease)
-    public static final String RETRIEVE_UNSIGNED_LEASE_BY_TENANT = "SELECT * FROM Contracts WHERE tenant = ? AND active = FALSE"; // retrieveUnsignedLeaseByTenant(String email)
-    public static final String UPDATE_LEASE = "UPDATE Contracts SET active = ? WHERE idContract = ?"; // updateLease(Lease lease)
+    public static final String SAVE_LEASE = "INSERT INTO Contract (ad, tenant, startPermanence, typePermanence, active, data) VALUES (?, ?, ?, ?, ?, ?)"; // saveLease(Lease lease)
+    public static final String RETRIEVE_UNSIGNED_LEASE_BY_TENANT = "SELECT * FROM Contract WHERE tenant = ? AND active = FALSE"; // retrieveUnsignedLeaseByTenant(String email)
+    public static final String UPDATE_LEASE = "UPDATE Contract SET active = ? WHERE idContract = ?"; // updateLease(Lease lease)
 }

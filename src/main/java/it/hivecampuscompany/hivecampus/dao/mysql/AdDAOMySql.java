@@ -34,7 +34,7 @@ public class AdDAOMySql implements AdDAO {
         try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.retrieveAdsByOwner(adStatus))) {
             pst.setString(1, sessionBean.getEmail());
             if (adStatus != null) {
-                pst.setString(2, adStatus.name());
+                pst.setInt(2, adStatus.getId());
             }
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) {
@@ -83,7 +83,7 @@ public class AdDAOMySql implements AdDAO {
     @Override   //Fabio
     public void updateAd(Ad ad) {
         try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.UPDATE_AD)) {
-            pst.setString(1, ad.getAdStatus().toString().toLowerCase());
+            pst.setInt(1, ad.getAdStatus().getId());
             pst.setInt(2, ad.getPrice());
             pst.setInt(3, ad.getId());
             pst.executeUpdate();

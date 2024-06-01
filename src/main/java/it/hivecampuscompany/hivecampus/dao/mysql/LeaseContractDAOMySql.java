@@ -22,6 +22,7 @@ public class LeaseContractDAOMySql implements LeaseContractDAO {
             pst.setInt(4, leaseContract.getDuration().getPermanence());
             pst.setBoolean(5, leaseContract.isSigned());
             pst.setBytes(6, leaseContract.getContract());
+            pst.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -7,7 +7,6 @@ import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
 import it.hivecampuscompany.hivecampus.dao.LeaseRequestDAO;
-import it.hivecampuscompany.hivecampus.dao.csv.AdDAOCSV;
 import it.hivecampuscompany.hivecampus.dao.facade.DAOFactoryFacade;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.model.*;
@@ -71,7 +70,7 @@ public class LeaseRequestManager {
             leaseRequest.setStatus(leaseRequestBean.getStatus());
 
             if (leaseRequestBean.getStatus() == LeaseRequestStatus.ACCEPTED) {
-                AdDAO adDAO = new AdDAOCSV();
+                AdDAO adDAO = daoFactoryFacade.getAdDAO();
                 Ad ad = leaseRequest.getAd();
                 ad.setAdStatus(AdStatus.PROCESSING);
                 adDAO.updateAd(ad);
