@@ -29,10 +29,11 @@ public class UserDAOMySql implements UserDAO {
 
     @Override
     public User verifyCredentials(User user) throws AuthenticateException {
-        try (CallableStatement cstmt = connection.prepareCall(StoredProcedures.RETRIEVE_USER_BY_CREDENTIALS)) {
-            cstmt.setString(1, user.getEmail());
-            cstmt.setString(2, user.getPassword());
-            ResultSet res = cstmt.executeQuery();
+        try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.RETRIEVE_USER_BY_CREDENTIALS)) {
+            pst.setString(1, user.getEmail());
+            pst.setString(2, user.getPassword());
+
+            ResultSet res = pst.executeQuery();
             res.first();
 
             String storedEmail = res.getString("email");
