@@ -16,7 +16,7 @@ public class StoredProcedures {
     public static final String RETRIEVE_USER_BY_CREDENTIALS = "SELECT * FROM Users WHERE email = ? AND password = ?";
 
     // AdDAO
-    public static String RETRIEVE_ADS_BY_OWNER(AdStatus adStatus) {
+    public static String retrieveAdsByOwner(AdStatus adStatus) {
         String sql = "SELECT * " +
                 "FROM Ad " +
                 "WHERE home IN (" +

@@ -31,7 +31,7 @@ public class AdDAOMySql implements AdDAO {
         RoomDAO roomDAO = new RoomDAOMySql();
         AccountDAO accountDAO = new AccountDAOMySql();
         List<Ad> adList = new ArrayList<>();
-        try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.RETRIEVE_ADS_BY_OWNER(adStatus))) {
+        try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.retrieveAdsByOwner(adStatus))) {
             pst.setString(1, sessionBean.getEmail());
             if (adStatus != null) {
                 pst.setString(2, adStatus.name());
