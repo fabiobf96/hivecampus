@@ -13,15 +13,23 @@ public class Main extends Application {
     // use "csv javafx" as arguments for launch the application in javafx version with csv persistence
     // use "mysql cli" as arguments for launch the application in cli version with mysql persistence
     // use "mysql javafx" as arguments for launch the application in javafx version with mysql persistence
-    public static void main (String[] args) {
+
+    public static void main(String[] args) {
         DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
-        if (args[0].equals("csv")){
-            daoFactoryFacade.setPersistenceType(PersistenceType.CSV);
-        } else {
+
+        // Set default persistence and interface types
+        String persistenceType = args.length > 0 ? args[0].toLowerCase() : "csv";
+        String interfaceType = args.length > 1 ? args[1].toLowerCase() : "cli";
+
+        // Set the persistence type
+        if ("mysql".equals(persistenceType)) {
             daoFactoryFacade.setPersistenceType(PersistenceType.MYSQL);
+        } else {
+            daoFactoryFacade.setPersistenceType(PersistenceType.CSV);
         }
 
-        if (args[1].equals("javafx")){
+        // Launch the appropriate interface
+        if ("javafx".equals(interfaceType)) {
             launch(args);
         } else {
             Context context = new Context();
@@ -29,6 +37,7 @@ public class Main extends Application {
             context.request();
         }
     }
+
     @Override
     public void start(Stage stage) throws Exception {
         Context context = new Context();
@@ -36,5 +45,4 @@ public class Main extends Application {
         context.setState(new InitialJavaFXPage(context));
         context.request();
     }
-
 }
