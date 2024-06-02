@@ -26,7 +26,7 @@ public class AdDAOMySql implements AdDAO {
 
     private final Connection connection = ConnectionManager.getConnection();
     private static final Logger LOGGER = Logger.getLogger(AdDAOMySql.class.getName());
-    private Properties properties = LanguageLoader.getLanguageProperties();
+    private final Properties properties = LanguageLoader.getLanguageProperties();
 
     @Override
     public List<Ad> retrieveAdsByOwner(SessionBean sessionBean, AdStatus adStatus) {
