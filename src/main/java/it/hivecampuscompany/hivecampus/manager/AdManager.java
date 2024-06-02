@@ -10,10 +10,7 @@ import it.hivecampuscompany.hivecampus.model.*;
 import it.hivecampuscompany.hivecampus.model.pattern_decorator.ImageDecorator;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class AdManager {
     /**
@@ -36,6 +33,11 @@ public class AdManager {
         }
 
         List<Ad> adList = adDAO.retrieveAdsByOwner(sessionBean, adBean.getAdStatus());
+
+        if (adList.isEmpty()) {
+            return Collections.emptyList();
+        }
+
         List<AdBean> adBeanList = new ArrayList<>();
 
         for (Ad ad : adList) {

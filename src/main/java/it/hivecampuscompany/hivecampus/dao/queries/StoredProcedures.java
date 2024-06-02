@@ -17,14 +17,19 @@ public class StoredProcedures {
 
     // AdDAO
     public static String retrieveAdsByOwner(AdStatus adStatus) {
-        String sql = "SELECT * " +
-                "FROM Ad " +
-                "WHERE home IN (" +
-                "SELECT idHome " +
-                "FROM home " +
-                "WHERE owner = ?) ";
+        String sql = """
+                SELECT *, CASE availability
+                                WHEN 'available' THEN 1
+                                WHEN 'processing' THEN 2
+                                WHEN 'reserved' THEN 3
+                                WHEN 'leased' THEN 4
+                                WHEN 'unavailable' THEN 5
+                                ELSE 0
+                                END AS availability_int
+                FROM Ad
+                WHERE home IN (SELECT idHome FROM home WHERE owner = ?)""";
         if (adStatus != null) {
-            sql += "AND availability = ?";
+            sql += " AND availability = ?";
         }
         return sql;
     } // retrieveAdsByOwner(SessionBean sessionBean, AdStatus adStatus)
