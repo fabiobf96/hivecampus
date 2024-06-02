@@ -22,7 +22,7 @@ public class HomeDAOMySql implements HomeDAO {
 
     private final Connection connection = ConnectionManager.getConnection();
     private static final Logger LOGGER = Logger.getLogger(HomeDAOMySql.class.getName());
-    private Properties properties = LanguageLoader.getLanguageProperties();
+    private final Properties properties = LanguageLoader.getLanguageProperties();
 
     @Override
     public Home retrieveHomeByID(int id) {
@@ -53,15 +53,7 @@ public class HomeDAOMySql implements HomeDAO {
                 try (ResultSet res = cstmt.getResultSet()) {
                     while (res.next()) {
                         if (Utility.calculateDistance(res.getDouble(3), res.getDouble(4), unicoordinates.getX(), unicoordinates.getY()) <= distance) {
-                            int idHome = res.getInt(1);
-                            String address = res.getString(2);
-                            Point2D coordinates = new Point2D.Double(res.getDouble(3), res.getDouble(4));
-                            String homeType = res.getString(5);
-                            int homeSurface = res.getInt(6);
-                            Integer[] features = {res.getInt(7), res.getInt(8), res.getInt(9), res.getInt(10)};
-                            String homeDescription = res.getString(11);
-
-                            Home home = new Home(idHome, coordinates, address, homeType, homeSurface, homeDescription, features);
+                            Home home = fillHome(res);
                             homes.add(home);
                         }
                     }
@@ -83,15 +75,7 @@ public class HomeDAOMySql implements HomeDAO {
                 try (ResultSet res = cstmt.getResultSet()) {
 
                     while (res.next()) {
-                        int idHome = res.getInt(1);
-                        String address = res.getString(2);
-                        Point2D coordinates = new Point2D.Double(res.getDouble(3), res.getDouble(4));
-                        String homeType = res.getString(5);
-                        int homeSurface = res.getInt(6);
-                        Integer[] features = {res.getInt(7), res.getInt(8), res.getInt(9), res.getInt(10)};
-                        String homeDescription = res.getString(11);
-
-                        Home home = new Home(idHome, coordinates, address, homeType, homeSurface, homeDescription, features);
+                        Home home = fillHome(res);
                         homes.add(home);
                     }
                 }
@@ -236,5 +220,17 @@ public class HomeDAOMySql implements HomeDAO {
             LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_HOME_IMAGE"));
         }
         return image;
+    }
+
+    private Home fillHome(ResultSet res) throws SQLException {
+        int idHome = res.getInt(1);
+        String address = res.getString(2);
+        Point2D coordinates = new Point2D.Double(res.getDouble(3), res.getDouble(4));
+        String homeType = res.getString(5);
+        int homeSurface = res.getInt(6);
+        Integer[] features = {res.getInt(7), res.getInt(8), res.getInt(9), res.getInt(10)};
+        String homeDescription = res.getString(11);
+
+        return new Home(idHome, coordinates, address, homeType, homeSurface, homeDescription, features);
     }
 }
