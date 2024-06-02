@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 
 public class AdDAOMySql implements AdDAO {
 
-    private final Connection connection = ConnectionManager.getConnection();
+    private final Connection connection = ConnectionManager.getInstance().getConnection();
     private static final Logger LOGGER = Logger.getLogger(AdDAOMySql.class.getName());
     private final Properties properties = LanguageLoader.getLanguageProperties();
 

@@ -13,8 +13,8 @@ import java.util.Properties;
 
 
 public class UserDAOMySql implements UserDAO {
-    private final Connection connection = ConnectionManager.getConnection();
-    private Properties properties = LanguageLoader.getLanguageProperties();
+    private final Connection connection = ConnectionManager.getInstance().getConnection();
+    private final Properties properties = LanguageLoader.getLanguageProperties();
 
     @Override
     public void saveUser(User user) throws DuplicateRowException {

@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 public class LeaseRequestDAOMySql implements LeaseRequestDAO {
 
-    private final Connection connection = ConnectionManager.getConnection();
+    private final Connection connection = ConnectionManager.getInstance().getConnection();
     private static final Logger LOGGER = Logger.getLogger(LeaseRequestDAOMySql.class.getName());
     private final Properties properties = LanguageLoader.getLanguageProperties();
 

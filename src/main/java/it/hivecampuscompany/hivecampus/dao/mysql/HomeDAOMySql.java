@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 public class HomeDAOMySql implements HomeDAO {
 
-    private final Connection connection = ConnectionManager.getConnection();
+    private final Connection connection = ConnectionManager.getInstance().getConnection();
     private static final Logger LOGGER = Logger.getLogger(HomeDAOMySql.class.getName());
     private final Properties properties = LanguageLoader.getLanguageProperties();
 

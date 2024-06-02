@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class LeaseContractDAOMySql implements LeaseContractDAO {
-    private final Connection connection = ConnectionManager.getConnection();
+    private final Connection connection = ConnectionManager.getInstance().getConnection();
     private static final Logger LOGGER = Logger.getLogger(LeaseContractDAOMySql.class.getName());
     private final Properties properties = LanguageLoader.getLanguageProperties();
 

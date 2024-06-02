@@ -20,15 +20,13 @@ import java.util.logging.Logger;
  */
 
 public class ConnectionManager {
+    private static ConnectionManager instance;
     private static Connection connection;
-    private static final Properties properties;
+    private final Properties properties;
     private static final Logger LOGGER = Logger.getLogger(ConnectionManager.class.getName());
 
     // Prevent instantiation of the utility class with a private constructor
     private ConnectionManager() {
-    }
-
-    static {
         properties = new Properties();
         try (InputStream input = new FileInputStream("properties/db.properties")) {
             properties.load(input);
@@ -38,14 +36,28 @@ public class ConnectionManager {
     }
 
     /**
+     * This method returns the instance of the ConnectionManager.
+     * If an instance has not been created, it creates a new instance.
+     *
+     * @return The instance of the ConnectionManager.
+     * @author Marina Sotiropoulos
+     */
+
+    public static synchronized ConnectionManager getInstance() {
+        if (instance == null) {
+            instance = new ConnectionManager();
+        }
+        return instance;
+    }
+
+    /**
      * This method returns a connection to the database.
      * If a connection has not been established, it creates a new connection.
      *
      * @return The connection to the database.
      * @author Marina Sotiropoulos
      */
-
-    public static Connection getConnection() {
+    public synchronized Connection getConnection() {
         if (connection == null) {
             String dbUrl = properties.getProperty("CONNECTION_URL");
             String driver = properties.getProperty("DRIVER_CLASS_NAME");
@@ -74,7 +86,7 @@ public class ConnectionManager {
      * @author Marina Sotiropoulos
      */
 
-    public static void closeConnection() throws SQLException {
+    public synchronized void closeConnection() throws SQLException {
         if (connection != null) {
             try {
                 connection.close();

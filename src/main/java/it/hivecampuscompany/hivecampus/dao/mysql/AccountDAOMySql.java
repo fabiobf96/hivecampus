@@ -15,9 +15,9 @@ import java.util.logging.Logger;
 
 public class AccountDAOMySql implements AccountDAO {
 
-    private final Connection connection = ConnectionManager.getConnection();
+    private final Connection connection = ConnectionManager.getInstance().getConnection();
     private static final Logger LOGGER = Logger.getLogger(AccountDAOMySql.class.getName());
-    private Properties properties = LanguageLoader.getLanguageProperties();
+    private final Properties properties = LanguageLoader.getLanguageProperties();
 
     @Override
     public void saveAccount(Account account) {

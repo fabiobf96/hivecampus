@@ -16,9 +16,9 @@ import java.util.logging.Logger;
 
 public class UniversityDAOMySql implements UniversityDAO {
 
-    private final Connection connection = ConnectionManager.getConnection();
+    private final Connection connection = ConnectionManager.getInstance().getConnection();
     private static final Logger LOGGER = Logger.getLogger(UniversityDAOMySql.class.getName());
-    private Properties properties = LanguageLoader.getLanguageProperties();
+    private final Properties properties = LanguageLoader.getLanguageProperties();
 
     @Override
     public Point2D getUniversityCoordinates(String universityName) {

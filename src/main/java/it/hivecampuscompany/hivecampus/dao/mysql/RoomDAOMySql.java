@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 
 public class RoomDAOMySql implements RoomDAO {
 
-    private final Connection connection = ConnectionManager.getConnection();
+    private final Connection connection = ConnectionManager.getInstance().getConnection();
     private static final Logger LOGGER = Logger.getLogger(RoomDAOMySql.class.getName());
     private final Properties properties = LanguageLoader.getLanguageProperties();
 
