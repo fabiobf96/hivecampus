@@ -7,22 +7,23 @@ import it.hivecampuscompany.hivecampus.dao.factory.*;
 /**
  * DAOFactoryFacade is a singleton class responsible for providing
  * instances of various Data Access Objects (DAOs) based on the
- * persistence type specified in the configuration file.
+ * persistence type specified at runtime.
  *
- * <p>This class reads the persistence type from a configuration file
- * and initializes the appropriate DAO factory for each DAO type.
- * The available persistence types are "PERSISTENCE_MYSQL" and "PERSISTENCE_CSV".</p>
+ * <p>This class allows the persistence type to be set dynamically,
+ * and provides methods to obtain instances of different DAOs. The
+ * persistence type can be one of the predefined types in {@link PersistenceType}.</p>
  *
  * <p>Usage example:
  * <pre>{@code
  * DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+ * daoFactoryFacade.setPersistenceType(PersistenceType.MYSQL);
  * AccountDAO accountDAO = daoFactoryFacade.getAccountDAO();
  * }</pre></p>
  *
- * @author Fabio Barchiesi
+ * @author Fabio Baarchiesi
  */
 public class DAOFactoryFacade {
-    private static final DAOFactoryFacade instance = new DAOFactoryFacade();
+    private static DAOFactoryFacade instance;
     private PersistenceType persistenceType;
     private AccountDAO accountDAO;
     private AdDAO adDAO;
@@ -34,38 +35,41 @@ public class DAOFactoryFacade {
     private UserDAO userDAO;
 
     /**
-     * Private constructor that loads the persistence type from the configuration file.
-     * If the configuration file cannot be loaded, the application exits with an error.
-     *
-     * @author Fabio Barchiesi
+     * Private constructor to prevent instantiation.
      */
-
     private DAOFactoryFacade() {
-
     }
 
     /**
      * Returns the singleton instance of DAOFactoryFacade.
      *
      * @return the singleton instance of DAOFactoryFacade
-     * @author Fabio Barchiesi
+     * @author Fabio Baarchiesi
      */
-    public static DAOFactoryFacade getInstance() {
+    public static synchronized DAOFactoryFacade getInstance() {
+        if (instance == null) {
+            instance = new DAOFactoryFacade();
+        }
         return instance;
     }
 
+    /**
+     * Sets the persistence type to be used by the DAO factories.
+     *
+     * @param persistenceType the persistence type to set
+     * @author Fabio Baarchiesi
+     */
     public void setPersistenceType(PersistenceType persistenceType) {
         this.persistenceType = persistenceType;
     }
 
     /**
-     * Returns an instance of AccountDAO based on the configured persistence type.
+     * Returns an instance of {@link AccountDAO} based on the configured persistence type.
      *
-     * @return an instance of AccountDAO
-     * @throws IllegalArgumentException if the DAO cannot be created
-     * @author Fabio Barchiesi
+     * @return an instance of {@link AccountDAO}
+     * @author Fabio Baarchiesi
      */
-    public AccountDAO getAccountDAO() throws IllegalArgumentException {
+    public AccountDAO getAccountDAO() {
         if (accountDAO == null) {
             AccountDAOFactory accountDAOFactory = new AccountDAOFactory();
             accountDAO = accountDAOFactory.getDAO(persistenceType);
@@ -74,13 +78,12 @@ public class DAOFactoryFacade {
     }
 
     /**
-     * Returns an instance of AdDAO based on the configured persistence type.
+     * Returns an instance of {@link AdDAO} based on the configured persistence type.
      *
-     * @return an instance of AdDAO
-     * @throws IllegalArgumentException if the DAO cannot be created
-     * @author Fabio Barchiesi
+     * @return an instance of {@link AdDAO}
+     * @author Fabio Baarchiesi
      */
-    public AdDAO getAdDAO() throws IllegalArgumentException {
+    public AdDAO getAdDAO() {
         if (adDAO == null) {
             AdDAOFactory adDAOFactory = new AdDAOFactory();
             adDAO = adDAOFactory.getDAO(persistenceType);
@@ -89,13 +92,12 @@ public class DAOFactoryFacade {
     }
 
     /**
-     * Returns an instance of HomeDAO based on the configured persistence type.
+     * Returns an instance of {@link HomeDAO} based on the configured persistence type.
      *
-     * @return an instance of HomeDAO
-     * @throws IllegalArgumentException if the DAO cannot be created
-     * @author Fabio Barchiesi
+     * @return an instance of {@link HomeDAO}
+     * @author Fabio Baarchiesi
      */
-    public HomeDAO getHomeDAO() throws IllegalArgumentException {
+    public HomeDAO getHomeDAO() {
         if (homeDAO == null) {
             HomeDAOFactory homeDAOFactory = new HomeDAOFactory();
             homeDAO = homeDAOFactory.getDAO(persistenceType);
@@ -104,13 +106,12 @@ public class DAOFactoryFacade {
     }
 
     /**
-     * Returns an instance of LeaseContractDAO based on the configured persistence type.
+     * Returns an instance of {@link LeaseContractDAO} based on the configured persistence type.
      *
-     * @return an instance of LeaseContractDAO
-     * @throws IllegalArgumentException if the DAO cannot be created
-     * @author Fabio Barchiesi
+     * @return an instance of {@link LeaseContractDAO}
+     * @author Fabio Baarchiesi
      */
-    public LeaseContractDAO getLeaseContractDAO() throws IllegalArgumentException {
+    public LeaseContractDAO getLeaseContractDAO() {
         if (leaseDAO == null) {
             LeaseContractDAOFactory leaseContractDAOFactory = new LeaseContractDAOFactory();
             leaseDAO = leaseContractDAOFactory.getDAO(persistenceType);
@@ -119,13 +120,12 @@ public class DAOFactoryFacade {
     }
 
     /**
-     * Returns an instance of LeaseRequestDAO based on the configured persistence type.
+     * Returns an instance of {@link LeaseRequestDAO} based on the configured persistence type.
      *
-     * @return an instance of LeaseRequestDAO
-     * @throws IllegalArgumentException if the DAO cannot be created
-     * @author Fabio Barchiesi
+     * @return an instance of {@link LeaseRequestDAO}
+     * @author Fabio Baarchiesi
      */
-    public LeaseRequestDAO getLeaseRequestDAO() throws IllegalArgumentException {
+    public LeaseRequestDAO getLeaseRequestDAO() {
         if (leaseRequestDAO == null) {
             LeaseRequestDAOFactory leaseRequestDAOFactory = new LeaseRequestDAOFactory();
             leaseRequestDAO = leaseRequestDAOFactory.getDAO(persistenceType);
@@ -134,13 +134,12 @@ public class DAOFactoryFacade {
     }
 
     /**
-     * Returns an instance of RoomDAO based on the configured persistence type.
+     * Returns an instance of {@link RoomDAO} based on the configured persistence type.
      *
-     * @return an instance of RoomDAO
-     * @throws IllegalArgumentException if the DAO cannot be created
-     * @author Fabio Barchiesi
+     * @return an instance of {@link RoomDAO}
+     * @author Fabio Baarchiesi
      */
-    public RoomDAO getRoomDAO() throws IllegalArgumentException {
+    public RoomDAO getRoomDAO() {
         if (roomDAO == null) {
             RoomDAOFactory roomDAOFactory = new RoomDAOFactory();
             roomDAO = roomDAOFactory.getDAO(persistenceType);
@@ -149,13 +148,12 @@ public class DAOFactoryFacade {
     }
 
     /**
-     * Returns an instance of UniversityDAO based on the configured persistence type.
+     * Returns an instance of {@link UniversityDAO} based on the configured persistence type.
      *
-     * @return an instance of UniversityDAO
-     * @throws IllegalArgumentException if the DAO cannot be created
-     * @author Fabio Barchiesi
+     * @return an instance of {@link UniversityDAO}
+     * @author Fabio Baarchiesi
      */
-    public UniversityDAO getUniversityDAO() throws IllegalArgumentException {
+    public UniversityDAO getUniversityDAO() {
         if (universityDAO == null) {
             UniversityDAOFactory universityDAOFactory = new UniversityDAOFactory();
             universityDAO = universityDAOFactory.getDAO(persistenceType);
@@ -164,13 +162,12 @@ public class DAOFactoryFacade {
     }
 
     /**
-     * Returns an instance of UserDAO based on the configured persistence type.
+     * Returns an instance of {@link UserDAO} based on the configured persistence type.
      *
-     * @return an instance of UserDAO
-     * @throws IllegalArgumentException if the DAO cannot be created
-     * @author Fabio Barchiesi
+     * @return an instance of {@link UserDAO}
+     * @author Fabio Baarchiesi
      */
-    public UserDAO getUserDAO() throws IllegalArgumentException {
+    public UserDAO getUserDAO() {
         if (userDAO == null) {
             UserDAOFactory userDAOFactory = new UserDAOFactory();
             userDAO = userDAOFactory.getDAO(persistenceType);
@@ -178,3 +175,4 @@ public class DAOFactoryFacade {
         return userDAO;
     }
 }
+
