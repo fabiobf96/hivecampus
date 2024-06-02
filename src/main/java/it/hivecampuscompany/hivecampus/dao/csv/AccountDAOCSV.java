@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 public class AccountDAOCSV implements AccountDAO {
     private File fd;
     private static final Logger LOGGER = Logger.getLogger(AccountDAOCSV.class.getName());
+    private final Properties language = LanguageLoader.getLanguageProperties();
 
     public AccountDAOCSV() {
         try (InputStream input = new FileInputStream("properties/csv.properties")) {
@@ -21,14 +22,14 @@ public class AccountDAOCSV implements AccountDAO {
             properties.load(input);
             fd = new File(properties.getProperty("ACCOUNT_PATH"));
         } catch (IOException e) {
-            Properties languageProperties = LanguageLoader.getLanguageProperties();
-            LOGGER.log(Level.SEVERE, languageProperties.getProperty("FAILED_LOADING_CSV_PROPERTIES"), e);
+            LOGGER.log(Level.SEVERE, language.getProperty("FAILED_LOADING_CSV_PROPERTIES"), e);
             System.exit(1);
         }
     }
 
     @Override
     public void saveAccount(Account account) {
+
         try (CSVWriter writer = new CSVWriter(new FileWriter(fd, true))) {
             String[] accountRecord = new String[4];
             accountRecord[AccountAttributes.GET_INDEX_EMAIL] = account.getEmail();
@@ -38,7 +39,7 @@ public class AccountDAOCSV implements AccountDAO {
             writer.writeNext(accountRecord);
             // Account created successfully
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to save account", e);
+            LOGGER.severe(language.getProperty("FAILED_SAVE_ACCOUNT"));
             System.exit(2);
         }
     }

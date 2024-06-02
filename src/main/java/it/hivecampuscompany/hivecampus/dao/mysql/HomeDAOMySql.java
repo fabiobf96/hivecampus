@@ -40,7 +40,8 @@ public class HomeDAOMySql implements HomeDAO {
                 );
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_HOME_BY_ID"));
+            return null;
         }
     }
 

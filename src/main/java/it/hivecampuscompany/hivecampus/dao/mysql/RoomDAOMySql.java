@@ -19,9 +19,9 @@ public class RoomDAOMySql implements RoomDAO {
 
     private final Connection connection = ConnectionManager.getConnection();
     private static final Logger LOGGER = Logger.getLogger(RoomDAOMySql.class.getName());
-    private Properties properties = LanguageLoader.getLanguageProperties();
+    private final Properties properties = LanguageLoader.getLanguageProperties();
 
-    @Override // Fabio
+    @Override
     public Room retrieveRoomByID(int homeID, int roomID) {
         try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.RETRIEVE_ROOM_BY_ID)){
             pst.setInt(1, homeID);
@@ -38,7 +38,8 @@ public class RoomDAOMySql implements RoomDAO {
                 );
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_ROOM_BY_ID"));
+            return null;
         }
     }
 

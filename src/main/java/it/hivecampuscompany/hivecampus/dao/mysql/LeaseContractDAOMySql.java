@@ -12,10 +12,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class LeaseContractDAOMySql implements LeaseContractDAO {
     private final Connection connection = ConnectionManager.getConnection();
-    private Properties properties = LanguageLoader.getLanguageProperties();
+    private static final Logger LOGGER = Logger.getLogger(LeaseContractDAOMySql.class.getName());
+    private final Properties properties = LanguageLoader.getLanguageProperties();
 
     @Override
     public void saveLease(LeaseContract leaseContract) {
@@ -28,7 +31,7 @@ public class LeaseContractDAOMySql implements LeaseContractDAO {
             pst.setBytes(6, leaseContract.getContract());
             pst.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_SAVE_LEASE_CONTRACT"));
         }
     }
 
@@ -49,7 +52,8 @@ public class LeaseContractDAOMySql implements LeaseContractDAO {
                 );
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_UNSIGNED_LEASE_BY_TENANT"));
+            return null;
         }
     }
 
@@ -60,7 +64,7 @@ public class LeaseContractDAOMySql implements LeaseContractDAO {
             prs.setInt(2, leaseContract.getId());
             prs.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_UPDATE_LEASE"));
         }
     }
 }

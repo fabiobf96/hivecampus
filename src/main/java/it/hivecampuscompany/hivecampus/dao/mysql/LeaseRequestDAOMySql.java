@@ -24,9 +24,9 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
 
     private final Connection connection = ConnectionManager.getConnection();
     private static final Logger LOGGER = Logger.getLogger(LeaseRequestDAOMySql.class.getName());
-    private Properties properties = LanguageLoader.getLanguageProperties();
+    private final Properties properties = LanguageLoader.getLanguageProperties();
 
-    @Override  //Fabio
+    @Override
     public List<LeaseRequest> retrieveLeaseRequestsByAdID(AdBean adBean) {
         AccountDAO accountDAO = new AccountDAOMySql();
         List<LeaseRequest> requestList = new ArrayList<>();
@@ -50,11 +50,12 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
 
             return requestList;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_LEASE_REQUESTS_BY_AD"));
+            return null;
         }
     }
 
-    @Override   //Fabio
+    @Override
     public LeaseRequest retrieveLeaseRequestByID(LeaseRequestBean leaseRequestBean, boolean isDecorated) {
         AccountDAO accountDAO = new AccountDAOMySql();
         AdDAO adDAO = new AdDAOMySql();
@@ -74,18 +75,19 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_LEASE_REQUEST_BY_ID"));
+            return null;
         }
     }
 
-    @Override   //Fabio
+    @Override
     public void updateLeaseRequest(LeaseRequest leaseRequest) {
         try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.UPDATE_LEASE_REQUEST)) {
             pst.setInt(1, leaseRequest.getStatus().getId());
             pst.setInt(2, leaseRequest.getId());
             pst.executeUpdate();
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_UPDATE_LEASE_REQUEST"));
         }
     }
 

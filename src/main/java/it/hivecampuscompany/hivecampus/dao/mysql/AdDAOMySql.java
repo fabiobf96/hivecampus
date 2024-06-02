@@ -28,7 +28,7 @@ public class AdDAOMySql implements AdDAO {
     private static final Logger LOGGER = Logger.getLogger(AdDAOMySql.class.getName());
     private Properties properties = LanguageLoader.getLanguageProperties();
 
-    @Override  //Fabio
+    @Override
     public List<Ad> retrieveAdsByOwner(SessionBean sessionBean, AdStatus adStatus) {
         HomeDAO homeDAO = new HomeDAOMySql();
         RoomDAO roomDAO = new RoomDAOMySql();
@@ -54,11 +54,12 @@ public class AdDAOMySql implements AdDAO {
             }
             return adList;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_ADS_BY_OWNER"));
+            return null;
         }
     }
 
-    @Override   //Fabio
+    @Override
     public Ad retrieveAdByID(int id, boolean isDecorated) {
         HomeDAO homeDAO = new HomeDAOMySql();
         RoomDAO roomDAO = new RoomDAOMySql();
@@ -79,11 +80,12 @@ public class AdDAOMySql implements AdDAO {
                 );
             }
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_ADS_BY_ID"));
+            return null;
         }
     }
 
-    @Override   //Fabio
+    @Override
     public void updateAd(Ad ad) {
         try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.UPDATE_AD)) {
             pst.setInt(1, ad.getAdStatus().getId());
@@ -91,7 +93,7 @@ public class AdDAOMySql implements AdDAO {
             pst.setInt(3, ad.getId());
             pst.executeUpdate();
         } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_UPDATE_AD"));
         }
     }
 

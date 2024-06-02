@@ -6,7 +6,6 @@ import it.hivecampuscompany.hivecampus.model.User;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
