@@ -1,80 +1,57 @@
 package it.hivecampuscompany.hivecampus.model;
 
-import it.hivecampuscompany.hivecampus.bean.LeaseBean;
+public abstract class Lease {
+    protected int id;
+    protected Ad ad;
+    protected Account tenant;
+    protected Month month;
+    protected Permanence duration;
 
-import java.time.Instant;
-
-public class Lease {
-    private int id;
-    private Ad ad;
-    private Account tenant;
-    private String starting;
-    private String duration;
-    private byte[] contract;
-    private boolean signed;
-    private Instant timeStamp;
-
-    public Lease(Ad ad, Account tenant, String starting, String duration, byte[] contract, boolean signed, Instant timeStamp) {
-        this.ad = ad;
-        this.tenant = tenant;
-        this.starting = starting;
-        this.duration = duration;
-        this.contract = contract;
-        setSigned(signed);
-        setTimeStamp(timeStamp);
-    }
-
-    public Lease(int id, Ad ad, String starting, String duration, byte[] contract, boolean signed, Instant timeStamp) {
-        this.id = id;
-        this.ad = ad;
-        this.starting = starting;
-        this.duration = duration;
-        this.contract = contract;
-        setSigned(signed);
-        setTimeStamp(timeStamp);
+    Lease(int id, Ad ad, Account tenant, Month month, Permanence duration) {
+        setId(id);
+        setAd(ad);
+        setTenant(tenant);
+        setMonth(month);
+        setDuration(duration);
     }
 
     public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Ad getAd() {
         return ad;
+    }
+
+    public void setAd(Ad ad) {
+        this.ad = ad;
     }
 
     public Account getTenant() {
         return tenant;
     }
 
-    public String getStarting() {
-        return starting;
+    public void setTenant(Account tenant) {
+        this.tenant = tenant;
     }
 
-    public String getDuration() {
+    public Month getLeaseMonth() {
+        return month;
+    }
+
+    public void setMonth(Month month) {
+        this.month = month;
+    }
+
+    public Permanence getDuration() {
         return duration;
     }
 
-    public byte[] getContract() {
-        return contract;
-    }
-
-    public boolean isSigned() {
-        return signed;
-    }
-
-    public Instant getTimeStamp() {
-        return timeStamp;
-    }
-
-    public void setSigned(boolean signed) {
-        this.signed = signed;
-    }
-
-    public void setTimeStamp(Instant timeStamp) {
-        this.timeStamp = timeStamp;
-    }
-
-    public LeaseBean toBean() {
-        return new LeaseBean(ad.toBean(), starting, duration, contract);
+    public void setDuration(Permanence duration) {
+        this.duration = duration;
     }
 }

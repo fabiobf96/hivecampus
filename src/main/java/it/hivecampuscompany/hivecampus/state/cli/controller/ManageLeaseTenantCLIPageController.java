@@ -1,6 +1,6 @@
 package it.hivecampuscompany.hivecampus.state.cli.controller;
 
-import it.hivecampuscompany.hivecampus.bean.LeaseBean;
+import it.hivecampuscompany.hivecampus.bean.LeaseContractBean;
 
 /**
  * The ManageLeaseTenantCLIPageController class represents a controller for managing leases by the tenant in the command-line interface (CLI).
@@ -38,12 +38,12 @@ public class ManageLeaseTenantCLIPageController extends CLIController {
      * This method guides the tenant through the steps of reviewing the lease details,
      * downloading the lease contract, and confirming the signing of the lease.
      *
-     * @param leaseBean The LeaseBean object representing the lease to be signed.
+     * @param leaseContractBean The LeaseBean object representing the lease to be signed.
      * @return True if the lease is successfully signed, false otherwise.
      * @author Fabio Barchiesi
      */
-    public boolean manageSignContract(LeaseBean leaseBean) {
-        if (leaseBean == null) {
+    public boolean manageSignContract(LeaseContractBean leaseContractBean) {
+        if (leaseContractBean == null) {
             view.displayMessage(properties.getProperty("NO_LEASE_MSG"));
             pause();
             return false;
@@ -52,10 +52,10 @@ public class ManageLeaseTenantCLIPageController extends CLIController {
         String choice;
 
         while (invalid) {
-            view.displayMessage(leaseBean.toString());
+            view.displayMessage(leaseContractBean.toString());
             choice = view.getStringUserInput(properties.getProperty("DOWNLOAD_LEASE_MSG"));
             if (choice.equalsIgnoreCase(properties.getProperty("YES_MSG"))) {
-                leaseBean.getContract(view.getStringUserInput(properties.getProperty("DOWNLOAD_LEASE_PATH_MSG")));
+                leaseContractBean.getContract(view.getStringUserInput(properties.getProperty("DOWNLOAD_LEASE_PATH_MSG")));
                 invalid = false;
             } else if (choice.equalsIgnoreCase(properties.getProperty("NO_MSG"))) {
                 invalid = false;

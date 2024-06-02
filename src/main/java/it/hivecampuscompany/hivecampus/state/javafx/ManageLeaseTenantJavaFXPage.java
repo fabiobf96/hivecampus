@@ -1,6 +1,6 @@
 package it.hivecampuscompany.hivecampus.state.javafx;
 
-import it.hivecampuscompany.hivecampus.bean.LeaseBean;
+import it.hivecampuscompany.hivecampus.bean.LeaseContractBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.exception.MockOpenAPIException;
 import it.hivecampuscompany.hivecampus.state.Context;
@@ -43,8 +43,8 @@ public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
      */
     @Override
     public void handle() throws InvalidSessionException {
-        LeaseBean leaseBean = getUnSignedLease();
-        BasicAd basicAd = new BasicAd(leaseBean.getAdBean());
+        LeaseContractBean leaseContractBean = getUnSignedLease();
+        BasicAd basicAd = new BasicAd(leaseContractBean.getAdBean());
         LeaseDecorator leaseDecorator = new LeaseDecorator(basicAd, LeaseDecorator.Type.TENANT);
         CssDecoration cssDecoration = new CssDecoration(leaseDecorator);
         Node root = cssDecoration.setup();
@@ -55,7 +55,7 @@ public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
             if (selectedFile != null) {
                 String path = selectedFile.getPath() + ".pdf";
                 try (FileOutputStream fos = new FileOutputStream(path)) {
-                    fos.write(leaseBean.getContract());
+                    fos.write(leaseContractBean.getContract());
                 } catch (IOException e) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);
                     alert.setContentText(e.getMessage());

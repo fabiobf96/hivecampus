@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.state.cli;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
-import it.hivecampuscompany.hivecampus.bean.LeaseBean;
+import it.hivecampuscompany.hivecampus.bean.LeaseContractBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.ManageLeasePage;
@@ -81,9 +81,9 @@ public class ManageLeaseOwnerCLIPage extends ManageLeasePage {
      */
     private void createNewLease() throws InvalidSessionException {
         controller.homePage();
-        LeaseBean leaseBean = controller.getLease(adBean, getLeaseRequestInformation(adBean));
-        if (leaseBean != null) {
-            uploadLease(leaseBean);
+        LeaseContractBean leaseContractBean = controller.getLease(adBean, getLeaseRequestInformation(adBean));
+        if (leaseContractBean != null) {
+            uploadLease(leaseContractBean);
             controller.successMessage("LOADED");
         } else {
             choiceAd();

@@ -1,7 +1,7 @@
 package it.hivecampuscompany.hivecampus.state.javafx;
 
 import it.hivecampuscompany.hivecampus.bean.AdBean;
-import it.hivecampuscompany.hivecampus.bean.LeaseBean;
+import it.hivecampuscompany.hivecampus.bean.LeaseContractBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.state.Context;
@@ -66,8 +66,8 @@ public class ManageLeaseOwnerJavaFXPage extends ManageLeasePage {
                 File selectedFile = fileChooser.showOpenDialog(context.getStage());
                 leaseRequestBean.setAdBean(adBean);
                 try {
-                    LeaseBean leaseBean = new LeaseBean(leaseRequestBean, selectedFile.getPath());
-                    uploadLease(leaseBean);
+                    LeaseContractBean leaseContractBean = new LeaseContractBean(leaseRequestBean, selectedFile.getPath());
+                    uploadLease(leaseContractBean);
                     context.request();
                 } catch (IOException ex) {
                     Alert alert = new Alert(Alert.AlertType.WARNING);

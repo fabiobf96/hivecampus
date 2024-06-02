@@ -5,8 +5,7 @@ import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.bean.UserBean;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.UserDAO;
-import it.hivecampuscompany.hivecampus.dao.csv.AccountDAOCSV;
-import it.hivecampuscompany.hivecampus.dao.csv.UserDAOCSV;
+import it.hivecampuscompany.hivecampus.dao.facade.DAOFactoryFacade;
 import it.hivecampuscompany.hivecampus.exception.AuthenticateException;
 import it.hivecampuscompany.hivecampus.exception.DuplicateRowException;
 import it.hivecampuscompany.hivecampus.model.Account;
@@ -26,8 +25,9 @@ public class LoginManager {
      * @author Fabio Barchiesi
      */
     public void signup(UserBean userBean, AccountBean accountBean) throws DuplicateRowException, NoSuchAlgorithmException {
-        AccountDAO accountDAO = new AccountDAOCSV(); // AccountDAOMySql() or AccountDAOCSV()
-        UserDAO userDAO = new UserDAOCSV(); // UserDAOMySql() or UserDAOCSV()
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+        AccountDAO accountDAO = daoFactoryFacade.getAccountDAO();
+        UserDAO userDAO = daoFactoryFacade.getUserDAO();
 
         User user = new User(userBean);
         userDAO.saveUser(user);
@@ -46,7 +46,8 @@ public class LoginManager {
      * @author Fabio Barchiesi
      */
     public SessionBean login(UserBean userBean) throws AuthenticateException, NoSuchAlgorithmException {
-        UserDAO userDAO = new UserDAOCSV(); // UserDAOMySql() or UserDAOCSV()
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+        UserDAO userDAO = daoFactoryFacade.getUserDAO();
 
         User user = userDAO.verifyCredentials(new User(userBean));
 
@@ -67,7 +68,8 @@ public class LoginManager {
      */
 
     public AccountBean getAccountInfo(SessionBean sessionBean) {
-        AccountDAO accountDAO = new AccountDAOCSV(); // AccountDAOMySql() or AccountDAOCSV()
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+        AccountDAO accountDAO = daoFactoryFacade.getAccountDAO();
         Account account = accountDAO.retrieveAccountInformationByEmail(sessionBean.getEmail());
         return account.toBean();
     }

@@ -75,7 +75,7 @@ public class AccountSettingsCLIController extends CLIController {
         view.displayMessage(properties.getProperty("EMAIL_MSG") + ": " + accountBean.getEmail());
         view.displayMessage(properties.getProperty("PASSWORD_MSG") + ": " + "********");
         view.displayMessage(properties.getProperty("ROLE_MSG") + ": " + context.getSessionBean().getRole());
-        view.displayMessage(properties.getProperty("PHONE_MSG") + ": " + accountBean.getPhoneNumber());
+        view.displayMessage(properties.getProperty("PHONE_N_MSG") + ": " + accountBean.getPhoneNumber());
 
         view.displayMessage("\n1." + properties.getProperty("CHANGE_PSW_MSG"));
         view.displayMessage("2." + properties.getProperty("GO_BACK_MSG"));

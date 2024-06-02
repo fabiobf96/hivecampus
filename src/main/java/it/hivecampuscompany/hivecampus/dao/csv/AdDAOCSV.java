@@ -13,11 +13,9 @@ import it.hivecampuscompany.hivecampus.model.AdStatus;
 import it.hivecampuscompany.hivecampus.model.Home;
 import it.hivecampuscompany.hivecampus.model.Room;
 import it.hivecampuscompany.hivecampus.model.pattern_decorator.Component;
-import it.hivecampuscompany.hivecampus.model.pattern_decorator.Decorator;
 import it.hivecampuscompany.hivecampus.model.pattern_decorator.ImageDecorator;
 import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.io.*;
 import java.util.ArrayList;

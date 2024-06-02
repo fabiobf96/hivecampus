@@ -18,7 +18,7 @@ public class Utility {
 
     /**
      * Calculate the distance between two geographic coordinates in kilometers using the Haversine formula.
-     * It converts the distance in meters and then rounds it to the nearest kilometer.
+     * The formula calculates the shortest distance between two points on the surface of a sphere.
      *
      * @param lon1 Longitude of the first point
      * @param lat1 Latitude of the first point
@@ -29,15 +29,19 @@ public class Utility {
      * @author Marina Sotiropoulos
      */
 
+
     public static double calculateDistance (double lon1, double lat1, double lon2, double lat2) {
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+
+        double a = Math.pow(Math.sin(dLat / 2), 2) +
                 Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                        Math.pow(Math.sin(dLon / 2), 2);
+
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distanceInMeters = EARTH_RADIUS_KM * c * 1000;
-        return Utility.roundingDouble(distanceInMeters / 1000);
+
+        double distance = EARTH_RADIUS_KM * c;
+        return roundingDouble(distance);
     }
 
     /**

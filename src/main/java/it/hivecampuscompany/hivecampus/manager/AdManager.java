@@ -3,7 +3,7 @@ package it.hivecampuscompany.hivecampus.manager;
 import it.hivecampuscompany.hivecampus.bean.*;
 import it.hivecampuscompany.hivecampus.boundary.OpenStreetMapApiBoundary;
 import it.hivecampuscompany.hivecampus.dao.*;
-import it.hivecampuscompany.hivecampus.dao.csv.*;
+import it.hivecampuscompany.hivecampus.dao.facade.DAOFactoryFacade;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.exception.MockOpenStreetMapAPIException;
 import it.hivecampuscompany.hivecampus.model.*;
@@ -28,7 +28,8 @@ public class AdManager {
 
     public List<AdBean> searchAdsByOwner(SessionBean sessionBean, AdBean adBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
-        AdDAO adDAO = new AdDAOCSV();
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+        AdDAO adDAO = daoFactoryFacade.getAdDAO();
 
         if (!sessionManager.validSession(sessionBean)) {
             throw new InvalidSessionException();
@@ -46,6 +47,15 @@ public class AdManager {
         }
         return adBeanList;
     }
+
+    /**
+     * Method to retrieve the decorated ads owned by the user.
+     * It applies the pattern decorator to the ads and converts them to beans.
+     *
+     * @param adList The list of ads owned by the user.
+     * @return A list of decorated ad beans.
+     * @author Marina Sotiropoulos
+     */
 
     public List<AdBean> getDecoratedAdsByOwner(List<Ad> adList) {
         List<AdBean> adBeanList = new ArrayList<>();
@@ -69,7 +79,8 @@ public class AdManager {
 
     public List<HomeBean> getHomesByOwner(SessionBean sessionBean) throws InvalidSessionException {
         SessionManager sessionManager = SessionManager.getInstance();
-        HomeDAO homeDAO = new HomeDAOCSV();
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+        HomeDAO homeDAO = daoFactoryFacade.getHomeDAO();
         if (sessionManager.validSession(sessionBean)) {
             List<Home> homeList = homeDAO.retrieveHomesByOwner(sessionBean.getEmail());
             List<HomeBean> homeBeanList = new ArrayList<>();
@@ -95,10 +106,11 @@ public class AdManager {
 
     public boolean publishAd(SessionBean sessionBean, HomeBean homeBean, RoomBean roomBean, int price, Month adStart) {
         SessionManager sessionManager = SessionManager.getInstance();
-        HomeDAO homeDAO = new HomeDAOCSV();
-        RoomDAO roomDAO = new RoomDAOCSV();
-        AccountDAO accountDAO = new AccountDAOCSV();
-        AdDAO adDAO = new AdDAOCSV();
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+        HomeDAO homeDAO = daoFactoryFacade.getHomeDAO();
+        RoomDAO roomDAO = daoFactoryFacade.getRoomDAO();
+        AccountDAO accountDAO = daoFactoryFacade.getAccountDAO();
+        AdDAO adDAO = daoFactoryFacade.getAdDAO();
 
         if (sessionManager.validSession(sessionBean)) {
 
@@ -138,8 +150,9 @@ public class AdManager {
      */
 
     public void saveHomeImage(HomeBean homeBean) {
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
         if (homeBean.getImage() != null && homeBean.getImageName() != null) {
-            HomeDAO homeDAO = new HomeDAOCSV();
+            HomeDAO homeDAO = daoFactoryFacade.getHomeDAO();
             String imageName = homeBean.getImageName();
             String imageType = imageName.substring(imageName.lastIndexOf('.') + 1);
             homeDAO.saveHomeImage(imageName, imageType, homeBean.getImage(), homeBean.getId());
@@ -155,8 +168,9 @@ public class AdManager {
      */
 
     public void saveRoomImage(RoomBean roomBean) {
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
         if (roomBean.getImage() != null) {
-            RoomDAO roomDAO = new RoomDAOCSV();
+            RoomDAO roomDAO = daoFactoryFacade.getRoomDAO();
             String imageName = roomBean.getImageName();
             String imageType = imageName.substring(imageName.lastIndexOf('.') + 1);
             roomDAO.saveRoomImage(imageName, imageType, roomBean.getImage(), roomBean.getIdRoom(), roomBean.getIdHome());
@@ -174,8 +188,9 @@ public class AdManager {
      */
 
     public List<AdBean> searchAdsByFilters(SessionBean sessionBean, FiltersBean filtersBean) {
-        UniversityDAO universityDAO = new UniversityDAOCSV();
-        AdDAOCSV adDAO = new AdDAOCSV();
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+        UniversityDAO universityDAO = daoFactoryFacade.getUniversityDAO();
+        AdDAO adDAO = daoFactoryFacade.getAdDAO();
         Point2D uniCoordinates = universityDAO.getUniversityCoordinates(filtersBean.getUniversity());
 
         // Calcoliamo la distanza per ciascun annuncio una sola volta
@@ -233,7 +248,8 @@ public class AdManager {
      * @author Marina Sotiropoulos
      */
     private ImageDecorator<RoomBean> getDecoratedRoom(Room room) {
-        RoomDAO roomDAO = new RoomDAOCSV();
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+        RoomDAO roomDAO = daoFactoryFacade.getRoomDAO();
         byte[] roomBytes = roomDAO.getRoomImage(room);
         if (roomBytes != null) {
             return new ImageDecorator<>(room, roomBytes);
@@ -250,7 +266,8 @@ public class AdManager {
      * @author Marina Sotiropoulos
      */
     private ImageDecorator<HomeBean> getDecoratedHome(Home home) {
-        HomeDAO homeDAO = new HomeDAOCSV();
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+        HomeDAO homeDAO = daoFactoryFacade.getHomeDAO();
         byte[] homeBytes = homeDAO.getHomeImage(home.getId());
         if (homeBytes != null) {
             return new ImageDecorator<>(home, homeBytes);
@@ -293,7 +310,8 @@ public class AdManager {
      */
 
     public boolean isMaxRoomsReached(HomeBean homeBean) {
-        RoomDAO roomDAO = new RoomDAOCSV();
+        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+        RoomDAO roomDAO = daoFactoryFacade.getRoomDAO();
         int roomsCount = (int) roomDAO.getRoomsAlreadyPresent(homeBean.getId());
         return roomsCount >= homeBean.getNRooms();
     }
