@@ -4,13 +4,6 @@ package it.hivecampuscompany.hivecampus.dao.facade;
 import it.hivecampuscompany.hivecampus.dao.*;
 import it.hivecampuscompany.hivecampus.dao.factory.*;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * DAOFactoryFacade is a singleton class responsible for providing
  * instances of various Data Access Objects (DAOs) based on the
@@ -29,10 +22,8 @@ import java.util.logging.Logger;
  * @author Fabio Barchiesi
  */
 public class DAOFactoryFacade {
-
-    private static final Logger LOGGER = Logger.getLogger(DAOFactoryFacade.class.getName());
     private static final DAOFactoryFacade instance = new DAOFactoryFacade();
-    private String persistenceType;
+    private PersistenceType persistenceType;
     private AccountDAO accountDAO;
     private AdDAO adDAO;
     private HomeDAO homeDAO;
@@ -50,14 +41,7 @@ public class DAOFactoryFacade {
      */
 
     private DAOFactoryFacade() {
-        Properties properties = new Properties();
-        try (InputStream input = new FileInputStream("properties/config.properties")) {
-            properties.load(input);
-            persistenceType = properties.getProperty("PERSISTENCE_MYSQL"); // PERSISTENCE_MYSQL or PERSISTENCE_CSV
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Failed to load config.properties file", e);
-            System.exit(1);
-        }
+
     }
 
     /**
@@ -68,6 +52,10 @@ public class DAOFactoryFacade {
      */
     public static DAOFactoryFacade getInstance() {
         return instance;
+    }
+
+    public void setPersistenceType(PersistenceType persistenceType) {
+        this.persistenceType = persistenceType;
     }
 
     /**

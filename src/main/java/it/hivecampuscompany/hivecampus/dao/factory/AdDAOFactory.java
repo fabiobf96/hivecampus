@@ -2,15 +2,15 @@ package it.hivecampuscompany.hivecampus.dao.factory;
 
 import it.hivecampuscompany.hivecampus.dao.AdDAO;
 import it.hivecampuscompany.hivecampus.dao.csv.AdDAOCSV;
+import it.hivecampuscompany.hivecampus.dao.facade.PersistenceType;
 import it.hivecampuscompany.hivecampus.dao.mysql.AdDAOMySql;
 
 public class AdDAOFactory implements Factory {
     @Override
-    public AdDAO getDAO(String typePersistence) throws IllegalArgumentException {
-        return switch (typePersistence) {
-            case "csv" -> createAdDAOCSV();
-            case "mysql" -> createAdDAOMySql();
-            default -> throw new IllegalArgumentException("Unsupported persistence type: " + typePersistence);
+    public AdDAO getDAO(PersistenceType persistenceType) {
+        return switch (persistenceType) {
+            case CSV -> createAdDAOCSV();
+            case MYSQL -> createAdDAOMySql();
         };
     }
 

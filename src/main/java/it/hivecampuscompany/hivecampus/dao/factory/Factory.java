@@ -1,5 +1,7 @@
 package it.hivecampuscompany.hivecampus.dao.factory;
 
+import it.hivecampuscompany.hivecampus.dao.facade.PersistenceType;
+
 /**
  * Factory is an interface for creating Data Access Object (DAO) instances
  * based on the specified persistence type.
@@ -23,11 +25,10 @@ public interface Factory {
      * Returns a Data Access Object (DAO) instance based on the specified
      * persistence type.
      *
-     * @param typePersistence the type of persistence (e.g., "PERSISTENCE_MYSQL", "PERSISTENCE_CSV")
+     * @param persistenceType the type of persistence (e.g., "PERSISTENCE_MYSQL", "PERSISTENCE_CSV")
      * @return a DAO instance corresponding to the specified persistence type
      * @throws IllegalArgumentException if the persistence type is not supported
-     *
      * @author Fabio Barchiesi
      */
-    Object getDAO(String typePersistence) throws IllegalArgumentException;
+    Object getDAO(PersistenceType persistenceType);
 }

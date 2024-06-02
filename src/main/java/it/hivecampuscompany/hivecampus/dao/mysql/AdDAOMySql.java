@@ -46,7 +46,7 @@ public class AdDAOMySql implements AdDAO {
                             accountDAO.retrieveAccountInformationByEmail(sessionBean.getEmail()),
                             homeDAO.retrieveHomeByID(rs.getInt("home")),
                             roomDAO.retrieveRoomByID(rs.getInt("home"), rs.getInt("room")),
-                            adStatus == null ? rs.getInt("availability") : -1,
+                            adStatus == null ? rs.getInt("availability_int") : -1,
                             adStatus == null ? rs.getInt("monthAvailability") : -1,
                             rs.getInt("price")
                     ));
