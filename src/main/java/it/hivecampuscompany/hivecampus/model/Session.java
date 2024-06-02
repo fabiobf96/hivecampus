@@ -16,8 +16,8 @@ public class Session {
     public boolean isValid(){
         Instant currentTime = Instant.now();
         Duration duration = Duration.between(timestamp, currentTime);
-        // Controlla se la durata è inferiore o uguale a 30 minuti
-        if (duration.toMinutes() <= 30) {
+        // Controlla se la durata è inferiore o uguale a 15 minuti
+        if (duration.toMinutes() <= 15) {
             // Aggiorno il timestamp
             timestamp = Instant.now();
             return true;

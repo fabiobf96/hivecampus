@@ -4,7 +4,9 @@ import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.model.Session;
 import it.hivecampuscompany.hivecampus.model.User;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,13 +59,15 @@ public class SessionManager {
      * @author Fabio Barchiesi
      */
     public Session createSession(User user) {
-        Session session = new Session(user);
-        if (sessionHashMap.get(session.getId()) == null) {
-            sessionHashMap.put(session.getId(), session);
-            return session;
-        } else {
-            return sessionHashMap.get(session.getId());
+        Collection<Session> sessionList = sessionHashMap.values();
+        for (Session session : sessionList) {
+            if (session.getUser() == user) {
+                return session;
+            }
         }
+        Session session = new Session(user);
+        sessionHashMap.put(session.getId(), session);
+        return session;
     }
 
     /**
@@ -74,7 +78,11 @@ public class SessionManager {
      * @author Fabio Barchiesi
      */
     public boolean validSession(SessionBean sessionBean) {
-        return sessionHashMap.get(sessionBean.getId()).isValid();
+        Session session = sessionHashMap.get(sessionBean.getId());
+        if (session == null) {
+            return false;
+        }
+        return session.isValid();
     }
 
     /**
