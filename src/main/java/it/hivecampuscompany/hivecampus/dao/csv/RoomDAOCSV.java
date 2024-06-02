@@ -139,8 +139,7 @@ public class RoomDAOCSV implements RoomDAO {
         try (CSVWriter writer = new CSVWriter(new FileWriter(roomFile, true))) {
             writer.writeNext(room);
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format(properties.getProperty("ERROR_ACCESS"), roomFile), e);
-            System.exit(2);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_WRITE_FILE"), e);
         }
     }
 

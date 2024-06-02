@@ -7,6 +7,9 @@ import it.hivecampuscompany.hivecampus.manager.SessionManager;
 import it.hivecampuscompany.hivecampus.state.cli.ui.CliGUI;
 import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Properties;
 
@@ -76,6 +79,31 @@ public abstract class CLIController {
                 break;
             }
         } while (field.isBlank());
+        return field;
+    }
+
+    /**
+     * Prompts the user to input a field value corresponding to a file path and ensures the path is valid.
+     * If the entered path is invalid (i.e., the file does not exist), it prompts the user to enter it again.
+     * The method repeats until a non-empty and valid file path is entered.
+     *
+     * @param nameField the name of the field to be prompted to the user
+     * @return a valid, non-empty file path entered by the user
+     * @author Marina Sotiropoulos
+     */
+    protected String getPath(String nameField) {
+        String field;
+        do {
+            field = view.getStringUserInput(nameField);
+            if (!field.isBlank()) {
+                // If the field is not empty, check if the path exists
+                Path path = Paths.get(field);
+                if (!Files.exists(path)) {
+                    view.displayMessage(properties.getProperty("INVALID_FILE_PATH_MSG"));
+                    field = ""; // Reset the field to empty
+                }
+            }
+        } while (field.isBlank()); // Repeat until a non-empty path is entered
         return field;
     }
 

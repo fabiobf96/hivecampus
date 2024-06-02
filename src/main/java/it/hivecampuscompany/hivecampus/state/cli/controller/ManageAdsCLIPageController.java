@@ -163,7 +163,7 @@ public class ManageAdsCLIPageController extends CLIController {
             elevator = getBooleanInput(properties.getProperty("ELEVATOR_FIELD_REQUEST_MSG"));
             homeDescription = getField(properties.getProperty("DESCRIPTION_FIELD_REQUEST_MSG"), false);
 
-            homeImagePath = getField(properties.getProperty("IMAGE_PATH_REQUEST_MSG"), false);
+            homeImagePath = getPath(properties.getProperty("IMAGE_PATH_REQUEST_MSG"));
         }
 
         else {
@@ -188,7 +188,7 @@ public class ManageAdsCLIPageController extends CLIController {
         monthAvailable = Integer.parseInt(getField(properties.getProperty("MONTH_CHOICE_MSG"), false));
         roomDescription = getField(properties.getProperty("DESCRIPTION_FIELD_REQUEST_MSG"), false);
 
-        roomImagePath = getField(properties.getProperty("IMAGE_PATH_REQUEST_MSG"), false);
+        roomImagePath = getPath(properties.getProperty("IMAGE_PATH_REQUEST_MSG"));
 
         formView.displayMessage("1. " + properties.getProperty("PUBLISH_AD_MSG"));
         formView.displayMessage("2. " + properties.getProperty("CANCEL_GO_BACK_MSG"));
@@ -247,7 +247,7 @@ public class ManageAdsCLIPageController extends CLIController {
                 homeBean.setImageName(new File(path).getName());
             }
         } catch (IOException e) {
-            formView.displayMessage(properties.getProperty("IMAGE_NOT_FOUND_MSG"));
+            formView.displayMessage(properties.getProperty("FAILED_IMAGE_FOUND"));
         }
     }
 
@@ -337,5 +337,10 @@ public class ManageAdsCLIPageController extends CLIController {
             case "2" -> properties.getProperty("DOUBLE_ROOM_MSG");
             default -> null;
         };
+    }
+
+    public boolean isImagePathValid(String imagePath) {
+        Path path = Paths.get(imagePath);
+        return Files.exists(path);
     }
 }

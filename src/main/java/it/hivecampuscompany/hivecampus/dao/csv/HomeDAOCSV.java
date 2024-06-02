@@ -133,7 +133,7 @@ public class HomeDAOCSV implements HomeDAO {
     }
 
     private boolean imageHomeAlreadyExists(String imageName, int idHome) {
-        List<String[]> imageTable = CSVUtility.readAll(fd);
+        List<String[]> imageTable = CSVUtility.readAll(homeFile);
         imageTable.removeFirst();
         for (String[] imageRecord : imageTable) {
             if (Integer.parseInt(imageRecord[1]) == idHome && imageRecord[2].equals(imageName)) {
@@ -160,8 +160,7 @@ public class HomeDAOCSV implements HomeDAO {
         try (CSVWriter writer = new CSVWriter(new FileWriter(homeFile, true))) {
             writer.writeNext(home);
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, String.format(languageProperties.getProperty("ERROR_ACCESS"), homeFile), e);
-            System.exit(2);
+            LOGGER.log(Level.SEVERE, languageProperties.getProperty("FAILED_WRITE_FILE"), e);
         }
     }
 

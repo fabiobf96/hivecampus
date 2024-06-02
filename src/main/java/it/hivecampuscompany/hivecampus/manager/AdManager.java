@@ -34,10 +34,6 @@ public class AdManager {
 
         List<Ad> adList = adDAO.retrieveAdsByOwner(sessionBean, adBean.getAdStatus());
 
-        if (adList.isEmpty()) {
-            return Collections.emptyList();
-        }
-
         List<AdBean> adBeanList = new ArrayList<>();
 
         for (Ad ad : adList) {
