@@ -338,9 +338,4 @@ public class ManageAdsCLIPageController extends CLIController {
             default -> null;
         };
     }
-
-    public boolean isImagePathValid(String imagePath) {
-        Path path = Paths.get(imagePath);
-        return Files.exists(path);
-    }
 }
