@@ -40,14 +40,8 @@ public class RoomDAOCSV implements RoomDAO {
         return roomTable.stream()
                 .filter(roomRecord -> Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]) == homeID && Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]) == roomID)
                 .findFirst()
-                .map(roomRecord -> new Room(
-                                Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]),
-                                Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]),
-                                Integer.parseInt(roomRecord[RoomAttributes.INDEX_SURFACE]),
-                                roomRecord[RoomAttributes.INDEX_TYPE],
-                                new boolean[]{Integer.parseInt(roomRecord[RoomAttributes.INDEX_BATHROOM]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_BALCONY]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_CONDITIONER]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_TV]) == 1},
-                                roomRecord[RoomAttributes.INDEX_DESCRIPTION])
-                ).orElse(null);
+                .map(this::fillRoom)
+                .orElse(null);
     }
 
     @Override
@@ -61,14 +55,7 @@ public class RoomDAOCSV implements RoomDAO {
                 .filter(roomRecord -> !filtersBean.getBalcony() || Integer.parseInt(roomRecord[RoomAttributes.INDEX_BALCONY]) == 1)
                 .filter(roomRecord -> !filtersBean.getConditioner() || Integer.parseInt(roomRecord[RoomAttributes.INDEX_CONDITIONER]) == 1)
                 .filter(roomRecord -> !filtersBean.getTvConnection() || Integer.parseInt(roomRecord[RoomAttributes.INDEX_TV]) == 1)
-                .map(roomRecord -> new Room(
-                        Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]),
-                        Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]),
-                        Integer.parseInt(roomRecord[RoomAttributes.INDEX_SURFACE]),
-                        roomRecord[RoomAttributes.INDEX_TYPE],
-                        new boolean[]{Integer.parseInt(roomRecord[RoomAttributes.INDEX_BATHROOM]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_BALCONY]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_CONDITIONER]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_TV]) == 1},
-                        roomRecord[RoomAttributes.INDEX_DESCRIPTION]
-                ))
+                .map(this::fillRoom)
                 .toList();
     }
 
@@ -172,7 +159,15 @@ public class RoomDAOCSV implements RoomDAO {
         }
         return new byte[0];
     }
-
+    private Room fillRoom(String[] roomRecord) {
+        return new Room(
+                Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_ROOM]),
+                Integer.parseInt(roomRecord[RoomAttributes.INDEX_ID_HOME]),
+                Integer.parseInt(roomRecord[RoomAttributes.INDEX_SURFACE]),
+                roomRecord[RoomAttributes.INDEX_TYPE],
+                new boolean[]{Integer.parseInt(roomRecord[RoomAttributes.INDEX_BATHROOM]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_BALCONY]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_CONDITIONER]) == 1, Integer.parseInt(roomRecord[RoomAttributes.INDEX_TV]) == 1},
+                roomRecord[RoomAttributes.INDEX_DESCRIPTION]);
+    }
     private static class RoomAttributes {
         private static final int INDEX_ID_ROOM = 0;
         private static final int INDEX_ID_HOME = 1;

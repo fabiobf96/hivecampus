@@ -160,7 +160,6 @@ public class HomeDAOMySql implements HomeDAO {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_IS_HOME_ALREADY_EXISTS"));
         }
-        System.out.println(existingHomeId);
         return existingHomeId; // If the home does not exist, it returns -1
     }
 
