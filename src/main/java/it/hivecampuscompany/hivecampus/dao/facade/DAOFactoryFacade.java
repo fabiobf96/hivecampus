@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 public class DAOFactoryFacade {
 
     private static final Logger LOGGER = Logger.getLogger(DAOFactoryFacade.class.getName());
-    private static DAOFactoryFacade instance;
+    private static final DAOFactoryFacade instance = new DAOFactoryFacade();
     private String persistenceType;
     private AccountDAO accountDAO;
     private AdDAO adDAO;
@@ -48,6 +48,7 @@ public class DAOFactoryFacade {
      *
      * @author Fabio Barchiesi
      */
+
     private DAOFactoryFacade() {
         Properties properties = new Properties();
         try (InputStream input = new FileInputStream("properties/config.properties")) {
@@ -65,10 +66,7 @@ public class DAOFactoryFacade {
      * @return the singleton instance of DAOFactoryFacade
      * @author Fabio Barchiesi
      */
-    public static synchronized DAOFactoryFacade getInstance() {
-        if (instance == null) {
-            instance = new DAOFactoryFacade();
-        }
+    public static DAOFactoryFacade getInstance() {
         return instance;
     }
 
