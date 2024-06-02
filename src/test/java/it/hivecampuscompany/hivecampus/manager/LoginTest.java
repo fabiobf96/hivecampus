@@ -1,27 +1,29 @@
-package it.hivecampuscompany.hivecampus.logic.manager;
+package it.hivecampuscompany.hivecampus.manager;
 
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.bean.UserBean;
+import it.hivecampuscompany.hivecampus.dao.UserDAO;
+import it.hivecampuscompany.hivecampus.dao.csv.UserDAOCSV;
 import it.hivecampuscompany.hivecampus.exception.AuthenticateException;
 import it.hivecampuscompany.hivecampus.exception.InvalidEmailException;
-import it.hivecampuscompany.hivecampus.exception.PasswordMismatchException;
-import it.hivecampuscompany.hivecampus.manager.LoginManager;
+import it.hivecampuscompany.hivecampus.model.User;
 import org.junit.jupiter.api.Test;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * @author marina sotiropoulos
+ * @author Marina Sotiropoulos
  */
 
 class LoginTest {
     @Test
     void testLoginForUnregisteredUser() {
+
         LoginManager control = new LoginManager();
         UserBean userBean = new UserBean();
+
         try {
             userBean.setEmail("test@example.com");
         } catch (InvalidEmailException e) {
@@ -29,12 +31,13 @@ class LoginTest {
         }
         userBean.setPassword("password123");
 
-        assertThrows(InvalidEmailException.class, () -> control.login(userBean));
+        assertThrows(AuthenticateException.class, () -> control.login(userBean));
     }
 
-    @Test
+        @Test
     void testLoginForRegisteredUserWithWrongPsw() {
-        LoginManager control = new LoginManager();
+
+        UserDAO userDAO = new UserDAOCSV();
         UserBean userBean = new UserBean();
         try {
             userBean.setEmail("marco.neri@gmail.com");
@@ -43,7 +46,7 @@ class LoginTest {
         }
         userBean.setPassword("password123");
 
-        assertThrows(PasswordMismatchException.class, () -> control.login(userBean));
+        assertThrows(AuthenticateException.class, () -> userDAO.verifyCredentials(new User(userBean)));
     }
 
     @Test
@@ -58,11 +61,11 @@ class LoginTest {
         }
         userBean.setPassword("pippo");
 
-        int hashEmail = Objects.hash(userBean.getEmail());
-
         try {
             SessionBean sessionBean = control.login(userBean);
-            assertEquals(hashEmail, sessionBean.getId());
+            assertNotNull(sessionBean); // Verifica che la sessione non sia nulla
+            assertEquals(userBean.getEmail(), sessionBean.getEmail()); // Verifica che l'email dell'utente corrisponda
+
         } catch (AuthenticateException | NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }

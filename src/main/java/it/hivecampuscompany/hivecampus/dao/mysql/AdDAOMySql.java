@@ -12,11 +12,13 @@ import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import it.hivecampuscompany.hivecampus.model.*;
 import it.hivecampuscompany.hivecampus.model.pattern_decorator.Component;
 import it.hivecampuscompany.hivecampus.model.pattern_decorator.ImageDecorator;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.awt.geom.Point2D;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,6 +26,7 @@ public class AdDAOMySql implements AdDAO {
 
     private final Connection connection = ConnectionManager.getConnection();
     private static final Logger LOGGER = Logger.getLogger(AdDAOMySql.class.getName());
+    private Properties properties = LanguageLoader.getLanguageProperties();
 
     @Override  //Fabio
     public List<Ad> retrieveAdsByOwner(SessionBean sessionBean, AdStatus adStatus) {
@@ -125,7 +128,7 @@ public class AdDAOMySql implements AdDAO {
                         }
                     }
                 } catch (SQLException e) {
-                    LOGGER.log(Level.SEVERE, "FAILED_RETRIEVE_ADS_BY_FILTERS");
+                    LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_ADS_BY_FILTERS"));
                 }
             }
         }
@@ -144,7 +147,7 @@ public class AdDAOMySql implements AdDAO {
             cstmt.execute();
             result = cstmt.getUpdateCount() != 0;
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "FAILED_PUBLISH_AD");
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_PUBLISH_AD"));
         }
         return result;
     }

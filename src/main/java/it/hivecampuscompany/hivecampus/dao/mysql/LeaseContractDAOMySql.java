@@ -5,14 +5,18 @@ import it.hivecampuscompany.hivecampus.dao.LeaseContractDAO;
 import it.hivecampuscompany.hivecampus.dao.queries.StoredProcedures;
 import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import it.hivecampuscompany.hivecampus.model.LeaseContract;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class LeaseContractDAOMySql implements LeaseContractDAO {
     private final Connection connection = ConnectionManager.getConnection();
+    private Properties properties = LanguageLoader.getLanguageProperties();
+
     @Override
     public void saveLease(LeaseContract leaseContract) {
         try (PreparedStatement pst = connection.prepareStatement(StoredProcedures.SAVE_LEASE)){

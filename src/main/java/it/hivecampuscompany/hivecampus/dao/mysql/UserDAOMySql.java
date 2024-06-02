@@ -6,11 +6,15 @@ import it.hivecampuscompany.hivecampus.dao.UserDAO;
 import it.hivecampuscompany.hivecampus.dao.queries.StoredProcedures;
 import it.hivecampuscompany.hivecampus.exception.DuplicateRowException;
 import it.hivecampuscompany.hivecampus.model.User;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
+
 import java.sql.*;
+import java.util.Properties;
 
 
 public class UserDAOMySql implements UserDAO {
     private final Connection connection = ConnectionManager.getConnection();
+    private Properties properties = LanguageLoader.getLanguageProperties();
 
     @Override
     public void saveUser(User user) throws DuplicateRowException {
@@ -23,7 +27,7 @@ public class UserDAOMySql implements UserDAO {
             cstmt.executeUpdate();
 
         } catch (SQLException e) {
-            throw new DuplicateRowException("ACCOUNT_EXIST");
+            throw new DuplicateRowException(properties.getProperty("ACCOUNT_EXIST"));
         }
     }
 
@@ -43,7 +47,7 @@ public class UserDAOMySql implements UserDAO {
             return new User(storedEmail, storedPassword, storedRole);
 
         } catch (SQLException e) {
-            throw new AuthenticateException("ACCOUNT_NOT_EXIST");
+            throw new AuthenticateException(properties.getProperty("ACCOUNT_NOT_EXIST"));
         }
     }
 }

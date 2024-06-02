@@ -6,6 +6,7 @@ import it.hivecampuscompany.hivecampus.dao.HomeDAO;
 import it.hivecampuscompany.hivecampus.dao.queries.StoredProcedures;
 import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import it.hivecampuscompany.hivecampus.model.Home;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 import it.hivecampuscompany.hivecampus.state.utility.Utility;
 
 import java.awt.geom.Point2D;
@@ -13,12 +14,15 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class HomeDAOMySql implements HomeDAO {
 
     private final Connection connection = ConnectionManager.getConnection();
     private static final Logger LOGGER = Logger.getLogger(HomeDAOMySql.class.getName());
+    private Properties properties = LanguageLoader.getLanguageProperties();
 
     @Override
     public Home retrieveHomeByID(int id) {
@@ -64,7 +68,7 @@ public class HomeDAOMySql implements HomeDAO {
                 }
             }
         } catch (SQLException e) {
-            LOGGER.severe("FAILED_RETRIEVE_HOMES");
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_HOMES_BY_DISTANCE"));
         }
         return homes;
     }
@@ -93,7 +97,7 @@ public class HomeDAOMySql implements HomeDAO {
                 }
             }
         } catch (Exception e) {
-            LOGGER.severe("FAILED_RETRIEVE_HOMES_BY_OWNER");
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_HOMES_BY_OWNER"));
         }
         return homes;
     }
@@ -110,7 +114,7 @@ public class HomeDAOMySql implements HomeDAO {
         try {
             coordinates = OpenStreetMapApiBoundary.getCoordinates(homeBean.getAddress());
         } catch (IOException e) {
-            LOGGER.severe("FAILED_RETRIEVE_COORDINATES");
+            LOGGER.log(Level.SEVERE,properties.getProperty("FAILED_RETRIEVE_COORDINATES"));
             return null;
         }
 
@@ -134,7 +138,7 @@ public class HomeDAOMySql implements HomeDAO {
             newHomeId = cstmt.getInt(12);
 
         } catch (SQLException e) {
-            LOGGER.severe("FAILED_SAVE_HOME: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_SAVE_HOME"));
             return null;
         }
 
@@ -169,7 +173,7 @@ public class HomeDAOMySql implements HomeDAO {
                 }
             }
         } catch (Exception e) {
-            LOGGER.severe("FAILED_IS_HOME_ALREADY_EXISTS");
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_IS_HOME_ALREADY_EXISTS"));
         }
         System.out.println(existingHomeId);
         return existingHomeId; // If the home does not exist, it returns -1
@@ -190,7 +194,7 @@ public class HomeDAOMySql implements HomeDAO {
             cstmt.execute();
 
         } catch (SQLException e) {
-            LOGGER.severe("FAILED_SAVE_HOME_IMAGE");
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_SAVE_HOME_IMAGE"));
         }
     }
 
@@ -210,13 +214,27 @@ public class HomeDAOMySql implements HomeDAO {
                 }
             }
         } catch (SQLException e) {
-            LOGGER.severe("FAILED_RETRIEVE_HOME_IMAGE");
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_HOME_IMAGE"));
         }
         return exists;
     }
 
     @Override
     public byte[] getHomeImage(int idHome) {
-        return new byte[0];
+        byte[] image = null;
+
+        try (CallableStatement cstmt = connection.prepareCall(StoredProcedures.RETRIEVE_HOME_IMAGE)) {
+            cstmt.setInt(1, idHome);
+
+            if (cstmt.execute()) {
+                try (ResultSet res = cstmt.getResultSet()) {
+                    res.first();
+                    image = res.getBytes("image");
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_HOME_IMAGE"));
+        }
+        return image;
     }
 }

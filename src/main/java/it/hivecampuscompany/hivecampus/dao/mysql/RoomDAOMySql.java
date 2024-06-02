@@ -6,10 +6,12 @@ import it.hivecampuscompany.hivecampus.dao.RoomDAO;
 import it.hivecampuscompany.hivecampus.dao.queries.StoredProcedures;
 import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import it.hivecampuscompany.hivecampus.model.Room;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,6 +19,7 @@ public class RoomDAOMySql implements RoomDAO {
 
     private final Connection connection = ConnectionManager.getConnection();
     private static final Logger LOGGER = Logger.getLogger(RoomDAOMySql.class.getName());
+    private Properties properties = LanguageLoader.getLanguageProperties();
 
     @Override // Fabio
     public Room retrieveRoomByID(int homeID, int roomID) {
@@ -64,7 +67,7 @@ public class RoomDAOMySql implements RoomDAO {
                 }
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "FAILED_RETRIEVE_ROOMS_BY_FILTERS");
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_ROOMS_BY_FILTERS"));
         }
         return rooms;
     }
@@ -88,7 +91,7 @@ public class RoomDAOMySql implements RoomDAO {
             cstmt.execute();
             newRoomId = cstmt.getInt(9);
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "FAILED_SAVE_ROOM");
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_SAVE_ROOM"));
             return null;
         }
 
@@ -116,7 +119,7 @@ public class RoomDAOMySql implements RoomDAO {
             cstmt.execute();
 
         } catch (SQLException e) {
-            LOGGER.severe("FAILED_SAVE_ROOM_IMAGE");
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_SAVE_ROOM_IMAGE"));
         }
     }
 
@@ -137,14 +140,29 @@ public class RoomDAOMySql implements RoomDAO {
                 }
             }
         } catch (SQLException e) {
-            LOGGER.severe("FAILED_RETRIEVE_ROOM_IMAGE");
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_ROOM_IMAGE"));
         }
         return exists;
     }
 
     @Override
     public byte[] getRoomImage(Room room) {
-        return new byte[0];
+        byte[] image = null;
+
+        try (CallableStatement cstmt = connection.prepareCall(StoredProcedures.RETRIEVE_ROOM_IMAGE)) {
+            cstmt.setInt(1, room.getIdRoom());
+            cstmt.setInt(2, room.getIdHome());
+
+            if (cstmt.execute()) {
+                try (ResultSet res = cstmt.getResultSet()) {
+                    res.first();
+                    image = res.getBytes("image");
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_ROOM_IMAGE"));
+        }
+        return image;
     }
 
     @Override
@@ -159,7 +177,7 @@ public class RoomDAOMySql implements RoomDAO {
             roomCount = callableStatement.getInt(2);
 
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "FAILED_GET_ROOMS_ALREADY_PRESENT");
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_GET_ROOMS_ALREADY_PRESENT"));
         }
         return roomCount;
     }

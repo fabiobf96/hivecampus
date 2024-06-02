@@ -4,16 +4,20 @@ import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import it.hivecampuscompany.hivecampus.dao.AccountDAO;
 import it.hivecampuscompany.hivecampus.dao.queries.StoredProcedures;
 import it.hivecampuscompany.hivecampus.model.Account;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 public class AccountDAOMySql implements AccountDAO {
 
     private final Connection connection = ConnectionManager.getConnection();
     private static final Logger LOGGER = Logger.getLogger(AccountDAOMySql.class.getName());
+    private Properties properties = LanguageLoader.getLanguageProperties();
 
     @Override
     public void saveAccount(Account account) {
@@ -26,7 +30,7 @@ public class AccountDAOMySql implements AccountDAO {
             cstmt.executeUpdate();
 
         } catch (SQLException e) {
-            LOGGER.severe("FAILED_SAVE_ACCOUNT");
+            LOGGER.severe(properties.getProperty("FAILED_SAVE_ACCOUNT"));
         }
     }
 
@@ -46,7 +50,7 @@ public class AccountDAOMySql implements AccountDAO {
             return new Account(storedEmail, storedName, storedSurname, storedTelephone);
 
         } catch (SQLException e) {
-            LOGGER.severe("FAILED_RETRIEVE_ACCOUNT_INFORMATION_BY_EMAIL");
+            LOGGER.severe(properties.getProperty("FAILED_RETRIEVE_ACCOUNT_INFO"));
             return null;
         }
     }

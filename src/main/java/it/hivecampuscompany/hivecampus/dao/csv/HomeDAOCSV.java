@@ -64,29 +64,10 @@ public class HomeDAOCSV implements HomeDAO {
             double homeLatitude = Double.parseDouble(homeRecord[HomeAttributes.INDEX_LATITUDE]);
             // Calculate the distance between the university and the home by Harvesine formula
             if (Utility.calculateDistance(homeLongitude, homeLatitude, uniCoordinates.getX(), uniCoordinates.getY()) <= distance) {
-                Integer[] features = getFeatures(homeRecord);
-                Home home = new Home(
-                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_ID]),
-                        new Point2D.Double(homeLongitude, homeLatitude),
-                        homeRecord[HomeAttributes.INDEX_ADDRESS],
-                        homeRecord[HomeAttributes.INDEX_TYPE],
-                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_SURFACE]),
-                        homeRecord[HomeAttributes.INDEX_DESCRIPTION],
-                        features
-                );
-                homes.add(home);
+                homes.add(fillHome(homeRecord));
             }
         }
         return homes;
-    }
-
-    private static Integer[] getFeatures(String[] homeRecord) {
-        return new Integer[]{
-                Integer.parseInt(homeRecord[HomeAttributes.INDEX_NROOMS]),
-                Integer.parseInt(homeRecord[HomeAttributes.INDEX_NBATHROOMS]),
-                Integer.parseInt(homeRecord[HomeAttributes.INDEX_FLOOR]),
-                Integer.parseInt(homeRecord[HomeAttributes.INDEX_ELEVATOR])
-        };
     }
 
     @Override
@@ -96,21 +77,7 @@ public class HomeDAOCSV implements HomeDAO {
         homeTable.removeFirst(); // Remove header
         for (String[] homeRecord : homeTable) {
             if (homeRecord[HomeAttributes.INDEX_OWNER].equals(ownerEmail)) {
-                Integer[] features = {
-                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_NROOMS]),
-                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_NBATHROOMS]),
-                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_FLOOR]),
-                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_ELEVATOR])
-                };
-                Home home = new Home(
-                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_ID]),
-                        new Point2D.Double(Double.parseDouble(homeRecord[HomeAttributes.INDEX_LONGITUDE]), Double.parseDouble(homeRecord[HomeAttributes.INDEX_LATITUDE])),
-                        homeRecord[HomeAttributes.INDEX_ADDRESS],
-                        homeRecord[HomeAttributes.INDEX_TYPE],
-                        Integer.parseInt(homeRecord[HomeAttributes.INDEX_SURFACE]),
-                        homeRecord[HomeAttributes.INDEX_DESCRIPTION],
-                        features);
-                homes.add(home);
+                homes.add(fillHome(homeRecord));
             }
         }
         return homes;
@@ -183,7 +150,7 @@ public class HomeDAOCSV implements HomeDAO {
         }
 
         int idImage = CSVUtility.findLastRowIndex(homeFile) + 1;
-        String[] home = new String[5];
+        String[] home = new String[6];
         home[0] = String.valueOf(idImage);
         home[1] = String.valueOf(idHome);
         home[2] = imageName;
@@ -233,6 +200,23 @@ public class HomeDAOCSV implements HomeDAO {
             LOGGER.log(Level.SEVERE, languageProperties.getProperty("FAILED_READ_PARSE_VALUES"), e);
         }
         return -1; // If the home does not exist, it returns -1
+    }
+
+    private Home fillHome(String[] homeRecord) {
+        Integer[] features = {
+                Integer.parseInt(homeRecord[HomeAttributes.INDEX_NROOMS]),
+                Integer.parseInt(homeRecord[HomeAttributes.INDEX_NBATHROOMS]),
+                Integer.parseInt(homeRecord[HomeAttributes.INDEX_FLOOR]),
+                Integer.parseInt(homeRecord[HomeAttributes.INDEX_ELEVATOR])
+        };
+        return new Home(
+                Integer.parseInt(homeRecord[HomeAttributes.INDEX_ID]),
+                new Point2D.Double(Double.parseDouble(homeRecord[HomeAttributes.INDEX_LONGITUDE]), Double.parseDouble(homeRecord[HomeAttributes.INDEX_LATITUDE])),
+                homeRecord[HomeAttributes.INDEX_ADDRESS],
+                homeRecord[HomeAttributes.INDEX_TYPE],
+                Integer.parseInt(homeRecord[HomeAttributes.INDEX_SURFACE]),
+                homeRecord[HomeAttributes.INDEX_DESCRIPTION],
+                features);
     }
 
     private static class HomeAttributes {

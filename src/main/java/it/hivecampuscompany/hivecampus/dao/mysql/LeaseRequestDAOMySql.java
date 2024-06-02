@@ -11,10 +11,12 @@ import it.hivecampuscompany.hivecampus.manager.ConnectionManager;
 import it.hivecampuscompany.hivecampus.model.AdStatus;
 import it.hivecampuscompany.hivecampus.model.LeaseRequest;
 import it.hivecampuscompany.hivecampus.model.LeaseRequestStatus;
+import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +24,7 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
 
     private final Connection connection = ConnectionManager.getConnection();
     private static final Logger LOGGER = Logger.getLogger(LeaseRequestDAOMySql.class.getName());
+    private Properties properties = LanguageLoader.getLanguageProperties();
 
     @Override  //Fabio
     public List<LeaseRequest> retrieveLeaseRequestsByAdID(AdBean adBean) {
@@ -98,7 +101,7 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
 
             cstmt.execute();
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "FAILED_SAVE_LEASE_REQUEST", e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_SAVE_LEASE_REQUEST"));
         }
     }
 
@@ -113,7 +116,7 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
             cstmt.execute();
             result = cstmt.getBoolean(3);
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "FAILED_VALID_REQUEST", e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_VALID_REQUEST"));
         }
         return result;
     }
@@ -143,7 +146,7 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
                 }
             }
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "FAILED_RETRIEVE_LEASE_REQUESTS_BY_TENANT", e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_LEASE_REQUESTS_BY_TENANT"));
         }
         return leaseRequests;
     }
@@ -155,7 +158,7 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
 
             cstmt.execute();
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, "FAILED_DELETE_LEASE_REQUEST", e);
+            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_DELETE_LEASE_REQUEST"));
         }
     }
 }
