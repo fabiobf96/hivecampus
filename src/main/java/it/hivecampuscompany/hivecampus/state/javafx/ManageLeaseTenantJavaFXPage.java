@@ -27,6 +27,7 @@ public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
 
     /**
      * Constructs a ManageLeaseTenantJavaFXPage object with the given context.
+     *
      * @param context The context object for the manage lease tenant page.
      * @author Fabio Barchiesi
      */
@@ -44,44 +45,51 @@ public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
     @Override
     public void handle() throws InvalidSessionException {
         LeaseContractBean leaseContractBean = getUnSignedLease();
-        BasicAd basicAd = new BasicAd(leaseContractBean.getAdBean());
-        LeaseDecorator leaseDecorator = new LeaseDecorator(basicAd, LeaseDecorator.Type.TENANT);
-        CssDecoration cssDecoration = new CssDecoration(leaseDecorator);
-        Node root = cssDecoration.setup();
-        Button btnDownload = (Button) root.lookup("#btnDownload");
-        btnDownload.setOnAction(event -> {
-            FileChooser fileChooser = new FileChooser();
-            File selectedFile = fileChooser.showSaveDialog(context.getStage());
-            if (selectedFile != null) {
-                String path = selectedFile.getPath() + ".pdf";
-                try (FileOutputStream fos = new FileOutputStream(path)) {
-                    fos.write(leaseContractBean.getContract());
-                } catch (IOException e) {
-                    Alert alert = new Alert(Alert.AlertType.WARNING);
-                    alert.setContentText(e.getMessage());
-                    alert.showAndWait();
+        if (leaseContractBean == null) {
+            showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("NO_LEASE_MSG"));
+        } else {
+            BasicAd basicAd = new BasicAd(leaseContractBean.getAdBean());
+            LeaseDecorator leaseDecorator = new LeaseDecorator(basicAd, LeaseDecorator.Type.TENANT);
+            CssDecoration cssDecoration = new CssDecoration(leaseDecorator);
+            Node root = cssDecoration.setup();
+            Button btnDownload = (Button) root.lookup("#btnDownload");
+            btnDownload.setOnAction(event -> {
+                FileChooser fileChooser = new FileChooser();
+                File selectedFile = fileChooser.showSaveDialog(context.getStage());
+                if (selectedFile != null) {
+                    String path = selectedFile.getPath() + ".pdf";
+                    try (FileOutputStream fos = new FileOutputStream(path)) {
+                        fos.write(leaseContractBean.getContract());
+                    } catch (IOException e) {
+                        Alert alert = new Alert(Alert.AlertType.WARNING);
+                        alert.setContentText(e.getMessage());
+                        alert.showAndWait();
+                    }
                 }
-            }
-        });
-        Button btnSign = (Button) root.lookup("#btnSign");
-        btnSign.setOnAction(event -> {
-            try {
-                signContract();
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setContentText("Firma avvenuta con successo");
-                alert.showAndWait();
-                context.request();
-            } catch (InvalidSessionException e) {
-                context.invalidSessionExceptionHandle();
-            } catch (MockOpenAPIException e) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setContentText(e.getMessage());
-                alert.showAndWait();
-            }
-        });
-        ScrollPane scrollPane = new ScrollPane(root);
-        scrollPane.setPadding(new Insets(10));
-        scrollPane.fitToWidthProperty().setValue(true);
-        context.getTab(2).setContent(scrollPane);
+            });
+            Button btnSign = (Button) root.lookup("#btnSign");
+            btnSign.setOnAction(event -> {
+                try {
+                    signContract();
+                    showAlert(Alert.AlertType.CONFIRMATION, context.getLanguage().getProperty("SUCCESS_MSG_SIGN"));
+                    context.request();
+                } catch (InvalidSessionException e) {
+                    context.invalidSessionExceptionHandle();
+                } catch (MockOpenAPIException e) {
+                    showAlert(Alert.AlertType.ERROR, e.getMessage());
+                }
+            });
+            ScrollPane scrollPane = new ScrollPane(root);
+            scrollPane.setPadding(new Insets(10));
+            scrollPane.fitToWidthProperty().setValue(true);
+            context.getTab(2).setContent(scrollPane);
+        }
+    }
+
+    private void showAlert(Alert.AlertType typeAlert, String message) {
+        Alert alert = new Alert(typeAlert);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

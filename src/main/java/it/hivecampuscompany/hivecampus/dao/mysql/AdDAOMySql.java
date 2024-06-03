@@ -52,11 +52,10 @@ public class AdDAOMySql implements AdDAO {
                     ));
                 }
             }
-            return adList;
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_ADS_BY_OWNER"));
-            return null;
         }
+        return adList;
     }
 
     @Override

@@ -48,11 +48,10 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
                 }
             }
 
-            return requestList;
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_RETRIEVE_LEASE_REQUESTS_BY_AD"));
-            return null;
         }
+        return requestList;
     }
 
     @Override
