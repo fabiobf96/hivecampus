@@ -6,13 +6,11 @@ import it.hivecampuscompany.hivecampus.state.javafx.InitialJavaFXPage;
 import it.hivecampuscompany.hivecampus.state.javafx.OwnerHomeJavaFXPage;
 import it.hivecampuscompany.hivecampus.state.javafx.TenantHomeJavaFXPage;
 import it.hivecampuscompany.hivecampus.state.utility.LanguageLoader;
-import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Modality;
@@ -46,8 +44,6 @@ public class HomePageJavaFxController extends JavaFxController {
     private MenuItem mibtnLogout;
     @FXML
     private Label lblLogout;
-    @FXML
-    private ListView<String> lvNotifications;
 
     public HomePageJavaFxController() {
         // Default constructor
@@ -75,45 +71,8 @@ public class HomePageJavaFxController extends JavaFxController {
 
         mibtnSettings.setOnAction(event -> handleAccountSettings());
         mibtnLanguage.setOnAction(event -> handleLanguageSettings());
+        mbtnNotifications.setOnMouseClicked(event -> handleNotification());
         mibtnLogout.setOnAction(event -> handleLogout());
-
-        // lvNotifications custom list cell as in AdSearchController
-    }
-
-    /**
-     * Initializes the list view of notifications with the user's notifications.
-     *
-     * @author Marina Sotiropoulos
-     */
-
-    @FXML
-    public void initialize() {
-        // Listener per il cambiamento nell'elenco di elementi della ListView
-        lvNotifications.getItems().addListener((ListChangeListener<String>) change -> {
-            while (change.next()) {
-                // Verifica se sono stati aggiunti nuovi elementi
-                if (change.wasAdded()) {
-                    // Modifica il colore del pulsante delle notifiche
-                    mbtnNotifications.setStyle("-fx-background-color: #ff9933");
-                }
-            }
-        });
-
-        // Listener per il click sul pulsante delle notifiche per rimuovere il colore arancione
-        lvNotifications.setOnMouseClicked(event -> {
-            // Verifica se il colore attuale del pulsante è arancione
-            if (mbtnNotifications.getStyle().contains("-fx-background-color: #ff9933")) {
-                // Rimuovi il colore arancione dal pulsante delle notifiche
-                mbtnNotifications.setStyle(""); // Rimuove lo stile impostato e ripristina lo stile predefinito
-            }
-        });
-
-    }
-
-    // Metodo di prova
-    public void addNotifications() {
-        // Aggiungere nuove notifiche alla lista
-        lvNotifications.getItems().addAll("Notifica 1", "Notifica 2", "Notifica 3");
     }
 
     /**
@@ -123,7 +82,6 @@ public class HomePageJavaFxController extends JavaFxController {
      *
      * @author Marina Sotiropoulos
      */
-
     private void handleAccountSettings() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/accountSettingsForm-view.fxml"));
@@ -143,7 +101,6 @@ public class HomePageJavaFxController extends JavaFxController {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, properties.getProperty("ERROR_ACCOUNT_SETTINGS_WINDOW_MSG"), e);
         }
-        addNotifications();
     }
 
     /**
@@ -153,7 +110,6 @@ public class HomePageJavaFxController extends JavaFxController {
      *
      * @author Marina Sotiropoulos
      */
-
     private void handleLanguageSettings() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/hivecampuscompany/hivecampus/languageSettingsForm-view.fxml"));
@@ -186,6 +142,16 @@ public class HomePageJavaFxController extends JavaFxController {
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, properties.getProperty("ERROR_LANGUAGE_SETTINGS_WINDOW_MSG"), e);
         }
+    }
+
+    /**
+     * Handles the user's request to view a notification.
+     * It displays an alert with the notification message.
+     *
+     * @author Marina Sotiropoulos
+     */
+    private void handleNotification() {
+        showAlert(INFORMATION, properties.getProperty(INFORMATION_TITLE_MSG), properties.getProperty("NOT_IMPLEMENTED_MSG"));
     }
 
     /**

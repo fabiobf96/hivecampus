@@ -16,14 +16,7 @@
         <Image url="@images/logoHomepage.png" />
     </ImageView>
     <Region HBox.hgrow="ALWAYS" />
-    <MenuButton fx:id="mbtnNotifications" mnemonicParsing="false">
-      <items>
-         <MenuItem mnemonicParsing="false">
-            <graphic>
-               <ListView fx:id="lvNotifications" prefHeight="200.0" prefWidth="200.0" style="-fx-border-color: grey; -fx-border-radius: 5;" />
-            </graphic>
-         </MenuItem>
-      </items></MenuButton>
+    <MenuButton fx:id="mbtnNotifications" mnemonicParsing="false"/>
     <MenuButton fx:id="mbtnMenuAccount" mnemonicParsing="false">
         <items>
             <MenuItem disable="true" mnemonicParsing="false">

@@ -3,6 +3,7 @@ package it.hivecampuscompany.hivecampus.state.javafx.controller;
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
+import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.manager.AdManager;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.javafx.AdSearchJavaFXPage;
@@ -15,7 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -129,12 +130,16 @@ public class AdSearchJavaFXPageController extends JavaFxController {
 
     // Nuova versione del metodo retrieveAdsByFilters
     private List<AdBean> retrieveAdsByFilters(SessionBean sessionBean, FiltersBean filtersBean) {
-        List<AdBean> adBeans = manager.searchAdsByFilters(sessionBean, filtersBean);
-        if (adBeans == null || adBeans.isEmpty()) {
-            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("NO_ADS_FOUND_MSG"));
-            return Collections.emptyList();
+        List<AdBean> adBeans = new ArrayList<>();
+        try {
+            adBeans = manager.searchAdsByFilters(sessionBean, filtersBean);
+            if (adBeans == null || adBeans.isEmpty()) {
+                showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("NO_ADS_FOUND_MSG"));
+            }
+        } catch (InvalidSessionException e) {
+            context.invalidSessionExceptionHandle();
         }
-        else return adBeans;
+        return adBeans;
     }
 
     /**

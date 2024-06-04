@@ -9,7 +9,6 @@ import it.hivecampuscompany.hivecampus.model.Permanence;
 import it.hivecampuscompany.hivecampus.model.LeaseRequestStatus;
 import it.hivecampuscompany.hivecampus.state.AdSearchPage;
 import it.hivecampuscompany.hivecampus.state.Context;
-import it.hivecampuscompany.hivecampus.state.javafx.LoginJavaFXPage;
 import it.hivecampuscompany.hivecampus.state.javafx.TenantHomeJavaFXPage;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -230,8 +229,7 @@ public class LeaseRequestJavaFxController extends JavaFxController{
             goToHomepage();
 
         } catch (InvalidSessionException e) {
-            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("INVALID_SESSION_MSG"));
-            goToLogin();
+            context.invalidSessionExceptionHandle();
         }
     }
 
@@ -303,17 +301,6 @@ public class LeaseRequestJavaFxController extends JavaFxController{
 
     private void goToHomepage() {
         adSearchPage.goToTenantHomePage(new TenantHomeJavaFXPage(context));
-        context.request();
-    }
-
-    /*
-     * Navigates the user to the login page.
-     *
-     * @author Marina Sotiropoulos
-     */
-
-    private void goToLogin() {
-        adSearchPage.goToLoginPage(new LoginJavaFXPage(context));
         context.request();
     }
 }

@@ -174,7 +174,7 @@ public class Context {
      */
     public void invalidSessionExceptionHandle() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setContentText("Session Expired!");
+        alert.setContentText(properties.getProperty("INVALID_SESSION_EXCEPTION"));
         alert.showAndWait();
         state = new InitialJavaFXPage(this);
         request();

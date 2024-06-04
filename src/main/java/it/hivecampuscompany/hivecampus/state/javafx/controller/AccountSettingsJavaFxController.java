@@ -88,7 +88,7 @@ public class AccountSettingsJavaFxController extends JavaFxController {
      */
 
     private void handlePictureChange() {
-        showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("NOT_IMPLEMENTED_MSG"));
+        showAlert(INFORMATION, properties.getProperty(INFORMATION_TITLE_MSG), properties.getProperty("NOT_IMPLEMENTED_MSG"));
     }
 
     /**
@@ -99,6 +99,6 @@ public class AccountSettingsJavaFxController extends JavaFxController {
      */
 
     private void handlePasswordChange() {
-        showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("NOT_IMPLEMENTED_MSG"));
+        showAlert(INFORMATION, properties.getProperty(INFORMATION_TITLE_MSG), properties.getProperty("NOT_IMPLEMENTED_MSG"));
     }
 }

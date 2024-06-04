@@ -3,6 +3,7 @@ package it.hivecampuscompany.hivecampus.state.cli.controller;
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.FiltersBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
+import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.manager.AdManager;
 
 import java.util.Collections;
@@ -46,8 +47,7 @@ public class AdSearchCLIPageController extends CLIController {
      * @author Marina Sotiropoulos
      */
 
-    // Modificato per ricevere il sessionBean
-    public List<AdBean> searchAds(SessionBean sessionBean) {
+    public List<AdBean> searchAds(SessionBean sessionBean) throws InvalidSessionException {
         String university = getField(properties.getProperty("UNIVERSITY_FIELD_REQUEST_MSG"), false);
         float maxDistance = getValidatedInput(properties.getProperty("MAX_DISTANCE_FIELD_REQUEST_MSG"), 15F);
         int maxPrice = getValidatedInput(properties.getProperty("MAX_PRICE_FIELD_REQUEST_MSG"), 1000F).intValue();

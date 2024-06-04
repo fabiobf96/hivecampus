@@ -185,7 +185,8 @@ public class AdManager {
      * @author Marina Sotiropoulos
      */
 
-    public List<AdBean> searchAdsByFilters(SessionBean sessionBean, FiltersBean filtersBean) {
+    public List<AdBean> searchAdsByFilters(SessionBean sessionBean, FiltersBean filtersBean) throws InvalidSessionException {
+        SessionManager sessionManager = SessionManager.getInstance();
         DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
         UniversityDAO universityDAO = daoFactoryFacade.getUniversityDAO();
         AdDAO adDAO = daoFactoryFacade.getAdDAO();
@@ -199,6 +200,11 @@ public class AdManager {
             double distance = ad.getHome().calculateDistance(uniCoordinates);
             adDistanceMap.put(ad.getId(), distance);
         }
+
+        if (!sessionManager.validSession(sessionBean)) {
+            throw new InvalidSessionException();
+        }
+
         // Applichiamo il pattern decorator solo se il client è diverso dal CLI
         if (sessionBean.getClient() != SessionBean.Client.CLI) {
             ads = new ArrayList<>(getDecoratedAds(ads));
