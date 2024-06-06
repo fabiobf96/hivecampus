@@ -1,6 +1,5 @@
 package it.hivecampuscompany.hivecampus.manager;
 
-import it.hivecampuscompany.hivecampus.bean.AccountBean;
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
@@ -23,7 +22,7 @@ import java.util.Properties;
 
 public class LeaseRequestManager {
 
-    private Properties properties = LanguageLoader.getLanguageProperties();
+    private final Properties properties = LanguageLoader.getLanguageProperties();
 
     /**
      * Searches for lease requests associated with a given ad.
@@ -102,7 +101,7 @@ public class LeaseRequestManager {
             AccountDAO accountDAO = daoFactoryFacade.getAccountDAO();
 
             Account tenant = accountDAO.retrieveAccountInformationByEmail(sessionBean.getEmail());
-            leaseRequestBean.setTenant(new AccountBean(tenant));
+            leaseRequestBean.setTenant(tenant.toBean());
 
             AdDAO adDAO = daoFactoryFacade.getAdDAO();
             Ad ad = adDAO.retrieveAdByID(leaseRequestBean.getAdBean().getId(), sessionBean.getClient().equals(SessionBean.Client.JAVA_FX));

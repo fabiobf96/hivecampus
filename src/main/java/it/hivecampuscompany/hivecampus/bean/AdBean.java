@@ -36,9 +36,9 @@ public class AdBean {
 
     public AdBean(Ad ad, String university, double distance){
         this.id = ad.getId();
-        this.ownerBean = new AccountBean(ad.getOwner());
-        this.homeBean =  new HomeBean(ad.getHome());
-        this.roomBean = new RoomBean(ad.getRoom());
+        this.ownerBean = ad.getOwner().toBean();
+        this.homeBean =  ad.getHome().toBean();
+        this.roomBean = ad.getRoom().toBean();
         this.price = ad.getPrice();
         this.adStatus = ad.getAdStatus();
         this.adStart = ad.getAdStart();

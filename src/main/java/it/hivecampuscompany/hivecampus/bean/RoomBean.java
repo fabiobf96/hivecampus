@@ -1,6 +1,5 @@
 package it.hivecampuscompany.hivecampus.bean;
 
-import it.hivecampuscompany.hivecampus.model.Room;
 import it.hivecampuscompany.hivecampus.state.utility.Utility;
 
 public class RoomBean {
@@ -12,7 +11,6 @@ public class RoomBean {
     private String description;
     private byte[] image;
     private String imageName;
-
 
     public RoomBean(int id, String typeRoom) {
         this.idRoom = id;
@@ -32,12 +30,6 @@ public class RoomBean {
         this.typeRoom = typeRoom;
         this.services = services;
         this.description = description;
-    }
-
-    public RoomBean(Room room) {
-        this(room.getTypeRoom(), room.getSurface(), new boolean[]{room.getServices()[0], room.getServices()[1], room.getServices()[2], room.getServices()[3]}, room.getDescription());
-        this.idRoom = room.getIdRoom();
-        this.idHome = room.getIdHome();
     }
 
     public int getIdRoom() {

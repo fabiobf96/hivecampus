@@ -304,4 +304,3 @@ public class LeaseRequestJavaFxController extends JavaFxController{
         context.request();
     }
 }
-

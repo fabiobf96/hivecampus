@@ -1,21 +1,16 @@
 package it.hivecampuscompany.hivecampus.bean;
 
-import it.hivecampuscompany.hivecampus.model.Home;
 import it.hivecampuscompany.hivecampus.state.utility.Utility;
 
 public class HomeBean {
     private int idHome;
-    private String address;
+    private final String address;
     private String type;
     private int surface;
     private Integer[] features;
     private String description;
     private byte[] image;
     private String imageName;
-
-    public HomeBean(){
-        // Default constructor
-    }
 
     public HomeBean (String address, String type, int surface, Integer[] features, String description) {
         this.address = address;
@@ -28,15 +23,6 @@ public class HomeBean {
     public HomeBean(int id, String address) {
         this.idHome = id;
         this.address = address;
-    }
-
-    public HomeBean(Home home) {
-        this.idHome = home.getId();
-        this.address = home.getAddress();
-        this.type = home.getHomeType();
-        this.surface = home.getSurface();
-        this.features = new Integer[]{home.getNRooms(), home.getNBathrooms(), home.getFloor(), home.getElevator()};
-        this.description = home.getDescription();
     }
 
     public HomeBean(int id, String address, String homeType, int surface, Integer[] features, String description) {

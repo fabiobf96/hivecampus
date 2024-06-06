@@ -1,7 +1,5 @@
 package it.hivecampuscompany.hivecampus.bean;
 
-import it.hivecampuscompany.hivecampus.model.Account;
-
 public class AccountBean {
     private String email;
     private String name;
@@ -17,13 +15,6 @@ public class AccountBean {
         setName(name);
         setSurname(surname);
         setPhoneNumber(phoneNumber);
-    }
-
-    public AccountBean(Account account){
-        setEmail(account.getEmail());
-        setName(account.getName());
-        setSurname(account.getSurname());
-        setPhoneNumber(account.getPhoneNumber());
     }
 
     public String getEmail() {
