@@ -11,7 +11,7 @@ import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.*;
 
 // @author Fabio Barchiesi
-public class SessionManagerTest {
+class SessionManagerTest {
     @Test
     void testSingletonInstance() {
         SessionManager instance1 = SessionManager.getInstance();
