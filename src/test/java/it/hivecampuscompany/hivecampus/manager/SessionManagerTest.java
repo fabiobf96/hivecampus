@@ -3,13 +3,17 @@ package it.hivecampuscompany.hivecampus.manager;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.model.Session;
 import it.hivecampuscompany.hivecampus.model.User;
+import org.awaitility.Awaitility;
 import org.junit.jupiter.api.Test;
+
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// @author Fabio Barchiesi
 public class SessionManagerTest {
     @Test
-    public void testSingletonInstance() {
+    void testSingletonInstance() {
         SessionManager instance1 = SessionManager.getInstance();
         SessionManager instance2 = SessionManager.getInstance();
 
@@ -17,8 +21,9 @@ public class SessionManagerTest {
         assertNotNull(instance2, "Instance 2 should not be null");
         assertSame(instance1, instance2, "Both instances should be the same");
     }
+
     @Test
-    public void testSameUserSameSession() {
+    void testSameUserSameSession() {
         SessionManager sessionManager = SessionManager.getInstance();
 
         // Create a mock user
@@ -35,8 +40,9 @@ public class SessionManagerTest {
         assertNotNull(secondSession, "Second session should not be null");
         assertSame(firstSession, secondSession, "Both sessions should be the same");
     }
+
     @Test
-    public void testSessionInvalidAfterInvalidation() {
+    void testSessionInvalidAfterInvalidation() {
         SessionManager sessionManager = SessionManager.getInstance();
 
         // Create a mock user
@@ -55,17 +61,18 @@ public class SessionManagerTest {
         // Verify the session is invalid after being invalidated
         assertFalse(sessionManager.validSession(new SessionBean(session)), "Session should be invalid after being invalidated");
     }
+
     @Test
-    public void testSessionInvalidAfter1Minutes() throws InterruptedException {
+    void testSessionInvalidAfter1Minutes() {
         // Create a mock user
         User user = new User("user@example.com", "pippo", "owner");
-        Session session = new Session(user, 60);
+        Session session = new Session(user, 59);
 
-        // Wait for 15 minutes (900 seconds)
-        Thread.sleep(60 * 1000); // 900 seconds in milliseconds
+        Awaitility.await().atMost(Duration.ofMinutes(1)).until(() -> !session.isValid());
 
         // Verify the session is invalid after 15 minutes
         assertFalse(session.isValid(), "Session should be invalid after 1 minutes");
     }
+
 }
 
