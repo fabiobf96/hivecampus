@@ -61,20 +61,8 @@ public class Home extends Component<HomeBean> {
         return description;
     }
 
-    public int getNRooms() {
-        return features[0];
-    }
-
-    public int getNBathrooms() {
-        return features[1];
-    }
-
-    public int getFloor() {
-        return features[2];
-    }
-
-    public int getElevator() {
-        return features[3];
+    public Integer[] getFeatures() {
+        return features;
     }
 
     public double calculateDistance(Point2D uniCoordinates) {
@@ -83,6 +71,6 @@ public class Home extends Component<HomeBean> {
 
     @Override
     public HomeBean toBean() {
-        return new HomeBean(id, address, homeType, surface, features, description);
+        return new HomeBean(getId(), getAddress(), getHomeType(), getSurface(), getFeatures(), getDescription());
     }
 }

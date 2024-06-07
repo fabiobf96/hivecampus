@@ -23,17 +23,7 @@ public abstract class AdSearchPage implements State {
      * @param tenantHomePage The tenant home page.
      * @author Marina Sotiropoulos
      */
-    public void goToTenantHomePage(TenantHomePage tenantHomePage) {
+    public void goToTenantHomePage(HomePage tenantHomePage) {
         context.setState(tenantHomePage);
-    }
-
-    /**
-     * Goes to the login page.
-     *
-     * @param loginPage The login page.
-     * @author Marina Sotiropoulos
-     */
-    public void goToLoginPage(LoginPage loginPage) {
-        context.setState(loginPage);
     }
 }

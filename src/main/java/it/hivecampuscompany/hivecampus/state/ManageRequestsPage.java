@@ -76,7 +76,7 @@ public abstract class ManageRequestsPage implements State {
      * @param homePage The OwnerHomePage object representing the owner's home page.
      * @author Fabio Barchiesi
      */
-    public void goToOwnerHomePage(OwnerHomePage homePage) {
+    public void goToOwnerHomePage(HomePage homePage) {
         context.setState(homePage);
         context.request();
     }
@@ -87,7 +87,7 @@ public abstract class ManageRequestsPage implements State {
      * @param tenantHomePage The TenantHomePage object representing the tenant's home page.
      * @author Marina Sotiropoulos
      */
-    public void goToTenantHomePage(TenantHomePage tenantHomePage) {
+    public void goToTenantHomePage(HomePage tenantHomePage) {
         context.setState(tenantHomePage);
         context.request();
     }

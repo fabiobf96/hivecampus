@@ -102,7 +102,7 @@ public abstract class ManageLeasePage implements State {
      * @param ownerHomePage The OwnerHomePage object representing the owner's home page.
      * @author Fabio Barchiesi
      */
-    public void goToOwnerHomePage(OwnerHomePage ownerHomePage) {
+    public void goToOwnerHomePage(HomePage ownerHomePage) {
         context.setState(ownerHomePage);
     }
 
@@ -112,7 +112,7 @@ public abstract class ManageLeasePage implements State {
      * @param tenantHomePage The TenantHomePage object representing the tenant's home page.
      * @author Fabio Barchiesi
      */
-    public void goToTenantHomePage(TenantHomePage tenantHomePage) {
+    public void goToTenantHomePage(HomePage tenantHomePage) {
         context.setState(tenantHomePage);
         context.request();
     }

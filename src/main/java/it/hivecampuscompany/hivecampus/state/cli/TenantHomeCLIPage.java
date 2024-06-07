@@ -2,7 +2,7 @@ package it.hivecampuscompany.hivecampus.state.cli;
 
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.state.Context;
-import it.hivecampuscompany.hivecampus.state.TenantHomePage;
+import it.hivecampuscompany.hivecampus.state.HomePage;
 import it.hivecampuscompany.hivecampus.state.cli.controller.TenantHomeCLIPageController;
 import it.hivecampuscompany.hivecampus.state.cli.controller.AccountSettingsCLIController;
 
@@ -11,7 +11,7 @@ import it.hivecampuscompany.hivecampus.state.cli.controller.AccountSettingsCLICo
  * It extends the TenantHomePage class and provides methods for handling user interactions on the CLI tenant's home page.
  */
 
-public class TenantHomeCLIPage extends TenantHomePage {
+public class TenantHomeCLIPage extends HomePage {
 
     /**
      * Constructs a TenantHomeCLIPage object with the given context.

@@ -20,11 +20,6 @@ public class Room extends Component<RoomBean> {
         this.description = description;
     }
 
-    @Override
-    public RoomBean toBean() {
-        return new RoomBean(idRoom, surface, typeRoom, services, description);
-    }
-
     public int getIdRoom() {
         return idRoom;
     }
@@ -47,5 +42,10 @@ public class Room extends Component<RoomBean> {
 
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public RoomBean toBean() {
+        return new RoomBean(idRoom, surface, typeRoom, services, description);
     }
 }

@@ -2,7 +2,7 @@ package it.hivecampuscompany.hivecampus.state.cli;
 
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.state.Context;
-import it.hivecampuscompany.hivecampus.state.OwnerHomePage;
+import it.hivecampuscompany.hivecampus.state.HomePage;
 import it.hivecampuscompany.hivecampus.state.cli.controller.OwnerHomeCLIPageController;
 import it.hivecampuscompany.hivecampus.state.cli.controller.AccountSettingsCLIController;
 
@@ -10,7 +10,7 @@ import it.hivecampuscompany.hivecampus.state.cli.controller.AccountSettingsCLICo
  * The OwnerHomeCLIPage class represents the owner's home page in the command-line interface (CLI).
  * It extends the OwnerHomePage class and provides methods for handling user interactions on the CLI owner's home page.
  */
-public class OwnerHomeCLIPage extends OwnerHomePage {
+public class OwnerHomeCLIPage extends HomePage {
 
     /**
      * Constructs an OwnerHomeCLIPage object with the given context.
@@ -39,7 +39,7 @@ public class OwnerHomeCLIPage extends OwnerHomePage {
                 accountSettingsCLIController.homePage();
             }
             case 2 -> goToManageAdsPage(new ManageAdsOwnerCLIPage(context));
-            case 3 -> goToManageRequestPage(new ManageRequestsOwnerCLIPage(context));
+            case 3 -> goToManageRequestsPage(new ManageRequestsOwnerCLIPage(context));
             case 4 -> goToManageLeasePage(new ManageLeaseOwnerCLIPage(context));
             case 5 -> goToManageRentRatesPage(new ManageRentRatesOwnerCLIPage(context));
             case 6 -> throw new InvalidSessionException();

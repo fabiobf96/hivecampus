@@ -25,7 +25,7 @@ public abstract class ManageAdsPage implements State {
      * @param ownerHomePage The owner home page.
      * @author Marina Sotiropoulos
      */
-    public void goToOwnerHomePage(OwnerHomePage ownerHomePage) {
+    public void goToOwnerHomePage(HomePage ownerHomePage) {
         context.setState(ownerHomePage);
     }
 
