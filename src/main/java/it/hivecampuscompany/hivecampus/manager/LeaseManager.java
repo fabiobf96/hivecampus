@@ -55,16 +55,13 @@ public class LeaseManager {
         }
         LeaseContractDAO leaseContractDAO = daoFactoryFacade.getLeaseContractDAO();
         LeaseContract leaseContract = leaseContractDAO.retrieveUnsignedLeaseByTenant(sessionBean.getEmail(), false);
-        try {
-            OpenApiBoundary openApiBoundary = new OpenApiBoundary();
-            leaseContract.setSigned(openApiBoundary.signContract(leaseContract.getContract()));
-            leaseContractDAO.updateLease(leaseContract);
-            AdDAO adDAO = daoFactoryFacade.getAdDAO();
-            Ad ad = leaseContract.getAd();
-            ad.setAdStatus(AdStatus.LEASED);
-            adDAO.updateAd(ad);
-        } catch (MockOpenAPIException e) {
-            throw new MockOpenAPIException(e.getMessage());
-        }
+
+        OpenApiBoundary openApiBoundary = new OpenApiBoundary();
+        leaseContract.setSigned(openApiBoundary.signContract(leaseContract.getContract()));
+        leaseContractDAO.updateLease(leaseContract);
+        AdDAO adDAO = daoFactoryFacade.getAdDAO();
+        Ad ad = leaseContract.getAd();
+        ad.setAdStatus(AdStatus.LEASED);
+        adDAO.updateAd(ad);
     }
 }

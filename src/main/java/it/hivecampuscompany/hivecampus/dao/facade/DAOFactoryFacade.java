@@ -72,7 +72,7 @@ public class DAOFactoryFacade {
     public AccountDAO getAccountDAO() {
         if (accountDAO == null) {
             AccountDAOFactory accountDAOFactory = new AccountDAOFactory();
-            accountDAO = accountDAOFactory.getDAO(persistenceType);
+            accountDAO = accountDAOFactory.getAccountDAO(persistenceType);
         }
         return accountDAO;
     }
@@ -86,7 +86,7 @@ public class DAOFactoryFacade {
     public AdDAO getAdDAO() {
         if (adDAO == null) {
             AdDAOFactory adDAOFactory = new AdDAOFactory();
-            adDAO = adDAOFactory.getDAO(persistenceType);
+            adDAO = adDAOFactory.getAdDAO(persistenceType);
         }
         return adDAO;
     }
@@ -100,7 +100,7 @@ public class DAOFactoryFacade {
     public HomeDAO getHomeDAO() {
         if (homeDAO == null) {
             HomeDAOFactory homeDAOFactory = new HomeDAOFactory();
-            homeDAO = homeDAOFactory.getDAO(persistenceType);
+            homeDAO = homeDAOFactory.getHomeDAO(persistenceType);
         }
         return homeDAO;
     }
@@ -114,7 +114,7 @@ public class DAOFactoryFacade {
     public LeaseContractDAO getLeaseContractDAO() {
         if (leaseDAO == null) {
             LeaseContractDAOFactory leaseContractDAOFactory = new LeaseContractDAOFactory();
-            leaseDAO = leaseContractDAOFactory.getDAO(persistenceType);
+            leaseDAO = leaseContractDAOFactory.getLeaseContractDAO(persistenceType);
         }
         return leaseDAO;
     }
@@ -128,7 +128,7 @@ public class DAOFactoryFacade {
     public LeaseRequestDAO getLeaseRequestDAO() {
         if (leaseRequestDAO == null) {
             LeaseRequestDAOFactory leaseRequestDAOFactory = new LeaseRequestDAOFactory();
-            leaseRequestDAO = leaseRequestDAOFactory.getDAO(persistenceType);
+            leaseRequestDAO = leaseRequestDAOFactory.getLeaseRequestDAO(persistenceType);
         }
         return leaseRequestDAO;
     }
@@ -142,7 +142,7 @@ public class DAOFactoryFacade {
     public RoomDAO getRoomDAO() {
         if (roomDAO == null) {
             RoomDAOFactory roomDAOFactory = new RoomDAOFactory();
-            roomDAO = roomDAOFactory.getDAO(persistenceType);
+            roomDAO = roomDAOFactory.getRoomDAO(persistenceType);
         }
         return roomDAO;
     }
@@ -156,7 +156,7 @@ public class DAOFactoryFacade {
     public UniversityDAO getUniversityDAO() {
         if (universityDAO == null) {
             UniversityDAOFactory universityDAOFactory = new UniversityDAOFactory();
-            universityDAO = universityDAOFactory.getDAO(persistenceType);
+            universityDAO = universityDAOFactory.getUniversityDAO(persistenceType);
         }
         return universityDAO;
     }
@@ -170,7 +170,7 @@ public class DAOFactoryFacade {
     public UserDAO getUserDAO() {
         if (userDAO == null) {
             UserDAOFactory userDAOFactory = new UserDAOFactory();
-            userDAO = userDAOFactory.getDAO(persistenceType);
+            userDAO = userDAOFactory.getUserDAO(persistenceType);
         }
         return userDAO;
     }

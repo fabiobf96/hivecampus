@@ -82,16 +82,6 @@ public class Home extends Component<HomeBean> {
     }
 
     @Override
-    public String toString() {
-        return address;
-    }
-
-    public HomeBean toBasicBean() {
-        return new HomeBean(id, address);
-    }
-
-    // Nuovo metodo toBean
-    @Override
     public HomeBean toBean() {
         return new HomeBean(id, address, homeType, surface, features, description);
     }
