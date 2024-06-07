@@ -49,7 +49,9 @@ public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
         if (leaseContractBean == null) {
             VBox vBox = new VBox();
             context.getTab(2).setContent(vBox);
-            showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("NO_LEASE_MSG"));
+            if (context.isFirst()) {
+                showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("NO_LEASE_MSG"));
+            }
 
         } else {
             BasicAd basicAd = new BasicAd(leaseContractBean.getAdBean());

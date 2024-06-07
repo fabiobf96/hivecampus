@@ -20,13 +20,13 @@ import java.util.Properties;
  * @author Fabio Barchiesi
  */
 public class Context {
-
     private State state;
     private Stage stage;
     private SessionBean sessionBean;
     private List<Tab> tabs = new ArrayList<>();
     private Properties properties = LanguageLoader.getLanguageProperties();
     private FiltersBean filtersBean;
+    private boolean first = true;
 
     /**
      * Sets the state of the context.
@@ -178,5 +178,13 @@ public class Context {
         alert.showAndWait();
         state = new InitialJavaFXPage(this);
         request();
+    }
+
+    public boolean isFirst() {
+        return first;
+    }
+
+    public void setFirst(boolean first) {
+        this.first = first;
     }
 }

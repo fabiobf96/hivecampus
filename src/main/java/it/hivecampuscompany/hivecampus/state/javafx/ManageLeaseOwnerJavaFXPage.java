@@ -50,49 +50,76 @@ public class ManageLeaseOwnerJavaFXPage extends ManageLeasePage {
     public void handle() throws InvalidSessionException {
         List<AdBean> adBeanList = getProcessingAds();
         VBox vBox = new VBox(10);
+
         if (adBeanList.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("WARNING_TITLE_MSG"), context.getLanguage().getProperty("NO_ACCEPTED_REQUESTS_MSG"));
-            context.getTab(2).setContent(vBox);
+            handleEmptyAdList(vBox);
         } else {
-            ScrollPane scrollPane = new ScrollPane();
-
-            for (AdBean adBean : adBeanList) {
-                LeaseRequestBean leaseRequestBean = getLeaseRequestInformation(adBean);
-                BasicRequest basicRequest = new BasicRequest(leaseRequestBean);
-                LeaseDecorator leaseDecorator = new LeaseDecorator(basicRequest, LeaseDecorator.Type.OWNER);
-                CssDecoration cssDecoration = new CssDecoration(leaseDecorator);
-                PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(cssDecoration, adBean);
-                CssDecoration decoration = new CssDecoration(previewRoomDecorator);
-                Node root = decoration.setup();
-
-                Button btnDelete = (Button) root.lookup("#btnDelete");
-                btnDelete.setOnAction(e -> showAlert(Alert.AlertType.INFORMATION, context.getLanguage().getProperty("INFORMATION_TITLE_MSG"), context.getLanguage().getProperty("NOT_IMPLEMENTED_MSG")));
-
-                Button btnUpload = (Button) root.lookup("#btnUpload");
-                btnUpload.setOnAction(e -> {
-                    FileChooser fileChooser = new FileChooser();
-                    fileChooser.setTitle("Seleziona un contratto");
-                    fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Documenti", "*.pdf"));
-                    File selectedFile = fileChooser.showOpenDialog(context.getStage());
-                    leaseRequestBean.setAdBean(adBean);
-                    try {
-                        LeaseContractBean leaseContractBean = new LeaseContractBean(leaseRequestBean, selectedFile.getPath());
-                        uploadLease(leaseContractBean);
-                        showAlert(Alert.AlertType.INFORMATION, context.getLanguage().getProperty("INFORMATION_TITLE_MSG"), context.getLanguage().getProperty("SUCCESS_MSG_LOADED"));
-                        context.request();
-                    } catch (IOException ex) {
-                        showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("WARNING_TITLE_MSG"), ex.getMessage());
-                    } catch (InvalidSessionException ex) {
-                        context.invalidSessionExceptionHandle();
-                    }
-                });
-                vBox.getChildren().add(root);
-            }
-            scrollPane.setContent(vBox);
-            scrollPane.setPadding(new Insets(5));
-            scrollPane.fitToWidthProperty().setValue(true);
-            context.getTab(2).setContent(scrollPane);
+            handleAdList(vBox, adBeanList);
         }
+    }
+
+    private void handleEmptyAdList(VBox vBox) {
+        context.getTab(2).setContent(vBox);
+        if (context.isFirst()) {
+            showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("WARNING_TITLE_MSG"), context.getLanguage().getProperty("NO_ACCEPTED_REQUESTS_MSG"));
+        }
+    }
+
+    private void handleAdList(VBox vBox, List<AdBean> adBeanList) throws InvalidSessionException {
+        ScrollPane scrollPane = new ScrollPane();
+
+        for (AdBean adBean : adBeanList) {
+            Node root = createAdNode(adBean);
+            vBox.getChildren().add(root);
+        }
+
+        scrollPane.setContent(vBox);
+        scrollPane.setPadding(new Insets(5));
+        scrollPane.fitToWidthProperty().setValue(true);
+        context.getTab(2).setContent(scrollPane);
+    }
+
+    private Node createAdNode(AdBean adBean) throws InvalidSessionException {
+        LeaseRequestBean leaseRequestBean = getLeaseRequestInformation(adBean);
+        BasicRequest basicRequest = new BasicRequest(leaseRequestBean);
+        LeaseDecorator leaseDecorator = new LeaseDecorator(basicRequest, LeaseDecorator.Type.OWNER);
+        CssDecoration cssDecoration = new CssDecoration(leaseDecorator);
+        PreviewRoomDecorator previewRoomDecorator = new PreviewRoomDecorator(cssDecoration, adBean);
+        CssDecoration decoration = new CssDecoration(previewRoomDecorator);
+        Node root = decoration.setup();
+
+        setupDeleteButton(root);
+        setupUploadButton(root, leaseRequestBean, adBean);
+
+        return root;
+    }
+
+    private void setupDeleteButton(Node root) {
+        Button btnDelete = (Button) root.lookup("#btnDelete");
+        btnDelete.setOnAction(e -> showAlert(Alert.AlertType.INFORMATION, context.getLanguage().getProperty("INFORMATION_TITLE_MSG"), context.getLanguage().getProperty("NOT_IMPLEMENTED_MSG")));
+    }
+
+    private void setupUploadButton(Node root, LeaseRequestBean leaseRequestBean, AdBean adBean) {
+        Button btnUpload = (Button) root.lookup("#btnUpload");
+        btnUpload.setOnAction(e -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Seleziona un contratto");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Documenti", "*.pdf"));
+            File selectedFile = fileChooser.showOpenDialog(context.getStage());
+
+            leaseRequestBean.setAdBean(adBean);
+
+            try {
+                LeaseContractBean leaseContractBean = new LeaseContractBean(leaseRequestBean, selectedFile.getPath());
+                uploadLease(leaseContractBean);
+                showAlert(Alert.AlertType.INFORMATION, context.getLanguage().getProperty("INFORMATION_TITLE_MSG"), context.getLanguage().getProperty("SUCCESS_MSG_LOADED"));
+                context.request();
+            } catch (IOException ex) {
+                showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("WARNING_TITLE_MSG"), ex.getMessage());
+            } catch (InvalidSessionException ex) {
+                context.invalidSessionExceptionHandle();
+            }
+        });
     }
 
     private void showAlert(Alert.AlertType typeAlert, String title, String message) {
@@ -102,5 +129,4 @@ public class ManageLeaseOwnerJavaFXPage extends ManageLeasePage {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
 }
