@@ -63,7 +63,7 @@ class SessionManagerTest {
     }
 
     @Test
-    void testSessionInvalidAfter1Minutes() {
+    void testSessionInvalidAfterSessionExpired() {
         // Create a mock user
         User user = new User("user@example.com", "pippo", "owner");
         Session session = new Session(user, 59);
