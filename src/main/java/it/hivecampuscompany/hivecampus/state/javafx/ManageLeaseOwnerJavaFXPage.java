@@ -14,7 +14,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -28,6 +27,8 @@ import java.util.List;
  * It extends the ManageLeasePage class and provides methods for displaying the manage lease owner page and handling user input.
  */
 public class ManageLeaseOwnerJavaFXPage extends ManageLeasePage {
+    private static boolean first = true;
+
     /**
      * Constructs a ManageLeaseOwnerJavaFXPage object with the given context.
      *
@@ -51,8 +52,10 @@ public class ManageLeaseOwnerJavaFXPage extends ManageLeasePage {
         List<AdBean> adBeanList = getProcessingAds();
         VBox vBox = new VBox(10);
         if (adBeanList.isEmpty()) {
-            Label label = new Label(context.getLanguage().getProperty("NO_ACCEPTED_REQUESTS_MSG"));
-            vBox.getChildren().add(label);
+            if (first) {
+                showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("WARNING_TITLE_MSG"), context.getLanguage().getProperty("NO_ACCEPTED_REQUESTS_MSG"));
+                first = false;
+            }
             context.getTab(2).setContent(vBox);
         } else {
             ScrollPane scrollPane = new ScrollPane();

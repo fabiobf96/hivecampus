@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -24,7 +25,7 @@ import java.io.IOException;
  * It extends the ManageLeasePage class and provides methods for displaying the manage lease tenant page and handling user input.
  */
 public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
-
+    private static boolean first = true;
     /**
      * Constructs a ManageLeaseTenantJavaFXPage object with the given context.
      *
@@ -46,7 +47,12 @@ public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
     public void handle() throws InvalidSessionException {
         LeaseContractBean leaseContractBean = getUnSignedLease();
         if (leaseContractBean == null) {
-            showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("NO_LEASE_MSG"));
+            VBox vBox = new VBox();
+            context.getTab(2).setContent(vBox);
+            if (first) {
+                showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("NO_LEASE_MSG"));
+                first = false;
+            }
         } else {
             BasicAd basicAd = new BasicAd(leaseContractBean.getAdBean());
             LeaseDecorator leaseDecorator = new LeaseDecorator(basicAd, LeaseDecorator.Type.TENANT);
