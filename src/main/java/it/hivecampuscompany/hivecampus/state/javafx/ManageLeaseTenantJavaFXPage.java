@@ -30,7 +30,6 @@ public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
      * Constructs a ManageLeaseTenantJavaFXPage object with the given context.
      *
      * @param context The context object for the manage lease tenant page.
-     * @author Fabio Barchiesi
      */
     public ManageLeaseTenantJavaFXPage(Context context) {
         super(context);
@@ -41,57 +40,102 @@ public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
      * This method sets up the UI components for viewing, downloading, and signing the lease contract.
      *
      * @throws InvalidSessionException if the session is invalid
-     * @author Fabio Barchiesi
      */
     @Override
     public void handle() throws InvalidSessionException {
         LeaseContractBean leaseContractBean = getUnSignedLease();
-        if (leaseContractBean == null) {
-            VBox vBox = new VBox();
-            context.getTab(2).setContent(vBox);
-            if (context.isFirst()) {
-                showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("NO_LEASE_MSG"));
-            }
+        VBox vBox = new VBox();
+        context.getTab(2).setContent(vBox);
 
+        if (leaseContractBean == null) {
+            handleNoLease();
         } else {
-            BasicAd basicAd = new BasicAd(leaseContractBean.getAdBean());
-            LeaseDecorator leaseDecorator = new LeaseDecorator(basicAd, LeaseDecorator.Type.TENANT);
-            CssDecoration cssDecoration = new CssDecoration(leaseDecorator);
-            Node root = cssDecoration.setup();
-            Button btnDownload = (Button) root.lookup("#btnDownload");
-            btnDownload.setOnAction(event -> {
-                FileChooser fileChooser = new FileChooser();
-                File selectedFile = fileChooser.showSaveDialog(context.getStage());
-                if (selectedFile != null) {
-                    String path = selectedFile.getPath() + ".pdf";
-                    try (FileOutputStream fos = new FileOutputStream(path)) {
-                        fos.write(leaseContractBean.getContract());
-                    } catch (IOException e) {
-                        Alert alert = new Alert(Alert.AlertType.WARNING);
-                        alert.setContentText(e.getMessage());
-                        alert.showAndWait();
-                    }
-                }
-            });
-            Button btnSign = (Button) root.lookup("#btnSign");
-            btnSign.setOnAction(event -> {
-                try {
-                    signContract();
-                    showAlert(Alert.AlertType.CONFIRMATION, context.getLanguage().getProperty("SUCCESS_MSG_SIGN"));
-                    context.request();
-                } catch (InvalidSessionException e) {
-                    context.invalidSessionExceptionHandle();
-                } catch (MockOpenAPIException e) {
-                    showAlert(Alert.AlertType.ERROR, e.getMessage());
-                }
-            });
-            ScrollPane scrollPane = new ScrollPane(root);
-            scrollPane.setPadding(new Insets(10));
-            scrollPane.fitToWidthProperty().setValue(true);
-            context.getTab(2).setContent(scrollPane);
+            handleLease(leaseContractBean);
         }
     }
 
+    /**
+     * Handles the case when there is no lease to sign.
+     * Displays a warning message to the user.
+     */
+    private void handleNoLease() {
+        if (context.isFirst()) {
+            showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("NO_LEASE_MSG"));
+            context.setFirst(false);
+        }
+    }
+
+    /**
+     * Handles the case when there is a lease to sign.
+     * Sets up the UI components for viewing, downloading, and signing the lease contract.
+     *
+     * @param leaseContractBean The lease contract to be signed.
+     */
+    private void handleLease(LeaseContractBean leaseContractBean) {
+        BasicAd basicAd = new BasicAd(leaseContractBean.getAdBean());
+        LeaseDecorator leaseDecorator = new LeaseDecorator(basicAd, LeaseDecorator.Type.TENANT);
+        CssDecoration cssDecoration = new CssDecoration(leaseDecorator);
+        Node root = cssDecoration.setup();
+
+        setupDownloadButton(root, leaseContractBean);
+        setupSignButton(root);
+
+        ScrollPane scrollPane = new ScrollPane(root);
+        scrollPane.setPadding(new Insets(10));
+        scrollPane.fitToWidthProperty().setValue(true);
+        context.getTab(2).setContent(scrollPane);
+    }
+
+    /**
+     * Sets up the download button for a given UI component.
+     * Allows the user to download the lease contract as a PDF file.
+     *
+     * @param root The UI component root node where the button is located.
+     * @param leaseContractBean The lease contract to be downloaded.
+     */
+    private void setupDownloadButton(Node root, LeaseContractBean leaseContractBean) {
+        Button btnDownload = (Button) root.lookup("#btnDownload");
+        btnDownload.setOnAction(event -> {
+            FileChooser fileChooser = new FileChooser();
+            File selectedFile = fileChooser.showSaveDialog(context.getStage());
+            if (selectedFile != null) {
+                String path = selectedFile.getPath() + ".pdf";
+                try (FileOutputStream fos = new FileOutputStream(path)) {
+                    fos.write(leaseContractBean.getContract());
+                } catch (IOException e) {
+                    showAlert(Alert.AlertType.WARNING, e.getMessage());
+                }
+            }
+        });
+    }
+
+    /**
+     * Sets up the sign button for a given UI component.
+     * Allows the user to sign the lease contract.
+     *
+     * @param root The UI component root node where the button is located.
+     */
+    private void setupSignButton(Node root) {
+        Button btnSign = (Button) root.lookup("#btnSign");
+        btnSign.setOnAction(event -> {
+            try {
+                signContract();
+                showAlert(Alert.AlertType.CONFIRMATION, context.getLanguage().getProperty("SUCCESS_MSG_SIGN"));
+                context.request();
+            } catch (InvalidSessionException e) {
+                context.invalidSessionExceptionHandle();
+            } catch (MockOpenAPIException e) {
+                showAlert(Alert.AlertType.ERROR, e.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Displays an alert with the specified type and message.
+     *
+     * @param typeAlert The type of alert to display.
+     * @param message The message content of the alert.
+     */
     private void showAlert(Alert.AlertType typeAlert, String message) {
         Alert alert = new Alert(typeAlert);
         alert.setHeaderText(null);
