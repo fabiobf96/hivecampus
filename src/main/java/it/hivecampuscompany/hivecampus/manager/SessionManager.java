@@ -43,7 +43,7 @@ public class SessionManager {
      * @return The SessionManager instance.
      * @author Fabio Barchiesi
      */
-    public static SessionManager getInstance() {
+    public static synchronized SessionManager getInstance() {
         if (instance == null) {
             instance = new SessionManager();
         }
