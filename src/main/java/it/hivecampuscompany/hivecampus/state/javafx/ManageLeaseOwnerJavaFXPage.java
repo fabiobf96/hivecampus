@@ -27,7 +27,6 @@ import java.util.List;
  * It extends the ManageLeasePage class and provides methods for displaying the manage lease owner page and handling user input.
  */
 public class ManageLeaseOwnerJavaFXPage extends ManageLeasePage {
-    private static boolean first = true;
 
     /**
      * Constructs a ManageLeaseOwnerJavaFXPage object with the given context.
@@ -52,10 +51,7 @@ public class ManageLeaseOwnerJavaFXPage extends ManageLeasePage {
         List<AdBean> adBeanList = getProcessingAds();
         VBox vBox = new VBox(10);
         if (adBeanList.isEmpty()) {
-            if (first) {
-                showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("WARNING_TITLE_MSG"), context.getLanguage().getProperty("NO_ACCEPTED_REQUESTS_MSG"));
-                first = false;
-            }
+            showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("WARNING_TITLE_MSG"), context.getLanguage().getProperty("NO_ACCEPTED_REQUESTS_MSG"));
             context.getTab(2).setContent(vBox);
         } else {
             ScrollPane scrollPane = new ScrollPane();

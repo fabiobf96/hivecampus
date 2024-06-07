@@ -25,7 +25,7 @@ import java.io.IOException;
  * It extends the ManageLeasePage class and provides methods for displaying the manage lease tenant page and handling user input.
  */
 public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
-    private static boolean first = true;
+
     /**
      * Constructs a ManageLeaseTenantJavaFXPage object with the given context.
      *
@@ -49,10 +49,8 @@ public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
         if (leaseContractBean == null) {
             VBox vBox = new VBox();
             context.getTab(2).setContent(vBox);
-            if (first) {
-                showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("NO_LEASE_MSG"));
-                first = false;
-            }
+            showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("NO_LEASE_MSG"));
+
         } else {
             BasicAd basicAd = new BasicAd(leaseContractBean.getAdBean());
             LeaseDecorator leaseDecorator = new LeaseDecorator(basicAd, LeaseDecorator.Type.TENANT);
