@@ -109,7 +109,7 @@ public abstract class JavaFxController {
         } else {
             LanguageLoader.loadLanguage(0);
         }
-        properties = LanguageLoader.getLanguageProperties();
+        context.setLanguage(LanguageLoader.getLanguageProperties());
         context.request();
     }
 

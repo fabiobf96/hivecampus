@@ -57,7 +57,7 @@ public class ManageRequestsTenantCLIPageController extends CLIController {
     public LeaseRequestBean showLeaseRequests(SessionBean sessionBean) {
         List<LeaseRequestBean> requestBeans = manager.searchTenantRequests(sessionBean);
         if (requestBeans.isEmpty()) {
-            view.displayMessage(properties.getProperty("NO_REQUESTS_MSG"));
+            view.displayMessage(properties.getProperty("NO_REQUESTS_FOUND_MSG"));
             pause();
         }
         return selectFromList(requestBeans, "requests");

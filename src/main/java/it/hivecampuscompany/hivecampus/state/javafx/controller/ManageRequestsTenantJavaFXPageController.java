@@ -49,7 +49,7 @@ public class ManageRequestsTenantJavaFXPageController extends JavaFxController {
         requestBeans = manager.searchTenantRequests(context.getSessionBean());
 
         if (requestBeans.isEmpty()) {
-            Label noAds = new Label(properties.getProperty("NO_ADS_CREATED_MSG"));
+            Label noAds = new Label(properties.getProperty("NO_REQUESTS_FOUND_MSG"));
             lvRequests.getItems().add(noAds);
         }
 

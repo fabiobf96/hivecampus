@@ -101,10 +101,10 @@ public class AdSearchCLIPageController extends CLIController {
 
     private void displayAdDetails(AdBean adBean) {
         view.displayMessage(properties.getProperty("ROOM_TYPE_MSG") + adBean.adTitle());
-        view.displayMessage(properties.getProperty("HOME_FEATURES_MSG") + adBean.getHomeBean().getDetails());
-        view.displayMessage(properties.getProperty("ROOM_FEATURES_MSG") + adBean.getRoomBean().getDetails());
-        view.displayMessage(properties.getProperty("MONTH_AVAILABILITY_MSG") + adBean.getAdStart().toString());
-        view.displayMessage(properties.getProperty("OWNER_INFO_MSG") + adBean.getOwnerBean().getDetails());
+        view.displayMessage(properties.getProperty("HOME_FEATURES_MSG") +"\n"+ adBean.getHomeBean().getDetails());
+        view.displayMessage(properties.getProperty("ROOM_FEATURES_MSG") +"\n"+ adBean.getRoomBean().getDetails() + "\n");
+        view.displayMessage(properties.getProperty("AVAILABILITY_MSG") +" "+ adBean.getAdStart().toString() + "\n");
+        view.displayMessage(properties.getProperty("OWNER_MSG") +"\n"+ adBean.getOwnerBean().getDetails());
     }
 
     /**

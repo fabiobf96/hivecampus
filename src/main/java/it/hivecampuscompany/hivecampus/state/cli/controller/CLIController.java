@@ -27,8 +27,6 @@ public abstract class CLIController {
     protected CliGUI view;
     protected Properties properties;
     protected SessionBean sessionBean;
-    private static final String PRESS_ANY_KEY = "Press any key to continue";
-    private static final String INVALID_CHOICE = "Invalid choice, please try again.";
 
     /**
      * Constructor for CLIController. It initializes the properties object with
@@ -49,7 +47,7 @@ public abstract class CLIController {
      */
     public void invalidChoice() {
         view.displayMessage(properties.getProperty("INVALID_OPTION_MSG"));
-        view.getStringUserInput(PRESS_ANY_KEY);
+        view.getStringUserInput(properties.getProperty("PRESS_ANY_KEY_MSG"));
         view.clean();
         homePage();
     }
@@ -166,7 +164,7 @@ public abstract class CLIController {
             if (choice >= 0 && choice <= itemList.size() - 1) {
                 return itemList.get(choice);
             } else {
-                view.displayMessage(INVALID_CHOICE);
+                view.displayMessage(properties.getProperty("INVALID_OPTION_MSG"));
             }
         }
     }
@@ -200,7 +198,7 @@ public abstract class CLIController {
      * @author Fabio Barchiesi
      */
     public void pause() {
-        view.getStringUserInput("\n" + PRESS_ANY_KEY);
+        view.getStringUserInput("\n" + properties.getProperty("PRESS_ANY_KEY_MSG"));
     }
 
     /**
