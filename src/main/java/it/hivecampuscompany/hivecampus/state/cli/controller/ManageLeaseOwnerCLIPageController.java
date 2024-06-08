@@ -3,6 +3,7 @@ package it.hivecampuscompany.hivecampus.state.cli.controller;
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseContractBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
+import it.hivecampuscompany.hivecampus.exception.InvalidExtentionException;
 
 import java.io.IOException;
 import java.util.List;
@@ -73,6 +74,8 @@ public class ManageLeaseOwnerCLIPageController extends CLIController {
                 return new LeaseContractBean(leaseRequestBean, path);
             } catch (IOException e) {
                 displayError(properties.getProperty("ERROR_PATH_MSG"));
+            } catch (InvalidExtentionException e) {
+                displayError(properties.getProperty(e.getMessage()));
             }
         }
     }

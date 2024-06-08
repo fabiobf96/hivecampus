@@ -1,11 +1,13 @@
 package it.hivecampuscompany.hivecampus.bean;
 
+import it.hivecampuscompany.hivecampus.exception.InvalidExtentionException;
 import it.hivecampuscompany.hivecampus.model.Month;
 import it.hivecampuscompany.hivecampus.model.Permanence;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.logging.Logger;
@@ -17,7 +19,7 @@ public class LeaseContractBean extends LeaseBean{
 
     private static final Logger LOGGER = Logger.getLogger(LeaseContractBean.class.getName());
 
-    public LeaseContractBean(LeaseRequestBean leaseRequestBean, String path) throws IOException {
+    public LeaseContractBean(LeaseRequestBean leaseRequestBean, String path) throws IOException, InvalidExtentionException {
         super(leaseRequestBean.getAdBean(), leaseRequestBean.getMonth(), leaseRequestBean.getPermanence());
         this.leaseRequestBean = leaseRequestBean;
         this.contract = fromPathToBytes(path);
@@ -44,8 +46,12 @@ public class LeaseContractBean extends LeaseBean{
         }
     }
 
-    private byte [] fromPathToBytes (String path) throws IOException {
-        return Files.readAllBytes(Paths.get(path));
+    private byte [] fromPathToBytes (String pathString) throws IOException, InvalidExtentionException {
+        Path path = Paths.get(pathString);
+        if (path.endsWith("pdf")) {
+            return Files.readAllBytes(path);
+        }
+        throw new InvalidExtentionException("INVALID_INPUT_MSG");
     }
 
     @Override

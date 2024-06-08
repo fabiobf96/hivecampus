@@ -3,6 +3,7 @@ package it.hivecampuscompany.hivecampus.state.javafx;
 import it.hivecampuscompany.hivecampus.bean.AdBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseContractBean;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
+import it.hivecampuscompany.hivecampus.exception.InvalidExtentionException;
 import it.hivecampuscompany.hivecampus.exception.InvalidSessionException;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.ManageLeasePage;
@@ -148,7 +149,7 @@ public class ManageLeaseOwnerJavaFXPage extends ManageLeasePage {
                 uploadLease(leaseContractBean);
                 showAlert(Alert.AlertType.INFORMATION, context.getLanguage().getProperty("INFORMATION_TITLE_MSG"), context.getLanguage().getProperty("SUCCESS_MSG_LOADED"));
                 context.request();
-            } catch (IOException ex) {
+            } catch (IOException | InvalidExtentionException ex) {
                 showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("WARNING_TITLE_MSG"), ex.getMessage());
             } catch (InvalidSessionException ex) {
                 context.invalidSessionExceptionHandle();
