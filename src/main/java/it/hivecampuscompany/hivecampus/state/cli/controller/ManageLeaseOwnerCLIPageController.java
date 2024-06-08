@@ -73,9 +73,9 @@ public class ManageLeaseOwnerCLIPageController extends CLIController {
                 leaseRequestBean.setAdBean(adBean);
                 return new LeaseContractBean(leaseRequestBean, path);
             } catch (IOException e) {
-                displayError(properties.getProperty("ERROR_PATH_MSG"));
+                displayError("ERROR_PATH_MSG");
             } catch (InvalidExtentionException e) {
-                displayError(properties.getProperty(e.getMessage()));
+                displayError(e.getMessage());
             }
         }
     }

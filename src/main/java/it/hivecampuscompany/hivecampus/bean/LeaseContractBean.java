@@ -46,12 +46,12 @@ public class LeaseContractBean extends LeaseBean{
         }
     }
 
-    private byte [] fromPathToBytes (String pathString) throws IOException, InvalidExtentionException {
+    public static byte[] fromPathToBytes(String pathString) throws IOException, InvalidExtentionException {
         Path path = Paths.get(pathString);
-        if (path.endsWith("pdf")) {
+        if (path.toString().endsWith(".pdf")) {
             return Files.readAllBytes(path);
         }
-        throw new InvalidExtentionException("INVALID_INPUT_MSG");
+        throw new InvalidExtentionException("INVALID_EXTENSION_MSG");
     }
 
     @Override
