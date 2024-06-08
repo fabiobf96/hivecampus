@@ -151,9 +151,15 @@ public class LeaseRequestManager {
      * @author Marina Sotiropoulos
      */
 
-    public void deleteLeaseRequest(LeaseRequestBean requestBean) {
-        DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
-        LeaseRequestDAO leaseRequestDAO = daoFactoryFacade.getLeaseRequestDAO();
-        leaseRequestDAO.deleteLeaseRequest(requestBean);
+    public boolean deleteLeaseRequest(LeaseRequestBean requestBean) {
+        if (requestBean.getStatus() != LeaseRequestStatus.PROCESSING) {
+           return false;
+        }
+        else {
+            DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
+            LeaseRequestDAO leaseRequestDAO = daoFactoryFacade.getLeaseRequestDAO();
+            leaseRequestDAO.deleteLeaseRequest(requestBean);
+            return true;
+        }
     }
 }

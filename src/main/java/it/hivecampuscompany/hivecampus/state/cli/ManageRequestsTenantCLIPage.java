@@ -42,10 +42,7 @@ public class ManageRequestsTenantCLIPage extends ManageRequestsPage {
         }
         else {
             // Display the lease request details
-            if (controller.checkRequestStatus(requestBean)){
-                handleRequestDetails();
-            }
-            else goToManageRequestsPage(new ManageRequestsTenantCLIPage(context));
+            handleRequestDetails();
         }
     }
 

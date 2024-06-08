@@ -2,6 +2,7 @@ package it.hivecampuscompany.hivecampus.state.javafx.controller;
 
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
 import it.hivecampuscompany.hivecampus.manager.LeaseRequestManager;
+import it.hivecampuscompany.hivecampus.model.LeaseRequestStatus;
 import it.hivecampuscompany.hivecampus.state.Context;
 import it.hivecampuscompany.hivecampus.state.utility.CustomListCell;
 import javafx.fxml.FXML;
@@ -129,22 +130,29 @@ public class ManageRequestsTenantJavaFXPageController extends JavaFxController {
      */
 
     private void handleDeleteAd(LeaseRequestBean requestBean) {
-        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmationAlert.setTitle(properties.getProperty("DELETE_REQUEST_CONFIRMATION_TITLE_MSG"));
-        confirmationAlert.setHeaderText(properties.getProperty("DELETE_REQUEST_CONFIRMATION_HEADER_MSG"));
-        confirmationAlert.setContentText(properties.getProperty("DELETE_REQUEST_CONFIRMATION_CONTENT_MSG"));
 
-        ButtonType buttonTypeYes = new ButtonType(properties.getProperty("YES_MSG"));
-        ButtonType buttonTypeNo = new ButtonType(properties.getProperty("NO_MSG"));
+        if (!requestBean.getStatus().equals(LeaseRequestStatus.PROCESSING)) {
+            showAlert(ERROR, properties.getProperty(ERROR_TITLE_MSG), properties.getProperty("REQUEST_ALREADY_PROCESSED_MSG"));
+        }
 
-        confirmationAlert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+        else {
+            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationAlert.setTitle(properties.getProperty("DELETE_REQUEST_CONFIRMATION_TITLE_MSG"));
+            confirmationAlert.setHeaderText(properties.getProperty("DELETE_REQUEST_CONFIRMATION_HEADER_MSG"));
+            confirmationAlert.setContentText(properties.getProperty("DELETE_REQUEST_CONFIRMATION_CONTENT_MSG"));
 
-        Optional<ButtonType> result = confirmationAlert.showAndWait();
+            ButtonType buttonTypeYes = new ButtonType(properties.getProperty("YES_MSG"));
+            ButtonType buttonTypeNo = new ButtonType(properties.getProperty("NO_MSG"));
 
-        if (result.isPresent() && result.get() == buttonTypeYes) {
-            // Perform the actual deletion of the ad here
-            manager.deleteLeaseRequest(requestBean);
-            lvRequests.getItems().remove(requestBeans.indexOf(requestBean));
+            confirmationAlert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+
+            if (result.isPresent() && result.get() == buttonTypeYes) {
+                // Perform the actual deletion of the ad here
+                manager.deleteLeaseRequest(requestBean);
+                lvRequests.getItems().remove(requestBeans.indexOf(requestBean));
+            }
         }
     }
 }
