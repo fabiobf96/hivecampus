@@ -34,8 +34,8 @@ public class CssDecoration extends Decorator {
      * @author Fabio Barchiesi
      */
     private Node applyCssDecoration(Node root) {
-        root.setStyle("-fx-border-color: black; " +
-                "-fx-border-width: 2; " +
+        root.setStyle("-fx-border-color: gray; " +
+                "-fx-border-width: 1; " +
                 "-fx-border-radius: 10; " +
                 "-fx-background-radius: 10; " +
                 "-fx-padding: 10;");

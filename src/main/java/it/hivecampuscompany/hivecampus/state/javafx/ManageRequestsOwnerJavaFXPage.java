@@ -48,7 +48,9 @@ public class ManageRequestsOwnerJavaFXPage extends ManageRequestsPage {
     public void handle() throws InvalidSessionException {
         List<AdBean> adBeanList = retrieveAvailableAds();
         if (adBeanList.isEmpty()){
-            showAlert(context.getLanguage().getProperty("NO_ADS_CREATED_MSG"));
+            if (context.isFirstRequest()) {
+                showAlert(context.getLanguage().getProperty("NO_ADS_CREATED_MSG"));
+            }
         } else {
             ListView<Node> listView = new ListView<>();
             for (AdBean adBean : adBeanList) {
@@ -67,6 +69,7 @@ public class ManageRequestsOwnerJavaFXPage extends ManageRequestsPage {
                 }
             });
             context.getTab(1).setText(context.getLanguage().getProperty("MANAGE_REQUEST_MSG"));
+            context.setFirstRequest(false);
             context.getTab(1).setContent(listView);
         }
     }

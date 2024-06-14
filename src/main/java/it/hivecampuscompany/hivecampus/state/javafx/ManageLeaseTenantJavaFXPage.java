@@ -59,9 +59,9 @@ public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
      * Displays a warning message to the user.
      */
     private void handleNoLease() {
-        if (context.isFirst()) {
+        if (context.isFirstLease()) {
             showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("NO_LEASE_MSG"));
-            context.setFirst(false);
+            context.setFirstLease(false);
         }
     }
 
@@ -83,6 +83,7 @@ public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
         ScrollPane scrollPane = new ScrollPane(root);
         scrollPane.setPadding(new Insets(10));
         scrollPane.fitToWidthProperty().setValue(true);
+        context.setFirstLease(false);
         context.getTab(2).setContent(scrollPane);
     }
 

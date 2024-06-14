@@ -65,9 +65,9 @@ public class ManageLeaseOwnerJavaFXPage extends ManageLeasePage {
      */
     private void handleEmptyAdList(VBox vBox) {
         context.getTab(2).setContent(vBox);
-        if (context.isFirst()) {
+        if (context.isFirstLease()) {
             showAlert(Alert.AlertType.WARNING, context.getLanguage().getProperty("WARNING_TITLE_MSG"), context.getLanguage().getProperty("NO_ACCEPTED_REQUESTS_MSG"));
-            context.setFirst(false);
+            context.setFirstLease(false);
         }
     }
 
@@ -90,6 +90,7 @@ public class ManageLeaseOwnerJavaFXPage extends ManageLeasePage {
         scrollPane.setContent(vBox);
         scrollPane.setPadding(new Insets(5));
         scrollPane.fitToWidthProperty().setValue(true);
+        context.setFirstLease(false);
         context.getTab(2).setContent(scrollPane);
     }
 

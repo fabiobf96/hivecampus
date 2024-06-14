@@ -26,7 +26,9 @@ public class Context {
     private List<Tab> tabs = new ArrayList<>();
     private Properties properties = LanguageLoader.getLanguageProperties();
     private FiltersBean filtersBean;
-    private boolean first = true;
+    private boolean firstLease = true;
+
+    private boolean firstRequest = true;
 
     /**
      * Sets the state of the context.
@@ -180,11 +182,19 @@ public class Context {
         request();
     }
 
-    public boolean isFirst() {
-        return first;
+    public boolean isFirstLease() {
+        return firstLease;
     }
 
-    public void setFirst(boolean first) {
-        this.first = first;
+    public void setFirstLease(boolean firstLease) {
+        this.firstLease = firstLease;
+    }
+
+    public boolean isFirstRequest() {
+        return firstRequest;
+    }
+
+    public void setFirstRequest(boolean firstRequest) {
+        this.firstRequest = firstRequest;
     }
 }
