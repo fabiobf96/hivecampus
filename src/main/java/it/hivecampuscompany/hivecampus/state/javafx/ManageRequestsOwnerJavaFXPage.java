@@ -51,6 +51,7 @@ public class ManageRequestsOwnerJavaFXPage extends ManageRequestsPage {
             if (context.isFirstRequest()) {
                 showAlert(context.getLanguage().getProperty("NO_ADS_CREATED_MSG"));
             }
+            context.getTab(1).setContent(new VBox());
         } else {
             ListView<Node> listView = new ListView<>();
             for (AdBean adBean : adBeanList) {

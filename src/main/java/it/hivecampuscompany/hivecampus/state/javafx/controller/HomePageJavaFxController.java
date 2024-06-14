@@ -164,7 +164,8 @@ public class HomePageJavaFxController extends JavaFxController {
     @FXML
     private void handleLogout() {
         context.setState(new InitialJavaFXPage(context));
-        context.setFirst(true);
+        context.setFirstLease(true);
+        context.setFirstRequest(true);
         context.request();
     }
 }
