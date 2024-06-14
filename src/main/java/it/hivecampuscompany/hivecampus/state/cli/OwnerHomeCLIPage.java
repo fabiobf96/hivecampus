@@ -43,7 +43,7 @@ public class OwnerHomeCLIPage extends HomePage {
             case 4 -> goToManageLeasePage(new ManageLeaseOwnerCLIPage(context));
             case 5 -> goToManageRentRatesPage(new ManageRentRatesOwnerCLIPage(context));
             case 6 -> throw new InvalidSessionException();
-            default -> controller.displayError("Invalid choice");
+            default -> controller.displayError("INVALID_INPUT_MSG");
         }
         context.request();
     }

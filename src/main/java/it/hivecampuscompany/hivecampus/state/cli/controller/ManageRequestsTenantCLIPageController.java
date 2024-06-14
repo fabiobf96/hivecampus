@@ -3,7 +3,6 @@ package it.hivecampuscompany.hivecampus.state.cli.controller;
 import it.hivecampuscompany.hivecampus.bean.LeaseRequestBean;
 import it.hivecampuscompany.hivecampus.bean.SessionBean;
 import it.hivecampuscompany.hivecampus.manager.LeaseRequestManager;
-import it.hivecampuscompany.hivecampus.model.LeaseRequestStatus;
 
 import java.util.List;
 
@@ -58,7 +57,7 @@ public class ManageRequestsTenantCLIPageController extends CLIController {
     public LeaseRequestBean showLeaseRequests(SessionBean sessionBean) {
         List<LeaseRequestBean> requestBeans = manager.searchTenantRequests(sessionBean);
         if (requestBeans.isEmpty()) {
-            view.displayMessage(properties.getProperty("NO_REQUESTS_MSG"));
+            view.displayMessage(properties.getProperty("NO_REQUESTS_FOUND_MSG"));
             pause();
         }
         return selectFromList(requestBeans, "requests");
@@ -82,36 +81,21 @@ public class ManageRequestsTenantCLIPageController extends CLIController {
 
     /**
      * Method to delete a lease request.
-     * It deletes the selected lease request of a tenant.
+     * Initially, it checks the status of the lease request.
+     * If the lease request is still in the processing status, it deletes the lease request.
      *
      * @param requestBean The LeaseRequestBean object representing the lease request.
      * @author Marina Sotiropoulos
      */
 
     public void deleteLeaseRequest(LeaseRequestBean requestBean) {
-        manager.deleteLeaseRequest(requestBean);
-        view.displayMessage(properties.getProperty("REQUEST_CANCELLED_MSG"));
-        pause();
-    }
-
-    /**
-     * Method to check the status of a lease request.
-     * It checks if the lease request is still in the processing status.
-     * If the lease request is already processed, it displays a message and returns false.
-     *
-     * @param requestBean The LeaseRequestBean object representing the lease request.
-     * @return True if the lease request is still in the processing status, false otherwise.
-     * @author Marina Sotiropoulos
-     */
-
-    public boolean checkRequestStatus(LeaseRequestBean requestBean) {
-        if (requestBean.getStatus().equals(LeaseRequestStatus.PROCESSING)) {
-            return true;
+        boolean res = manager.deleteLeaseRequest(requestBean);
+        if (res) {
+            view.displayMessage(properties.getProperty("REQUEST_CANCELLED_MSG"));
         }
         else {
             view.displayMessage(properties.getProperty("REQUEST_ALREADY_PROCESSED_MSG"));
-            pause();
-            return false;
         }
+        pause();
     }
 }

@@ -46,7 +46,7 @@ public class OwnerHomeJavaFXPage extends HomePage {
 
         Scene scene = new Scene((Parent) barDecorator.setup());
         Stage stage = context.getStage();
-        stage.setWidth(800);
+        stage.setWidth(850);
         stage.setHeight(600);
         stage.setScene(scene);
         stage.show();
