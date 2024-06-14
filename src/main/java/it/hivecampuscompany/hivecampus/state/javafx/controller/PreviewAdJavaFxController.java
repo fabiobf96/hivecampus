@@ -101,7 +101,6 @@ public class PreviewAdJavaFxController extends JavaFxController {
      * Initializes the preview features of the ad.
      * It sets the text fields with the information of the ad.
      *
-     * @param context the context
      * @author Marina Sotiropoulos
      */
 
@@ -206,7 +205,7 @@ public class PreviewAdJavaFxController extends JavaFxController {
                 homeBean.setSurface(home.getSurface());
                 homeBean.setFeatures(new Integer[] {home.getNRooms(), home.getNBathrooms(), home.getFloor(), home.getElevator()});
                 homeBean.setDescription(home.getDescription());
-                homeBean.setImage(homeDAO.getHomeImage(homeBean.getId()));
+                homeBean.setHomeImage(homeDAO.getHomeImage(homeBean.getId()));
                 break; // Exit the loop once a match is found
             }
         }

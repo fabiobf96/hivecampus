@@ -127,9 +127,9 @@ public abstract class JavaFxController {
     protected void setImage (ImageView imageView, AdBean adBean, String choice) {
         byte[] imageBytes;
         if (choice.equals("room")) {
-            imageBytes = adBean.getRoomBean().getImage();
+            imageBytes = adBean.getRoomBean().getRoomImage();
         }
-        else imageBytes = adBean.getHomeBean().getImage();
+        else imageBytes = adBean.getHomeBean().getHomeImage();
 
         if (imageBytes != null) {
             imageView.setImage(new Image(new ByteArrayInputStream(imageBytes)));

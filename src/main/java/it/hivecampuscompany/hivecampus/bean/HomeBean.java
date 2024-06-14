@@ -9,7 +9,7 @@ public class HomeBean {
     private int surface;
     private Integer[] features;
     private String description;
-    private byte[] image;
+    private byte[] homeImage;
     private String imageName;
 
     public HomeBean (String address, String type, int surface, Integer[] features, String description) {
@@ -102,12 +102,12 @@ public class HomeBean {
         this.description = description;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setHomeImage(byte[] homeImage) {
+        this.homeImage = homeImage;
     }
 
-    public byte[] getImage() {
-        return image;
+    public byte[] getHomeImage() {
+        return homeImage;
     }
 
     public void setImageName(String imageName) {

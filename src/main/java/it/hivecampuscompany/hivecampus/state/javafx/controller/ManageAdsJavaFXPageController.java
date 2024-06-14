@@ -323,7 +323,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         txaHDescription.setEditable(false); // Make text area non-editable
 
         try {
-            imvHome.setImage(byteToImage(homeBean.getImage()));
+            imvHome.setImage(byteToImage(homeBean.getHomeImage()));
             setImageView(imvHome);
             btnHomeImage.setDisable(true); // Disable button
         } catch (IOException e) {
@@ -526,7 +526,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         Integer[] features = new Integer[]{numRooms, numBath, floor, lift};
         HomeBean homeBean = new HomeBean(address, homeType, hSurface, features, hDescription);
 
-        homeBean.setImage(homeBytes);
+        homeBean.setHomeImage(homeBytes);
         homeBean.setImageName(homeFileName);
 
         return homeBean;
@@ -554,7 +554,7 @@ public class ManageAdsJavaFXPageController extends JavaFxController {
         boolean[] services = new boolean[]{privateBath, balcony, conditioner, tvConnection};
         RoomBean roomBean = new RoomBean(roomType, rSurface, services, rDescription);
 
-        roomBean.setImage(roomBytes);
+        roomBean.setRoomImage(roomBytes);
         roomBean.setImageName(roomFileName);
 
         return roomBean;

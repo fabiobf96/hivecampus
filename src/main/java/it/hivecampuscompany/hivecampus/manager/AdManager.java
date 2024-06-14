@@ -149,11 +149,11 @@ public class AdManager {
 
     public void saveHomeImage(HomeBean homeBean) {
         DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
-        if (homeBean.getImage() != null && homeBean.getImageName() != null) {
+        if (homeBean.getHomeImage() != null && homeBean.getImageName() != null) {
             HomeDAO homeDAO = daoFactoryFacade.getHomeDAO();
             String imageName = homeBean.getImageName();
             String imageType = imageName.substring(imageName.lastIndexOf('.') + 1);
-            homeDAO.saveHomeImage(imageName, imageType, homeBean.getImage(), homeBean.getId());
+            homeDAO.saveHomeImage(imageName, imageType, homeBean.getHomeImage(), homeBean.getId());
         }
     }
 
@@ -167,11 +167,11 @@ public class AdManager {
 
     public void saveRoomImage(RoomBean roomBean) {
         DAOFactoryFacade daoFactoryFacade = DAOFactoryFacade.getInstance();
-        if (roomBean.getImage() != null) {
+        if (roomBean.getRoomImage() != null) {
             RoomDAO roomDAO = daoFactoryFacade.getRoomDAO();
             String imageName = roomBean.getImageName();
             String imageType = imageName.substring(imageName.lastIndexOf('.') + 1);
-            roomDAO.saveRoomImage(imageName, imageType, roomBean.getImage(), roomBean.getIdRoom(), roomBean.getIdHome());
+            roomDAO.saveRoomImage(imageName, imageType, roomBean.getRoomImage(), roomBean.getIdRoom(), roomBean.getIdHome());
         }
     }
 

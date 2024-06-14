@@ -9,7 +9,7 @@ public class RoomBean {
     private final String typeRoom;
     private boolean[] services;
     private String description;
-    private byte[] image;
+    private byte[] roomImage;
     private String imageName;
 
     public RoomBean(int id, String typeRoom) {
@@ -76,12 +76,12 @@ public class RoomBean {
         return description;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setRoomImage(byte[] roomImage) {
+        this.roomImage = roomImage;
     }
 
-    public byte[] getImage() {
-        return image;
+    public byte[] getRoomImage() {
+        return roomImage;
     }
 
     public void setImageName(String imageName) {

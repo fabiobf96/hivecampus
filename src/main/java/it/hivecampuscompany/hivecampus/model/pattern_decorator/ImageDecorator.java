@@ -20,11 +20,11 @@ public class ImageDecorator<T> extends Decorator<T> {
     public T toBean() {
         T bean = super.toBean();
         if (bean instanceof RoomBean roomBean) {
-            roomBean.setImage(image);
+            roomBean.setRoomImage(image);
             roomBean.setImageName(imageName);
         }
         if (bean instanceof HomeBean homeBean) {
-            homeBean.setImage(image);
+            homeBean.setHomeImage(image);
             homeBean.setImageName(imageName);
         }
         return bean;

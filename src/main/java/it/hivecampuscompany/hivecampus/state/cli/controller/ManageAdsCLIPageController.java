@@ -239,11 +239,11 @@ public class ManageAdsCLIPageController extends CLIController {
         try {
             Path p = Paths.get(path);
             if (bean instanceof RoomBean roomBean) {
-                roomBean.setImage(Files.readAllBytes(p));
+                roomBean.setRoomImage(Files.readAllBytes(p));
                 roomBean.setImageName(new File(path).getName());
             }
             else if (bean instanceof HomeBean homeBean) {
-                homeBean.setImage(Files.readAllBytes(p));
+                homeBean.setHomeImage(Files.readAllBytes(p));
                 homeBean.setImageName(new File(path).getName());
             }
         } catch (IOException e) {
