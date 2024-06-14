@@ -73,7 +73,7 @@ public class StoredProcedures {
                     "WHERE idRequest = ?"; // retrieveLeaseRequestByID(LeaseRequestBean leaseRequestBean)
     public static final String UPDATE_LEASE_REQUEST = "UPDATE Lease_Request SET requestStatus = ? WHERE idRequest = ?"; // updateLeaseRequest(LeaseRequest leaseRequest)
     public static final String SAVE_LEASE_REQUEST = "{CALL saveLeaseRequest(?, ?, ?, ?, ?, ?)}"; // saveLeaseRequest(LeaseRequest leaseRequest)
-    public static final String VALID_REQUEST = "{CALL validRequest(?, ?)}"; // validRequest(String email, int id)
+    public static final String VALID_REQUEST = "{CALL validRequest(?, ?, ?)}"; // validRequest(String email, int id)
     public static final String RETRIEVE_LEASE_REQUESTS_BY_TENANT = "{CALL retrieveLeaseRequestsByTenant(?)}"; // retrieveLeaseRequestsByTenant(SessionBean sessionBean)
     public static final String DELETE_LEASE_REQUEST = "{CALL deleteLeaseRequest(?)}"; // deleteLeaseRequest(LeaseRequest leaseRequest)
 

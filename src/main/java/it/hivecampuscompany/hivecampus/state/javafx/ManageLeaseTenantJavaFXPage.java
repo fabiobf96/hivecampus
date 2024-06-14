@@ -98,9 +98,10 @@ public class ManageLeaseTenantJavaFXPage extends ManageLeasePage {
         Button btnDownload = (Button) root.lookup("#btnDownload");
         btnDownload.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF Files", "*.pdf"));
             File selectedFile = fileChooser.showSaveDialog(context.getStage());
             if (selectedFile != null) {
-                String path = selectedFile.getPath() + ".pdf";
+                String path = selectedFile.getPath();
                 try (FileOutputStream fos = new FileOutputStream(path)) {
                     fos.write(leaseContractBean.getContract());
                 } catch (IOException e) {

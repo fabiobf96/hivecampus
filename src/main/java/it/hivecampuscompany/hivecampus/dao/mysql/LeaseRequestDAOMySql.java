@@ -115,9 +115,9 @@ public class LeaseRequestDAOMySql implements LeaseRequestDAO {
             cstmt.registerOutParameter(3, java.sql.Types.BOOLEAN);
 
             cstmt.execute();
-            result = cstmt.getBoolean(3);
+            result = !cstmt.getBoolean(3);
         } catch (SQLException e) {
-            LOGGER.log(Level.SEVERE, properties.getProperty("FAILED_VALID_REQUEST"));
+            LOGGER.log(Level.WARNING, properties.getProperty("FAILED_VALID_REQUEST"));
         }
         return result;
     }
